@@ -1,4 +1,4 @@
-package net.fabricmc.example.mixin;
+package com.oroarmor.netherite_elytra.mixin;
 
 import java.util.function.Consumer;
 
@@ -6,7 +6,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-import net.fabricmc.example.NetheriteElytraMod;
+import com.oroarmor.netherite_elytra.NetheriteElytraMod;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -28,15 +29,15 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Overwrite
 	private void initAi() {
-		boolean bl = this.getFlag(7);
-		if (bl && !this.onGround && !this.hasVehicle() && !this.hasStatusEffect(StatusEffects.LEVITATION)) {
-			ItemStack itemStack = this.getEquippedStack(EquipmentSlot.CHEST);
+		boolean bl = getFlag(7);
+		if (bl && !onGround && !hasVehicle() && !hasStatusEffect(StatusEffects.LEVITATION)) {
+			ItemStack itemStack = getEquippedStack(EquipmentSlot.CHEST);
 			if (NetheriteElytraMod.isStackUsableAsElytra(itemStack)) {
 				bl = true;
-				if (!this.world.isClient && (this.roll + 1) % 20 == 0) {
-					itemStack.damage(1, (LivingEntity) ((Object) this), (Consumer<LivingEntity>) ((livingEntity) -> {
+				if (!world.isClient && (roll + 1) % 20 == 0) {
+					itemStack.damage(1, (LivingEntity) (Object) this, (Consumer<LivingEntity>) (livingEntity) -> {
 						livingEntity.sendEquipmentBreakStatus(EquipmentSlot.CHEST);
-					}));
+					});
 				}
 			} else {
 				bl = false;
@@ -45,8 +46,8 @@ public abstract class LivingEntityMixin extends Entity {
 			bl = false;
 		}
 
-		if (!this.world.isClient) {
-			this.setFlag(7, bl);
+		if (!world.isClient) {
+			setFlag(7, bl);
 		}
 	}
 

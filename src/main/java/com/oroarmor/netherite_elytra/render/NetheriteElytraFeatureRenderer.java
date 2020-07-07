@@ -1,8 +1,9 @@
-package net.fabricmc.example.render;
+package com.oroarmor.netherite_elytra.render;
+
+import com.oroarmor.netherite_elytra.NetheriteElytraMod;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.example.NetheriteElytraMod;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumer;
@@ -25,17 +26,17 @@ public class NetheriteElytraFeatureRenderer<T extends LivingEntity, M extends En
 
 	public NetheriteElytraFeatureRenderer(FeatureRendererContext<T, M> context) {
 		super(context);
-		System.out.println("Netherite ELytra");
 	}
 
 	private static final Identifier NETHERITE_ELYTRA_SKIN = new Identifier("oroarmor",
 			"textures/entity/netherite_elytra.png");
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private final ElytraEntityModel<T> elytra = new ElytraEntityModel();
 
 	@Override
 	public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, T livingEntity,
 			float f, float g, float h, float j, float k, float l) {
-		System.out.println("more op");
 		ItemStack itemStack = livingEntity.getEquippedStack(EquipmentSlot.CHEST);
 		if (itemStack.getItem() == NetheriteElytraMod.NETHERITE_ELYTRA) {
 			Identifier identifier4;
@@ -57,7 +58,7 @@ public class NetheriteElytraFeatureRenderer<T extends LivingEntity, M extends En
 
 			matrixStack.push();
 			matrixStack.translate(0.0D, 0.0D, 0.125D);
-			this.getContextModel().copyStateTo(this.elytra);
+			getContextModel().copyStateTo(this.elytra);
 			this.elytra.setAngles(livingEntity, f, g, j, k, l);
 			VertexConsumer vertexConsumer = ItemRenderer.method_29711(vertexConsumerProvider,
 					this.elytra.getLayer(identifier4), false, itemStack.hasGlint());
