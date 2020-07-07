@@ -1,12 +1,12 @@
-package net.fabricmc.example;
+package com.oroarmor.netherite_elytra;
 
 import java.lang.reflect.Field;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
+import com.oroarmor.netherite_elytra.item.NetheriteElytraItem;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.example.item.NetheriteElytraItem;
 import net.minecraft.client.item.ModelPredicateProvider;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.item.ElytraItem;
@@ -20,14 +20,12 @@ import net.minecraft.util.registry.Registry;
 
 public class NetheriteElytraMod implements ModInitializer {
 	public static final Item NETHERITE_ELYTRA = new NetheriteElytraItem(
-			new Item.Settings().maxDamage(432).group(ItemGroup.TRANSPORTATION).rarity(Rarity.UNCOMMON).fireproof());
+			new Item.Settings().maxDamage(864).group(ItemGroup.TRANSPORTATION).rarity(Rarity.UNCOMMON).fireproof());
 
 	@Override
 	public void onInitialize() {
 		Registry.register(Registry.ITEM, new Identifier("oroarmor", "netherite_elytra"), NETHERITE_ELYTRA);
 		registerNetheriteElytraAsDamagable();
-
-		System.out.println("Hello Fabric world!");
 	}
 
 	@SuppressWarnings("unchecked")

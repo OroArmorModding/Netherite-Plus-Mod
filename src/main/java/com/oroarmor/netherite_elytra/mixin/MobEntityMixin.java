@@ -1,9 +1,10 @@
-package net.fabricmc.example.mixin;
+package com.oroarmor.netherite_elytra.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
-import net.fabricmc.example.NetheriteElytraMod;
+import com.oroarmor.netherite_elytra.NetheriteElytraMod;
+
 import net.minecraft.block.AbstractSkullBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;

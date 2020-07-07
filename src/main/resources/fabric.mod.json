@@ -3,23 +3,22 @@
   "id": "modid",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Netherite Elytra Mod",
+  "description": "This mod adds an elytra that does not burn in lava.",
   "authors": [
-    "Me!"
+    "OroArmor"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "sources": "https://github.com/OroArmor/NetheriteElytraFabric"
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/oroarmor/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.NetheriteElytraMod"
+      "com.oroarmor.netherite_elytra.NetheriteElytraMod"
     ]
   },
   "mixins": [
