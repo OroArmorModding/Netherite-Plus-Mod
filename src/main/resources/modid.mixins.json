@@ -4,9 +4,16 @@
   "package": "net.fabricmc.example.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+	"PlayerEntityMixin",
+	"ClientPlayerEntityMixin",
+	"LivingEntityMixin",
+	"MobEntityMixin"
   ],
   "client": [
-    "ExampleMixin"
+    "ExampleMixin",
+	"PlayerEntityRendererMixin",
+	"ArmorStandEntityRendererMixin",
+	"BipedEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
