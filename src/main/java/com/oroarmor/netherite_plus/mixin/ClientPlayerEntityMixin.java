@@ -1,11 +1,11 @@
-package com.oroarmor.netherite_elytra.mixin;
+package com.oroarmor.netherite_plus.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 import com.mojang.authlib.GameProfile;
-import com.oroarmor.netherite_elytra.NetheriteElytraMod;
+import com.oroarmor.netherite_plus.item.NetheriteElytraItem;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.input.Input;
@@ -150,7 +150,7 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
 		if (input.jumping && !bl8 && !bl && !abilities.flying && !hasVehicle() && !isClimbing()) {
 			ItemStack itemStack = getEquippedStack(EquipmentSlot.CHEST);
-			if (NetheriteElytraMod.isStackUsableAsElytra(itemStack) && checkFallFlying()) {
+			if (NetheriteElytraItem.isStackUsableAsElytra(itemStack) && checkFallFlying()) {
 				networkHandler
 						.sendPacket(new ClientCommandC2SPacket(this, ClientCommandC2SPacket.Mode.START_FALL_FLYING));
 			}

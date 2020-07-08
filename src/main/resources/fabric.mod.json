@@ -3,8 +3,8 @@
   "id": "modid",
   "version": "${version}",
 
-  "name": "Netherite Elytra Mod",
-  "description": "This mod adds an elytra that does not burn in lava.",
+  "name": "Netherite Plus Mod",
+  "description": "This mod adds extra netherite features that aren't vanillia.",
   "authors": [
     "OroArmor"
   ],
@@ -13,12 +13,12 @@
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/oroarmor/icon.png",
+  "icon": "assets/netherite_plus/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.oroarmor.netherite_elytra.NetheriteElytraMod"
+      "com.oroarmor.netherite_plus.NetheritePlusMod"
     ]
   },
   "mixins": [

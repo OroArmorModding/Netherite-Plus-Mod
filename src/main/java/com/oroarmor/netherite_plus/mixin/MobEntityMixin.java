@@ -1,9 +1,9 @@
-package com.oroarmor.netherite_elytra.mixin;
+package com.oroarmor.netherite_plus.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
-import com.oroarmor.netherite_elytra.NetheriteElytraMod;
+import com.oroarmor.netherite_plus.item.NetheriteElytraItem;
 
 import net.minecraft.block.AbstractSkullBlock;
 import net.minecraft.block.Blocks;
@@ -32,7 +32,7 @@ public abstract class MobEntityMixin extends LivingEntity {
 				&& (!(item instanceof BlockItem) || !(((BlockItem) item).getBlock() instanceof AbstractSkullBlock))) {
 			if (item instanceof ArmorItem) {
 				return ((ArmorItem) item).getSlotType();
-			} else if (NetheriteElytraMod.isElytra(stack)) {
+			} else if (NetheriteElytraItem.isElytra(stack)) {
 				return EquipmentSlot.CHEST;
 			} else {
 				return item == Items.SHIELD ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;

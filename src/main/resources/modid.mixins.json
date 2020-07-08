@@ -1,13 +1,14 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.oroarmor.netherite_elytra.mixin",
+  "package": "com.oroarmor.netherite_plus.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
 	"PlayerEntityMixin",
 	"ClientPlayerEntityMixin",
 	"LivingEntityMixin",
-	"MobEntityMixin"
+	"MobEntityMixin",
+	"FishingBobberEntityMixin"
   ],
   "client": [
 	"PlayerEntityRendererMixin",

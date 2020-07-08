@@ -1,4 +1,4 @@
-package com.oroarmor.netherite_elytra.item;
+package com.oroarmor.netherite_plus.item;
 
 import java.util.function.Supplier;
 
@@ -13,7 +13,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Lazy;
 
 public enum NetheriteElytraArmorMaterials implements ArmorMaterial {
-	NETHERITE("netherite", 37, new int[] { 3, 6, 4, 3 }, 15, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F, () -> {
+	NETHERITE_ELYTRA_MATERIAL("netherite", 37, new int[] { 3, 6, 4, 3 }, 15, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F, () -> {
 		return Ingredient.ofItems(Items.NETHERITE_INGOT);
 	});
 

@@ -1,0 +1,6 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "netherite_plus:item/broken_netherite_elytra"
+    }
+}
