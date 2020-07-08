@@ -1,6 +1,6 @@
-package com.oroarmor.netherite_elytra.render;
+package com.oroarmor.netherite_plus.render;
 
-import com.oroarmor.netherite_elytra.NetheriteElytraMod;
+import com.oroarmor.netherite_plus.NetheritePlusMod;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -28,7 +28,7 @@ public class NetheriteElytraFeatureRenderer<T extends LivingEntity, M extends En
 		super(context);
 	}
 
-	private static final Identifier NETHERITE_ELYTRA_SKIN = new Identifier("oroarmor",
+	private static final Identifier NETHERITE_ELYTRA_SKIN = new Identifier("netherite_plus",
 			"textures/entity/netherite_elytra.png");
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -38,7 +38,7 @@ public class NetheriteElytraFeatureRenderer<T extends LivingEntity, M extends En
 	public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, T livingEntity,
 			float f, float g, float h, float j, float k, float l) {
 		ItemStack itemStack = livingEntity.getEquippedStack(EquipmentSlot.CHEST);
-		if (itemStack.getItem() == NetheriteElytraMod.NETHERITE_ELYTRA) {
+		if (itemStack.getItem() == NetheritePlusMod.NETHERITE_ELYTRA) {
 			Identifier identifier4;
 			if (livingEntity instanceof AbstractClientPlayerEntity) {
 				AbstractClientPlayerEntity abstractClientPlayerEntity = (AbstractClientPlayerEntity) livingEntity;

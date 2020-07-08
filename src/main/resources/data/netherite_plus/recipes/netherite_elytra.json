@@ -7,6 +7,6 @@
         "item": "minecraft:netherite_ingot"
     },
     "result": {
-        "item": "oroarmor:netherite_elytra"
+        "item": "netherite_plus:netherite_elytra"
     }
 }

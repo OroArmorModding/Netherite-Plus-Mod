@@ -1,14 +1,14 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "oroarmor:item/netherite_elytra"
+        "layer0": "netherite_plus:item/netherite_elytra"
     },
     "overrides": [
         {
             "predicate": {
                 "broken": 1
             },
-            "model": "oroarmor:item/broken_netherite_elytra"
+            "model": "netherite_plus:item/broken_netherite_elytra"
         }
     ]
 }

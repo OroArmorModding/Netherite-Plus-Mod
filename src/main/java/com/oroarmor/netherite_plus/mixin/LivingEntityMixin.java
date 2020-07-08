@@ -1,4 +1,4 @@
-package com.oroarmor.netherite_elytra.mixin;
+package com.oroarmor.netherite_plus.mixin;
 
 import java.util.function.Consumer;
 
@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-import com.oroarmor.netherite_elytra.NetheriteElytraMod;
+import com.oroarmor.netherite_plus.item.NetheriteElytraItem;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -32,7 +32,7 @@ public abstract class LivingEntityMixin extends Entity {
 		boolean bl = getFlag(7);
 		if (bl && !onGround && !hasVehicle() && !hasStatusEffect(StatusEffects.LEVITATION)) {
 			ItemStack itemStack = getEquippedStack(EquipmentSlot.CHEST);
-			if (NetheriteElytraMod.isStackUsableAsElytra(itemStack)) {
+			if (NetheriteElytraItem.isStackUsableAsElytra(itemStack)) {
 				bl = true;
 				if (!world.isClient && (roll + 1) % 20 == 0) {
 					itemStack.damage(1, (LivingEntity) (Object) this, (Consumer<LivingEntity>) (livingEntity) -> {

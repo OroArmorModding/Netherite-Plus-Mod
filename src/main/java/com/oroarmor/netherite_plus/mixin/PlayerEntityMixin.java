@@ -1,10 +1,10 @@
-package com.oroarmor.netherite_elytra.mixin;
+package com.oroarmor.netherite_plus.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-import com.oroarmor.netherite_elytra.NetheriteElytraMod;
+import com.oroarmor.netherite_plus.item.NetheriteElytraItem;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -26,7 +26,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 		if (!onGround && !isFallFlying() && !isTouchingWater()
 				&& !hasStatusEffect(StatusEffects.LEVITATION)) {
 			ItemStack itemStack = getEquippedStack(EquipmentSlot.CHEST);
-			if (NetheriteElytraMod.isStackUsableAsElytra(itemStack)) {
+			if (NetheriteElytraItem.isStackUsableAsElytra(itemStack)) {
 				startFallFlying();
 				return true;
 			}
