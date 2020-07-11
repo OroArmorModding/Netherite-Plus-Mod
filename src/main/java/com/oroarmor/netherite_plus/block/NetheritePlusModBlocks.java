@@ -85,14 +85,14 @@ public class NetheritePlusModBlocks {
 	private static NetheriteShulkerBoxBlock createShulkerBoxBlock(DyeColor color, AbstractBlock.Settings settings) {
 		AbstractBlock.ContextPredicate contextPredicate = (blockState, blockView, blockPos) -> {
 			BlockEntity blockEntity = blockView.getBlockEntity(blockPos);
-			if (!(blockEntity instanceof ShulkerBoxBlockEntity)) {
+			if (!(blockEntity instanceof NetheriteShulkerBoxBlockEntity)) {
 				return true;
 			}
-			ShulkerBoxBlockEntity shulkerBoxBlockEntity = (ShulkerBoxBlockEntity) blockEntity;
+			NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity = (NetheriteShulkerBoxBlockEntity) blockEntity;
 			return shulkerBoxBlockEntity.suffocates();
 		};
-		return new NetheriteShulkerBoxBlock(color,
-				settings.dynamicBounds().nonOpaque().suffocates(contextPredicate).blockVision(contextPredicate));
+		return new NetheriteShulkerBoxBlock(color, settings.strength(2.0F).dynamicBounds().nonOpaque()
+				.suffocates(contextPredicate).blockVision(contextPredicate));
 	}
 
 	private static Block register(String id, Block block) {

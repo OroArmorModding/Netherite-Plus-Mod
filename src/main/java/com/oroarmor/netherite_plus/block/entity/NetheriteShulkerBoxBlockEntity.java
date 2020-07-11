@@ -49,57 +49,57 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 
 	public NetheriteShulkerBoxBlockEntity(DyeColor color) {
 		super(NetheritePlusModBlocks.NETHERITE_SHULKER_BOX_ENTITY);
-		this.inventory = DefaultedList.ofSize(27, ItemStack.EMPTY);
-		this.animationStage = ShulkerBoxBlockEntity.AnimationStage.CLOSED;
-		this.cachedColor = color;
+		inventory = DefaultedList.ofSize(27, ItemStack.EMPTY);
+		animationStage = ShulkerBoxBlockEntity.AnimationStage.CLOSED;
+		cachedColor = color;
 	}
 
 	public NetheriteShulkerBoxBlockEntity() {
 		this((DyeColor) null);
-		this.cachedColorUpdateNeeded = true;
+		cachedColorUpdateNeeded = true;
 	}
 
 	@Override
 	public void tick() {
-		this.updateAnimation();
-		if (this.animationStage == ShulkerBoxBlockEntity.AnimationStage.OPENING
-				|| this.animationStage == ShulkerBoxBlockEntity.AnimationStage.CLOSING) {
-			this.pushEntities();
+		updateAnimation();
+		if (animationStage == ShulkerBoxBlockEntity.AnimationStage.OPENING
+				|| animationStage == ShulkerBoxBlockEntity.AnimationStage.CLOSING) {
+			pushEntities();
 		}
 
 	}
 
 	protected void updateAnimation() {
-		this.prevAnimationProgress = this.animationProgress;
-		switch (this.animationStage) {
+		prevAnimationProgress = animationProgress;
+		switch (animationStage) {
 			case CLOSED:
-				this.animationProgress = 0.0F;
+				animationProgress = 0.0F;
 				break;
 			case OPENING:
-				this.animationProgress += 0.1F;
-				if (this.animationProgress >= 1.0F) {
-					this.pushEntities();
-					this.animationStage = ShulkerBoxBlockEntity.AnimationStage.OPENED;
-					this.animationProgress = 1.0F;
-					this.updateNeighborStates();
+				animationProgress += 0.1F;
+				if (animationProgress >= 1.0F) {
+					pushEntities();
+					animationStage = ShulkerBoxBlockEntity.AnimationStage.OPENED;
+					animationProgress = 1.0F;
+					updateNeighborStates();
 				}
 				break;
 			case CLOSING:
-				this.animationProgress -= 0.1F;
-				if (this.animationProgress <= 0.0F) {
-					this.animationStage = ShulkerBoxBlockEntity.AnimationStage.CLOSED;
-					this.animationProgress = 0.0F;
-					this.updateNeighborStates();
+				animationProgress -= 0.1F;
+				if (animationProgress <= 0.0F) {
+					animationStage = ShulkerBoxBlockEntity.AnimationStage.CLOSED;
+					animationProgress = 0.0F;
+					updateNeighborStates();
 				}
 				break;
 			case OPENED:
-				this.animationProgress = 1.0F;
+				animationProgress = 1.0F;
 		}
 
 	}
 
 	public ShulkerBoxBlockEntity.AnimationStage getAnimationStage() {
-		return this.animationStage;
+		return animationStage;
 	}
 
 	public Box getBoundingBox(BlockState state) {
@@ -107,7 +107,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 	}
 
 	public Box getBoundingBox(Direction openDirection) {
-		float f = this.getAnimationProgress(1.0F);
+		float f = getAnimationProgress(1.0F);
 		return VoxelShapes.fullCube().getBoundingBox().stretch(0.5F * f * openDirection.getOffsetX(),
 				0.5F * f * openDirection.getOffsetY(), 0.5F * f * openDirection.getOffsetZ());
 	}
@@ -119,11 +119,11 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 	}
 
 	private void pushEntities() {
-		BlockState blockState = this.world.getBlockState(this.getPos());
+		BlockState blockState = world.getBlockState(getPos());
 		if (blockState.getBlock() instanceof ShulkerBoxBlock) {
 			Direction direction = blockState.get(ShulkerBoxBlock.FACING);
-			Box box = this.getCollisionBox(direction).offset(this.pos);
-			List<Entity> list = this.world.getEntities((Entity) null, box);
+			Box box = getCollisionBox(direction).offset(pos);
+			List<Entity> list = world.getEntities((Entity) null, box);
 			if (!list.isEmpty()) {
 				for (int i = 0; i < list.size(); ++i) {
 					Entity entity = list.get(i);
@@ -172,21 +172,21 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 
 	@Override
 	public int size() {
-		return this.inventory.size();
+		return inventory.size();
 	}
 
 	@Override
 	public boolean onSyncedBlockEvent(int type, int data) {
 		if (type == 1) {
-			this.viewerCount = data;
+			viewerCount = data;
 			if (data == 0) {
-				this.animationStage = ShulkerBoxBlockEntity.AnimationStage.CLOSING;
-				this.updateNeighborStates();
+				animationStage = ShulkerBoxBlockEntity.AnimationStage.CLOSING;
+				updateNeighborStates();
 			}
 
 			if (data == 1) {
-				this.animationStage = ShulkerBoxBlockEntity.AnimationStage.OPENING;
-				this.updateNeighborStates();
+				animationStage = ShulkerBoxBlockEntity.AnimationStage.OPENING;
+				updateNeighborStates();
 			}
 
 			return true;
@@ -195,21 +195,21 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 	}
 
 	private void updateNeighborStates() {
-		this.getCachedState().method_30101(this.getWorld(), this.getPos(), 3);
+		getCachedState().method_30101(getWorld(), getPos(), 3);
 	}
 
 	@Override
 	public void onOpen(PlayerEntity player) {
 		if (!player.isSpectator()) {
-			if (this.viewerCount < 0) {
-				this.viewerCount = 0;
+			if (viewerCount < 0) {
+				viewerCount = 0;
 			}
 
-			++this.viewerCount;
-			this.world.addSyncedBlockEvent(this.pos, this.getCachedState().getBlock(), 1, this.viewerCount);
-			if (this.viewerCount == 1) {
-				this.world.playSound((PlayerEntity) null, this.pos, SoundEvents.BLOCK_SHULKER_BOX_OPEN,
-						SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
+			++viewerCount;
+			world.addSyncedBlockEvent(pos, getCachedState().getBlock(), 1, viewerCount);
+			if (viewerCount == 1) {
+				world.playSound((PlayerEntity) null, pos, SoundEvents.BLOCK_SHULKER_BOX_OPEN,
+						SoundCategory.BLOCKS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
 			}
 		}
 
@@ -218,11 +218,11 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 	@Override
 	public void onClose(PlayerEntity player) {
 		if (!player.isSpectator()) {
-			--this.viewerCount;
-			this.world.addSyncedBlockEvent(this.pos, this.getCachedState().getBlock(), 1, this.viewerCount);
-			if (this.viewerCount <= 0) {
-				this.world.playSound((PlayerEntity) null, this.pos, SoundEvents.BLOCK_SHULKER_BOX_CLOSE,
-						SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
+			--viewerCount;
+			world.addSyncedBlockEvent(pos, getCachedState().getBlock(), 1, viewerCount);
+			if (viewerCount <= 0) {
+				world.playSound((PlayerEntity) null, pos, SoundEvents.BLOCK_SHULKER_BOX_CLOSE,
+						SoundCategory.BLOCKS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
 			}
 		}
 
@@ -236,26 +236,26 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 	@Override
 	public void fromTag(BlockState state, CompoundTag tag) {
 		super.fromTag(state, tag);
-		this.deserializeInventory(tag);
+		deserializeInventory(tag);
 	}
 
 	@Override
 	public CompoundTag toTag(CompoundTag tag) {
 		super.toTag(tag);
-		return this.serializeInventory(tag);
+		return serializeInventory(tag);
 	}
 
 	public void deserializeInventory(CompoundTag tag) {
-		this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
-		if (!this.deserializeLootTable(tag) && tag.contains("Items", 9)) {
-			Inventories.fromTag(tag, this.inventory);
+		inventory = DefaultedList.ofSize(size(), ItemStack.EMPTY);
+		if (!deserializeLootTable(tag) && tag.contains("Items", 9)) {
+			Inventories.fromTag(tag, inventory);
 		}
 
 	}
 
 	public CompoundTag serializeInventory(CompoundTag tag) {
-		if (!this.serializeLootTable(tag)) {
-			Inventories.toTag(tag, this.inventory, false);
+		if (!serializeLootTable(tag)) {
+			Inventories.toTag(tag, inventory, false);
 		}
 
 		return tag;
@@ -263,12 +263,12 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 
 	@Override
 	protected DefaultedList<ItemStack> getInvStackList() {
-		return this.inventory;
+		return inventory;
 	}
 
 	@Override
 	protected void setInvStackList(DefaultedList<ItemStack> list) {
-		this.inventory = list;
+		inventory = list;
 	}
 
 	@Override
@@ -287,17 +287,17 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 	}
 
 	public float getAnimationProgress(float f) {
-		return MathHelper.lerp(f, this.prevAnimationProgress, this.animationProgress);
+		return MathHelper.lerp(f, prevAnimationProgress, animationProgress);
 	}
 
 	@Environment(EnvType.CLIENT)
 	public DyeColor getColor() {
-		if (this.cachedColorUpdateNeeded) {
-			this.cachedColor = ShulkerBoxBlock.getColor(this.getCachedState().getBlock());
-			this.cachedColorUpdateNeeded = false;
+		if (cachedColorUpdateNeeded) {
+			cachedColor = ShulkerBoxBlock.getColor(getCachedState().getBlock());
+			cachedColorUpdateNeeded = false;
 		}
 
-		return this.cachedColor;
+		return cachedColor;
 	}
 
 	@Override
@@ -306,6 +306,6 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 	}
 
 	public boolean suffocates() {
-		return this.animationStage == ShulkerBoxBlockEntity.AnimationStage.CLOSED;
+		return animationStage == ShulkerBoxBlockEntity.AnimationStage.CLOSED;
 	}
 }

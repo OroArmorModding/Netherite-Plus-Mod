@@ -8,7 +8,8 @@
 	"ClientPlayerEntityMixin",
 	"LivingEntityMixin",
 	"MobEntityMixin",
-	"FishingBobberEntityMixin"
+	"FishingBobberEntityMixin",
+	"BuiltinModelItemRendererMixin"
   ],
   "client": [
 	"PlayerEntityRendererMixin",

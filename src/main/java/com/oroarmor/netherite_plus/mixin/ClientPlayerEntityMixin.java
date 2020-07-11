@@ -64,8 +64,7 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 		boolean bl = input.jumping;
 		boolean bl2 = input.sneaking;
 		boolean bl3 = isWalking();
-		field_23093 = !abilities.flying && !isSwimming()
-				&& wouldPoseNotCollide(EntityPose.CROUCHING)
+		field_23093 = !abilities.flying && !isSwimming() && wouldPoseNotCollide(EntityPose.CROUCHING)
 				&& (isSneaking() || !isSleeping() && !wouldPoseNotCollide(EntityPose.STANDING));
 		input.tick(isHoldingSneakKey());
 		client.getTutorialManager().onMovement(input);
@@ -85,14 +84,10 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 		}
 
 		if (!noClip) {
-			pushOutOfBlocks(getX() - getWidth() * 0.35D, getY() + 0.5D,
-					getZ() + getWidth() * 0.35D);
-			pushOutOfBlocks(getX() - getWidth() * 0.35D, getY() + 0.5D,
-					getZ() - getWidth() * 0.35D);
-			pushOutOfBlocks(getX() + getWidth() * 0.35D, getY() + 0.5D,
-					getZ() - getWidth() * 0.35D);
-			pushOutOfBlocks(getX() + getWidth() * 0.35D, getY() + 0.5D,
-					getZ() + getWidth() * 0.35D);
+			pushOutOfBlocks(getX() - getWidth() * 0.35D, getY() + 0.5D, getZ() + getWidth() * 0.35D);
+			pushOutOfBlocks(getX() - getWidth() * 0.35D, getY() + 0.5D, getZ() - getWidth() * 0.35D);
+			pushOutOfBlocks(getX() + getWidth() * 0.35D, getY() + 0.5D, getZ() - getWidth() * 0.35D);
+			pushOutOfBlocks(getX() + getWidth() * 0.35D, getY() + 0.5D, getZ() + getWidth() * 0.35D);
 		}
 
 		if (bl2) {
@@ -100,8 +95,8 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 		}
 
 		boolean bl5 = getHungerManager().getFoodLevel() > 6.0F || abilities.allowFlying;
-		if ((onGround || isSubmergedInWater()) && !bl2 && !bl3 && isWalking() && !isSprinting()
-				&& bl5 && !isUsingItem() && !hasStatusEffect(StatusEffects.BLINDNESS)) {
+		if ((onGround || isSubmergedInWater()) && !bl2 && !bl3 && isWalking() && !isSprinting() && bl5 && !isUsingItem()
+				&& !hasStatusEffect(StatusEffects.BLINDNESS)) {
 			if (ticksLeftToDoubleTapSprint <= 0 && !client.options.keySprint.isPressed()) {
 				ticksLeftToDoubleTapSprint = 7;
 			} else {
@@ -109,9 +104,8 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 			}
 		}
 
-		if (!isSprinting() && (!isTouchingWater() || isSubmergedInWater()) && isWalking() && bl5
-				&& !isUsingItem() && !hasStatusEffect(StatusEffects.BLINDNESS)
-				&& client.options.keySprint.isPressed()) {
+		if (!isSprinting() && (!isTouchingWater() || isSubmergedInWater()) && isWalking() && bl5 && !isUsingItem()
+				&& !hasStatusEffect(StatusEffects.BLINDNESS) && client.options.keySprint.isPressed()) {
 			setSprinting(true);
 		}
 

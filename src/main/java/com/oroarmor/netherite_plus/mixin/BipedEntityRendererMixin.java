@@ -7,12 +7,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.oroarmor.netherite_plus.render.NetheriteElytraFeatureRenderer;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.BipedEntityRenderer;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.mob.MobEntity;
 
+@Environment(EnvType.CLIENT)
 @Mixin(BipedEntityRenderer.class)
 public abstract class BipedEntityRendererMixin<T extends MobEntity, M extends BipedEntityModel<T>>
 		extends MobEntityRenderer<T, M> {

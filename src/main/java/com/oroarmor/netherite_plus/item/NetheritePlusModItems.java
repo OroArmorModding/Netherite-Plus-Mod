@@ -25,9 +25,9 @@ public class NetheritePlusModItems {
 			new NetheriteElytraItem(new Item.Settings().maxDamage(864).group(ItemGroup.TRANSPORTATION)
 					.rarity(Rarity.UNCOMMON).fireproof()));
 	public static final Item NETHERITE_FISHING_ROD = register(new Identifier("netherite_plus", "netherite_fishing_rod"),
-			new NetheriteFishingRodItem((new Item.Settings()).maxDamage(128).group(ItemGroup.TOOLS).fireproof()));
+			new NetheriteFishingRodItem(new Item.Settings().maxDamage(128).group(ItemGroup.TOOLS).fireproof()));
 
-	public static final Item.Settings NETHERITE_SHULKER_BOX_ITEM_SETTINGS = (new Item.Settings()).maxCount(1)
+	public static final Item.Settings NETHERITE_SHULKER_BOX_ITEM_SETTINGS = new Item.Settings().maxCount(1)
 			.group(ItemGroup.DECORATIONS).fireproof();
 
 	public static final Item NETHERITE_SHULKER_BOX = register(

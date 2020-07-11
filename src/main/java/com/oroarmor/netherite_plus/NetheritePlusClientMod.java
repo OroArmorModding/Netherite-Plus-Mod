@@ -43,6 +43,7 @@ public class NetheritePlusClientMod implements ClientModInitializer {
 		return "entity/netherite_shulker/netherite_shulker";
 	}
 
+	@SuppressWarnings("unused")
 	public static void registerSprites(SpriteAtlasTexture atlas, ClientSpriteRegistryCallback.Registry registry) {
 		registry.register(new Identifier("netherite_plus", makePath(null)));
 		Arrays.stream(DyeColor.values()).forEach(c -> registry.register(new Identifier("netherite_plus", makePath(c))));
