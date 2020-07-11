@@ -9,11 +9,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.oroarmor.netherite_plus.block.NetheritePlusModBlocks;
 import com.oroarmor.netherite_plus.render.NetheriteShulkerBoxBlockEntityRenderer;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 
+@Environment(EnvType.CLIENT)
 @Mixin(BlockEntityRenderDispatcher.class)
 public abstract class BlockEntityRenderDispatcherMixin {
 
@@ -21,9 +24,10 @@ public abstract class BlockEntityRenderDispatcherMixin {
 	public abstract <E extends BlockEntity> void register(BlockEntityType<E> blockEntityType,
 			BlockEntityRenderer<E> blockEntityRenderer);
 
+	@SuppressWarnings("unused")
 	@Inject(method = "<init>", at = @At("RETURN"))
 	public void addNetheriteShulkerBoxRenderer(CallbackInfo info) {
-		this.register(NetheritePlusModBlocks.NETHERITE_SHULKER_BOX_ENTITY, new NetheriteShulkerBoxBlockEntityRenderer(
-				(BlockEntityRenderDispatcher) (Object) this));
+		this.register(NetheritePlusModBlocks.NETHERITE_SHULKER_BOX_ENTITY,
+				new NetheriteShulkerBoxBlockEntityRenderer((BlockEntityRenderDispatcher) (Object) this));
 	}
 }

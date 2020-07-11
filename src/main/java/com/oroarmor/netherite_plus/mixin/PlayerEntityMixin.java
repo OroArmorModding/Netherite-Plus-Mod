@@ -23,8 +23,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
 	@Overwrite
 	public boolean checkFallFlying() {
-		if (!onGround && !isFallFlying() && !isTouchingWater()
-				&& !hasStatusEffect(StatusEffects.LEVITATION)) {
+		if (!onGround && !isFallFlying() && !isTouchingWater() && !hasStatusEffect(StatusEffects.LEVITATION)) {
 			ItemStack itemStack = getEquippedStack(EquipmentSlot.CHEST);
 			if (NetheriteElytraItem.isStackUsableAsElytra(itemStack)) {
 				startFallFlying();

@@ -18,10 +18,10 @@ public class FishingBobberEntityMixin {
 		boolean bl = itemStack.getItem() instanceof FishingRodItem;
 		boolean bl2 = itemStack2.getItem() instanceof FishingRodItem;
 		if (!playerEntity.removed && playerEntity.isAlive() && (bl || bl2)
-				&& ((FishingBobberEntity) ((Object) this)).squaredDistanceTo(playerEntity) <= 1024.0D) {
+				&& ((FishingBobberEntity) (Object) this).squaredDistanceTo(playerEntity) <= 1024.0D) {
 			return false;
 		}
-		((FishingBobberEntity) ((Object) this)).remove();
+		((FishingBobberEntity) (Object) this).remove();
 		return true;
 	}
 }

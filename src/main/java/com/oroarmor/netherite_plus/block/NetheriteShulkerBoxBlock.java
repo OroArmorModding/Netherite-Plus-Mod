@@ -14,7 +14,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.FacingBlock;
 import net.minecraft.block.ShapeContext;
-import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.block.piston.PistonBehavior;
@@ -64,7 +63,7 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
 	public NetheriteShulkerBoxBlock(DyeColor color, AbstractBlock.Settings settings) {
 		super(settings);
 		this.color = color;
-		this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.UP));
+		setDefaultState(stateManager.getDefaultState().with(FACING, Direction.UP));
 	}
 
 	@Override
@@ -105,7 +104,7 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return this.getDefaultState().with(FACING, ctx.getSide());
+		return getDefaultState().with(FACING, ctx.getSide());
 	}
 
 	@Override
@@ -211,7 +210,7 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
 				}
 
 				if (j - i > 0) {
-					tooltip.add((new TranslatableText("container.shulkerBox.more", new Object[] { j - i }))
+					tooltip.add(new TranslatableText("container.shulkerBox.more", new Object[] { j - i })
 							.formatted(Formatting.ITALIC));
 				}
 			}
@@ -258,11 +257,11 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
 
 	@Environment(EnvType.CLIENT)
 	public static DyeColor getColor(Block block) {
-		return block instanceof ShulkerBoxBlock ? ((ShulkerBoxBlock) block).getColor() : null;
+		return block instanceof NetheriteShulkerBoxBlock ? ((NetheriteShulkerBoxBlock) block).getColor() : null;
 	}
 
 	public DyeColor getColor() {
-		return this.color;
+		return color;
 	}
 
 	public static ItemStack getItemStack(DyeColor color) {

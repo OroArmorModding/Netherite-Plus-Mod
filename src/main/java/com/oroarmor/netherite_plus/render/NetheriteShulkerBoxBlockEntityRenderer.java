@@ -26,7 +26,7 @@ public class NetheriteShulkerBoxBlockEntityRenderer extends BlockEntityRenderer<
 
 	public NetheriteShulkerBoxBlockEntityRenderer(BlockEntityRenderDispatcher blockEntityRenderDispatcher) {
 		super(blockEntityRenderDispatcher);
-		this.model = new ShulkerEntityModel<>();
+		model = new ShulkerEntityModel<>();
 	}
 
 	@Override
@@ -58,11 +58,11 @@ public class NetheriteShulkerBoxBlockEntityRenderer extends BlockEntityRenderer<
 		matrixStack.translate(0.0D, -1.0D, 0.0D);
 		VertexConsumer vertexConsumer = spriteIdentifier2.getVertexConsumer(vertexConsumerProvider,
 				RenderLayer::getEntityCutoutNoCull);
-		this.model.getBottomShell().render(matrixStack, vertexConsumer, i, j);
+		model.getBottomShell().render(matrixStack, vertexConsumer, i, j);
 		matrixStack.translate(0.0D, -shulkerBoxBlockEntity.getAnimationProgress(f) * 0.5F, 0.0D);
 		matrixStack.multiply(
 				Vector3f.POSITIVE_Y.getDegreesQuaternion(270.0F * shulkerBoxBlockEntity.getAnimationProgress(f)));
-		this.model.getTopShell().render(matrixStack, vertexConsumer, i, j);
+		model.getTopShell().render(matrixStack, vertexConsumer, i, j);
 		matrixStack.pop();
 	}
 }
