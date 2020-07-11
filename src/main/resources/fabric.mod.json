@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "netherite_plus",
   "version": "${version}",
 
   "name": "Netherite Plus Mod",
@@ -19,10 +19,13 @@
   "entrypoints": {
     "main": [
       "com.oroarmor.netherite_plus.NetheritePlusMod"
-    ]
+    ],
+	"client": [
+		"com.oroarmor.netherite_plus.NetheritePlusClientMod"
+	]
   },
   "mixins": [
-    "modid.mixins.json"
+    "netherite_plus.mixins.json"
   ],
 
   "depends": {

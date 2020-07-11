@@ -1,7 +1,5 @@
 package com.oroarmor.netherite_plus.item;
 
-import com.oroarmor.netherite_plus.NetheritePlusMod;
-
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -38,7 +36,7 @@ public class NetheriteElytraItem extends ArmorItem {
 	}
 
 	public static boolean isElytra(ItemStack itemStack) {
-		return itemStack.getItem() == Items.ELYTRA || itemStack.getItem() == NetheritePlusMod.NETHERITE_ELYTRA;
+		return itemStack.getItem() == Items.ELYTRA || itemStack.getItem() == NetheritePlusModItems.NETHERITE_ELYTRA;
 	}
 
 	public static boolean isStackUsableAsElytra(ItemStack itemStack) {

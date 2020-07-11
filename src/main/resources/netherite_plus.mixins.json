@@ -13,7 +13,9 @@
   "client": [
 	"PlayerEntityRendererMixin",
 	"ArmorStandEntityRendererMixin",
-	"BipedEntityRendererMixin"
+	"BipedEntityRendererMixin",
+	"BlockEntityRenderDispatcherMixin",
+	"TexturedRenderLayersMixin"
   ],
   "injectors": {
     "defaultRequire": 1
