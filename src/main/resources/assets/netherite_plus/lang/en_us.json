@@ -1,4 +1,22 @@
 {
 	"item.netherite_plus.netherite_elytra": "Netherite Elytra",
-	"item.netherite_plus.netherite_fishing_rod": "Netherite Fishing Rod"
+	"item.netherite_plus.netherite_fishing_rod": "Netherite Fishing Rod",
+	"container.netheriteShulkerBox": "Netherite Shulker Box",
+	"block.netherite_plus.netherite_shulker_box": "Netherite Shulker Box",
+    "block.netherite_plus.netherite_white_shulker_box": "White Netherite Shulker Box",
+    "block.netherite_plus.netherite_orange_shulker_box": "Orange Netherite Shulker Box",
+    "block.netherite_plus.netherite_magenta_shulker_box": "Magenta Netherite Shulker Box",
+    "block.netherite_plus.netherite_light_blue_shulker_box": "Light Blue Netherite Shulker Box",
+    "block.netherite_plus.netherite_yellow_shulker_box": "Yellow Netherite Shulker Box",
+    "block.netherite_plus.netherite_lime_shulker_box": "Lime Netherite Shulker Box",
+    "block.netherite_plus.netherite_pink_shulker_box": "Pink Netherite Shulker Box",
+    "block.netherite_plus.netherite_gray_shulker_box": "Gray Netherite Shulker Box",
+    "block.netherite_plus.netherite_light_gray_shulker_box": "Light Gray Netherite Shulker Box",
+    "block.netherite_plus.netherite_cyan_shulker_box": "Cyan Netherite Shulker Box",
+    "block.netherite_plus.netherite_purple_shulker_box": "Purple Netherite Shulker Box",
+    "block.netherite_plus.netherite_blue_shulker_box": "Blue Netherite Shulker Box",
+    "block.netherite_plus.netherite_brown_shulker_box": "Brown Netherite Shulker Box",
+    "block.netherite_plus.netherite_green_shulker_box": "Green Netherite Shulker Box",
+    "block.netherite_plus.netherite_red_shulker_box": "Red Netherite Shulker Box",
+    "block.netherite_plus.netherite_black_shulker_box": "Black NetheriteShulker Box"
 }
