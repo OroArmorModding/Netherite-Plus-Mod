@@ -17,6 +17,9 @@ Do you feel that netherite wasn't fully utilized? Do you want more netherite too
   - Double durability
   - Gives 4 armor points
   
+## Known Issues
+* Launch bug with tweakeroo, will need to talk to masa about issue
+
 ## Potential Features
 * Netherite Fishing Rod
   - Maybe fishes in lava
