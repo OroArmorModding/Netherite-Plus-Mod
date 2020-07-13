@@ -8,15 +8,15 @@
 	"ClientPlayerEntityMixin",
 	"LivingEntityMixin",
 	"MobEntityMixin",
-	"FishingBobberEntityMixin",
-	"BuiltinModelItemRendererMixin"
+	"FishingBobberEntityMixin"
   ],
   "client": [
 	"PlayerEntityRendererMixin",
 	"ArmorStandEntityRendererMixin",
 	"BipedEntityRendererMixin",
 	"BlockEntityRenderDispatcherMixin",
-	"TexturedRenderLayersMixin"
+	"TexturedRenderLayersMixin",
+	"BuiltinModelItemRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
