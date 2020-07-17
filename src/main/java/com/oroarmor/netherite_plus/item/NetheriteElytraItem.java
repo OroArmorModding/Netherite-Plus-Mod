@@ -5,6 +5,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ElytraItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
@@ -33,6 +34,12 @@ public class NetheriteElytraItem extends ArmorItem {
 			return TypedActionResult.method_29237(itemStack, world.isClient());
 		}
 		return TypedActionResult.fail(itemStack);
+	}
+
+	public static Item itemStackIsAnElytra(ItemStack itemStack) {
+		if (isElytra(itemStack))
+			return Items.ELYTRA;
+		return Items.AIR;
 	}
 
 	public static boolean isElytra(ItemStack itemStack) {
