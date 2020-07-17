@@ -1,38 +1,20 @@
 package com.oroarmor.netherite_plus.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 import com.oroarmor.netherite_plus.item.NetheriteElytraItem;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity {
+public abstract class PlayerEntityMixin {
 
-	protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
-		super(entityType, world);
+	@Redirect(method = "checkFallFlying()Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
+	private Item tickMovement(ItemStack stack) {
+		return NetheriteElytraItem.itemStackIsAnElytra(stack);
 	}
-
-	@Overwrite
-	public boolean checkFallFlying() {
-		if (!onGround && !isFallFlying() && !isTouchingWater() && !hasStatusEffect(StatusEffects.LEVITATION)) {
-			ItemStack itemStack = getEquippedStack(EquipmentSlot.CHEST);
-			if (NetheriteElytraItem.isStackUsableAsElytra(itemStack)) {
-				startFallFlying();
-				return true;
-			}
-		}
-		return false;
-	}
-
-	@Shadow
-	protected abstract void startFallFlying();
 }

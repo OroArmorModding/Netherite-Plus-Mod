@@ -1,27 +1,24 @@
 package com.oroarmor.netherite_plus.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
-import net.minecraft.entity.player.PlayerEntity;
+import com.oroarmor.netherite_plus.item.NetheritePlusModItems;
+
 import net.minecraft.entity.projectile.FishingBobberEntity;
-import net.minecraft.item.FishingRodItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 
 @Mixin(FishingBobberEntity.class)
 public class FishingBobberEntityMixin {
 
-	@Overwrite
-	private boolean removeIfInvalid(PlayerEntity playerEntity) {
-		ItemStack itemStack = playerEntity.getMainHandStack();
-		ItemStack itemStack2 = playerEntity.getOffHandStack();
-		boolean bl = itemStack.getItem() instanceof FishingRodItem;
-		boolean bl2 = itemStack2.getItem() instanceof FishingRodItem;
-		if (!playerEntity.removed && playerEntity.isAlive() && (bl || bl2)
-				&& ((FishingBobberEntity) (Object) this).squaredDistanceTo(playerEntity) <= 1024.0D) {
-			return false;
+	@Redirect(method = "removeIfInvalid(Lnet/minecraft/entity/player/PlayerEntity;)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
+	private Item getItem(ItemStack stack) {
+		if (stack.getItem() == NetheritePlusModItems.NETHERITE_FISHING_ROD) {
+			return Items.FISHING_ROD;
 		}
-		((FishingBobberEntity) (Object) this).remove();
-		return true;
+		return stack.getItem();
 	}
 }
