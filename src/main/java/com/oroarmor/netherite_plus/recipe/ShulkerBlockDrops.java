@@ -1,4 +1,4 @@
-package com.oroarmor.netherite_plus.render;
+package com.oroarmor.netherite_plus.recipe;
 
 import java.io.File;
 import java.io.FileOutputStream;
