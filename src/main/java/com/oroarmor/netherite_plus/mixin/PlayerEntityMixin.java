@@ -4,7 +4,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-import com.oroarmor.netherite_plus.item.NetheriteElytraItem;
+import com.oroarmor.util.item.UniqueItemRegistry;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -15,6 +15,6 @@ public abstract class PlayerEntityMixin {
 
 	@Redirect(method = "checkFallFlying()Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
 	private Item tickMovement(ItemStack stack) {
-		return NetheriteElytraItem.itemStackIsAnElytra(stack);
+		return UniqueItemRegistry.ELYTRA.getDefaultItem(stack.getItem());
 	}
 }

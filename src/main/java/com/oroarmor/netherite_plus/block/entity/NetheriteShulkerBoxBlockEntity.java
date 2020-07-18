@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import com.oroarmor.netherite_plus.block.NetheritePlusModBlocks;
+import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -120,7 +121,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 
 	private void pushEntities() {
 		BlockState blockState = world.getBlockState(getPos());
-		if (blockState.getBlock() instanceof ShulkerBoxBlock) {
+		if (blockState.getBlock() instanceof NetheriteShulkerBoxBlock) {
 			Direction direction = blockState.get(ShulkerBoxBlock.FACING);
 			Box box = getCollisionBox(direction).offset(pos);
 			List<Entity> list = world.getEntities((Entity) null, box);
@@ -208,8 +209,8 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 			++viewerCount;
 			world.addSyncedBlockEvent(pos, getCachedState().getBlock(), 1, viewerCount);
 			if (viewerCount == 1) {
-				world.playSound((PlayerEntity) null, pos, SoundEvents.BLOCK_SHULKER_BOX_OPEN,
-						SoundCategory.BLOCKS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
+				world.playSound((PlayerEntity) null, pos, SoundEvents.BLOCK_SHULKER_BOX_OPEN, SoundCategory.BLOCKS,
+						0.5F, world.random.nextFloat() * 0.1F + 0.9F);
 			}
 		}
 
@@ -221,8 +222,8 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 			--viewerCount;
 			world.addSyncedBlockEvent(pos, getCachedState().getBlock(), 1, viewerCount);
 			if (viewerCount <= 0) {
-				world.playSound((PlayerEntity) null, pos, SoundEvents.BLOCK_SHULKER_BOX_CLOSE,
-						SoundCategory.BLOCKS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
+				world.playSound((PlayerEntity) null, pos, SoundEvents.BLOCK_SHULKER_BOX_CLOSE, SoundCategory.BLOCKS,
+						0.5F, world.random.nextFloat() * 0.1F + 0.9F);
 			}
 		}
 
@@ -278,7 +279,8 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 
 	@Override
 	public boolean canInsert(int slot, ItemStack stack, Direction dir) {
-		return !(Block.getBlockFromItem(stack.getItem()) instanceof ShulkerBoxBlock);
+		return !(Block.getBlockFromItem(stack.getItem()) instanceof NetheriteShulkerBoxBlock
+				|| Block.getBlockFromItem(stack.getItem()) instanceof ShulkerBoxBlock);
 	}
 
 	@Override

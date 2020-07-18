@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 import com.oroarmor.netherite_plus.block.NetheritePlusModBlocks;
+import com.oroarmor.util.item.UniqueItemRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.item.ModelPredicateProvider;
@@ -64,6 +65,11 @@ public class NetheritePlusModItems {
 			new BlockItem(NetheritePlusModBlocks.NETHERITE_RED_SHULKER_BOX, NETHERITE_SHULKER_BOX_ITEM_SETTINGS));
 	public static final Item NETHERITE_BLACK_SHULKER_BOX = register(
 			new BlockItem(NetheritePlusModBlocks.NETHERITE_BLACK_SHULKER_BOX, NETHERITE_SHULKER_BOX_ITEM_SETTINGS));
+
+	static {
+		UniqueItemRegistry.ELYTRA.addItemToRegistry(NETHERITE_ELYTRA);
+		UniqueItemRegistry.FISHING_ROD.addItemToRegistry(NETHERITE_FISHING_ROD);
+	}
 
 	public static void registerItems() {
 		registerItemsAsDamagable();
