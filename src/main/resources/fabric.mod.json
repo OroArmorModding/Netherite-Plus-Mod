@@ -9,7 +9,9 @@
     "OroArmor"
   ],
   "contact": {
-    "sources": "https://github.com/OroArmor/NetheriteElytraFabric"
+    "sources": "https://github.com/OroArmor/NetheriteElytraFabric",
+	"homepage": "https://www.curseforge.com/minecraft/mc-mods/netherite-elytra",
+    "issues": "https://github.com/OroArmor/Netherite-Plus-Mod/issues"
   },
 
   "license": "CC0-1.0",

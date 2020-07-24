@@ -4,7 +4,12 @@ plugins {
 }
 
 repositories {
-	maven{
+	jcenter()    
+    maven {
+        name = "Fabric"
+        url = "https://maven.fabricmc.net/"
+    }
+	maven {
        	name = 'Masa'
        	url = 'https://masa.dy.fi/maven/'
     }
@@ -26,7 +31,8 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation "fi.dy.masa.tweakeroo:tweakeroo-fabric-1.16.1:0.10.0-dev.20200720.162627"
+	modCompile "io.github.prospector:modmenu:1.14.5+build.30"
+	modRuntime "fi.dy.masa.tweakeroo:tweakeroo-fabric-1.16.1:0.10.0-dev.20200720.162627"
 	
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
