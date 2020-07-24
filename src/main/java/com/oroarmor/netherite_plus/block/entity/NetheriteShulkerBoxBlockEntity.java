@@ -295,7 +295,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 	@Environment(EnvType.CLIENT)
 	public DyeColor getColor() {
 		if (cachedColorUpdateNeeded) {
-			cachedColor = ShulkerBoxBlock.getColor(getCachedState().getBlock());
+			cachedColor = NetheriteShulkerBoxBlock.getColor(getCachedState().getBlock());
 			cachedColorUpdateNeeded = false;
 		}
 

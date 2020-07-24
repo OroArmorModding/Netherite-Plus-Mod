@@ -3,6 +3,13 @@ plugins {
 	id 'maven-publish'
 }
 
+repositories {
+	maven{
+       	name = 'Masa'
+       	url = 'https://masa.dy.fi/maven/'
+    }
+}
+
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
@@ -19,6 +26,8 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
+	modImplementation "fi.dy.masa.tweakeroo:tweakeroo-fabric-1.16.1:0.10.0-dev.20200720.162627"
+	
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
 }
