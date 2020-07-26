@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
+import com.mojang.realmsclient.client.RealmsClient.Environment;
 import com.oroarmor.netherite_plus.block.NetheritePlusModBlocks;
 import com.oroarmor.util.item.UniqueItemRegistry;
 
@@ -72,10 +73,10 @@ public class NetheritePlusModItems {
 	}
 
 	public static void registerItems() {
-		registerItemsAsDamagable();
 	}
 
 	public static void registerItemsAsDamagable() {
+
 		try {
 			Field f = ModelPredicateProviderRegistry.class.getDeclaredField("ITEM_SPECIFIC");
 			f.setAccessible(true);

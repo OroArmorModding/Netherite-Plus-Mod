@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.function.Consumer;
 
 import com.oroarmor.netherite_plus.block.NetheritePlusModBlocks;
+import com.oroarmor.netherite_plus.item.NetheritePlusModItems;
 import com.oroarmor.netherite_plus.render.NetheriteShulkerBoxBlockEntityRenderer;
 
 import net.fabricmc.api.ClientModInitializer;
@@ -26,6 +27,8 @@ public class NetheritePlusClientMod implements ClientModInitializer {
 
 		ClientSpriteRegistryCallback.event(SHULKER_BOXES_ATLAS_TEXTURE)
 				.register(NetheritePlusClientMod::registerSprites);
+
+		NetheritePlusModItems.registerItemsAsDamagable();
 	}
 
 	public static void makeAtlases(Consumer<SpriteIdentifier> consumer) {
