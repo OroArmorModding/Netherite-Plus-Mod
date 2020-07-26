@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
-import com.mojang.realmsclient.client.RealmsClient.Environment;
 import com.oroarmor.netherite_plus.block.NetheritePlusModBlocks;
 import com.oroarmor.util.item.UniqueItemRegistry;
 
@@ -17,6 +16,7 @@ import net.minecraft.item.ElytraItem;
 import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
@@ -26,8 +26,12 @@ public class NetheritePlusModItems {
 	public static final Item NETHERITE_ELYTRA = register(new Identifier("netherite_plus", "netherite_elytra"),
 			new NetheriteElytraItem(new Item.Settings().maxDamage(864).group(ItemGroup.TRANSPORTATION)
 					.rarity(Rarity.UNCOMMON).fireproof()));
+
 	public static final Item NETHERITE_FISHING_ROD = register(new Identifier("netherite_plus", "netherite_fishing_rod"),
 			new NetheriteFishingRodItem(new Item.Settings().maxDamage(128).group(ItemGroup.TOOLS).fireproof()));
+
+	public static final Item NETHERITE_SHIELD = register(new Identifier("netherite_plus", "netherite_shield"),
+			new NetheriteShieldItem(new Item.Settings().maxDamage(672).group(ItemGroup.COMBAT).fireproof()));
 
 	public static final Item.Settings NETHERITE_SHULKER_BOX_ITEM_SETTINGS = new Item.Settings().maxCount(1)
 			.group(ItemGroup.DECORATIONS).fireproof();
@@ -70,6 +74,7 @@ public class NetheritePlusModItems {
 	static {
 		UniqueItemRegistry.ELYTRA.addItemToRegistry(NETHERITE_ELYTRA);
 		UniqueItemRegistry.FISHING_ROD.addItemToRegistry(NETHERITE_FISHING_ROD);
+		UniqueItemRegistry.SHIELD.addItemToRegistry(NETHERITE_SHIELD);
 	}
 
 	public static void registerItems() {
@@ -82,6 +87,8 @@ public class NetheritePlusModItems {
 			f.setAccessible(true);
 			registerElytraAsDamageable(f);
 			registerFishingRodAsDamageable(f);
+			// TODO get this working
+			registerShieldAsDamageable(f);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -94,6 +101,17 @@ public class NetheritePlusModItems {
 					return Maps.newHashMap();
 				}).put(new Identifier("broken"), (itemStack, clientWorld, livingEntity) -> {
 					return ElytraItem.isUsable(itemStack) ? 0.0F : 1.0F;
+				});
+	}
+
+	@SuppressWarnings("unchecked")
+	public static void registerShieldAsDamageable(Field f) throws IllegalAccessException {
+		((Map<Item, Map<Identifier, ModelPredicateProvider>>) f.get(new Object()))
+				.computeIfAbsent(NETHERITE_SHIELD, (itemx) -> {
+					return Maps.newHashMap();
+				}).put(new Identifier("blocking"), (itemStack, clientWorld, livingEntity) -> {
+					return livingEntity != null && livingEntity.isUsingItem()
+							&& livingEntity.getActiveItem() == itemStack ? 1.0F : 0.0F;
 				});
 	}
 

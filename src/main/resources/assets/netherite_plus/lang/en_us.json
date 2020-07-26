@@ -18,5 +18,22 @@
     "block.netherite_plus.netherite_brown_shulker_box": "Brown Netherite Shulker Box",
     "block.netherite_plus.netherite_green_shulker_box": "Green Netherite Shulker Box",
     "block.netherite_plus.netherite_red_shulker_box": "Red Netherite Shulker Box",
-    "block.netherite_plus.netherite_black_shulker_box": "Black NetheriteShulker Box"
+    "block.netherite_plus.netherite_black_shulker_box": "Black Netherite Shulker Box",
+    "item.netherite_plus.netherite_shield": "Netherite Shield",
+	"item.netherite_plus.netherite_shield.black": "Black Netherite Shield",
+	"item.netherite_plus.netherite_shield.red": "Red Netherite Shield",
+	"item.netherite_plus.netherite_shield.green": "Green Netherite Shield",
+	"item.netherite_plus.netherite_shield.brown": "Brown Netherite Shield",
+	"item.netherite_plus.netherite_shield.blue": "Blue Netherite Shield",
+	"item.netherite_plus.netherite_shield.purple": "Purple Netherite Shield",
+	"item.netherite_plus.netherite_shield.cyan": "Cyan Netherite Shield",
+	"item.netherite_plus.netherite_shield.light_gray": "Light Gray Netherite Shield",
+	"item.netherite_plus.netherite_shield.gray": "Gray Netherite Shield",
+	"item.netherite_plus.netherite_shield.pink": "Pink Netherite Shield",
+	"item.netherite_plus.netherite_shield.lime": "Lime Netherite Shield",
+	"item.netherite_plus.netherite_shield.yellow": "Yellow Netherite Shield",
+	"item.netherite_plus.netherite_shield.light_blue": "Light Blue Netherite Shield",
+	"item.netherite_plus.netherite_shield.magenta": "Magenta Netherite Shield",
+	"item.netherite_plus.netherite_shield.orange": "Orange Netherite Shield",
+	"item.netherite_plus.netherite_shield.white": "White Netherite Shield"
 }
