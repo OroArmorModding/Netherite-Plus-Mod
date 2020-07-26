@@ -10,6 +10,9 @@ public class NetheritePlusRecipeSerializer {
 	public static final SpecialRecipeSerializer<NetheriteShulkerBoxColoringRecipe> NETHERITE_SHULKER_BOX = register(
 			"crafting_special_netheriteshulkerboxcoloring",
 			new SpecialRecipeSerializer<>(NetheriteShulkerBoxColoringRecipe::new));
+	public static final SpecialRecipeSerializer<NetheriteShieldDecorationRecipe> NETHERITE_SHIELD = register(
+			"crafting_special_netheriteshielddecoration",
+			new SpecialRecipeSerializer<>(NetheriteShieldDecorationRecipe::new));
 
 	public static <S extends RecipeSerializer<T>, T extends Recipe<?>> S register(String id, S serializer) {
 		return Registry.register(Registry.RECIPE_SERIALIZER, new Identifier("netherite_plus", id), serializer);

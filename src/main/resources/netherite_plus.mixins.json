@@ -16,7 +16,8 @@
 	"BlockEntityRenderDispatcherMixin",
 	"TexturedRenderLayersMixin",
 	"ClientPlayerEntityMixin",
-	"BuiltinModelItemRendererMixin"
+	"BuiltinModelItemRendererMixin",
+	"FishingBobberEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
