@@ -12,7 +12,8 @@ public class UniqueItemRegistry {
 	private Item defaultItem;
 
 	public static UniqueItemRegistry ELYTRA = new UniqueItemRegistry(Items.ELYTRA),
-			FISHING_ROD = new UniqueItemRegistry(Items.FISHING_ROD);
+			FISHING_ROD = new UniqueItemRegistry(Items.FISHING_ROD),
+			SHIELD = new UniqueItemRegistry(Items.SHIELD);
 
 	private UniqueItemRegistry(Item defaultItem) {
 		this.defaultItem = defaultItem;
