@@ -5,7 +5,6 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
 	"PlayerEntityMixin",
-	"ClientPlayerEntityMixin",
 	"LivingEntityMixin",
 	"MobEntityMixin",
 	"FishingBobberEntityMixin"
@@ -16,6 +15,7 @@
 	"BipedEntityRendererMixin",
 	"BlockEntityRenderDispatcherMixin",
 	"TexturedRenderLayersMixin",
+	"ClientPlayerEntityMixin",
 	"BuiltinModelItemRendererMixin"
   ],
   "injectors": {
