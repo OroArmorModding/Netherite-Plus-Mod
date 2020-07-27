@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
+import com.oroarmor.netherite_plus.NetheritePlusMod;
 import com.oroarmor.netherite_plus.block.NetheritePlusModBlocks;
 import com.oroarmor.util.item.UniqueItemRegistry;
 
@@ -80,6 +81,11 @@ public class NetheritePlusModItems {
 	public static final Item NETHERITE_BLACK_SHULKER_BOX = register(
 			new BlockItem(NetheritePlusModBlocks.NETHERITE_BLACK_SHULKER_BOX, NETHERITE_SHULKER_BOX_ITEM_SETTINGS));
 
+	public static final Item.Settings NETHERITE_BEACON_ITEM_SETTINGS = new Item.Settings().maxCount(64)
+			.group(ItemGroup.MISC).fireproof();
+
+	public static final Item NETHERITE_BEACON = register(
+			new BlockItem(NetheritePlusModBlocks.NETHERITE_BEACON, NETHERITE_BEACON_ITEM_SETTINGS));
 	static {
 		UniqueItemRegistry.ELYTRA.addItemToRegistry(NETHERITE_ELYTRA);
 		UniqueItemRegistry.FISHING_ROD.addItemToRegistry(NETHERITE_FISHING_ROD);
