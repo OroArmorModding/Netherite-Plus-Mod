@@ -3,7 +3,9 @@ package com.oroarmor.netherite_plus.block;
 import com.oroarmor.netherite_plus.block.entity.NetheriteShulkerBoxBlockEntity;
 
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.BeaconBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
 import net.minecraft.block.MaterialColor;
 import net.minecraft.block.entity.BlockEntity;
@@ -31,6 +33,8 @@ public class NetheritePlusModBlocks {
 	public static final Block NETHERITE_PINK_SHULKER_BOX;
 	public static final Block NETHERITE_PURPLE_SHULKER_BOX;
 	public static final Block NETHERITE_RED_SHULKER_BOX;
+
+	public static final Block NETHERITE_BEACON;
 
 	public static final BlockEntityType<NetheriteShulkerBoxBlockEntity> NETHERITE_SHULKER_BOX_ENTITY;
 
@@ -79,6 +83,9 @@ public class NetheritePlusModBlocks {
 						NETHERITE_MAGENTA_SHULKER_BOX, NETHERITE_ORANGE_SHULKER_BOX, NETHERITE_PINK_SHULKER_BOX,
 						NETHERITE_PURPLE_SHULKER_BOX, NETHERITE_RED_SHULKER_BOX, NETHERITE_WHITE_SHULKER_BOX,
 						NETHERITE_YELLOW_SHULKER_BOX).build(null));
+		NETHERITE_BEACON = register("netherite_beacon", new NetheriteBeaconBlock(AbstractBlock.Settings.of(Material.GLASS, MaterialColor.DIAMOND).strength(3.0F).lightLevel((state) -> {
+			return 15;
+		}).nonOpaque()));
 	}
 
 	private static NetheriteShulkerBoxBlock createShulkerBoxBlock(DyeColor color, AbstractBlock.Settings settings) {
