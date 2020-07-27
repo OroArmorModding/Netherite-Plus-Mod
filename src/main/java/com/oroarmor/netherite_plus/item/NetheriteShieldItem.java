@@ -18,12 +18,12 @@ public class NetheriteShieldItem extends ShieldItem {
 		return UseAction.BLOCK;
 	}
 
-	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-		ItemStack itemStack = user.getStackInHand(hand);
-		user.setCurrentHand(hand);
-		System.out.println("used");
-		return TypedActionResult.consume(itemStack);
-	}
+//	@Override
+//	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+//		ItemStack itemStack = user.getStackInHand(hand);
+//		user.setCurrentHand(hand);
+//		//System.out.println("used");
+//		return TypedActionResult.consume(itemStack);
+//	}
 
 }
