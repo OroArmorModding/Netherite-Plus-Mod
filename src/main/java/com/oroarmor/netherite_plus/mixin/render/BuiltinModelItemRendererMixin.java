@@ -1,4 +1,4 @@
-package com.oroarmor.netherite_plus.mixin;
+package com.oroarmor.netherite_plus.mixin.render;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -27,9 +27,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.entity.model.ShieldEntityModel;
 import net.minecraft.client.render.item.BuiltinModelItemRenderer;
 import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.render.model.ModelLoader;
 import net.minecraft.client.render.model.json.ModelTransformation;
-import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.BlockItem;
@@ -37,7 +35,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
 import net.minecraft.util.DyeColor;
-import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 @Mixin(BuiltinModelItemRenderer.class)
