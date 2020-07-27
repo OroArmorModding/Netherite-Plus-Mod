@@ -12,7 +12,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
-import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MovementType;
@@ -41,7 +40,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 	private static final int[] AVAILABLE_SLOTS = IntStream.range(0, 27).toArray();
 	private DefaultedList<ItemStack> inventory;
 	private int viewerCount;
-	private ShulkerBoxBlockEntity.AnimationStage animationStage;
+	private AnimationStage animationStage;
 	private float animationProgress;
 	private float prevAnimationProgress;
 
@@ -51,7 +50,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 	public NetheriteShulkerBoxBlockEntity(DyeColor color) {
 		super(NetheritePlusModBlocks.NETHERITE_SHULKER_BOX_ENTITY);
 		inventory = DefaultedList.ofSize(27, ItemStack.EMPTY);
-		animationStage = ShulkerBoxBlockEntity.AnimationStage.CLOSED;
+		animationStage = AnimationStage.CLOSED;
 		cachedColor = color;
 	}
 
@@ -63,8 +62,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 	@Override
 	public void tick() {
 		updateAnimation();
-		if (animationStage == ShulkerBoxBlockEntity.AnimationStage.OPENING
-				|| animationStage == ShulkerBoxBlockEntity.AnimationStage.CLOSING) {
+		if (animationStage == AnimationStage.OPENING || animationStage == AnimationStage.CLOSING) {
 			pushEntities();
 		}
 
@@ -80,7 +78,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 				animationProgress += 0.1F;
 				if (animationProgress >= 1.0F) {
 					pushEntities();
-					animationStage = ShulkerBoxBlockEntity.AnimationStage.OPENED;
+					animationStage = AnimationStage.OPENED;
 					animationProgress = 1.0F;
 					updateNeighborStates();
 				}
@@ -88,7 +86,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 			case CLOSING:
 				animationProgress -= 0.1F;
 				if (animationProgress <= 0.0F) {
-					animationStage = ShulkerBoxBlockEntity.AnimationStage.CLOSED;
+					animationStage = AnimationStage.CLOSED;
 					animationProgress = 0.0F;
 					updateNeighborStates();
 				}
@@ -99,7 +97,11 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 
 	}
 
-	public ShulkerBoxBlockEntity.AnimationStage getAnimationStage() {
+	public static enum AnimationStage {
+		CLOSED, OPENING, OPENED, CLOSING;
+	}
+
+	public AnimationStage getAnimationStage() {
 		return animationStage;
 	}
 
@@ -181,12 +183,12 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 		if (type == 1) {
 			viewerCount = data;
 			if (data == 0) {
-				animationStage = ShulkerBoxBlockEntity.AnimationStage.CLOSING;
+				animationStage = AnimationStage.CLOSING;
 				updateNeighborStates();
 			}
 
 			if (data == 1) {
-				animationStage = ShulkerBoxBlockEntity.AnimationStage.OPENING;
+				animationStage = AnimationStage.OPENING;
 				updateNeighborStates();
 			}
 
@@ -263,6 +265,11 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 	}
 
 	@Override
+	public void setStack(int slot, ItemStack stack) {
+		super.setStack(slot, stack);
+	}
+
+	@Override
 	protected DefaultedList<ItemStack> getInvStackList() {
 		return inventory;
 	}
@@ -279,8 +286,8 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 
 	@Override
 	public boolean canInsert(int slot, ItemStack stack, Direction dir) {
-		return !(Block.getBlockFromItem(stack.getItem()) instanceof NetheriteShulkerBoxBlock
-				|| Block.getBlockFromItem(stack.getItem()) instanceof ShulkerBoxBlock);
+		Block block = Block.getBlockFromItem(stack.getItem());
+		return !(block instanceof NetheriteShulkerBoxBlock) && !(block instanceof ShulkerBoxBlock);
 	}
 
 	@Override
@@ -308,6 +315,6 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 	}
 
 	public boolean suffocates() {
-		return animationStage == ShulkerBoxBlockEntity.AnimationStage.CLOSED;
+		return animationStage == AnimationStage.CLOSED;
 	}
 }

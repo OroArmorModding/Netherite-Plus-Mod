@@ -1,19 +1,12 @@
 package com.oroarmor.netherite_plus.item;
 
-import java.lang.reflect.Field;
-import java.util.Map;
-
-import com.google.common.collect.Maps;
-import com.oroarmor.netherite_plus.NetheritePlusMod;
 import com.oroarmor.netherite_plus.block.NetheritePlusModBlocks;
 import com.oroarmor.util.item.UniqueItemRegistry;
 
+import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.client.item.ModelPredicateProvider;
-import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.BowItem;
 import net.minecraft.item.ElytraItem;
 import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.Item;
@@ -24,8 +17,6 @@ import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 
 public class NetheritePlusModItems {
-
-	private static final Map<Item, Map<Identifier, ModelPredicateProvider>> ITEM_SPECIFIC = Maps.newHashMap();
 
 	public static final Item NETHERITE_ELYTRA = register(new Identifier("netherite_plus", "netherite_elytra"),
 			new NetheriteElytraItem(new Item.Settings().maxDamage(864).group(ItemGroup.TRANSPORTATION)
@@ -86,6 +77,7 @@ public class NetheritePlusModItems {
 
 	public static final Item NETHERITE_BEACON = register(
 			new BlockItem(NetheritePlusModBlocks.NETHERITE_BEACON, NETHERITE_BEACON_ITEM_SETTINGS));
+
 	static {
 		UniqueItemRegistry.ELYTRA.addItemToRegistry(NETHERITE_ELYTRA);
 		UniqueItemRegistry.FISHING_ROD.addItemToRegistry(NETHERITE_FISHING_ROD);
@@ -97,48 +89,21 @@ public class NetheritePlusModItems {
 	public static void registerItems() {
 	}
 
-	public static void registerItemsAsDamagable() {
+	public static void registerItemsWithModelProvider() {
 
-		try {
-			Field f = ModelPredicateProviderRegistry.class.getDeclaredField("ITEM_SPECIFIC");
-			f.setAccessible(true);
-			registerElytraAsDamageable(f);
-			registerFishingRodAsDamageable(f);
-			registerShieldAsDamageable(f);
-			registerBowAsDamageable(f);
-			registerCrossbowAsDamageable(f);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public static void registerElytraAsDamageable(Field f) throws IllegalAccessException {
-		((Map<Item, Map<Identifier, ModelPredicateProvider>>) f.get(new Object()))
-				.computeIfAbsent(NetheritePlusModItems.NETHERITE_ELYTRA, (itemx) -> {
-					return Maps.newHashMap();
-				}).put(new Identifier("broken"), (itemStack, clientWorld, livingEntity) -> {
+		FabricModelPredicateProviderRegistry.register(NETHERITE_ELYTRA, new Identifier("broken"),
+				(itemStack, clientWorld, livingEntity) -> {
 					return ElytraItem.isUsable(itemStack) ? 0.0F : 1.0F;
 				});
-	}
 
-	@SuppressWarnings("unchecked")
-	public static void registerShieldAsDamageable(Field f) throws IllegalAccessException {
-		((Map<Item, Map<Identifier, ModelPredicateProvider>>) f.get(new Object()))
-				.computeIfAbsent(NETHERITE_SHIELD, (itemx) -> {
-					return Maps.newHashMap();
-				}).put(new Identifier("blocking"), (itemStack, clientWorld, livingEntity) -> {
+		FabricModelPredicateProviderRegistry.register(NETHERITE_SHIELD, new Identifier("blocking"),
+				(itemStack, clientWorld, livingEntity) -> {
 					return livingEntity != null && livingEntity.isUsingItem()
 							&& livingEntity.getActiveItem() == itemStack ? 1.0F : 0.0F;
 				});
-	}
 
-	@SuppressWarnings("unchecked")
-	public static void registerFishingRodAsDamageable(Field f) throws IllegalAccessException {
-		((Map<Item, Map<Identifier, ModelPredicateProvider>>) f.get(new Object()))
-				.computeIfAbsent(NetheritePlusModItems.NETHERITE_FISHING_ROD, (itemx) -> {
-					return Maps.newHashMap();
-				}).put(new Identifier("cast"), (itemStack, clientWorld, livingEntity) -> {
+		FabricModelPredicateProviderRegistry.register(NETHERITE_FISHING_ROD, new Identifier("cast"),
+				(itemStack, clientWorld, livingEntity) -> {
 					if (livingEntity == null) {
 						return 0.0F;
 					}
@@ -151,71 +116,57 @@ public class NetheritePlusModItems {
 					return (bl || bl2) && livingEntity instanceof PlayerEntity
 							&& ((PlayerEntity) livingEntity).fishHook != null ? 1.0F : 0.0F;
 				});
-	}
-	public static void registerBowAsDamageable(Field f) throws IllegalAccessException {
-		//pull
-		((Map<Item, Map<Identifier, ModelPredicateProvider>>) f.get(new Object()))
-				.computeIfAbsent(NetheritePlusModItems.NETHERITE_BOW, (itemx) -> {
-					return Maps.newHashMap();
-				}).put(new Identifier("pull"), (itemStack, clientWorld, livingEntity) -> {
-			if (livingEntity == null) {
-				return 0.0F;
-			}
-			return livingEntity.getActiveItem() != itemStack ? 0.0F : (float)(itemStack.getMaxUseTime() - livingEntity.getItemUseTimeLeft()) / 20.0F;
-		});
-		//pulling
-		((Map<Item, Map<Identifier, ModelPredicateProvider>>) f.get(new Object()))
-				.computeIfAbsent(NetheritePlusModItems.NETHERITE_BOW, (itemx) -> {
-					return Maps.newHashMap();
-				}).put(new Identifier("pulling"), (itemStack, clientWorld, livingEntity) -> {
-			if (livingEntity == null) {
-				return 0.0F;
-			}
-			return livingEntity.isUsingItem() && livingEntity.getActiveItem() == itemStack ? 1.0F : 0.0F;
-		});
-	}
 
-	public static void registerCrossbowAsDamageable(Field f) throws IllegalAccessException {
-		//pull
-		((Map<Item, Map<Identifier, ModelPredicateProvider>>) f.get(new Object()))
-				.computeIfAbsent(NetheritePlusModItems.NETHERITE_CROSSBOW, (itemx) -> {
-					return Maps.newHashMap();
-				}).put(new Identifier("pull"), (itemStack, clientWorld, livingEntity) -> {
-			if (livingEntity == null) {
-				return 0.0F;
-			}
-			return NetheriteCrossbowItem.isCharged(itemStack) ? 0.0F : (float)(itemStack.getMaxUseTime() - livingEntity.getItemUseTimeLeft()) / (float)NetheriteCrossbowItem.getPullTime(itemStack);
-		});
-		//pulling
-		((Map<Item, Map<Identifier, ModelPredicateProvider>>) f.get(new Object()))
-				.computeIfAbsent(NetheritePlusModItems.NETHERITE_CROSSBOW, (itemx) -> {
-					return Maps.newHashMap();
-				}).put(new Identifier("pulling"), (itemStack, clientWorld, livingEntity) -> {
-			if (livingEntity == null) {
-				return 0.0F;
-			}
-			return livingEntity.isUsingItem() && livingEntity.getActiveItem() == itemStack && !NetheriteCrossbowItem.isCharged(itemStack) ? 1.0F : 0.0F;
-		});
-		//charged
-		((Map<Item, Map<Identifier, ModelPredicateProvider>>) f.get(new Object()))
-				.computeIfAbsent(NetheritePlusModItems.NETHERITE_CROSSBOW, (itemx) -> {
-					return Maps.newHashMap();
-				}).put(new Identifier("charged"), (itemStack, clientWorld, livingEntity) -> {
-			if (livingEntity == null) {
-				return 0.0F;
-			}
-			return NetheriteCrossbowItem.isCharged(itemStack) ? 1.0F : 0.0F;
-		});
-		//firework
-		((Map<Item, Map<Identifier, ModelPredicateProvider>>) f.get(new Object()))
-				.computeIfAbsent(NetheritePlusModItems.NETHERITE_CROSSBOW, (itemx) -> {
-					return Maps.newHashMap();
-				}).put(new Identifier("firework"), (itemStack, clientWorld, livingEntity) -> {
-			if (livingEntity == null) {
-				return 0.0F;
-			}
-			return NetheriteCrossbowItem.isCharged(itemStack) && NetheriteCrossbowItem.hasProjectile(itemStack, Items.FIREWORK_ROCKET) ? 1.0F : 0.0F;
-		});
+		FabricModelPredicateProviderRegistry.register(NETHERITE_BOW, new Identifier("pull"),
+				(itemStack, clientWorld, livingEntity) -> {
+					if (livingEntity == null) {
+						return 0.0F;
+					}
+					return livingEntity.getActiveItem() != itemStack ? 0.0F
+							: (itemStack.getMaxUseTime() - livingEntity.getItemUseTimeLeft()) / 20.0F;
+				});
+
+		FabricModelPredicateProviderRegistry.register(NETHERITE_BOW, new Identifier("pulling"),
+				(itemStack, clientWorld, livingEntity) -> {
+					if (livingEntity == null) {
+						return 0.0F;
+					}
+					return livingEntity.isUsingItem() && livingEntity.getActiveItem() == itemStack ? 1.0F : 0.0F;
+				});
+
+		FabricModelPredicateProviderRegistry.register(NETHERITE_CROSSBOW, new Identifier("pull"),
+				(itemStack4, clientWorld3, livingEntity2) -> {
+					if (livingEntity2 == null) {
+						return 0.0F;
+					}
+					return NetheriteCrossbowItem.isCharged(itemStack4) ? 0.0F
+							: (float) (itemStack4.getMaxUseTime() - livingEntity2.getItemUseTimeLeft())
+									/ (float) NetheriteCrossbowItem.getPullTime(itemStack4);
+				});
+		FabricModelPredicateProviderRegistry.register(NETHERITE_CROSSBOW, new Identifier("pulling"),
+				(itemStack3, clientWorld1, livingEntity1) -> {
+					if (livingEntity1 == null) {
+						return 0.0F;
+					}
+					return livingEntity1.isUsingItem() && livingEntity1.getActiveItem() == itemStack3
+							&& !NetheriteCrossbowItem.isCharged(itemStack3) ? 1.0F : 0.0F;
+				});
+		FabricModelPredicateProviderRegistry.register(NETHERITE_CROSSBOW, new Identifier("charged"),
+				(itemStack2, clientWorld4, livingEntity3) -> {
+					if (livingEntity3 == null) {
+						return 0.0F;
+					}
+					return NetheriteCrossbowItem.isCharged(itemStack2) ? 1.0F : 0.0F;
+				});
+
+		FabricModelPredicateProviderRegistry.register(NETHERITE_CROSSBOW, new Identifier("firework"),
+				(itemStack1, clientWorld2, livingEntity4) -> {
+					if (livingEntity4 == null) {
+						return 0.0F;
+					}
+					return NetheriteCrossbowItem.isCharged(itemStack1)
+							&& NetheriteCrossbowItem.hasProjectile(itemStack1, Items.FIREWORK_ROCKET) ? 1.0F : 0.0F;
+				});
 	}
 
 	private static Item register(BlockItem item) {
