@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ElytraItem;
 import net.minecraft.item.FishingRodItem;
+import net.minecraft.item.HorseArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
@@ -53,6 +54,9 @@ public class NetheritePlusModItems {
 	public static Item NETHERITE_BEACON = register(new BlockItem(NetheritePlusModBlocks.NETHERITE_BEACON,
 			new Item.Settings().maxCount(64).group(ItemGroup.MISC).fireproof()));
 
+	public static final Item NETHERITE_HORSE_ARMOR = register(new Identifier("netherite_plus", "netherite_horse_armor"),
+			new NetheriteHorseArmorItem(15, (new Item.Settings()).maxCount(1).group(ItemGroup.MISC).fireproof()));
+
 	static {
 		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_SHULKER_BOXES.getBooleanValue()) {
 			registerShulkerBoxes();
@@ -91,6 +95,7 @@ public class NetheritePlusModItems {
 
 		UniqueItemRegistry.BOW.addItemToRegistry(NETHERITE_BOW);
 		UniqueItemRegistry.CROSSBOW.addItemToRegistry(NETHERITE_CROSSBOW);
+		UniqueItemRegistry.HORSE_ARMOR.addItemToRegistry(NETHERITE_HORSE_ARMOR);
 	}
 
 	private static void registerShield() {
