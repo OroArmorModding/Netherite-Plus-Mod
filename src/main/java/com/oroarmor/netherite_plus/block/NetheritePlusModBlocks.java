@@ -83,7 +83,7 @@ public class NetheritePlusModBlocks {
 						NETHERITE_MAGENTA_SHULKER_BOX, NETHERITE_ORANGE_SHULKER_BOX, NETHERITE_PINK_SHULKER_BOX,
 						NETHERITE_PURPLE_SHULKER_BOX, NETHERITE_RED_SHULKER_BOX, NETHERITE_WHITE_SHULKER_BOX,
 						NETHERITE_YELLOW_SHULKER_BOX).build(null));
-		NETHERITE_BEACON = register("netherite_beacon", new NetheriteBeaconBlock(AbstractBlock.Settings.of(Material.GLASS, MaterialColor.DIAMOND).strength(3.0F).lightLevel((state) -> {
+		NETHERITE_BEACON = register("netherite_beacon", new NetheriteBeaconBlock(AbstractBlock.Settings.of(Material.GLASS, MaterialColor.NETHER).strength(3.0F).lightLevel((state) -> {
 			return 15;
 		}).nonOpaque()));
 	}
