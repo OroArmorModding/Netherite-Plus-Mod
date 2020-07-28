@@ -17,7 +17,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 
-public class NetheritePlusModItems {
+public final class NetheritePlusModItems {
 
 	public static Item NETHERITE_ELYTRA;
 
@@ -54,32 +54,6 @@ public class NetheritePlusModItems {
 //			new Item.Settings().maxCount(64).group(ItemGroup.MISC).fireproof()));
 
 	public static Item NETHERITE_HORSE_ARMOR;
-
-	static {
-		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_SHULKER_BOXES.getBooleanValue()) {
-			registerShulkerBoxes();
-		}
-
-		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_ELYTRA.getBooleanValue()) {
-			registerElytra();
-		}
-
-		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_SHIELDS.getBooleanValue()) {
-			registerShield();
-		}
-
-		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_BOWS_AND_CROSSBOWS.getBooleanValue()) {
-			registerBowAndCrossbow();
-		}
-
-		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_FISHING_ROD.getBooleanValue()) {
-			registerFishingRod();
-		}
-
-		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_HORSE_ARMOR.getBooleanValue()) {
-			registerHorseArmor();
-		}
-	}
 
 	private static void registerFishingRod() {
 		NETHERITE_FISHING_ROD = register(new Identifier("netherite_plus", "netherite_fishing_rod"),
@@ -122,6 +96,29 @@ public class NetheritePlusModItems {
 	}
 
 	public static void registerItems() {
+		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_SHULKER_BOXES.getBooleanValue()) {
+			registerShulkerBoxes();
+		}
+
+		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_ELYTRA.getBooleanValue()) {
+			registerElytra();
+		}
+
+		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_SHIELDS.getBooleanValue()) {
+			registerShield();
+		}
+
+		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_BOWS_AND_CROSSBOWS.getBooleanValue()) {
+			registerBowAndCrossbow();
+		}
+
+		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_FISHING_ROD.getBooleanValue()) {
+			registerFishingRod();
+		}
+
+		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_HORSE_ARMOR.getBooleanValue()) {
+			registerHorseArmor();
+		}
 	}
 
 	private static void registerShulkerBoxes() {

@@ -10,7 +10,8 @@
 	"FishingBobberEntityMixin",
 	"CrossbowItemMixin",
 	"ShulkerBoxBlockEntityMixin",
-	"ShulkerBoxSlotMixin"
+	"ShulkerBoxSlotMixin",
+	"CauldronBlockMixin"
   ],
   "client": [
 	"render.PlayerEntityRendererMixin",

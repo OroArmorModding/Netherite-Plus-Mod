@@ -50,11 +50,7 @@ public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
 			}
 		}
 
-		if (!itemStack.isEmpty() && !itemStack2.isEmpty()) {
-			return true;
-		}
-		return false;
-
+		return !itemStack.isEmpty() && !itemStack2.isEmpty();
 	}
 
 	@Override

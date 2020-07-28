@@ -6,16 +6,14 @@ import java.util.List;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 
-public class UniqueItemRegistry {
+public final class UniqueItemRegistry {
 
-	private List<Item> itemList;
-	private Item defaultItem;
+	private final List<Item> itemList;
+	private final Item defaultItem;
 
 	public static UniqueItemRegistry ELYTRA = new UniqueItemRegistry(Items.ELYTRA),
-			FISHING_ROD = new UniqueItemRegistry(Items.FISHING_ROD),
-			SHIELD = new UniqueItemRegistry(Items.SHIELD),
-			BOW = new UniqueItemRegistry(Items.BOW),
-			CROSSBOW = new UniqueItemRegistry(Items.CROSSBOW),
+			FISHING_ROD = new UniqueItemRegistry(Items.FISHING_ROD), SHIELD = new UniqueItemRegistry(Items.SHIELD),
+			BOW = new UniqueItemRegistry(Items.BOW), CROSSBOW = new UniqueItemRegistry(Items.CROSSBOW),
 			HORSE_ARMOR = new UniqueItemRegistry(Items.DIAMOND_HORSE_ARMOR);
 
 	private UniqueItemRegistry(Item defaultItem) {

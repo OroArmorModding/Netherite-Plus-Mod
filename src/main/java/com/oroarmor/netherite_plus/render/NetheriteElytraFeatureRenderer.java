@@ -24,15 +24,15 @@ import net.minecraft.util.Identifier;
 public class NetheriteElytraFeatureRenderer<T extends LivingEntity, M extends EntityModel<T>>
 		extends FeatureRenderer<T, M> {
 
-	public NetheriteElytraFeatureRenderer(FeatureRendererContext<T, M> context) {
-		super(context);
-	}
-
 	private static final Identifier NETHERITE_ELYTRA_SKIN = new Identifier("netherite_plus",
 			"textures/entity/netherite_elytra.png");
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private final ElytraEntityModel<T> elytra = new ElytraEntityModel();
+
+	public NetheriteElytraFeatureRenderer(FeatureRendererContext<T, M> context) {
+		super(context);
+	}
 
 	@Override
 	public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, T livingEntity,
