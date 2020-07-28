@@ -55,10 +55,16 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
+import jdk.nashorn.internal.parser.JSONParser;
+
 public class NetheriteShulkerBoxBlock extends BlockWithEntity {
+
 	public static final EnumProperty<Direction> FACING;
 	public static final Identifier CONTENTS;
 	private final DyeColor color;
+
+	public static int numberOfRows = 6;
+	public static int numberOfSlots = numberOfRows*9;
 
 	public NetheriteShulkerBoxBlock(DyeColor color, AbstractBlock.Settings settings) {
 		super(settings);
@@ -190,7 +196,7 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
 			}
 
 			if (compoundTag.contains("Items", 9)) {
-				DefaultedList<ItemStack> defaultedList = DefaultedList.ofSize(27, ItemStack.EMPTY);
+				DefaultedList<ItemStack> defaultedList = DefaultedList.ofSize(numberOfSlots, ItemStack.EMPTY);
 				Inventories.fromTag(compoundTag, defaultedList);
 				int i = 0;
 				int j = 0;
