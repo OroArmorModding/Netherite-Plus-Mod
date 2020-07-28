@@ -1,5 +1,6 @@
 package com.oroarmor.netherite_plus.block;
 
+import com.oroarmor.netherite_plus.NetheritePlusConfigManager;
 import com.oroarmor.netherite_plus.block.entity.NetheriteShulkerBoxBlockEntity;
 
 import net.minecraft.block.AbstractBlock;
@@ -13,30 +14,39 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class NetheritePlusModBlocks {
+	public static Block NETHERITE_WHITE_SHULKER_BOX;
+	public static Block NETHERITE_SHULKER_BOX;
+	public static Block NETHERITE_ORANGE_SHULKER_BOX;
+	public static Block NETHERITE_MAGENTA_SHULKER_BOX;
+	public static Block NETHERITE_LIGHT_BLUE_SHULKER_BOX;
+	public static Block NETHERITE_YELLOW_SHULKER_BOX;
+	public static Block NETHERITE_BLACK_SHULKER_BOX;
+	public static Block NETHERITE_BLUE_SHULKER_BOX;
+	public static Block NETHERITE_BROWN_SHULKER_BOX;
+	public static Block NETHERITE_CYAN_SHULKER_BOX;
+	public static Block NETHERITE_GRAY_SHULKER_BOX;
+	public static Block NETHERITE_GREEN_SHULKER_BOX;
+	public static Block NETHERITE_LIGHT_GRAY_SHULKER_BOX;
+	public static Block NETHERITE_LIME_SHULKER_BOX;
+	public static Block NETHERITE_PINK_SHULKER_BOX;
+	public static Block NETHERITE_PURPLE_SHULKER_BOX;
+	public static Block NETHERITE_RED_SHULKER_BOX;
 
-	public static final Block NETHERITE_WHITE_SHULKER_BOX;
-	public static final Block NETHERITE_SHULKER_BOX;
-	public static final Block NETHERITE_ORANGE_SHULKER_BOX;
-	public static final Block NETHERITE_MAGENTA_SHULKER_BOX;
-	public static final Block NETHERITE_LIGHT_BLUE_SHULKER_BOX;
-	public static final Block NETHERITE_YELLOW_SHULKER_BOX;
-	public static final Block NETHERITE_BLACK_SHULKER_BOX;
-	public static final Block NETHERITE_BLUE_SHULKER_BOX;
-	public static final Block NETHERITE_BROWN_SHULKER_BOX;
-	public static final Block NETHERITE_CYAN_SHULKER_BOX;
-	public static final Block NETHERITE_GRAY_SHULKER_BOX;
-	public static final Block NETHERITE_GREEN_SHULKER_BOX;
-	public static final Block NETHERITE_LIGHT_GRAY_SHULKER_BOX;
-	public static final Block NETHERITE_LIME_SHULKER_BOX;
-	public static final Block NETHERITE_PINK_SHULKER_BOX;
-	public static final Block NETHERITE_PURPLE_SHULKER_BOX;
-	public static final Block NETHERITE_RED_SHULKER_BOX;
+	public static Block NETHERITE_BEACON;
 
-	public static final Block NETHERITE_BEACON;
-
-	public static final BlockEntityType<NetheriteShulkerBoxBlockEntity> NETHERITE_SHULKER_BOX_ENTITY;
+	public static BlockEntityType<NetheriteShulkerBoxBlockEntity> NETHERITE_SHULKER_BOX_ENTITY;
 
 	static {
+		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_SHULKER_BOXES.getBooleanValue()) {
+			registerShulkerBoxBlocks();
+		}
+		NETHERITE_BEACON = register("netherite_beacon", new NetheriteBeaconBlock(
+				AbstractBlock.Settings.of(Material.GLASS, MaterialColor.DIAMOND).strength(3.0F).lightLevel((state) -> {
+					return 15;
+				}).nonOpaque()));
+	}
+
+	private static void registerShulkerBoxBlocks() {
 		NETHERITE_SHULKER_BOX = register("netherite_shulker_box", createShulkerBoxBlock((DyeColor) null,
 				AbstractBlock.Settings.of(Material.SHULKER_BOX).strength(2f, 1200f)));
 		NETHERITE_WHITE_SHULKER_BOX = register("netherite_white_shulker_box", createShulkerBoxBlock(DyeColor.WHITE,
@@ -81,10 +91,6 @@ public class NetheritePlusModBlocks {
 						NETHERITE_MAGENTA_SHULKER_BOX, NETHERITE_ORANGE_SHULKER_BOX, NETHERITE_PINK_SHULKER_BOX,
 						NETHERITE_PURPLE_SHULKER_BOX, NETHERITE_RED_SHULKER_BOX, NETHERITE_WHITE_SHULKER_BOX,
 						NETHERITE_YELLOW_SHULKER_BOX).build(null));
-		NETHERITE_BEACON = register("netherite_beacon", new NetheriteBeaconBlock(
-				AbstractBlock.Settings.of(Material.GLASS, MaterialColor.DIAMOND).strength(3.0F).lightLevel((state) -> {
-					return 15;
-				}).nonOpaque()));
 	}
 
 	private static NetheriteShulkerBoxBlock createShulkerBoxBlock(DyeColor color, AbstractBlock.Settings settings) {
