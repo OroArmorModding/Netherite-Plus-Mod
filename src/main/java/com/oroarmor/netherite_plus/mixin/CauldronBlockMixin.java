@@ -42,7 +42,7 @@ public abstract class CauldronBlockMixin {
 		int i = state.get(CauldronBlock.LEVEL);
 		Block block = ((BlockItem) itemStack.getItem()).getBlock();
 
-		if (block instanceof NetheriteShulkerBoxBlock && !world.isClient()) {
+		if (block instanceof NetheriteShulkerBoxBlock && !world.isClient() && i > 0) {
 			ItemStack itemStack5 = new ItemStack(NetheritePlusModBlocks.NETHERITE_SHULKER_BOX, 1);
 			if (itemStack.hasTag()) {
 				itemStack5.setTag(itemStack.getTag().copy());

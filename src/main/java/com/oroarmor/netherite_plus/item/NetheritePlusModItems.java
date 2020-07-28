@@ -55,9 +55,13 @@ public final class NetheritePlusModItems {
 
 	public static Item NETHERITE_HORSE_ARMOR;
 
+	public static Item FAKE_NETHERITE_BLOCK;
+
 	private static void registerFishingRod() {
 		NETHERITE_FISHING_ROD = register(new Identifier("netherite_plus", "netherite_fishing_rod"),
-				new NetheriteFishingRodItem(new Item.Settings().maxDamage(128).group(ItemGroup.TOOLS).fireproof()));
+				new NetheriteFishingRodItem(new Item.Settings()
+						.maxDamage(NetheritePlusConfigManager.DURABILITIES.FISHING_ROD_DURABILITY.getIntegerValue())
+						.group(ItemGroup.TOOLS).fireproof()));
 
 		UniqueItemRegistry.FISHING_ROD.addItemToRegistry(NETHERITE_FISHING_ROD);
 	}
@@ -71,10 +75,14 @@ public final class NetheritePlusModItems {
 
 	private static void registerBowAndCrossbow() {
 		NETHERITE_BOW = register(new Identifier("netherite_plus", "netherite_bow"),
-				new NetheriteBowItem(new Item.Settings().maxDamage(768).group(ItemGroup.COMBAT).fireproof()));
+				new NetheriteBowItem(new Item.Settings()
+						.maxDamage(NetheritePlusConfigManager.DURABILITIES.BOW_DURABILITY.getIntegerValue())
+						.group(ItemGroup.COMBAT).fireproof()));
 
 		NETHERITE_CROSSBOW = register(new Identifier("netherite_plus", "netherite_crossbow"),
-				new NetheriteCrossbowItem(new Item.Settings().maxDamage(652).group(ItemGroup.COMBAT).fireproof()));
+				new NetheriteCrossbowItem(new Item.Settings()
+						.maxDamage(NetheritePlusConfigManager.DURABILITIES.CROSSBOW_DURABILITY.getIntegerValue())
+						.group(ItemGroup.COMBAT).fireproof()));
 
 		UniqueItemRegistry.BOW.addItemToRegistry(NETHERITE_BOW);
 		UniqueItemRegistry.CROSSBOW.addItemToRegistry(NETHERITE_CROSSBOW);
@@ -82,42 +90,51 @@ public final class NetheritePlusModItems {
 
 	private static void registerShield() {
 		NETHERITE_SHIELD = register(new Identifier("netherite_plus", "netherite_shield"),
-				new NetheriteShieldItem(new Item.Settings().maxDamage(672).group(ItemGroup.COMBAT).fireproof()));
+				new NetheriteShieldItem(new Item.Settings()
+						.maxDamage(NetheritePlusConfigManager.DURABILITIES.SHIELD_DURABILITY.getIntegerValue())
+						.group(ItemGroup.COMBAT).fireproof()));
 
 		UniqueItemRegistry.SHIELD.addItemToRegistry(NETHERITE_SHIELD);
 	}
 
 	private static void registerElytra() {
 		NETHERITE_ELYTRA = register(new Identifier("netherite_plus", "netherite_elytra"),
-				new NetheriteElytraItem(new Item.Settings().maxDamage(864).group(ItemGroup.TRANSPORTATION)
-						.rarity(Rarity.UNCOMMON).fireproof()));
+				new NetheriteElytraItem(new Item.Settings()
+						.maxDamage(NetheritePlusConfigManager.DURABILITIES.ELYTRA_DURABILITY.getIntegerValue())
+						.group(ItemGroup.TRANSPORTATION).rarity(Rarity.UNCOMMON).fireproof()));
 
 		UniqueItemRegistry.ELYTRA.addItemToRegistry(NETHERITE_ELYTRA);
 	}
 
 	public static void registerItems() {
-		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_SHULKER_BOXES.getBooleanValue()) {
+		if (NetheritePlusConfigManager.ENABLED.ENABLED_SHULKER_BOXES.getBooleanValue()) {
 			registerShulkerBoxes();
 		}
 
-		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_ELYTRA.getBooleanValue()) {
+		if (NetheritePlusConfigManager.ENABLED.ENABLED_ELYTRA.getBooleanValue()) {
 			registerElytra();
 		}
 
-		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_SHIELDS.getBooleanValue()) {
+		if (NetheritePlusConfigManager.ENABLED.ENABLED_SHIELDS.getBooleanValue()) {
 			registerShield();
 		}
 
-		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_BOWS_AND_CROSSBOWS.getBooleanValue()) {
+		if (NetheritePlusConfigManager.ENABLED.ENABLED_BOWS_AND_CROSSBOWS.getBooleanValue()) {
 			registerBowAndCrossbow();
 		}
 
-		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_FISHING_ROD.getBooleanValue()) {
+		if (NetheritePlusConfigManager.ENABLED.ENABLED_FISHING_ROD.getBooleanValue()) {
 			registerFishingRod();
 		}
 
-		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_HORSE_ARMOR.getBooleanValue()) {
+		if (NetheritePlusConfigManager.ENABLED.ENABLED_HORSE_ARMOR.getBooleanValue()) {
 			registerHorseArmor();
+		}
+
+		if (NetheritePlusConfigManager.ENABLED.ENABLED_FAKE_NETHERITE_BLOCKS.getBooleanValue()) {
+			FAKE_NETHERITE_BLOCK = register(new Identifier("netherite_plus", "fake_netherite_block"),
+					new BlockItem(NetheritePlusModBlocks.FAKE_NETHERITE_BLOCK,
+							(new Item.Settings()).group(ItemGroup.BUILDING_BLOCKS).fireproof()));
 		}
 	}
 
@@ -160,16 +177,16 @@ public final class NetheritePlusModItems {
 
 	public static void registerItemsWithModelProvider() {
 
-		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_ELYTRA.getBooleanValue())
+		if (NetheritePlusConfigManager.ENABLED.ENABLED_ELYTRA.getBooleanValue())
 			registerElytraModels();
 
-		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_SHIELDS.getBooleanValue())
+		if (NetheritePlusConfigManager.ENABLED.ENABLED_SHIELDS.getBooleanValue())
 			registerShieldModels();
 
-		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_FISHING_ROD.getBooleanValue())
+		if (NetheritePlusConfigManager.ENABLED.ENABLED_FISHING_ROD.getBooleanValue())
 			registerFishingRodModels();
 
-		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_BOWS_AND_CROSSBOWS.getBooleanValue()) {
+		if (NetheritePlusConfigManager.ENABLED.ENABLED_BOWS_AND_CROSSBOWS.getBooleanValue()) {
 			registerBowModels();
 			registerCrossbowModels();
 		}

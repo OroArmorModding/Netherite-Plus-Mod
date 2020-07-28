@@ -9,6 +9,7 @@ import net.minecraft.block.Material;
 import net.minecraft.block.MaterialColor;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -32,13 +33,21 @@ public class NetheritePlusModBlocks {
 	public static Block NETHERITE_PURPLE_SHULKER_BOX;
 	public static Block NETHERITE_RED_SHULKER_BOX;
 
+	public static Block FAKE_NETHERITE_BLOCK;
+
 	// public static final Block NETHERITE_BEACON;
 
 	public static BlockEntityType<NetheriteShulkerBoxBlockEntity> NETHERITE_SHULKER_BOX_ENTITY;
 
 	static {
-		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_SHULKER_BOXES.getBooleanValue()) {
+		if (NetheritePlusConfigManager.ENABLED.ENABLED_SHULKER_BOXES.getBooleanValue()) {
 			registerShulkerBoxBlocks();
+		}
+
+		if (NetheritePlusConfigManager.ENABLED.ENABLED_FAKE_NETHERITE_BLOCKS.getBooleanValue()) {
+			FAKE_NETHERITE_BLOCK = register("fake_netherite_block",
+					new FakeNetheriteBlock(AbstractBlock.Settings.of(Material.METAL, MaterialColor.BLACK).requiresTool()
+							.strength(5.0F, 6.0F).sounds(BlockSoundGroup.METAL)));
 		}
 		// NETHERITE_BEACON = register("netherite_beacon", new NetheriteBeaconBlock(
 		// AbstractBlock.Settings.of(Material.GLASS,

@@ -9,13 +9,17 @@ import com.google.gson.JsonObject;
 
 import fi.dy.masa.malilib.config.ConfigUtils;
 import fi.dy.masa.malilib.config.options.ConfigBoolean;
+import fi.dy.masa.malilib.config.options.ConfigInteger;
 import fi.dy.masa.malilib.util.JsonUtils;
 import net.fabricmc.loader.api.FabricLoader;
 
 public final class NetheritePlusConfigManager {
 	private static final String CONFIG_FILE_NAME = "netherite_plus.json";
 
-	public static class NetheritePlusConfiguration {
+	public static class ENABLED {
+		public static final ConfigBoolean ENABLED_CONFIG_CONSOLE_LOG = new ConfigBoolean("config_console_log", true,
+				"Enabled console logs for config");
+
 		public static final ConfigBoolean ENABLED_SHULKER_BOXES = new ConfigBoolean("shulker_boxes", true,
 				"Enable or disable shulker boxes");
 
@@ -34,9 +38,30 @@ public final class NetheritePlusConfigManager {
 		public static final ConfigBoolean ENABLED_HORSE_ARMOR = new ConfigBoolean("horse_armor", true,
 				"Enable or disable horse armor");
 
-		public static final List<ConfigBoolean> OPTIONS = ImmutableList.of(ENABLED_SHULKER_BOXES, ENABLED_ELYTRA,
-				ENABLED_SHIELDS, ENABLED_BOWS_AND_CROSSBOWS, ENABLED_FISHING_ROD, ENABLED_HORSE_ARMOR);
+		public static final ConfigBoolean ENABLED_FAKE_NETHERITE_BLOCKS = new ConfigBoolean("fake_netherite_blocks",
+				true, "Enable or disable fake netherite blocks");
 
+		public static final List<ConfigBoolean> OPTIONS = ImmutableList.of(ENABLED_CONFIG_CONSOLE_LOG,
+				ENABLED_SHULKER_BOXES, ENABLED_ELYTRA, ENABLED_SHIELDS, ENABLED_BOWS_AND_CROSSBOWS, ENABLED_FISHING_ROD,
+				ENABLED_HORSE_ARMOR, ENABLED_FAKE_NETHERITE_BLOCKS);
+
+	}
+
+	public static class DURABILITIES {
+		public static final ConfigInteger ELYTRA_DURABILITY = new ConfigInteger("elytra", 864, "Elytra Durability");
+
+		public static final ConfigInteger FISHING_ROD_DURABILITY = new ConfigInteger("fishing_rod", 128,
+				"Fishing Rod Durability");
+
+		public static final ConfigInteger SHIELD_DURABILITY = new ConfigInteger("shield", 672, "Shield Durability");
+
+		public static final ConfigInteger BOW_DURABILITY = new ConfigInteger("bow", 768, "Bow Durability");
+
+		public static final ConfigInteger CROSSBOW_DURABILITY = new ConfigInteger("crossbow", 652,
+				"Crossbow Durability");
+
+		public static final List<ConfigInteger> OPTIONS = ImmutableList.of(ELYTRA_DURABILITY, FISHING_ROD_DURABILITY,
+				SHIELD_DURABILITY, BOW_DURABILITY, CROSSBOW_DURABILITY);
 	}
 
 	public static void load() {
@@ -48,16 +73,21 @@ public final class NetheritePlusConfigManager {
 			if (element != null && element.isJsonObject()) {
 				JsonObject root = element.getAsJsonObject();
 
-				ConfigUtils.readConfigBase(root, "config",
-						NetheritePlusConfigManager.NetheritePlusConfiguration.OPTIONS);
+				ConfigUtils.readConfigBase(root, "enabled", NetheritePlusConfigManager.ENABLED.OPTIONS);
+
+				ConfigUtils.readConfigBase(root, "durabilities", NetheritePlusConfigManager.DURABILITIES.OPTIONS);
 			}
 		} else {
 			save();
 		}
 
-		NetheritePlusConfigManager.NetheritePlusConfiguration.OPTIONS
-				.forEach(c -> System.out.println(c.getName() + ": " + c.getBooleanValue()));
+		if (NetheritePlusConfigManager.ENABLED.ENABLED_CONFIG_CONSOLE_LOG.getBooleanValue()) {
+			NetheritePlusConfigManager.ENABLED.OPTIONS
+					.forEach(c -> System.out.println("enabled:netherite_" + c.getName() + ":" + c.getBooleanValue()));
 
+			NetheritePlusConfigManager.DURABILITIES.OPTIONS.forEach(
+					c -> System.out.println("durability:netherite_" + c.getName() + ":" + c.getIntegerValue()));
+		}
 	}
 
 	public static void save() {
@@ -66,7 +96,8 @@ public final class NetheritePlusConfigManager {
 		if ((dir.exists() && dir.isDirectory()) || dir.mkdirs()) {
 			JsonObject root = new JsonObject();
 
-			ConfigUtils.writeConfigBase(root, "config", NetheritePlusConfigManager.NetheritePlusConfiguration.OPTIONS);
+			ConfigUtils.writeConfigBase(root, "enabled", NetheritePlusConfigManager.ENABLED.OPTIONS);
+			ConfigUtils.writeConfigBase(root, "durabilities", NetheritePlusConfigManager.DURABILITIES.OPTIONS);
 
 			JsonUtils.writeJsonToFile(root, new File(dir, CONFIG_FILE_NAME));
 		}
