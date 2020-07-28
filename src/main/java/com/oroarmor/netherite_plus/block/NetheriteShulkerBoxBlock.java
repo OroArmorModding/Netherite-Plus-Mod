@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.oroarmor.netherite_plus.block.entity.NetheriteShulkerBoxBlockEntity;
+import com.oroarmor.netherite_plus.block.entity.NetheriteShulkerBoxBlockEntity.AnimationStage;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -15,7 +16,6 @@ import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.FacingBlock;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.ItemEntity;
@@ -89,7 +89,7 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
 			if (blockEntity instanceof NetheriteShulkerBoxBlockEntity) {
 				NetheriteShulkerBoxBlockEntity netheriteShulkerBoxBlockEntity = (NetheriteShulkerBoxBlockEntity) blockEntity;
 				boolean bl2;
-				if (netheriteShulkerBoxBlockEntity.getAnimationStage() == ShulkerBoxBlockEntity.AnimationStage.CLOSED) {
+				if (netheriteShulkerBoxBlockEntity.getAnimationStage() == AnimationStage.CLOSED) {
 					Direction direction = state.get(FACING);
 					bl2 = world.doesNotCollide(ShulkerLidCollisions.getLidCollisionBox(pos, direction));
 				} else {

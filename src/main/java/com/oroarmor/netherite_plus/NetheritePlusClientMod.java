@@ -36,7 +36,7 @@ public class NetheritePlusClientMod implements ClientModInitializer {
 		ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEX)
 				.register(NetheritePlusClientMod::registerShieldTextures);
 
-		NetheritePlusModItems.registerItemsAsDamagable();
+		NetheritePlusModItems.registerItemsWithModelProvider();
 	}
 
 	public static void makeAtlases(Consumer<SpriteIdentifier> consumer) {

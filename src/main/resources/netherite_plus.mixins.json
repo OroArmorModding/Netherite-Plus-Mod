@@ -7,17 +7,22 @@
 	"PlayerEntityMixin",
 	"LivingEntityMixin",
 	"MobEntityMixin",
-	"FishingBobberEntityMixin"
+	"FishingBobberEntityMixin",
+	"CrossbowItemMixin",
+	"ShulkerBoxBlockEntityMixin",
+	"ShulkerBoxSlotMixin"
   ],
   "client": [
-	"PlayerEntityRendererMixin",
-	"ArmorStandEntityRendererMixin",
-	"BipedEntityRendererMixin",
-	"BlockEntityRenderDispatcherMixin",
-	"TexturedRenderLayersMixin",
-	"ClientPlayerEntityMixin",
-	"BuiltinModelItemRendererMixin",
-	"FishingBobberEntityRendererMixin"
+	"render.PlayerEntityRendererMixin",
+	"render.ArmorStandEntityRendererMixin",
+	"render.BipedEntityRendererMixin",
+	"render.BlockEntityRenderDispatcherMixin",
+	"render.TexturedRenderLayersMixin",
+	"render.BuiltinModelItemRendererMixin",
+	"render.FishingBobberEntityRendererMixin",
+	"render.HeldItemRendererMixin",
+	
+	"ClientPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
