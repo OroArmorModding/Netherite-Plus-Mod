@@ -4,6 +4,7 @@ import com.oroarmor.netherite_plus.item.NetheritePlusModItems;
 import com.oroarmor.netherite_plus.recipe.NetheritePlusRecipeSerializer;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 
 public class NetheritePlusMod implements ModInitializer {
 
@@ -14,6 +15,8 @@ public class NetheritePlusMod implements ModInitializer {
 		NetheritePlusModItems.registerItems();
 
 		NetheritePlusRecipeSerializer.init();
+
+		ServerLifecycleEvents.SERVER_STOPPED.register(l -> NetheritePlusConfigManager.save());
 	}
 
 }

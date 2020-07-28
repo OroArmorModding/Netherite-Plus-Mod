@@ -17,13 +17,13 @@ public final class NetheritePlusRecipeSerializer {
 	}
 
 	public static void init() {
-		NETHERITE_SHULKER_BOX = NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_SHULKER_BOXES
+		NETHERITE_SHULKER_BOX = NetheritePlusConfigManager.ENABLED.ENABLED_SHULKER_BOXES
 				.getBooleanValue()
 						? register("crafting_special_netheriteshulkerboxcoloring",
 								new SpecialRecipeSerializer<>(NetheriteShulkerBoxColoringRecipe::new))
 						: null;
 
-		NETHERITE_SHIELD = NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_SHIELDS.getBooleanValue()
+		NETHERITE_SHIELD = NetheritePlusConfigManager.ENABLED.ENABLED_SHIELDS.getBooleanValue()
 				? register("crafting_special_netheriteshielddecoration",
 						new SpecialRecipeSerializer<>(NetheriteShieldDecorationRecipe::new))
 				: null;
