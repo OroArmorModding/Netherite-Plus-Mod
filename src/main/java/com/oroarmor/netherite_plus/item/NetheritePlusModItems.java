@@ -10,7 +10,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ElytraItem;
 import net.minecraft.item.FishingRodItem;
-import net.minecraft.item.HorseArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
@@ -51,11 +50,10 @@ public class NetheritePlusModItems {
 	public static Item NETHERITE_RED_SHULKER_BOX;
 	public static Item NETHERITE_BLACK_SHULKER_BOX;
 
-	public static Item NETHERITE_BEACON = register(new BlockItem(NetheritePlusModBlocks.NETHERITE_BEACON,
-			new Item.Settings().maxCount(64).group(ItemGroup.MISC).fireproof()));
+//	public static Item NETHERITE_BEACON = register(new BlockItem(NetheritePlusModBlocks.NETHERITE_BEACON,
+//			new Item.Settings().maxCount(64).group(ItemGroup.MISC).fireproof()));
 
-	public static final Item NETHERITE_HORSE_ARMOR = register(new Identifier("netherite_plus", "netherite_horse_armor"),
-			new NetheriteHorseArmorItem(15, (new Item.Settings()).maxCount(1).group(ItemGroup.MISC).fireproof()));
+	public static Item NETHERITE_HORSE_ARMOR;
 
 	static {
 		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_SHULKER_BOXES.getBooleanValue()) {
@@ -77,6 +75,10 @@ public class NetheritePlusModItems {
 		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_FISHING_ROD.getBooleanValue()) {
 			registerFishingRod();
 		}
+
+		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_HORSE_ARMOR.getBooleanValue()) {
+			registerHorseArmor();
+		}
 	}
 
 	private static void registerFishingRod() {
@@ -84,6 +86,13 @@ public class NetheritePlusModItems {
 				new NetheriteFishingRodItem(new Item.Settings().maxDamage(128).group(ItemGroup.TOOLS).fireproof()));
 
 		UniqueItemRegistry.FISHING_ROD.addItemToRegistry(NETHERITE_FISHING_ROD);
+	}
+
+	private static void registerHorseArmor() {
+		NETHERITE_HORSE_ARMOR = register(new Identifier("netherite_plus", "netherite_horse_armor"),
+				new NetheriteHorseArmorItem(15, (new Item.Settings()).maxCount(1).group(ItemGroup.MISC).fireproof()));
+
+		UniqueItemRegistry.HORSE_ARMOR.addItemToRegistry(NETHERITE_HORSE_ARMOR);
 	}
 
 	private static void registerBowAndCrossbow() {
@@ -95,7 +104,6 @@ public class NetheritePlusModItems {
 
 		UniqueItemRegistry.BOW.addItemToRegistry(NETHERITE_BOW);
 		UniqueItemRegistry.CROSSBOW.addItemToRegistry(NETHERITE_CROSSBOW);
-		UniqueItemRegistry.HORSE_ARMOR.addItemToRegistry(NETHERITE_HORSE_ARMOR);
 	}
 
 	private static void registerShield() {

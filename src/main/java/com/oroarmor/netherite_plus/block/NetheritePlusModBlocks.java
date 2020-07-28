@@ -32,18 +32,19 @@ public class NetheritePlusModBlocks {
 	public static Block NETHERITE_PURPLE_SHULKER_BOX;
 	public static Block NETHERITE_RED_SHULKER_BOX;
 
-	//public static final Block NETHERITE_BEACON;
+	// public static final Block NETHERITE_BEACON;
 
-	public static final BlockEntityType<NetheriteShulkerBoxBlockEntity> NETHERITE_SHULKER_BOX_ENTITY;
+	public static BlockEntityType<NetheriteShulkerBoxBlockEntity> NETHERITE_SHULKER_BOX_ENTITY;
 
 	static {
 		if (NetheritePlusConfigManager.NetheritePlusConfiguration.ENABLED_SHULKER_BOXES.getBooleanValue()) {
 			registerShulkerBoxBlocks();
 		}
 		// NETHERITE_BEACON = register("netherite_beacon", new NetheriteBeaconBlock(
-		// 		AbstractBlock.Settings.of(Material.GLASS, MaterialColor.DIAMOND).strength(3.0F).lightLevel((state) -> {
-		// 			return 15;
-		// 		}).nonOpaque()));
+		// AbstractBlock.Settings.of(Material.GLASS,
+		// MaterialColor.DIAMOND).strength(3.0F).lightLevel((state) -> {
+		// return 15;
+		// }).nonOpaque()));
 	}
 
 	private static void registerShulkerBoxBlocks() {

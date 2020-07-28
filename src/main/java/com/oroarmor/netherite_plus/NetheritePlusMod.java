@@ -9,8 +9,6 @@ public class NetheritePlusMod implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-//		new NetheritePlusConfigManager().save();
-
 		NetheritePlusConfigManager.load();
 
 		NetheritePlusModItems.registerItems();

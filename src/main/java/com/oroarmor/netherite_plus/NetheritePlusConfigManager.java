@@ -8,7 +8,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import fi.dy.masa.malilib.config.ConfigUtils;
-import fi.dy.masa.malilib.config.IConfigBase;
 import fi.dy.masa.malilib.config.options.ConfigBoolean;
 import fi.dy.masa.malilib.util.JsonUtils;
 import net.fabricmc.loader.api.FabricLoader;
@@ -30,8 +29,11 @@ public class NetheritePlusConfigManager {
 		public static final ConfigBoolean ENABLED_FISHING_ROD = new ConfigBoolean("fishing_rod", true,
 				"Enable or disable fishing rod");
 
-		public static final List<IConfigBase> OPTIONS = ImmutableList.of(ENABLED_SHULKER_BOXES, ENABLED_ELYTRA,
-				ENABLED_SHIELDS, ENABLED_BOWS_AND_CROSSBOWS, ENABLED_FISHING_ROD);
+		public static final ConfigBoolean ENABLED_HORSE_ARMOR = new ConfigBoolean("horse_armor", true,
+				"Enable or disable horse armor");
+
+		public static final List<ConfigBoolean> OPTIONS = ImmutableList.of(ENABLED_SHULKER_BOXES, ENABLED_ELYTRA,
+				ENABLED_SHIELDS, ENABLED_BOWS_AND_CROSSBOWS, ENABLED_FISHING_ROD, ENABLED_HORSE_ARMOR);
 
 	}
 
@@ -52,6 +54,9 @@ public class NetheritePlusConfigManager {
 		} else {
 			save();
 		}
+
+		NetheritePlusConfigManager.NetheritePlusConfiguration.OPTIONS
+				.forEach(c -> System.out.println(c.getName() + ": " + c.getBooleanValue()));
 
 	}
 
