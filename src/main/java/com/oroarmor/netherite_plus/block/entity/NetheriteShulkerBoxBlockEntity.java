@@ -38,7 +38,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShapes;
 
 public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity implements SidedInventory, Tickable {
-	private static final int[] AVAILABLE_SLOTS = IntStream.range(0, 27).toArray();
+	private static final int[] AVAILABLE_SLOTS = IntStream.range(0, NetheriteShulkerBoxBlock.numberOfSlots).toArray();
 	private DefaultedList<ItemStack> inventory;
 	private int viewerCount;
 	private ShulkerBoxBlockEntity.AnimationStage animationStage;
@@ -50,7 +50,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 
 	public NetheriteShulkerBoxBlockEntity(DyeColor color) {
 		super(NetheritePlusModBlocks.NETHERITE_SHULKER_BOX_ENTITY);
-		inventory = DefaultedList.ofSize(27, ItemStack.EMPTY);
+		inventory = DefaultedList.ofSize(NetheriteShulkerBoxBlock.numberOfSlots, ItemStack.EMPTY);
 		animationStage = ShulkerBoxBlockEntity.AnimationStage.CLOSED;
 		cachedColor = color;
 	}

@@ -15,7 +15,8 @@ public class UniqueItemRegistry {
 			FISHING_ROD = new UniqueItemRegistry(Items.FISHING_ROD),
 			SHIELD = new UniqueItemRegistry(Items.SHIELD),
 			BOW = new UniqueItemRegistry(Items.BOW),
-			CROSSBOW = new UniqueItemRegistry(Items.CROSSBOW);
+			CROSSBOW = new UniqueItemRegistry(Items.CROSSBOW),
+			HORSE_ARMOR = new UniqueItemRegistry(Items.DIAMOND_HORSE_ARMOR);
 
 	private UniqueItemRegistry(Item defaultItem) {
 		this.defaultItem = defaultItem;

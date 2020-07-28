@@ -16,6 +16,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ElytraItem;
 import net.minecraft.item.FishingRodItem;
+import net.minecraft.item.HorseArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
@@ -86,12 +87,18 @@ public class NetheritePlusModItems {
 
 	public static final Item NETHERITE_BEACON = register(
 			new BlockItem(NetheritePlusModBlocks.NETHERITE_BEACON, NETHERITE_BEACON_ITEM_SETTINGS));
+
+
+	public static final Item NETHERITE_HORSE_ARMOR = register(new Identifier("netherite_plus", "netherite_horse_armor"),
+			new NetheriteHorseArmorItem(15, (new Item.Settings()).maxCount(1).group(ItemGroup.MISC).fireproof()));
+
 	static {
 		UniqueItemRegistry.ELYTRA.addItemToRegistry(NETHERITE_ELYTRA);
 		UniqueItemRegistry.FISHING_ROD.addItemToRegistry(NETHERITE_FISHING_ROD);
 		UniqueItemRegistry.SHIELD.addItemToRegistry(NETHERITE_SHIELD);
 		UniqueItemRegistry.BOW.addItemToRegistry(NETHERITE_BOW);
 		UniqueItemRegistry.CROSSBOW.addItemToRegistry(NETHERITE_CROSSBOW);
+		UniqueItemRegistry.HORSE_ARMOR.addItemToRegistry(NETHERITE_HORSE_ARMOR);
 	}
 
 	public static void registerItems() {
