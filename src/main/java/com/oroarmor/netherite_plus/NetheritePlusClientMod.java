@@ -55,7 +55,8 @@ public class NetheritePlusClientMod implements ClientModInitializer {
 	}
 
 	@SuppressWarnings("unused")
-	public static void registerShulkerBoxTextures(SpriteAtlasTexture atlas, ClientSpriteRegistryCallback.Registry registry) {
+	public static void registerShulkerBoxTextures(SpriteAtlasTexture atlas,
+			ClientSpriteRegistryCallback.Registry registry) {
 		registry.register(new Identifier("netherite_plus", makePath(null)));
 		Arrays.stream(DyeColor.values()).forEach(c -> registry.register(new Identifier("netherite_plus", makePath(c))));
 	}

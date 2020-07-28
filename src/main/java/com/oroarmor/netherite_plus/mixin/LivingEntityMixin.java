@@ -11,7 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin {
+public class LivingEntityMixin {
 
 	@Redirect(method = "initAi()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
 	public Item initAi(ItemStack itemStack) {

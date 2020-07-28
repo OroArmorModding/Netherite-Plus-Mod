@@ -11,7 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin {
+public class PlayerEntityMixin {
 
 	@Redirect(method = "checkFallFlying()Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
 	private Item tickMovement(ItemStack stack) {

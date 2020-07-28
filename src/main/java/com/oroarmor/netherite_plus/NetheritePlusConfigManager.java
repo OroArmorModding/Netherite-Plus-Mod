@@ -12,7 +12,9 @@ import fi.dy.masa.malilib.config.options.ConfigBoolean;
 import fi.dy.masa.malilib.util.JsonUtils;
 import net.fabricmc.loader.api.FabricLoader;
 
-public class NetheritePlusConfigManager {
+public final class NetheritePlusConfigManager {
+	private static final String CONFIG_FILE_NAME = "netherite_plus.json";
+
 	public static class NetheritePlusConfiguration {
 		public static final ConfigBoolean ENABLED_SHULKER_BOXES = new ConfigBoolean("shulker_boxes", true,
 				"Enable or disable shulker boxes");
@@ -36,8 +38,6 @@ public class NetheritePlusConfigManager {
 				ENABLED_SHIELDS, ENABLED_BOWS_AND_CROSSBOWS, ENABLED_FISHING_ROD, ENABLED_HORSE_ARMOR);
 
 	}
-
-	private static final String CONFIG_FILE_NAME = "netherite_plus.json";
 
 	public static void load() {
 		File configFile = new File(getConfigDirectory(), CONFIG_FILE_NAME);
