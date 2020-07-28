@@ -1,4 +1,4 @@
-package com.oroarmor.netherite_plus.mixin;
+package com.oroarmor.netherite_plus.mixin.render;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
