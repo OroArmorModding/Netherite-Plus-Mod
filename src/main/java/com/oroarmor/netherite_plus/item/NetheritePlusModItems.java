@@ -1,10 +1,12 @@
 package com.oroarmor.netherite_plus.item;
 
 import com.oroarmor.netherite_plus.NetheritePlusConfigManager;
+import com.oroarmor.netherite_plus.NetheritePlusTrinketsCompatibilty;
 import com.oroarmor.netherite_plus.block.NetheritePlusModBlocks;
 import com.oroarmor.util.item.UniqueItemRegistry;
 
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
@@ -98,10 +100,15 @@ public final class NetheritePlusModItems {
 	}
 
 	private static void registerElytra() {
+		Item.Settings elytraSettings = new Item.Settings()
+				.maxDamage(NetheritePlusConfigManager.DURABILITIES.ELYTRA_DURABILITY.getIntegerValue())
+				.group(ItemGroup.TRANSPORTATION).rarity(Rarity.UNCOMMON).fireproof();
+
+		System.out.println(FabricLoader.getInstance().isModLoaded("trinkets"));
+
 		NETHERITE_ELYTRA = register(new Identifier("netherite_plus", "netherite_elytra"),
-				new NetheriteElytraItem(new Item.Settings()
-						.maxDamage(NetheritePlusConfigManager.DURABILITIES.ELYTRA_DURABILITY.getIntegerValue())
-						.group(ItemGroup.TRANSPORTATION).rarity(Rarity.UNCOMMON).fireproof()));
+				!FabricLoader.getInstance().isModLoaded("trinkets") ? new NetheriteElytraItem(elytraSettings)
+						: NetheritePlusTrinketsCompatibilty.getTrinketsElytra(elytraSettings));
 
 		UniqueItemRegistry.ELYTRA.addItemToRegistry(NETHERITE_ELYTRA);
 	}

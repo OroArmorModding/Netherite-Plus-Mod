@@ -24,7 +24,7 @@ import net.minecraft.util.Identifier;
 public class NetheriteElytraFeatureRenderer<T extends LivingEntity, M extends EntityModel<T>>
 		extends FeatureRenderer<T, M> {
 
-	private static final Identifier NETHERITE_ELYTRA_SKIN = new Identifier("netherite_plus",
+	public static final Identifier NETHERITE_ELYTRA_SKIN = new Identifier("netherite_plus",
 			"textures/entity/netherite_elytra.png");
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
