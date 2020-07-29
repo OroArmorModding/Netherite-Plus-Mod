@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import com.oroarmor.netherite_plus.NetheritePlusConfigManager;
+import com.oroarmor.netherite_plus.item.NetheritePlusModItems;
 import com.oroarmor.util.item.UniqueItemRegistry;
 
 import net.minecraft.entity.LivingEntity;
@@ -31,6 +32,9 @@ public class CrossbowItemMixin {
 	private static void createArrow(World world, LivingEntity entity, ItemStack crossbow, ItemStack arrow,
 			CallbackInfoReturnable<PersistentProjectileEntity> cir, ArrowItem arrowItem,
 			PersistentProjectileEntity persistentProjectileEntity) {
+
+		if (crossbow.getItem() != NetheritePlusModItems.NETHERITE_CROSSBOW)
+			return;
 
 		persistentProjectileEntity.setDamage(persistentProjectileEntity.getDamage()
 				* NetheritePlusConfigManager.DAMAGE.CROSSBOW_DAMAGE_MULTIPLIER.getDoubleValue()
