@@ -12,4 +12,5 @@ public class NetheriteCrossbowItem extends CrossbowItem {
 	public boolean isUsedOnRelease(ItemStack stack) {
 		return stack.getItem() == NetheritePlusModItems.NETHERITE_CROSSBOW;
 	}
+
 }
