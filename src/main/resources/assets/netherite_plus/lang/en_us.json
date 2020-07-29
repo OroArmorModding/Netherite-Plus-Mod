@@ -19,6 +19,7 @@
     "block.netherite_plus.netherite_green_shulker_box": "Green Netherite Shulker Box",
     "block.netherite_plus.netherite_red_shulker_box": "Red Netherite Shulker Box",
     "block.netherite_plus.netherite_black_shulker_box": "Black Netherite Shulker Box",
+	"block.netherite_plus.fake_netherite_block": "Fake Netherite Block",
     "item.netherite_plus.netherite_shield": "Netherite Shield",
 	"item.netherite_plus.netherite_shield.black": "Black Netherite Shield",
 	"item.netherite_plus.netherite_shield.red": "Red Netherite Shield",
@@ -38,5 +39,6 @@
 	"item.netherite_plus.netherite_shield.white": "White Netherite Shield",
 	"item.netherite_plus.netherite_bow": "Netherite Bow",
 	"item.netherite_plus.netherite_crossbow": "Netherite Crossbow",
-	"item.netherite_plus.netherite_horse_armor": "Netherite Horse Armor"
+	"item.netherite_plus.netherite_horse_armor": "Netherite Horse Armor",
+	"warning.netherite_elytra.trinkets": "Does not work in chestplate slot"
 }

@@ -2,14 +2,12 @@ package com.oroarmor.netherite_plus.item;
 
 import java.util.List;
 
-import com.mojang.brigadier.Message;
 import com.oroarmor.netherite_plus.render.NetheriteElytraFeatureRenderer;
 import com.oroarmor.util.item.UniqueItemRegistry;
 
 import dev.emi.trinkets.api.Slots;
 import dev.emi.trinkets.api.Trinket;
 import dev.emi.trinkets.api.TrinketItem;
-
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -26,11 +24,8 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ElytraItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
-import net.minecraft.text.Texts;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
@@ -82,11 +77,8 @@ public class NetheriteElytraItem_Trinkets extends ArmorItem implements Trinket {
 
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(new LiteralText("Does not work in chestplate slot"));
+		tooltip.add(new TranslatableText("warning.netherite_elytra.trinkets"));
 		super.appendTooltip(stack, world, tooltip, context);
 	}
 
-	@Override
-	public void tick(PlayerEntity player, ItemStack stack) {
-	}
 }
