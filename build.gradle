@@ -39,6 +39,7 @@ dependencies {
 	modCompile "me.zeroeightsix:fiber:0.21.0-1"
 
 	modCompile "io.github.prospector:modmenu:1.14.5+build.30"
+	modCompile "com.github.emilyploszaj:trinkets:2.6.3"
 	modCompile "fi.dy.masa.malilib:malilib-fabric-1.16.1:0.10.0-dev.21+arne.1"
 	modRuntime "fi.dy.masa.tweakeroo:tweakeroo-fabric-1.16.1:0.10.0-dev.20200720.162627"
 	

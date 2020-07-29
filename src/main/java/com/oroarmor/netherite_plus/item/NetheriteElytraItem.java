@@ -23,4 +23,9 @@ public class NetheriteElytraItem extends ArmorItem {
 		return UniqueItemRegistry.ELYTRA.isItemInRegistry(itemStack.getItem()) && ElytraItem.isUsable(itemStack);
 	}
 
+	@Override
+	public EquipmentSlot getSlotType() {
+		return EquipmentSlot.CHEST;
+	}
+
 }
