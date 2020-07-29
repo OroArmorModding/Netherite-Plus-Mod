@@ -105,8 +105,8 @@ public final class NetheritePlusConfigManager {
 			NetheritePlusConfigManager.DURABILITIES.OPTIONS.forEach(
 					c -> System.out.println("durability:netherite_" + c.getName() + ":" + c.getIntegerValue()));
 
-			NetheritePlusConfigManager.DAMAGE.OPTIONS.forEach(
-					c -> System.out.println("damage:netherite_" + c.getName() + ":" + c.getDefaultDoubleValue()));
+			NetheritePlusConfigManager.DAMAGE.OPTIONS
+					.forEach(c -> System.out.println("damage:netherite_" + c.getName() + ":" + c.getDoubleValue()));
 		}
 	}
 
