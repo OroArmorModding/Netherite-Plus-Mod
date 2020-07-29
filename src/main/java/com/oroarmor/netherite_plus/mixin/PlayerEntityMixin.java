@@ -14,7 +14,8 @@ import net.minecraft.item.ItemStack;
 public class PlayerEntityMixin {
 
 	@Redirect(method = "checkFallFlying()Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
-	private Item tickMovement(ItemStack stack) {
+	private Item checkFallFlying(ItemStack stack) {
+		System.out.println(stack.getItem());
 		return UniqueItemRegistry.ELYTRA.getDefaultItem(stack.getItem());
 	}
 
