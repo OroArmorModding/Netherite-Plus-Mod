@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 
 import fi.dy.masa.malilib.config.ConfigUtils;
 import fi.dy.masa.malilib.config.options.ConfigBoolean;
+import fi.dy.masa.malilib.config.options.ConfigDouble;
 import fi.dy.masa.malilib.config.options.ConfigInteger;
 import fi.dy.masa.malilib.util.JsonUtils;
 import net.fabricmc.loader.api.FabricLoader;
@@ -64,6 +65,20 @@ public final class NetheritePlusConfigManager {
 				SHIELD_DURABILITY, BOW_DURABILITY, CROSSBOW_DURABILITY);
 	}
 
+	public static class DAMAGE {
+		public static final ConfigDouble BOW_DAMAGE_ADDITION = new ConfigDouble("bow_damage_addition", 0,
+				"Damage added to the bow after the multiplier");
+		public static final ConfigDouble CROSSBOW_DAMAGE_ADDITION = new ConfigDouble("crossbow_damage_addition", 0,
+				"Damage added to the crossbow after the multiplier");
+		public static final ConfigDouble BOW_DAMAGE_MULTIPLIER = new ConfigDouble("bow_damage_multiplier", 1,
+				"Multiplier of the normal bow damage");
+		public static final ConfigDouble CROSSBOW_DAMAGE_MULTIPLIER = new ConfigDouble("corssbow_damage_multiplier", 1,
+				"Multiplier of the normal crossbow damage");
+
+		public static final List<ConfigDouble> OPTIONS = ImmutableList.of(BOW_DAMAGE_ADDITION, BOW_DAMAGE_MULTIPLIER,
+				CROSSBOW_DAMAGE_ADDITION, CROSSBOW_DAMAGE_MULTIPLIER);
+	}
+
 	public static void load() {
 		File configFile = new File(getConfigDirectory(), CONFIG_FILE_NAME);
 
@@ -76,6 +91,8 @@ public final class NetheritePlusConfigManager {
 				ConfigUtils.readConfigBase(root, "enabled", NetheritePlusConfigManager.ENABLED.OPTIONS);
 
 				ConfigUtils.readConfigBase(root, "durabilities", NetheritePlusConfigManager.DURABILITIES.OPTIONS);
+
+				ConfigUtils.readConfigBase(root, "damage", NetheritePlusConfigManager.DAMAGE.OPTIONS);
 			}
 		} else {
 			save();
@@ -87,17 +104,21 @@ public final class NetheritePlusConfigManager {
 
 			NetheritePlusConfigManager.DURABILITIES.OPTIONS.forEach(
 					c -> System.out.println("durability:netherite_" + c.getName() + ":" + c.getIntegerValue()));
+
+			NetheritePlusConfigManager.DAMAGE.OPTIONS.forEach(
+					c -> System.out.println("damage:netherite_" + c.getName() + ":" + c.getDefaultDoubleValue()));
 		}
 	}
 
 	public static void save() {
 		File dir = getConfigDirectory();
 
-		if ((dir.exists() && dir.isDirectory()) || dir.mkdirs()) {
+		if (dir.exists() && dir.isDirectory() || dir.mkdirs()) {
 			JsonObject root = new JsonObject();
 
 			ConfigUtils.writeConfigBase(root, "enabled", NetheritePlusConfigManager.ENABLED.OPTIONS);
 			ConfigUtils.writeConfigBase(root, "durabilities", NetheritePlusConfigManager.DURABILITIES.OPTIONS);
+			ConfigUtils.writeConfigBase(root, "damage", NetheritePlusConfigManager.DAMAGE.OPTIONS);
 
 			JsonUtils.writeJsonToFile(root, new File(dir, CONFIG_FILE_NAME));
 		}

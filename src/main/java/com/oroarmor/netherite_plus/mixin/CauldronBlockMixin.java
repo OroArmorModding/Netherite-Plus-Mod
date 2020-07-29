@@ -49,7 +49,7 @@ public abstract class CauldronBlockMixin {
 			}
 
 			player.setStackInHand(hand, itemStack5);
-			this.setLevel(world, pos, state, i - 1);
+			setLevel(world, pos, state, i - 1);
 			player.incrementStat(Stats.CLEAN_SHULKER_BOX);
 			cir.setReturnValue(ActionResult.SUCCESS);
 		}

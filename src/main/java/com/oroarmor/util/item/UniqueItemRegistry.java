@@ -18,7 +18,7 @@ public final class UniqueItemRegistry {
 
 	private UniqueItemRegistry(Item defaultItem) {
 		this.defaultItem = defaultItem;
-		this.itemList = new ArrayList<Item>();
+		itemList = new ArrayList<>();
 	}
 
 	public void addItemToRegistry(Item item) {

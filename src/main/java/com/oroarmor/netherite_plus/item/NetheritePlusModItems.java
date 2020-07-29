@@ -10,6 +10,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.ElytraItem;
 import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.Item;
@@ -70,7 +71,7 @@ public final class NetheritePlusModItems {
 
 	private static void registerHorseArmor() {
 		NETHERITE_HORSE_ARMOR = register(new Identifier("netherite_plus", "netherite_horse_armor"),
-				new NetheriteHorseArmorItem(15, (new Item.Settings()).maxCount(1).group(ItemGroup.MISC).fireproof()));
+				new NetheriteHorseArmorItem(15, new Item.Settings().maxCount(1).group(ItemGroup.MISC).fireproof()));
 
 		UniqueItemRegistry.HORSE_ARMOR.addItemToRegistry(NETHERITE_HORSE_ARMOR);
 	}
@@ -141,7 +142,7 @@ public final class NetheritePlusModItems {
 		if (NetheritePlusConfigManager.ENABLED.ENABLED_FAKE_NETHERITE_BLOCKS.getBooleanValue()) {
 			FAKE_NETHERITE_BLOCK = register(new Identifier("netherite_plus", "fake_netherite_block"),
 					new BlockItem(NetheritePlusModBlocks.FAKE_NETHERITE_BLOCK,
-							(new Item.Settings()).group(ItemGroup.BUILDING_BLOCKS).fireproof()));
+							new Item.Settings().group(ItemGroup.BUILDING_BLOCKS).fireproof()));
 		}
 	}
 
@@ -184,14 +185,17 @@ public final class NetheritePlusModItems {
 
 	public static void registerItemsWithModelProvider() {
 
-		if (NetheritePlusConfigManager.ENABLED.ENABLED_ELYTRA.getBooleanValue())
+		if (NetheritePlusConfigManager.ENABLED.ENABLED_ELYTRA.getBooleanValue()) {
 			registerElytraModels();
+		}
 
-		if (NetheritePlusConfigManager.ENABLED.ENABLED_SHIELDS.getBooleanValue())
+		if (NetheritePlusConfigManager.ENABLED.ENABLED_SHIELDS.getBooleanValue()) {
 			registerShieldModels();
+		}
 
-		if (NetheritePlusConfigManager.ENABLED.ENABLED_FISHING_ROD.getBooleanValue())
+		if (NetheritePlusConfigManager.ENABLED.ENABLED_FISHING_ROD.getBooleanValue()) {
 			registerFishingRodModels();
+		}
 
 		if (NetheritePlusConfigManager.ENABLED.ENABLED_BOWS_AND_CROSSBOWS.getBooleanValue()) {
 			registerBowModels();
@@ -256,9 +260,9 @@ public final class NetheritePlusModItems {
 					if (livingEntity2 == null) {
 						return 0.0F;
 					}
-					return NetheriteCrossbowItem.isCharged(itemStack4) ? 0.0F
+					return CrossbowItem.isCharged(itemStack4) ? 0.0F
 							: (float) (itemStack4.getMaxUseTime() - livingEntity2.getItemUseTimeLeft())
-									/ (float) NetheriteCrossbowItem.getPullTime(itemStack4);
+									/ (float) CrossbowItem.getPullTime(itemStack4);
 				});
 		FabricModelPredicateProviderRegistry.register(NETHERITE_CROSSBOW, new Identifier("pulling"),
 				(itemStack3, clientWorld1, livingEntity1) -> {
@@ -266,14 +270,14 @@ public final class NetheritePlusModItems {
 						return 0.0F;
 					}
 					return livingEntity1.isUsingItem() && livingEntity1.getActiveItem() == itemStack3
-							&& !NetheriteCrossbowItem.isCharged(itemStack3) ? 1.0F : 0.0F;
+							&& !CrossbowItem.isCharged(itemStack3) ? 1.0F : 0.0F;
 				});
 		FabricModelPredicateProviderRegistry.register(NETHERITE_CROSSBOW, new Identifier("charged"),
 				(itemStack2, clientWorld4, livingEntity3) -> {
 					if (livingEntity3 == null) {
 						return 0.0F;
 					}
-					return NetheriteCrossbowItem.isCharged(itemStack2) ? 1.0F : 0.0F;
+					return CrossbowItem.isCharged(itemStack2) ? 1.0F : 0.0F;
 				});
 
 		FabricModelPredicateProviderRegistry.register(NETHERITE_CROSSBOW, new Identifier("firework"),
@@ -281,8 +285,8 @@ public final class NetheritePlusModItems {
 					if (livingEntity4 == null) {
 						return 0.0F;
 					}
-					return NetheriteCrossbowItem.isCharged(itemStack1)
-							&& NetheriteCrossbowItem.hasProjectile(itemStack1, Items.FIREWORK_ROCKET) ? 1.0F : 0.0F;
+					return CrossbowItem.isCharged(itemStack1)
+							&& CrossbowItem.hasProjectile(itemStack1, Items.FIREWORK_ROCKET) ? 1.0F : 0.0F;
 				});
 	}
 

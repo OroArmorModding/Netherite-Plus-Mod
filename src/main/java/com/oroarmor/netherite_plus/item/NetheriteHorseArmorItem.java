@@ -7,12 +7,13 @@ import net.minecraft.util.Identifier;
 
 public class NetheriteHorseArmorItem extends HorseArmorItem {
 
-   public NetheriteHorseArmorItem(int bonus, Settings settings) {
-      super(bonus, "diamond", settings);
-   }
-   @Override
-   @Environment(EnvType.CLIENT)
-   public Identifier getEntityTexture() {
-      return new Identifier("netherite_plus", "textures/entity/netherite_horse_armor.png");
-   }
+	public NetheriteHorseArmorItem(int bonus, Settings settings) {
+		super(bonus, "diamond", settings);
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public Identifier getEntityTexture() {
+		return new Identifier("netherite_plus", "textures/entity/netherite_horse_armor.png");
+	}
 }

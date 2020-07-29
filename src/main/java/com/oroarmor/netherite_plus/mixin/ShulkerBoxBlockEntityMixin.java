@@ -19,7 +19,8 @@ public class ShulkerBoxBlockEntityMixin {
 	@SuppressWarnings("unused")
 	@Inject(method = "canInsert", at = @At("HEAD"), cancellable = true)
 	public void canInsert(int slot, ItemStack stack, Direction dir, CallbackInfoReturnable<Boolean> cir) {
-		if (Block.getBlockFromItem(stack.getItem()) instanceof NetheriteShulkerBoxBlock)
+		if (Block.getBlockFromItem(stack.getItem()) instanceof NetheriteShulkerBoxBlock) {
 			cir.setReturnValue(false);
+		}
 	}
 }

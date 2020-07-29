@@ -76,15 +76,15 @@ public class BuiltinModelItemRendererMixin {
 					: NetheritePlusClientMod.NETHERITE_SHIELD_BASE_NO_PATTERN;
 			VertexConsumer vertexConsumer = spriteIdentifier.getSprite()
 					.getTextureSpecificVertexConsumer(ItemRenderer.method_29711(vertexConsumerProvider,
-							this.modelShield.getLayer(spriteIdentifier.getAtlasId()), true, stack.hasGlint()));
-			this.modelShield.method_23775().render(matrixStack, vertexConsumer, i, j, 1.0F, 1.0F, 1.0F, 1.0F);
+							modelShield.getLayer(spriteIdentifier.getAtlasId()), true, stack.hasGlint()));
+			modelShield.method_23775().render(matrixStack, vertexConsumer, i, j, 1.0F, 1.0F, 1.0F, 1.0F);
 			if (bl) {
 				List<Pair<BannerPattern, DyeColor>> list = BannerBlockEntity.method_24280(ShieldItem.getColor(stack),
 						BannerBlockEntity.getPatternListTag(stack));
 				BannerBlockEntityRenderer.renderCanvas(matrixStack, vertexConsumerProvider, i, j,
-						this.modelShield.method_23774(), spriteIdentifier, false, list, stack.hasGlint());
+						modelShield.method_23774(), spriteIdentifier, false, list, stack.hasGlint());
 			} else {
-				this.modelShield.method_23774().render(matrixStack, vertexConsumer, i, j, 1.0F, 1.0F, 1.0F, 1.0F);
+				modelShield.method_23774().render(matrixStack, vertexConsumer, i, j, 1.0F, 1.0F, 1.0F, 1.0F);
 			}
 
 			matrixStack.pop();
