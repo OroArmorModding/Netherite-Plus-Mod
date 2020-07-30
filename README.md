@@ -39,7 +39,7 @@ Do you feel that netherite wasn't fully utilized? Do you want more netherite too
   - Damage for Bows and Crossbows
 
 * Full Trinkets Support
-
+* Requires Malilib (for now)
 ## Potential Features
 * Netherite Fishing Rod
   - Maybe fishes in lava
