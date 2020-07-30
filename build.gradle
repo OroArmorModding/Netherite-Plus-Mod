@@ -43,16 +43,12 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	//modCompile "me.zeroeightsix:fiber:0.21.0-1"
-
 	modCompile "io.github.prospector:modmenu:1.14.5+build.30"
 	modCompileOnly "com.github.emilyploszaj:trinkets:2.6.3"
 	modCompile "fi.dy.masa.malilib:malilib-fabric-1.16.1:0.10.0-dev.21+arne.1"
+	
 	modRuntime "fi.dy.masa.tweakeroo:tweakeroo-fabric-1.16.1:0.10.0-dev.20200720.162627"
 	//modRuntime "com.github.emilyploszaj:trinkets:2.6.3"
-	
-	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
-	// You may need to force-disable transitiveness on them.
 }
 
 processResources {
