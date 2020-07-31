@@ -58,8 +58,8 @@ public class NetheriteBowItem extends BowItem {
 						}
 
 						persistentProjectileEntity.setDamage((persistentProjectileEntity.getDamage())
-								* NetheritePlusConfigManager.DAMAGE.BOW_DAMAGE_MULTIPLIER.getDoubleValue()
-								+ NetheritePlusConfigManager.DAMAGE.BOW_DAMAGE_ADDITION.getDoubleValue());
+								* NetheritePlusConfigManager.DAMAGE.BOW_DAMAGE_MULTIPLIER.getValue()
+								+ NetheritePlusConfigManager.DAMAGE.BOW_DAMAGE_ADDITION.getValue());
 
 						int k = EnchantmentHelper.getLevel(Enchantments.PUNCH, stack);
 						if (k > 0) {
