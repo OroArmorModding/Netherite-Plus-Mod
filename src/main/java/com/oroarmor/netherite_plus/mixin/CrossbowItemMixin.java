@@ -37,8 +37,8 @@ public class CrossbowItemMixin {
 			return;
 
 		persistentProjectileEntity.setDamage(persistentProjectileEntity.getDamage()
-				* NetheritePlusConfigManager.DAMAGE.CROSSBOW_DAMAGE_MULTIPLIER.getDoubleValue()
-				+ NetheritePlusConfigManager.DAMAGE.CROSSBOW_DAMAGE_ADDITION.getDoubleValue());
+				* NetheritePlusConfigManager.DAMAGE.CROSSBOW_DAMAGE_MULTIPLIER.getValue()
+				+ NetheritePlusConfigManager.DAMAGE.CROSSBOW_DAMAGE_ADDITION.getValue());
 		cir.setReturnValue(persistentProjectileEntity);
 	}
 }

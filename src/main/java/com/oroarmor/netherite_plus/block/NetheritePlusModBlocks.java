@@ -40,11 +40,11 @@ public class NetheritePlusModBlocks {
 	public static BlockEntityType<NetheriteShulkerBoxBlockEntity> NETHERITE_SHULKER_BOX_ENTITY;
 
 	static {
-		if (NetheritePlusConfigManager.ENABLED.ENABLED_SHULKER_BOXES.getBooleanValue()) {
+		if (NetheritePlusConfigManager.ENABLED.ENABLED_SHULKER_BOXES.getValue()) {
 			registerShulkerBoxBlocks();
 		}
 
-		if (NetheritePlusConfigManager.ENABLED.ENABLED_FAKE_NETHERITE_BLOCKS.getBooleanValue()) {
+		if (NetheritePlusConfigManager.ENABLED.ENABLED_FAKE_NETHERITE_BLOCKS.getValue()) {
 			FAKE_NETHERITE_BLOCK = register("fake_netherite_block",
 					new FakeNetheriteBlock(AbstractBlock.Settings.of(Material.METAL, MaterialColor.BLACK).requiresTool()
 							.strength(5.0F, 6.0F).sounds(BlockSoundGroup.METAL)));
