@@ -97,7 +97,7 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
 				if (bl2) {
 					player.openHandledScreen(netheriteShulkerBoxBlockEntity);
 					player.incrementStat(Stats.OPEN_SHULKER_BOX);
-					PiglinBrain.onGoldBlockBroken(player, true);
+					PiglinBrain.onGuardedBlockBroken(player, true);
 				}
 
 				return ActionResult.CONSUME;

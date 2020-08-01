@@ -13,7 +13,7 @@ public class NetheritePlusMod implements ModInitializer {
 		NetheritePlusConfigManager.config.readConfigFromFile();
 
 		NetheritePlusModItems.registerItems();
-
+		NetheritePlusDynamicDataPack.configureDynamicDataPack();
 		NetheritePlusRecipeSerializer.init();
 
 		ServerLifecycleEvents.SERVER_STOPPED.register(l -> NetheritePlusConfigManager.config.saveConfigToFile());
