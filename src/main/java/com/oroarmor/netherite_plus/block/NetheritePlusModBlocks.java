@@ -35,6 +35,8 @@ public class NetheritePlusModBlocks {
 
 	public static Block FAKE_NETHERITE_BLOCK;
 
+	public static Block NETHERITE_ANVIL_BLOCK;
+
 	// public static final Block NETHERITE_BEACON;
 
 	public static BlockEntityType<NetheriteShulkerBoxBlockEntity> NETHERITE_SHULKER_BOX_ENTITY;
@@ -49,6 +51,13 @@ public class NetheritePlusModBlocks {
 					new FakeNetheriteBlock(AbstractBlock.Settings.of(Material.METAL, MaterialColor.BLACK).requiresTool()
 							.strength(5.0F, 6.0F).sounds(BlockSoundGroup.METAL)));
 		}
+
+		if (NetheritePlusConfigManager.ENABLED.ENABLED_ANVIL.getValue()) {
+			NETHERITE_ANVIL_BLOCK = register("netherite_anvil",
+					new NetheriteAnvilBlock(AbstractBlock.Settings.of(Material.REPAIR_STATION, MaterialColor.IRON)
+							.requiresTool().strength(5.0F, 1200.0F).sounds(BlockSoundGroup.ANVIL)));
+		}
+
 		// NETHERITE_BEACON = register("netherite_beacon", new NetheriteBeaconBlock(
 		// AbstractBlock.Settings.of(Material.GLASS,
 		// MaterialColor.DIAMOND).strength(3.0F).lightLevel((state) -> {

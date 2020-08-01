@@ -35,9 +35,12 @@ public final class NetheritePlusConfigManager {
 		public static final ConfigItem<Boolean> ENABLED_FAKE_NETHERITE_BLOCKS = new ConfigItem<Boolean>(
 				"fake_netherite_blocks", true, "Enable or disable fake netherite blocks", ConfigItem.Type.BOOLEAN);
 
+		public static ConfigItem<Boolean> ENABLED_ANVIL = new ConfigItem<Boolean>("anvils", true,
+				"Enable or disable anvils", ConfigItem.Type.BOOLEAN);
+
 		public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(ENABLED_SHULKER_BOXES, ENABLED_ELYTRA,
 				ENABLED_SHIELDS, ENABLED_BOWS_AND_CROSSBOWS, ENABLED_FISHING_ROD, ENABLED_HORSE_ARMOR,
-				ENABLED_FAKE_NETHERITE_BLOCKS);
+				ENABLED_FAKE_NETHERITE_BLOCKS, ENABLED_ANVIL);
 
 		public static final ConfigItemGroup ENABLED_CONFIGS = new ConfigItemGroup(OPTIONS, "enabled");
 

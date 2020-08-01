@@ -23,6 +23,9 @@ repositories {
 		name = "NerdHubMC"
 		url = "https://maven.abusedmaster.xyz/"
 	}
+	maven {
+		url = 'https://raw.githubusercontent.com/Devan-Kerman/Devan-Repo/master/'
+	}
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -44,6 +47,7 @@ dependencies {
 	modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	//Libraries
+	modImplementation group: 'net.devtech', name: 'arrp', version: '0.2.6'
 	modCompile "io.github.prospector:modmenu:1.14.5+build.30"
 	modCompileOnly "com.github.emilyploszaj:trinkets:2.6.3"
 	
