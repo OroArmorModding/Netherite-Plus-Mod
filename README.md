@@ -31,6 +31,11 @@ Do you feel that netherite wasn't fully utilized? Do you want more netherite too
 * Netherite Shields
   - Don't burn in lava
   - Double durability
+
+* Netherite Anvils
+  - Never Break
+  - Same recipe as normal anvils, but with netherite instead of iron
+  - Grant a configurable xp boost, default of 50%
   
 * Configurations
   - All features are fully configable
@@ -39,7 +44,7 @@ Do you feel that netherite wasn't fully utilized? Do you want more netherite too
   - Damage for Bows and Crossbows
 
 * Full Trinkets Support
-* Requires Malilib (for now)
+
 ## Potential Features
 * Netherite Fishing Rod
   - Maybe fishes in lava
