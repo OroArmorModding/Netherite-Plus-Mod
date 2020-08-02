@@ -1,7 +1,7 @@
-package com.oroarmor.netherite_plus.render;
+package com.oroarmor.netherite_plus.client.render;
 
-import com.oroarmor.netherite_plus.NetheritePlusClientMod;
 import com.oroarmor.netherite_plus.block.entity.NetheriteShulkerBoxBlockEntity;
+import com.oroarmor.netherite_plus.client.NetheritePlusTextures;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -43,10 +43,10 @@ public class NetheriteShulkerBoxBlockEntityRenderer extends BlockEntityRenderer<
 		DyeColor dyeColor = shulkerBoxBlockEntity.getColor();
 		SpriteIdentifier spriteIdentifier2;
 		if (dyeColor == null) {
-			spriteIdentifier2 = new SpriteIdentifier(NetheritePlusClientMod.SHULKER_BOXES_ATLAS_TEXTURE,
+			spriteIdentifier2 = new SpriteIdentifier(NetheritePlusTextures.SHULKER_BOXES_ATLAS_TEXTURE,
 					new Identifier("netherite_plus", "entity/netherite_shulker/netherite_shulker"));
 		} else {
-			spriteIdentifier2 = new SpriteIdentifier(NetheritePlusClientMod.SHULKER_BOXES_ATLAS_TEXTURE, new Identifier(
+			spriteIdentifier2 = new SpriteIdentifier(NetheritePlusTextures.SHULKER_BOXES_ATLAS_TEXTURE, new Identifier(
 					"netherite_plus", "entity/netherite_shulker/netherite_shulker_" + dyeColor.getName()));
 		}
 

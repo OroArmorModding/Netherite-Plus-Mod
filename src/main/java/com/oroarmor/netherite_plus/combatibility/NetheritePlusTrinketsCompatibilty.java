@@ -1,4 +1,4 @@
-package com.oroarmor.netherite_plus;
+package com.oroarmor.netherite_plus.combatibility;
 
 import com.oroarmor.netherite_plus.item.NetheriteElytraItem_Trinkets;
 

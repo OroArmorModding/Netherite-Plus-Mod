@@ -2,7 +2,7 @@ package com.oroarmor.netherite_plus.item;
 
 import java.util.function.Consumer;
 
-import com.oroarmor.netherite_plus.NetheritePlusConfigManager;
+import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -58,8 +58,8 @@ public class NetheriteBowItem extends BowItem {
 						}
 
 						persistentProjectileEntity.setDamage((persistentProjectileEntity.getDamage())
-								* NetheritePlusConfigManager.DAMAGE.BOW_DAMAGE_MULTIPLIER.getValue()
-								+ NetheritePlusConfigManager.DAMAGE.BOW_DAMAGE_ADDITION.getValue());
+								* NetheritePlusConfig.DAMAGE.BOW_DAMAGE_MULTIPLIER.getValue()
+								+ NetheritePlusConfig.DAMAGE.BOW_DAMAGE_ADDITION.getValue());
 
 						int k = EnchantmentHelper.getLevel(Enchantments.PUNCH, stack);
 						if (k > 0) {

@@ -1,7 +1,7 @@
 package com.oroarmor.netherite_plus.block;
 
-import com.oroarmor.netherite_plus.NetheritePlusConfigManager;
 import com.oroarmor.netherite_plus.block.entity.NetheriteShulkerBoxBlockEntity;
+import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -14,7 +14,7 @@ import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-public class NetheritePlusModBlocks {
+public class NetheritePlusBlocks {
 	public static Block NETHERITE_WHITE_SHULKER_BOX;
 	public static Block NETHERITE_SHULKER_BOX;
 	public static Block NETHERITE_ORANGE_SHULKER_BOX;
@@ -42,17 +42,17 @@ public class NetheritePlusModBlocks {
 	public static BlockEntityType<NetheriteShulkerBoxBlockEntity> NETHERITE_SHULKER_BOX_ENTITY;
 
 	static {
-		if (NetheritePlusConfigManager.ENABLED.ENABLED_SHULKER_BOXES.getValue()) {
+		if (NetheritePlusConfig.ENABLED.ENABLED_SHULKER_BOXES.getValue()) {
 			registerShulkerBoxBlocks();
 		}
 
-		if (NetheritePlusConfigManager.ENABLED.ENABLED_FAKE_NETHERITE_BLOCKS.getValue()) {
+		if (NetheritePlusConfig.ENABLED.ENABLED_FAKE_NETHERITE_BLOCKS.getValue()) {
 			FAKE_NETHERITE_BLOCK = register("fake_netherite_block",
 					new FakeNetheriteBlock(AbstractBlock.Settings.of(Material.METAL, MaterialColor.BLACK).requiresTool()
 							.strength(5.0F, 6.0F).sounds(BlockSoundGroup.METAL)));
 		}
 
-		if (NetheritePlusConfigManager.ENABLED.ENABLED_ANVIL.getValue()) {
+		if (NetheritePlusConfig.ENABLED.ENABLED_ANVIL.getValue()) {
 			NETHERITE_ANVIL_BLOCK = register("netherite_anvil",
 					new NetheriteAnvilBlock(AbstractBlock.Settings.of(Material.REPAIR_STATION, MaterialColor.IRON)
 							.requiresTool().strength(5.0F, 1200.0F).sounds(BlockSoundGroup.ANVIL)));

@@ -5,9 +5,9 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.oroarmor.netherite_plus.NetheritePlusConfigManager;
 import com.oroarmor.netherite_plus.NetheritePlusMod;
-import com.oroarmor.netherite_plus.block.NetheritePlusModBlocks;
+import com.oroarmor.netherite_plus.block.NetheritePlusBlocks;
+import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -41,7 +41,7 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
 
 	@Override
 	protected boolean canUse(BlockState state) {
-		return state.isOf(NetheritePlusModBlocks.NETHERITE_ANVIL_BLOCK);
+		return state.isOf(NetheritePlusBlocks.NETHERITE_ANVIL_BLOCK);
 	}
 
 	@Override
@@ -222,7 +222,7 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
 			}
 
 			// this is the important line that changes things
-			double cost = ((1d - NetheritePlusConfigManager.ANVIL.XP_REDUCTION.getValue()) * (j + i));
+			double cost = ((1d - NetheritePlusConfig.ANVIL.XP_REDUCTION.getValue()) * (j + i));
 
 			this.levelCost.set(cost < 1 ? 1 : (int) cost);
 			if (i <= 0) {

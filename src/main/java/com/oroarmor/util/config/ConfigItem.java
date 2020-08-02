@@ -2,9 +2,23 @@ package com.oroarmor.util.config;
 
 import com.google.gson.JsonElement;
 
-public class ConfigItem<T> {
+public final class ConfigItem<T> {
 	public enum Type {
-		BOOLEAN, INTEGER, DOUBLE
+		BOOLEAN, INTEGER, DOUBLE;
+
+		public static Type getTypeFrom(Object defaultValue) {
+			if (defaultValue instanceof Boolean) {
+				return BOOLEAN;
+			}
+			if (defaultValue instanceof Integer) {
+				return INTEGER;
+			}
+			if (defaultValue instanceof Double) {
+				return DOUBLE;
+			}
+
+			return null;
+		}
 
 	}
 
@@ -16,12 +30,12 @@ public class ConfigItem<T> {
 
 	protected final Type type;
 
-	public ConfigItem(String name, T defaultValue, String details, ConfigItem.Type type) {
+	public ConfigItem(String name, T defaultValue, String details) {
 		this.name = name;
 		this.details = details;
 		this.defaultValue = defaultValue;
 		this.value = defaultValue;
-		this.type = type;
+		this.type = Type.getTypeFrom(defaultValue);
 	}
 
 	public T getValue() {
@@ -56,6 +70,9 @@ public class ConfigItem<T> {
 			case DOUBLE:
 				newValue = (T) (Object) element.getAsDouble();
 				break;
+
+			default:
+				return;
 		}
 
 		if (newValue != null) {
@@ -74,7 +91,7 @@ public class ConfigItem<T> {
 
 	@Override
 	public String toString() {
-		return name + ":" + value + " # " + details;
+		return name + ":" + value + "\t# " + details;
 	}
 
 }

@@ -24,7 +24,7 @@
       "com.oroarmor.netherite_plus.NetheritePlusMod"
     ],
 	"client": [
-		"com.oroarmor.netherite_plus.NetheritePlusClientMod"
+		"com.oroarmor.netherite_plus.client.NetheritePlusClientMod"
 	]
   },
   "mixins": [

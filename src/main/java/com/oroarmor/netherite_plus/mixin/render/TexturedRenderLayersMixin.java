@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.oroarmor.netherite_plus.NetheritePlusClientMod;
+import com.oroarmor.netherite_plus.client.NetheritePlusTextures;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -20,6 +20,6 @@ public class TexturedRenderLayersMixin {
 	@SuppressWarnings("unused")
 	@Inject(at = @At("HEAD"), method = "addDefaultTextures(Ljava/util/function/Consumer;)V")
 	private static void onAddDefaultTextures(Consumer<SpriteIdentifier> consumer, CallbackInfo info) {
-		NetheritePlusClientMod.makeAtlases(consumer);
+		NetheritePlusTextures.makeAtlases(consumer);
 	}
 }
