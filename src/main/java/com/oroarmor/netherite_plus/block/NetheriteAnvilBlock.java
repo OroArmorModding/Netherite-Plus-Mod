@@ -1,8 +1,9 @@
 package com.oroarmor.netherite_plus.block;
 
+import com.oroarmor.netherite_plus.screen.NetheriteAnvilScreenHandler;
+
 import net.minecraft.block.AnvilBlock;
 import net.minecraft.block.BlockState;
-import net.minecraft.screen.AnvilScreenHandler;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
@@ -21,7 +22,7 @@ public class NetheriteAnvilBlock extends AnvilBlock {
 	@Override
 	public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
 		return new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) -> {
-			return new AnvilScreenHandler(i, playerInventory, ScreenHandlerContext.create(world, pos));
+			return new NetheriteAnvilScreenHandler(i, playerInventory, ScreenHandlerContext.create(world, pos));
 		}, TITLE);
 	}
 

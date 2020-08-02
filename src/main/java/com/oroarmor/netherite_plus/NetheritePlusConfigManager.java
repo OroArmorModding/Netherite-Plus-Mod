@@ -85,8 +85,18 @@ public final class NetheritePlusConfigManager {
 		public static final ConfigItemGroup DAMAGE_CONFIGS = new ConfigItemGroup(OPTIONS, "damage");
 	}
 
+	public static class ANVIL {
+		public static final ConfigItem<Double> XP_REDUCTION = new ConfigItem<Double>("xp_reduction", 0.5,
+				"XP Reduction in anvil", ConfigItem.Type.DOUBLE);
+
+		public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(XP_REDUCTION);
+
+		public static final ConfigItemGroup ANVIL_CONFIGS = new ConfigItemGroup(OPTIONS, "anvil");
+
+	}
+
 	private static final List<ConfigItemGroup> CONFIGS = ImmutableList.of(ENABLED.ENABLED_CONFIGS,
-			DURABILITIES.DURABILITIES_CONFIGS, DAMAGE.DAMAGE_CONFIGS);
+			DURABILITIES.DURABILITIES_CONFIGS, DAMAGE.DAMAGE_CONFIGS, ANVIL.ANVIL_CONFIGS);
 
 	public static final Config config = new Config(CONFIGS,
 			new File(FabricLoader.getInstance().getConfigDir().toFile(), CONFIG_FILE_NAME));

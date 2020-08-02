@@ -4,14 +4,19 @@ import java.util.Arrays;
 import java.util.function.Consumer;
 
 import com.oroarmor.netherite_plus.block.NetheritePlusModBlocks;
+import com.oroarmor.netherite_plus.client.gui.screen.NetheriteAnvilScreen;
 import com.oroarmor.netherite_plus.item.NetheritePlusModItems;
 import com.oroarmor.netherite_plus.render.NetheriteShulkerBoxBlockEntityRenderer;
+import com.oroarmor.netherite_plus.screen.NetheriteAnvilScreenHandler;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
+import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.SpriteIdentifier;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.text.Text;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 
@@ -37,6 +42,16 @@ public class NetheritePlusClientMod implements ClientModInitializer {
 				.register(NetheritePlusClientMod::registerShieldTextures);
 
 		NetheritePlusModItems.registerItemsWithModelProvider();
+
+		ScreenRegistry.register(NetheritePlusMod.NETHERITE_ANVIL,
+				new ScreenRegistry.Factory<NetheriteAnvilScreenHandler, NetheriteAnvilScreen>() {
+					@Override
+					public NetheriteAnvilScreen create(NetheriteAnvilScreenHandler handler, PlayerInventory inventory,
+							Text title) {
+						return new NetheriteAnvilScreen(handler, inventory, title);
+					}
+				});
+
 	}
 
 	public static void makeAtlases(Consumer<SpriteIdentifier> consumer) {
