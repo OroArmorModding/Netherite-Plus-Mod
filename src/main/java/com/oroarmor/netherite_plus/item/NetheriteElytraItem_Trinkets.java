@@ -17,6 +17,7 @@ import net.minecraft.client.render.entity.model.ElytraEntityModel;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
@@ -65,6 +66,18 @@ public class NetheriteElytraItem_Trinkets extends NetheriteElytraItem implements
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
 		tooltip.add(new TranslatableText("warning.netherite_elytra.trinkets"));
 		super.appendTooltip(stack, world, tooltip, context);
+	}
+
+	@Override
+	public void onEquip(PlayerEntity player, ItemStack stack) {
+		player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).setBaseValue(
+				4 + player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).getBaseValue());
+	}
+
+	@Override
+	public void onUnequip(PlayerEntity player, ItemStack stack) {
+		player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).setBaseValue(
+				-4 + player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).getBaseValue());
 	}
 
 }

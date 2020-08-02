@@ -60,6 +60,8 @@ public final class NetheritePlusModItems {
 
 	public static Item FAKE_NETHERITE_BLOCK;
 
+	public static Item NETHERITE_ANVIL_ITEM;
+
 	private static void registerFishingRod() {
 		NETHERITE_FISHING_ROD = register(new Identifier("netherite_plus", "netherite_fishing_rod"),
 				new NetheriteFishingRodItem(new Item.Settings()
@@ -141,6 +143,12 @@ public final class NetheritePlusModItems {
 			FAKE_NETHERITE_BLOCK = register(new Identifier("netherite_plus", "fake_netherite_block"),
 					new BlockItem(NetheritePlusModBlocks.FAKE_NETHERITE_BLOCK,
 							new Item.Settings().group(ItemGroup.BUILDING_BLOCKS).fireproof()));
+		}
+
+		if (NetheritePlusConfigManager.ENABLED.ENABLED_ANVIL.getValue()) {
+			NETHERITE_ANVIL_ITEM = register(new Identifier("netherite_plus", "netherite_anvil"),
+					new BlockItem(NetheritePlusModBlocks.NETHERITE_ANVIL_BLOCK,
+							new Item.Settings().group(ItemGroup.DECORATIONS).fireproof()));
 		}
 	}
 
