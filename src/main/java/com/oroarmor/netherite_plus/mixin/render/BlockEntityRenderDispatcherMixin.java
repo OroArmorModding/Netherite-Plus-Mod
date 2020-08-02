@@ -6,8 +6,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.oroarmor.netherite_plus.block.NetheritePlusModBlocks;
-import com.oroarmor.netherite_plus.render.NetheriteShulkerBoxBlockEntityRenderer;
+import com.oroarmor.netherite_plus.block.NetheritePlusBlocks;
+import com.oroarmor.netherite_plus.client.render.NetheriteShulkerBoxBlockEntityRenderer;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -27,7 +27,7 @@ public abstract class BlockEntityRenderDispatcherMixin {
 	@SuppressWarnings("unused")
 	@Inject(method = "<init>", at = @At("RETURN"))
 	public void addNetheriteShulkerBoxRenderer(CallbackInfo info) {
-		this.register(NetheritePlusModBlocks.NETHERITE_SHULKER_BOX_ENTITY,
+		this.register(NetheritePlusBlocks.NETHERITE_SHULKER_BOX_ENTITY,
 				new NetheriteShulkerBoxBlockEntityRenderer((BlockEntityRenderDispatcher) (Object) this));
 	}
 }

@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.oroarmor.netherite_plus.render.NetheriteElytraFeatureRenderer;
+import com.oroarmor.netherite_plus.client.render.NetheriteElytraFeatureRenderer;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

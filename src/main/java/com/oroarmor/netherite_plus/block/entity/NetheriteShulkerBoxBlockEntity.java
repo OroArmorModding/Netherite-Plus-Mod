@@ -3,7 +3,7 @@ package com.oroarmor.netherite_plus.block.entity;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import com.oroarmor.netherite_plus.block.NetheritePlusModBlocks;
+import com.oroarmor.netherite_plus.block.NetheritePlusBlocks;
 import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
 
 import net.fabricmc.api.EnvType;
@@ -48,7 +48,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 	private boolean cachedColorUpdateNeeded;
 
 	public NetheriteShulkerBoxBlockEntity(DyeColor color) {
-		super(NetheritePlusModBlocks.NETHERITE_SHULKER_BOX_ENTITY);
+		super(NetheritePlusBlocks.NETHERITE_SHULKER_BOX_ENTITY);
 		inventory = DefaultedList.ofSize(27, ItemStack.EMPTY);
 		animationStage = AnimationStage.CLOSED;
 		cachedColor = color;

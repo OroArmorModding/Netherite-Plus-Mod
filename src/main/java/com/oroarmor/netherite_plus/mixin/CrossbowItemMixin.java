@@ -7,8 +7,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import com.oroarmor.netherite_plus.NetheritePlusConfigManager;
-import com.oroarmor.netherite_plus.item.NetheritePlusModItems;
+import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
+import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 import com.oroarmor.util.item.UniqueItemRegistry;
 
 import net.minecraft.entity.LivingEntity;
@@ -33,12 +33,12 @@ public class CrossbowItemMixin {
 			CallbackInfoReturnable<PersistentProjectileEntity> cir, ArrowItem arrowItem,
 			PersistentProjectileEntity persistentProjectileEntity) {
 
-		if (crossbow.getItem() != NetheritePlusModItems.NETHERITE_CROSSBOW)
+		if (crossbow.getItem() != NetheritePlusItems.NETHERITE_CROSSBOW)
 			return;
 
 		persistentProjectileEntity.setDamage(persistentProjectileEntity.getDamage()
-				* NetheritePlusConfigManager.DAMAGE.CROSSBOW_DAMAGE_MULTIPLIER.getValue()
-				+ NetheritePlusConfigManager.DAMAGE.CROSSBOW_DAMAGE_ADDITION.getValue());
+				* NetheritePlusConfig.DAMAGE.CROSSBOW_DAMAGE_MULTIPLIER.getValue()
+				+ NetheritePlusConfig.DAMAGE.CROSSBOW_DAMAGE_ADDITION.getValue());
 		cir.setReturnValue(persistentProjectileEntity);
 	}
 }

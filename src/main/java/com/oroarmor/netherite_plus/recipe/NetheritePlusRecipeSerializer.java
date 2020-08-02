@@ -1,6 +1,6 @@
 package com.oroarmor.netherite_plus.recipe;
 
-import com.oroarmor.netherite_plus.NetheritePlusConfigManager;
+import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
@@ -17,12 +17,12 @@ public final class NetheritePlusRecipeSerializer {
 	}
 
 	public static void init() {
-		NETHERITE_SHULKER_BOX = NetheritePlusConfigManager.ENABLED.ENABLED_SHULKER_BOXES.getValue()
+		NETHERITE_SHULKER_BOX = NetheritePlusConfig.ENABLED.ENABLED_SHULKER_BOXES.getValue()
 				? register("crafting_special_netheriteshulkerboxcoloring",
 						new SpecialRecipeSerializer<>(NetheriteShulkerBoxColoringRecipe::new))
 				: null;
 
-		NETHERITE_SHIELD = NetheritePlusConfigManager.ENABLED.ENABLED_SHIELDS.getValue()
+		NETHERITE_SHIELD = NetheritePlusConfig.ENABLED.ENABLED_SHIELDS.getValue()
 				? register("crafting_special_netheriteshielddecoration",
 						new SpecialRecipeSerializer<>(NetheriteShieldDecorationRecipe::new))
 				: null;

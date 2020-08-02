@@ -289,42 +289,42 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
 
 	public static Block get(DyeColor dyeColor) {
 		if (dyeColor == null) {
-			return NetheritePlusModBlocks.NETHERITE_SHULKER_BOX;
+			return NetheritePlusBlocks.NETHERITE_SHULKER_BOX;
 		}
 		switch (dyeColor) {
 			case WHITE:
-				return NetheritePlusModBlocks.NETHERITE_WHITE_SHULKER_BOX;
+				return NetheritePlusBlocks.NETHERITE_WHITE_SHULKER_BOX;
 			case ORANGE:
-				return NetheritePlusModBlocks.NETHERITE_ORANGE_SHULKER_BOX;
+				return NetheritePlusBlocks.NETHERITE_ORANGE_SHULKER_BOX;
 			case MAGENTA:
-				return NetheritePlusModBlocks.NETHERITE_MAGENTA_SHULKER_BOX;
+				return NetheritePlusBlocks.NETHERITE_MAGENTA_SHULKER_BOX;
 			case LIGHT_BLUE:
-				return NetheritePlusModBlocks.NETHERITE_LIGHT_BLUE_SHULKER_BOX;
+				return NetheritePlusBlocks.NETHERITE_LIGHT_BLUE_SHULKER_BOX;
 			case YELLOW:
-				return NetheritePlusModBlocks.NETHERITE_YELLOW_SHULKER_BOX;
+				return NetheritePlusBlocks.NETHERITE_YELLOW_SHULKER_BOX;
 			case LIME:
-				return NetheritePlusModBlocks.NETHERITE_LIME_SHULKER_BOX;
+				return NetheritePlusBlocks.NETHERITE_LIME_SHULKER_BOX;
 			case PINK:
-				return NetheritePlusModBlocks.NETHERITE_PINK_SHULKER_BOX;
+				return NetheritePlusBlocks.NETHERITE_PINK_SHULKER_BOX;
 			case GRAY:
-				return NetheritePlusModBlocks.NETHERITE_GRAY_SHULKER_BOX;
+				return NetheritePlusBlocks.NETHERITE_GRAY_SHULKER_BOX;
 			case LIGHT_GRAY:
-				return NetheritePlusModBlocks.NETHERITE_LIGHT_GRAY_SHULKER_BOX;
+				return NetheritePlusBlocks.NETHERITE_LIGHT_GRAY_SHULKER_BOX;
 			case CYAN:
-				return NetheritePlusModBlocks.NETHERITE_CYAN_SHULKER_BOX;
+				return NetheritePlusBlocks.NETHERITE_CYAN_SHULKER_BOX;
 			case PURPLE:
 			default:
-				return NetheritePlusModBlocks.NETHERITE_PURPLE_SHULKER_BOX;
+				return NetheritePlusBlocks.NETHERITE_PURPLE_SHULKER_BOX;
 			case BLUE:
-				return NetheritePlusModBlocks.NETHERITE_BLUE_SHULKER_BOX;
+				return NetheritePlusBlocks.NETHERITE_BLUE_SHULKER_BOX;
 			case BROWN:
-				return NetheritePlusModBlocks.NETHERITE_BROWN_SHULKER_BOX;
+				return NetheritePlusBlocks.NETHERITE_BROWN_SHULKER_BOX;
 			case GREEN:
-				return NetheritePlusModBlocks.NETHERITE_GREEN_SHULKER_BOX;
+				return NetheritePlusBlocks.NETHERITE_GREEN_SHULKER_BOX;
 			case RED:
-				return NetheritePlusModBlocks.NETHERITE_RED_SHULKER_BOX;
+				return NetheritePlusBlocks.NETHERITE_RED_SHULKER_BOX;
 			case BLACK:
-				return NetheritePlusModBlocks.NETHERITE_BLACK_SHULKER_BOX;
+				return NetheritePlusBlocks.NETHERITE_BLACK_SHULKER_BOX;
 		}
 	}
 

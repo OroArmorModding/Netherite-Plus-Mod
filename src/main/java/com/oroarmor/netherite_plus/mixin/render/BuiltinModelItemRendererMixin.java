@@ -10,10 +10,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.mojang.datafixers.util.Pair;
-import com.oroarmor.netherite_plus.NetheritePlusClientMod;
 import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
 import com.oroarmor.netherite_plus.block.entity.NetheriteShulkerBoxBlockEntity;
-import com.oroarmor.netherite_plus.item.NetheritePlusModItems;
+import com.oroarmor.netherite_plus.client.NetheritePlusTextures;
+import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -68,12 +68,12 @@ public class BuiltinModelItemRendererMixin {
 
 			BlockEntityRenderDispatcher.INSTANCE.renderEntity(blockEntity9, matrixStack, vertexConsumerProvider, i, j);
 			info.cancel();
-		} else if (item == NetheritePlusModItems.NETHERITE_SHIELD) {
+		} else if (item == NetheritePlusItems.NETHERITE_SHIELD) {
 			boolean bl = stack.getSubTag("BlockEntityTag") != null;
 			matrixStack.push();
 			matrixStack.scale(1.0F, -1.0F, -1.0F);
-			SpriteIdentifier spriteIdentifier = bl ? NetheritePlusClientMod.NETHERITE_SHIELD_BASE
-					: NetheritePlusClientMod.NETHERITE_SHIELD_BASE_NO_PATTERN;
+			SpriteIdentifier spriteIdentifier = bl ? NetheritePlusTextures.NETHERITE_SHIELD_BASE
+					: NetheritePlusTextures.NETHERITE_SHIELD_BASE_NO_PATTERN;
 			VertexConsumer vertexConsumer = spriteIdentifier.getSprite()
 					.getTextureSpecificVertexConsumer(ItemRenderer.method_29711(vertexConsumerProvider,
 							modelShield.getLayer(spriteIdentifier.getAtlasId()), true, stack.hasGlint()));

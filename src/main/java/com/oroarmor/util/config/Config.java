@@ -14,6 +14,7 @@ public class Config {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
 	private final List<ConfigItemGroup> configs;
+
 	private final File configFile;
 
 	public Config(List<ConfigItemGroup> configs, File configFile) {
@@ -45,4 +46,7 @@ public class Config {
 		}
 	}
 
+	public List<ConfigItemGroup> getConfigs() {
+		return configs;
+	}
 }

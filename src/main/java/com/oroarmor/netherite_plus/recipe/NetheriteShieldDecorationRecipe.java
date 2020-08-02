@@ -1,6 +1,6 @@
 package com.oroarmor.netherite_plus.recipe;
 
-import com.oroarmor.netherite_plus.item.NetheritePlusModItems;
+import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -33,7 +33,7 @@ public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
 
 					itemStack2 = itemStack3;
 				} else {
-					if (itemStack3.getItem() != NetheritePlusModItems.NETHERITE_SHIELD) {
+					if (itemStack3.getItem() != NetheritePlusItems.NETHERITE_SHIELD) {
 						return false;
 					}
 
@@ -63,7 +63,7 @@ public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
 			if (!itemStack3.isEmpty()) {
 				if (itemStack3.getItem() instanceof BannerItem) {
 					itemStack = itemStack3;
-				} else if (itemStack3.getItem() == NetheritePlusModItems.NETHERITE_SHIELD) {
+				} else if (itemStack3.getItem() == NetheritePlusItems.NETHERITE_SHIELD) {
 					itemStack2 = itemStack3.copy();
 				}
 			}
