@@ -32,7 +32,7 @@ public class ConfigItemGroup {
 	public JsonObject toJson() {
 		JsonObject object = new JsonObject();
 
-		configs.stream().forEachOrdered(c -> this.parseConfig(c, object));
+		configs.stream().forEachOrdered(c -> parseConfig(c, object));
 
 		return object;
 	}

@@ -9,8 +9,7 @@ import com.oroarmor.netherite_plus.screen.NetheriteAnvilScreenHandler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.text.Text;
+import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry.Factory;
 
 public class NetheritePlusClientMod implements ClientModInitializer {
 	@Override
@@ -23,13 +22,8 @@ public class NetheritePlusClientMod implements ClientModInitializer {
 		NetheritePlusModelProvider.registerItemsWithModelProvider();
 
 		ScreenRegistry.register(NetheritePlusMod.NETHERITE_ANVIL,
-				new ScreenRegistry.Factory<NetheriteAnvilScreenHandler, NetheriteAnvilScreen>() {
-					@Override
-					public NetheriteAnvilScreen create(NetheriteAnvilScreenHandler handler, PlayerInventory inventory,
-							Text title) {
-						return new NetheriteAnvilScreen(handler, inventory, title);
-					}
-				});
+				(Factory<NetheriteAnvilScreenHandler, NetheriteAnvilScreen>) (handler, inventory,
+						title) -> new NetheriteAnvilScreen(handler, inventory, title));
 
 	}
 }

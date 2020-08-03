@@ -35,8 +35,8 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
 
 	public NetheriteAnvilScreenHandler(int syncId, PlayerInventory inventory, ScreenHandlerContext context) {
 		super(NetheritePlusMod.NETHERITE_ANVIL, syncId, inventory, context);
-		this.levelCost = Property.create();
-		this.addProperty(this.levelCost);
+		levelCost = Property.create();
+		addProperty(levelCost);
 	}
 
 	@Override
@@ -46,49 +46,49 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
 
 	@Override
 	protected boolean canTakeOutput(PlayerEntity player, boolean present) {
-		return (player.abilities.creativeMode || player.experienceLevel >= this.levelCost.get())
-				&& this.levelCost.get() > 0;
+		return (player.abilities.creativeMode || player.experienceLevel >= levelCost.get())
+				&& levelCost.get() > 0;
 	}
 
 	@Override
 	protected ItemStack onTakeOutput(PlayerEntity player, ItemStack stack) {
 		if (!player.abilities.creativeMode) {
-			player.addExperienceLevels(-this.levelCost.get());
+			player.addExperienceLevels(-levelCost.get());
 		}
 
-		this.input.setStack(0, ItemStack.EMPTY);
-		if (this.repairItemUsage > 0) {
-			ItemStack itemStack = this.input.getStack(1);
-			if (!itemStack.isEmpty() && itemStack.getCount() > this.repairItemUsage) {
-				itemStack.decrement(this.repairItemUsage);
-				this.input.setStack(1, itemStack);
+		input.setStack(0, ItemStack.EMPTY);
+		if (repairItemUsage > 0) {
+			ItemStack itemStack = input.getStack(1);
+			if (!itemStack.isEmpty() && itemStack.getCount() > repairItemUsage) {
+				itemStack.decrement(repairItemUsage);
+				input.setStack(1, itemStack);
 			} else {
-				this.input.setStack(1, ItemStack.EMPTY);
+				input.setStack(1, ItemStack.EMPTY);
 			}
 		} else {
-			this.input.setStack(1, ItemStack.EMPTY);
+			input.setStack(1, ItemStack.EMPTY);
 		}
 
-		this.levelCost.set(0);
+		levelCost.set(0);
 		return stack;
 	}
 
 	@Override
 	public void updateResult() {
-		ItemStack itemStack = this.input.getStack(0);
-		this.levelCost.set(1);
+		ItemStack itemStack = input.getStack(0);
+		levelCost.set(1);
 		int i = 0;
 		int j = 0;
 		int k = 0;
 		if (itemStack.isEmpty()) {
-			this.output.setStack(0, ItemStack.EMPTY);
-			this.levelCost.set(0);
+			output.setStack(0, ItemStack.EMPTY);
+			levelCost.set(0);
 		} else {
 			ItemStack itemStack2 = itemStack.copy();
-			ItemStack itemStack3 = this.input.getStack(1);
+			ItemStack itemStack3 = input.getStack(1);
 			Map<Enchantment, Integer> map = EnchantmentHelper.get(itemStack2);
 			j = j + itemStack.getRepairCost() + (itemStack3.isEmpty() ? 0 : itemStack3.getRepairCost());
-			this.repairItemUsage = 0;
+			repairItemUsage = 0;
 			if (!itemStack3.isEmpty()) {
 				boolean bl = itemStack3.getItem() == Items.ENCHANTED_BOOK
 						&& !EnchantedBookItem.getEnchantmentTag(itemStack3).isEmpty();
@@ -98,8 +98,8 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
 				if (itemStack2.isDamageable() && itemStack2.getItem().canRepair(itemStack, itemStack3)) {
 					o = Math.min(itemStack2.getDamage(), itemStack2.getMaxDamage() / 4);
 					if (o <= 0) {
-						this.output.setStack(0, ItemStack.EMPTY);
-						this.levelCost.set(0);
+						output.setStack(0, ItemStack.EMPTY);
+						levelCost.set(0);
 						return;
 					}
 
@@ -110,11 +110,11 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
 						o = Math.min(itemStack2.getDamage(), itemStack2.getMaxDamage() / 4);
 					}
 
-					this.repairItemUsage = p;
+					repairItemUsage = p;
 				} else {
 					if (!bl && (itemStack2.getItem() != itemStack3.getItem() || !itemStack2.isDamageable())) {
-						this.output.setStack(0, ItemStack.EMPTY);
-						this.levelCost.set(0);
+						output.setStack(0, ItemStack.EMPTY);
+						levelCost.set(0);
 						return;
 					}
 
@@ -144,8 +144,8 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
 						do {
 							if (!var24.hasNext()) {
 								if (bl3 && !bl2) {
-									this.output.setStack(0, ItemStack.EMPTY);
-									this.levelCost.set(0);
+									output.setStack(0, ItemStack.EMPTY);
+									levelCost.set(0);
 									return;
 								}
 								break label155;
@@ -158,7 +158,7 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
 						int u = map2.get(enchantment);
 						u = t == u ? u + 1 : Math.max(u, t);
 						boolean bl4 = enchantment.isAcceptableItem(itemStack);
-						if (this.player.abilities.creativeMode || itemStack.getItem() == Items.ENCHANTED_BOOK) {
+						if (player.abilities.creativeMode || itemStack.getItem() == Items.ENCHANTED_BOOK) {
 							bl4 = true;
 						}
 
@@ -209,31 +209,31 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
 				}
 			}
 
-			if (StringUtils.isBlank(this.newItemName)) {
+			if (StringUtils.isBlank(newItemName)) {
 				if (itemStack.hasCustomName()) {
 					k = 1;
 					i += k;
 					itemStack2.removeCustomName();
 				}
-			} else if (!this.newItemName.equals(itemStack.getName().getString())) {
+			} else if (!newItemName.equals(itemStack.getName().getString())) {
 				k = 1;
 				i += k;
-				itemStack2.setCustomName(new LiteralText(this.newItemName));
+				itemStack2.setCustomName(new LiteralText(newItemName));
 			}
 
 			// this is the important line that changes things
-			double cost = ((1d - NetheritePlusConfig.ANVIL.XP_REDUCTION.getValue()) * (j + i));
+			double cost = (1d - NetheritePlusConfig.ANVIL.XP_REDUCTION.getValue()) * (j + i);
 
-			this.levelCost.set(cost < 1 ? 1 : (int) cost);
+			levelCost.set(cost < 1 ? 1 : (int) cost);
 			if (i <= 0) {
 				itemStack2 = ItemStack.EMPTY;
 			}
 
-			if (k == i && k > 0 && this.levelCost.get() >= 40) {
-				this.levelCost.set(39);
+			if (k == i && k > 0 && levelCost.get() >= 40) {
+				levelCost.set(39);
 			}
 
-			if (this.levelCost.get() >= 40 && !this.player.abilities.creativeMode) {
+			if (levelCost.get() >= 40 && !player.abilities.creativeMode) {
 				itemStack2 = ItemStack.EMPTY;
 			}
 
@@ -251,8 +251,8 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
 				EnchantmentHelper.set(map, itemStack2);
 			}
 
-			this.output.setStack(0, itemStack2);
-			this.sendContentUpdates();
+			output.setStack(0, itemStack2);
+			sendContentUpdates();
 		}
 	}
 
@@ -261,21 +261,21 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
 	}
 
 	public void setNewItemName(String string) {
-		this.newItemName = string;
-		if (this.getSlot(2).hasStack()) {
-			ItemStack itemStack = this.getSlot(2).getStack();
+		newItemName = string;
+		if (getSlot(2).hasStack()) {
+			ItemStack itemStack = getSlot(2).getStack();
 			if (StringUtils.isBlank(string)) {
 				itemStack.removeCustomName();
 			} else {
-				itemStack.setCustomName(new LiteralText(this.newItemName));
+				itemStack.setCustomName(new LiteralText(newItemName));
 			}
 		}
 
-		this.updateResult();
+		updateResult();
 	}
 
 	@Environment(EnvType.CLIENT)
 	public int getLevelCost() {
-		return this.levelCost.get();
+		return levelCost.get();
 	}
 }
