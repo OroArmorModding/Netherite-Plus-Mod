@@ -2,7 +2,7 @@ package com.oroarmor.netherite_plus.item;
 
 import java.util.List;
 
-import com.oroarmor.netherite_plus.combatibility.NetheritePlusTrinketsRenderer;
+import com.oroarmor.netherite_plus.compatibility.NetheritePlusTrinketsRenderer;
 
 import dev.emi.trinkets.api.Slots;
 import dev.emi.trinkets.api.Trinket;

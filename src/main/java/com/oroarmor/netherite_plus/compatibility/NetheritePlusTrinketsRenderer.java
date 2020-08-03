@@ -1,4 +1,4 @@
-package com.oroarmor.netherite_plus.combatibility;
+package com.oroarmor.netherite_plus.compatibility;
 
 import com.oroarmor.netherite_plus.client.render.NetheriteElytraFeatureRenderer;
 
