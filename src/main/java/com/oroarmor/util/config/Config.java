@@ -2,6 +2,7 @@ package com.oroarmor.util.config;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.List;
 
@@ -29,6 +30,8 @@ public class Config {
 			String file = new String(bytes);
 			JsonObject parsed = new JsonParser().parse(file).getAsJsonObject();
 			configs.stream().forEachOrdered(cig -> cig.fromJson((JsonObject) parsed.get(cig.getName())));
+		} catch (FileNotFoundException e) {
+			saveConfigToFile();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
