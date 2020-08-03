@@ -26,6 +26,7 @@ repositories {
 	maven {
 		url = 'https://raw.githubusercontent.com/Devan-Kerman/Devan-Repo/master/'
 	}
+	maven { url = "https://dl.bintray.com/kyrptonaught/Quickshulker/"}
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -50,6 +51,7 @@ dependencies {
 	modImplementation group: 'net.devtech', name: 'arrp', version: '0.2.6'
 	include group: 'net.devtech', name: 'arrp', version: '0.2.6'
 	
+	modCompileOnly "net.kyrptonaught:quickshulker:1.1.1"
 	modCompile "io.github.prospector:modmenu:1.14.5+build.30"
 	modCompileOnly "com.github.emilyploszaj:trinkets:2.6.3"
 	
@@ -57,6 +59,7 @@ dependencies {
 	modRuntime "fi.dy.masa.malilib:malilib-fabric-1.16.1:0.10.0-dev.21+arne.1"
 	modRuntime "fi.dy.masa.tweakeroo:tweakeroo-fabric-1.16.1:0.10.0-dev.20200720.162627"
 	//modRuntime "com.github.emilyploszaj:trinkets:2.6.3"
+	//modRuntime "net.kyrptonaught:quickshulker:1.1.1"
 }
 
 processResources {
