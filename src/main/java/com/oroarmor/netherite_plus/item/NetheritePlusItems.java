@@ -1,7 +1,7 @@
 package com.oroarmor.netherite_plus.item;
 
 import com.oroarmor.netherite_plus.block.NetheritePlusBlocks;
-import com.oroarmor.netherite_plus.combatibility.NetheritePlusTrinketsCompatibilty;
+import com.oroarmor.netherite_plus.compatibility.NetheritePlusTrinketsCompatibilty;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.util.item.UniqueItemRegistry;
 
