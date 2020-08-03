@@ -17,10 +17,10 @@ public class NetheritePlusDynamicDataPack {
 					JTag.tag().add(new Identifier("netherite_plus", "fake_netherite_block")));
 		}
 
-		if (NetheritePlusConfig.ENABLED.ENABLED_ANVIL.getValue()) {
-			DataPack.addTag(id("minecraft:blocks/anvil"),
-					JTag.tag().add(new Identifier("netherite_plus", "netherite_anvil")));
-		}
+//		if (NetheritePlusConfig.ENABLED.ENABLED_ANVIL.getValue()) {
+//			DataPack.addTag(id("minecraft:blocks/anvil"),
+//					JTag.tag().add(new Identifier("netherite_plus", "netherite_anvil")));
+//		}
 
 		RRPCallback.EVENT.register(a -> a.add(DataPack));
 	}
