@@ -33,8 +33,9 @@ public class CrossbowItemMixin {
 			CallbackInfoReturnable<PersistentProjectileEntity> cir, ArrowItem arrowItem,
 			PersistentProjectileEntity persistentProjectileEntity) {
 
-		if (crossbow.getItem() != NetheritePlusItems.NETHERITE_CROSSBOW)
+		if (crossbow.getItem() != NetheritePlusItems.NETHERITE_CROSSBOW) {
 			return;
+		}
 
 		persistentProjectileEntity.setDamage(persistentProjectileEntity.getDamage()
 				* NetheritePlusConfig.DAMAGE.CROSSBOW_DAMAGE_MULTIPLIER.getValue()

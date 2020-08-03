@@ -26,46 +26,46 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
 
 	public NetheriteAnvilScreen(NetheriteAnvilScreenHandler handler, PlayerInventory inventory, Text title) {
 		super(handler, inventory, title, TEXTURE);
-		this.titleX = 60;
+		titleX = 60;
 	}
 
 	@Override
 	protected void setup() {
-		this.client.keyboard.enableRepeatEvents(true);
-		int i = (this.width - this.backgroundWidth) / 2;
-		int j = (this.height - this.backgroundHeight) / 2;
-		this.nameField = new TextFieldWidget(this.textRenderer, i + 62, j + 24, 103, 12,
+		client.keyboard.enableRepeatEvents(true);
+		int i = (width - backgroundWidth) / 2;
+		int j = (height - backgroundHeight) / 2;
+		nameField = new TextFieldWidget(textRenderer, i + 62, j + 24, 103, 12,
 				new TranslatableText("container.repair"));
-		this.nameField.setFocusUnlocked(false);
-		this.nameField.setEditableColor(-1);
-		this.nameField.setUneditableColor(-1);
-		this.nameField.setHasBorder(false);
-		this.nameField.setMaxLength(35);
-		this.nameField.setChangedListener(this::onRenamed);
-		this.children.add(this.nameField);
-		this.setInitialFocus(this.nameField);
+		nameField.setFocusUnlocked(false);
+		nameField.setEditableColor(-1);
+		nameField.setUneditableColor(-1);
+		nameField.setHasBorder(false);
+		nameField.setMaxLength(35);
+		nameField.setChangedListener(this::onRenamed);
+		children.add(nameField);
+		setInitialFocus(nameField);
 	}
 
 	@Override
 	public void resize(MinecraftClient client, int width, int height) {
-		String string = this.nameField.getText();
+		String string = nameField.getText();
 		this.init(client, width, height);
-		this.nameField.setText(string);
+		nameField.setText(string);
 	}
 
 	@Override
 	public void removed() {
 		super.removed();
-		this.client.keyboard.enableRepeatEvents(false);
+		client.keyboard.enableRepeatEvents(false);
 	}
 
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 		if (keyCode == 256) {
-			this.client.player.closeHandledScreen();
+			client.player.closeHandledScreen();
 		}
 
-		return !this.nameField.keyPressed(keyCode, scanCode, modifiers) && !this.nameField.isActive()
+		return !nameField.keyPressed(keyCode, scanCode, modifiers) && !nameField.isActive()
 				? super.keyPressed(keyCode, scanCode, modifiers)
 				: true;
 	}
@@ -73,14 +73,14 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
 	private void onRenamed(String name) {
 		if (!name.isEmpty()) {
 			String string = name;
-			Slot slot = this.handler.getSlot(0);
+			Slot slot = handler.getSlot(0);
 			if (slot != null && slot.hasStack() && !slot.getStack().hasCustomName()
 					&& name.equals(slot.getStack().getName().getString())) {
 				string = "";
 			}
 
-			this.handler.setNewItemName(string);
-			this.client.player.networkHandler.sendPacket(new RenameItemC2SPacket(string));
+			handler.setNewItemName(string);
+			client.player.networkHandler.sendPacket(new RenameItemC2SPacket(string));
 		}
 	}
 
@@ -88,24 +88,24 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
 	protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
 		RenderSystem.disableBlend();
 		super.drawForeground(matrices, mouseX, mouseY);
-		int i = this.handler.getLevelCost();
+		int i = handler.getLevelCost();
 		if (i > 0) {
 			int j = 8453920;
 			boolean bl = true;
 			String string = I18n.translate("container.repair.cost", i);
-			if (i >= 40 && !this.client.player.abilities.creativeMode) {
+			if (i >= 40 && !client.player.abilities.creativeMode) {
 				string = I18n.translate("container.repair.expensive");
 				j = 16736352;
-			} else if (!this.handler.getSlot(2).hasStack()) {
+			} else if (!handler.getSlot(2).hasStack()) {
 				bl = false;
-			} else if (!this.handler.getSlot(2).canTakeItems(this.playerInventory.player)) {
+			} else if (!handler.getSlot(2).canTakeItems(playerInventory.player)) {
 				j = 16736352;
 			}
 
 			if (bl) {
-				int k = this.backgroundWidth - 8 - this.textRenderer.getWidth(string) - 2;
-				fill(matrices, k - 2, 67, this.backgroundWidth - 8, 79, 1325400064);
-				this.textRenderer.drawWithShadow(matrices, string, k, 69.0F, j);
+				int k = backgroundWidth - 8 - textRenderer.getWidth(string) - 2;
+				fill(matrices, k - 2, 67, backgroundWidth - 8, 79, 1325400064);
+				textRenderer.drawWithShadow(matrices, string, k, 69.0F, j);
 			}
 		}
 
@@ -113,15 +113,15 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
 
 	@Override
 	public void renderForeground(MatrixStack matrixStack, int mouseY, int i, float f) {
-		this.nameField.render(matrixStack, mouseY, i, f);
+		nameField.render(matrixStack, mouseY, i, f);
 	}
 
 	@Override
 	public void onSlotUpdate(ScreenHandler handler, int slotId, ItemStack stack) {
 		if (slotId == 0) {
-			this.nameField.setText(stack.isEmpty() ? "" : stack.getName().getString());
-			this.nameField.setEditable(!stack.isEmpty());
-			this.setFocused(this.nameField);
+			nameField.setText(stack.isEmpty() ? "" : stack.getName().getString());
+			nameField.setEditable(!stack.isEmpty());
+			setFocused(nameField);
 		}
 
 	}
