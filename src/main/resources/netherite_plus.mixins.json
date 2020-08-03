@@ -11,7 +11,8 @@
 	"CrossbowItemMixin",
 	"ShulkerBoxBlockEntityMixin",
 	"ShulkerBoxSlotMixin",
-	"CauldronBlockMixin"
+	"CauldronBlockMixin",
+	"ServerPlayNetworkHandlerMixin"
   ],
   "client": [
 	"render.PlayerEntityRendererMixin",

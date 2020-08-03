@@ -46,8 +46,7 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
 
 	@Override
 	protected boolean canTakeOutput(PlayerEntity player, boolean present) {
-		return (player.abilities.creativeMode || player.experienceLevel >= levelCost.get())
-				&& levelCost.get() > 0;
+		return (player.abilities.creativeMode || player.experienceLevel >= levelCost.get()) && levelCost.get() > 0;
 	}
 
 	@Override
@@ -69,8 +68,13 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
 			input.setStack(1, ItemStack.EMPTY);
 		}
 
+		this.context.run((world, blockPos) -> {
+			world.syncWorldEvent(1030, blockPos, 0);
+		});
+
 		levelCost.set(0);
 		return stack;
+
 	}
 
 	@Override

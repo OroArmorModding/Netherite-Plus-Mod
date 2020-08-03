@@ -88,24 +88,24 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
 	protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
 		RenderSystem.disableBlend();
 		super.drawForeground(matrices, mouseX, mouseY);
-		int i = handler.getLevelCost();
-		if (i > 0) {
-			int j = 8453920;
+		int level = handler.getLevelCost();
+		if (level > 0) {
+			int color = 8453920;
 			boolean bl = true;
-			String string = I18n.translate("container.repair.cost", i);
-			if (i >= 40 && !client.player.abilities.creativeMode) {
+			String string = I18n.translate("container.repair.cost", level);
+			if (level >= 40 && !client.player.abilities.creativeMode) {
 				string = I18n.translate("container.repair.expensive");
-				j = 16736352;
+				color = 16736352;
 			} else if (!handler.getSlot(2).hasStack()) {
 				bl = false;
 			} else if (!handler.getSlot(2).canTakeItems(playerInventory.player)) {
-				j = 16736352;
+				color = 16736352;
 			}
 
 			if (bl) {
 				int k = backgroundWidth - 8 - textRenderer.getWidth(string) - 2;
 				fill(matrices, k - 2, 67, backgroundWidth - 8, 79, 1325400064);
-				textRenderer.drawWithShadow(matrices, string, k, 69.0F, j);
+				textRenderer.drawWithShadow(matrices, string, k, 69.0F, color);
 			}
 		}
 
