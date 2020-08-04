@@ -106,7 +106,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 	}
 
 	public Box getBoundingBox(BlockState state) {
-		return this.getBoundingBox(state.get(ShulkerBoxBlock.FACING));
+		return this.getBoundingBox(state.get(NetheriteShulkerBoxBlock.FACING));
 	}
 
 	public Box getBoundingBox(Direction openDirection) {
@@ -124,7 +124,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 	private void pushEntities() {
 		BlockState blockState = world.getBlockState(getPos());
 		if (blockState.getBlock() instanceof NetheriteShulkerBoxBlock) {
-			Direction direction = blockState.get(ShulkerBoxBlock.FACING);
+			Direction direction = blockState.get(NetheriteShulkerBoxBlock.FACING);
 			Box box = getCollisionBox(direction).offset(pos);
 			List<Entity> list = world.getEntities((Entity) null, box);
 			if (!list.isEmpty()) {

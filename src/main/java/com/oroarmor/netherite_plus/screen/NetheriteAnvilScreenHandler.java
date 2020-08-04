@@ -68,7 +68,7 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
 			input.setStack(1, ItemStack.EMPTY);
 		}
 
-		this.context.run((world, blockPos) -> {
+		context.run((world, blockPos) -> {
 			world.syncWorldEvent(1030, blockPos, 0);
 		});
 
