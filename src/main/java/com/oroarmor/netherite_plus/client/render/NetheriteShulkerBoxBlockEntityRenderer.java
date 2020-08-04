@@ -1,12 +1,12 @@
 package com.oroarmor.netherite_plus.client.render;
 
+import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
 import com.oroarmor.netherite_plus.block.entity.NetheriteShulkerBoxBlockEntity;
 import com.oroarmor.netherite_plus.client.NetheritePlusTextures;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -35,8 +35,8 @@ public class NetheriteShulkerBoxBlockEntityRenderer extends BlockEntityRenderer<
 		Direction direction = Direction.UP;
 		if (shulkerBoxBlockEntity.hasWorld()) {
 			BlockState blockState = shulkerBoxBlockEntity.getWorld().getBlockState(shulkerBoxBlockEntity.getPos());
-			if (blockState.getBlock() instanceof ShulkerBoxBlock) {
-				direction = blockState.get(ShulkerBoxBlock.FACING);
+			if (blockState.getBlock() instanceof NetheriteShulkerBoxBlock) {
+				direction = blockState.get(NetheriteShulkerBoxBlock.FACING);
 			}
 		}
 

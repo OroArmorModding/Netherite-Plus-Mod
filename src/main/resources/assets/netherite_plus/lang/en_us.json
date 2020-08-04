@@ -1,6 +1,7 @@
 {
 	"item.netherite_plus.netherite_elytra": "Netherite Elytra",
 	"item.netherite_plus.netherite_fishing_rod": "Netherite Fishing Rod",
+	
 	"container.netheriteShulkerBox": "Netherite Shulker Box",
 	"block.netherite_plus.netherite_shulker_box": "Netherite Shulker Box",
     "block.netherite_plus.netherite_white_shulker_box": "White Netherite Shulker Box",
@@ -19,8 +20,10 @@
     "block.netherite_plus.netherite_green_shulker_box": "Green Netherite Shulker Box",
     "block.netherite_plus.netherite_red_shulker_box": "Red Netherite Shulker Box",
     "block.netherite_plus.netherite_black_shulker_box": "Black Netherite Shulker Box",
+	
 	"block.netherite_plus.fake_netherite_block": "Fake Netherite Block",
 	"block.netherite_plus.netherite_anvil": "Netherite Anvil",
+	
     "item.netherite_plus.netherite_shield": "Netherite Shield",
 	"item.netherite_plus.netherite_shield.black": "Black Netherite Shield",
 	"item.netherite_plus.netherite_shield.red": "Red Netherite Shield",
@@ -38,8 +41,39 @@
 	"item.netherite_plus.netherite_shield.magenta": "Magenta Netherite Shield",
 	"item.netherite_plus.netherite_shield.orange": "Orange Netherite Shield",
 	"item.netherite_plus.netherite_shield.white": "White Netherite Shield",
+	
 	"item.netherite_plus.netherite_bow": "Netherite Bow",
 	"item.netherite_plus.netherite_crossbow": "Netherite Crossbow",
 	"item.netherite_plus.netherite_horse_armor": "Netherite Horse Armor",
-	"warning.netherite_elytra.trinkets": "Does not work in chestplate slot"
+	
+	"warning.netherite_elytra.trinkets": "Does not work in chestplate slot",
+	
+	"config.netherite_plus": "Netherite Plus Config",
+	
+	"config.netherite_plus.enabled": "Enabled Features",
+	"config.netherite_plus.enabled.config_debug_print": "Prints the config on game start",
+	"config.netherite_plus.enabled.anvils": "Enable or disable netherite anvils",
+	"config.netherite_plus.enabled.bows_crossbows": "Enable or disable bows and crossbows",
+	"config.netherite_plus.enabled.elytra": "Enable or disable netherite elytra",
+	"config.netherite_plus.enabled.fake_netherite_blocks": "Enable or disable fake netherite blocks",
+	"config.netherite_plus.enabled.fishing_rod": "Enable or disable netherite fishing rod",
+	"config.netherite_plus.enabled.horse_armor": "Enable or disable netherite horse armor",
+	"config.netherite_plus.enabled.shields": "Enable or disable netherite shields",
+	"config.netherite_plus.enabled.shulker_boxes": "Enable or disable netherite shulker boxes",
+	
+	"config.netherite_plus.durabilities": "Item Durabilities",
+	"config.netherite_plus.durabilities.bow" : "Netherite Bow Durability",
+	"config.netherite_plus.durabilities.crossbow" : "Netherite Crossbow Durability",
+	"config.netherite_plus.durabilities.elytra" : "Netherite Elytra Durability",
+	"config.netherite_plus.durabilities.fishing_rod" : "Netherite Fishing Rod Durability",
+	"config.netherite_plus.durabilities.shield" : "Netherite Shield Durability",
+	
+	"config.netherite_plus.damage": "Damage Features",
+	"config.netherite_plus.damage.bow_damage_addition":	"Damage added to the netherite bow after the multiplier",
+	"config.netherite_plus.damage.bow_damage_multiplier": "Multiplier of the normal bow damage for the netherite bow",
+	"config.netherite_plus.damage.crossbow_damage_addition": "Damage added to the netherite crossbow after the multiplier",
+	"config.netherite_plus.damage.crossbow_damage_multiplier": "Multiplier of the normal crossbow damage for the netherite crossbow",
+	
+	"config.netherite_plus.anvil": "Anvil Features",
+	"config.netherite_plus.anvil.xp_redcution": "XP Reduction in netherite anvil"
 }

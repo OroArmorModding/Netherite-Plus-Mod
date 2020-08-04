@@ -91,7 +91,7 @@ public final class ConfigItem<T> {
 
 	@Override
 	public String toString() {
-		return name + ":" + value + "\t# " + details;
+		return name + ":" + value;
 	}
 
 }

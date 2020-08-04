@@ -9,7 +9,6 @@ import io.github.prospector.modmenu.api.ModMenuApi;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 
 public class ModMenuIntegration implements ModMenuApi {
@@ -24,21 +23,16 @@ public class ModMenuIntegration implements ModMenuApi {
 	public ConfigScreenFactory<?> getModConfigScreenFactory() {
 		return screen -> {
 			ConfigBuilder builder = ConfigBuilder.create().setParentScreen(screen)
-					.setTitle(new LiteralText("Netherite Plus Config"));
+					.setTitle(new TranslatableText("config.netherite_plus"));
 
 			builder.setSavingRunnable(NetheritePlusMod.CONFIG::saveConfigToFile);
 
 			ConfigEntryBuilder entryBuilder = ConfigEntryBuilder.create();
 
-			ConfigCategory enabledFeatures = builder
-					.getOrCreateCategory(new LiteralText("Netherite Plus: Enabled Features"));
-
-			ConfigCategory durabilities = builder
-					.getOrCreateCategory(new LiteralText("Netherite Plus: Item Durabilities"));
-
-			ConfigCategory damage = builder.getOrCreateCategory(new LiteralText("Netherite Plus: Damage Features"));
-
-			ConfigCategory anvil = builder.getOrCreateCategory(new LiteralText("Netherite Plus: Anvil Features"));
+			ConfigCategory enabledFeatures = createCategory(builder, "config.netherite_plus.enabled");
+			ConfigCategory durabilities = createCategory(builder, "config.netherite_plus.durabilities");
+			ConfigCategory damage = createCategory(builder, "config.netherite_plus.damage");
+			ConfigCategory anvil = createCategory(builder, "config.netherite_plus.anvil");
 
 			NetheritePlusConfig.ENABLED.OPTIONS.stream()
 					.forEach(ci -> setupBooleanConfigItem((ConfigItem<Boolean>) ci, enabledFeatures, entryBuilder));
@@ -54,6 +48,10 @@ public class ModMenuIntegration implements ModMenuApi {
 
 			return builder.build();
 		};
+	}
+
+	private ConfigCategory createCategory(ConfigBuilder builder, String categoryName) {
+		return builder.getOrCreateCategory(new TranslatableText(categoryName));
 	}
 
 	private void setupDoubleConfigItem(ConfigItem<Double> ci, ConfigCategory category,

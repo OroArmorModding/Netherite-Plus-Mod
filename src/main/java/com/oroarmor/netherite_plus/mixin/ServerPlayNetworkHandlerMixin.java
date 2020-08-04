@@ -22,8 +22,8 @@ public class ServerPlayNetworkHandlerMixin {
 	@SuppressWarnings("unused")
 	@Inject(method = "onRenameItem", at = @At("RETURN"))
 	public void onRenameItem(RenameItemC2SPacket packet, CallbackInfo info) {
-		if (this.player.currentScreenHandler instanceof NetheriteAnvilScreenHandler) {
-			NetheriteAnvilScreenHandler anvilScreenHandler = (NetheriteAnvilScreenHandler) this.player.currentScreenHandler;
+		if (player.currentScreenHandler instanceof NetheriteAnvilScreenHandler) {
+			NetheriteAnvilScreenHandler anvilScreenHandler = (NetheriteAnvilScreenHandler) player.currentScreenHandler;
 			String string = SharedConstants.stripInvalidChars(packet.getName());
 			if (string.length() <= 35) {
 				anvilScreenHandler.setNewItemName(string);
