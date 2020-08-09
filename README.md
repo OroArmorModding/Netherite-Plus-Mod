@@ -1,6 +1,7 @@
 # Netherite Plus Mod
 
 Do you feel that netherite wasn't fully utilized? Do you want more netherite tools and blocks? Cause then this is the mod for you
+Discord: https://discord.gg/dGCvj56
 
 ## Features
 
