@@ -40,6 +40,8 @@
     "netherite_plus.mixins.json"
   ],
 
+  "accessWidener" : "netherite_plus.accesswidener",
+
   "depends": {
     "fabricloader": ">=0.7.4",
     "fabric": "*",

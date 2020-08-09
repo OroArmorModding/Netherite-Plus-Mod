@@ -26,7 +26,7 @@ public class NetheritePlusTrinketsRenderer {
 		matrixStack.scale(1.5f, 1.5f, 1.5f);
 		matrixStack.translate(0.0D, -0.775D, 0.125D);
 		elytra.setAngles(livingEntity, 0f, 0f, 0f, 0f, 0f);
-		VertexConsumer vertexConsumer = ItemRenderer.method_29711(vertexConsumerProvider,
+		VertexConsumer vertexConsumer = ItemRenderer.getDirectGlintVertexConsumer(vertexConsumerProvider,
 				elytra.getLayer(NetheriteElytraFeatureRenderer.NETHERITE_ELYTRA_SKIN), false,
 				item.getStackForRender().hasGlint());
 		elytra.render(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);

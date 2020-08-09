@@ -75,7 +75,7 @@ public class BuiltinModelItemRendererMixin {
 			SpriteIdentifier spriteIdentifier = bl ? NetheritePlusTextures.NETHERITE_SHIELD_BASE
 					: NetheritePlusTextures.NETHERITE_SHIELD_BASE_NO_PATTERN;
 			VertexConsumer vertexConsumer = spriteIdentifier.getSprite()
-					.getTextureSpecificVertexConsumer(ItemRenderer.method_29711(vertexConsumerProvider,
+					.getTextureSpecificVertexConsumer(ItemRenderer.getDirectGlintVertexConsumer(vertexConsumerProvider,
 							modelShield.getLayer(spriteIdentifier.getAtlasId()), true, stack.hasGlint()));
 			modelShield.method_23775().render(matrixStack, vertexConsumer, i, j, 1.0F, 1.0F, 1.0F, 1.0F);
 			if (bl) {
