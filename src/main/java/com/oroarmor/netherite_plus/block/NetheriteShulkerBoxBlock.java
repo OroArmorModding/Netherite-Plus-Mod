@@ -97,7 +97,7 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
 				if (bl2) {
 					player.openHandledScreen(netheriteShulkerBoxBlockEntity);
 					player.incrementStat(Stats.OPEN_SHULKER_BOX);
-					PiglinBrain.onGoldBlockBroken(player, true);
+					PiglinBrain.onGuardedBlockBroken(player, true);
 				}
 
 				return ActionResult.CONSUME;
@@ -185,8 +185,8 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void buildTooltip(ItemStack stack, BlockView world, List<Text> tooltip, TooltipContext options) {
-		super.buildTooltip(stack, world, tooltip, options);
+	public void appendTooltip(ItemStack stack, BlockView world, List<Text> tooltip, TooltipContext options) {
+		super.appendTooltip(stack, world, tooltip, options);
 		CompoundTag compoundTag = stack.getSubTag("BlockEntityTag");
 		if (compoundTag != null) {
 			if (compoundTag.contains("LootTable", 8)) {

@@ -11,10 +11,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 @Mixin(FishingBobberEntity.class)
-public class FishingBobberEntityMixin {
+public abstract class FishingBobberEntityMixin {
 
 	@Redirect(method = "removeIfInvalid(Lnet/minecraft/entity/player/PlayerEntity;)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
 	private Item getItem(ItemStack stack) {
 		return UniqueItemRegistry.FISHING_ROD.getDefaultItem(stack.getItem());
 	}
+
 }

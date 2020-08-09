@@ -49,7 +49,7 @@ public class NetheritePlusBlocks {
 		if (NetheritePlusConfig.ENABLED.ENABLED_FAKE_NETHERITE_BLOCKS.getValue()) {
 			FAKE_NETHERITE_BLOCK = register("fake_netherite_block",
 					new FakeNetheriteBlock(AbstractBlock.Settings.of(Material.METAL, MaterialColor.BLACK).requiresTool()
-							.strength(5.0F, 6.0F).sounds(BlockSoundGroup.METAL)));
+							.strength(5.0F, 6.0F).sounds(BlockSoundGroup.NETHERITE)));
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_ANVIL.getValue()) {

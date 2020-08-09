@@ -60,7 +60,7 @@ public class NetheriteElytraFeatureRenderer<T extends LivingEntity, M extends En
 			matrixStack.translate(0.0D, 0.0D, 0.125D);
 			getContextModel().copyStateTo(this.elytra);
 			this.elytra.setAngles(livingEntity, f, g, j, k, l);
-			VertexConsumer vertexConsumer = ItemRenderer.method_29711(vertexConsumerProvider,
+			VertexConsumer vertexConsumer = ItemRenderer.getDirectGlintVertexConsumer(vertexConsumerProvider,
 					this.elytra.getLayer(identifier4), false, itemStack.hasGlint());
 			this.elytra.render(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
 			matrixStack.pop();

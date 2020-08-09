@@ -126,7 +126,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 		if (blockState.getBlock() instanceof NetheriteShulkerBoxBlock) {
 			Direction direction = blockState.get(NetheriteShulkerBoxBlock.FACING);
 			Box box = getCollisionBox(direction).offset(pos);
-			List<Entity> list = world.getEntities((Entity) null, box);
+			List<Entity> list = world.getOtherEntities((Entity) null, box);
 			if (!list.isEmpty()) {
 				for (int i = 0; i < list.size(); ++i) {
 					Entity entity = list.get(i);
