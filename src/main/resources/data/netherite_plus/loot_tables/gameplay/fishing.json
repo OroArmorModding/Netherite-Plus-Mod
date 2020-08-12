@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "weight": 10,
+          "weight": 60,
           "quality": -2,
           "name": "netherite_plus:gameplay/fishing/junk"
         },
@@ -23,10 +23,11 @@
               "entity": "this"
             }
           ],
-          "weight": 5,
+          "weight": 40,
           "quality": 2,
-          "name": "minecraft:netherite_plus/fishing/treasure"
+          "name": "netherite_plus:gameplay/fishing/treasure"
         }
       ]
     }
+  ]
 }

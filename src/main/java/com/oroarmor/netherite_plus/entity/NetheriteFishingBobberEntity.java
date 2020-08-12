@@ -48,130 +48,130 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 
 	@Override
 	public void tick() {
-		this.velocityRandom.setSeed(this.getUuid().getLeastSignificantBits() ^ this.world.getTime());
+		velocityRandom.setSeed(getUuid().getLeastSignificantBits() ^ world.getTime());
 
-		if (!this.leftOwner) {
-			this.leftOwner = this.method_26961();
+		if (!leftOwner) {
+			leftOwner = method_26961();
 		}
 
-		if (!this.world.isClient) {
-			this.setFlag(6, this.isGlowing());
+		if (!world.isClient) {
+			setFlag(6, isGlowing());
 		}
 
-		this.baseTick();
+		baseTick();
 
-		PlayerEntity playerEntity = this.getPlayerOwner();
+		PlayerEntity playerEntity = getPlayerOwner();
 		if (playerEntity == null) {
-			this.remove();
-		} else if (this.world.isClient || !this.removeIfInvalid(playerEntity)) {
-			if (this.onGround) {
-				++this.removalTimer;
-				if (this.removalTimer >= 1200) {
-					this.remove();
+			remove();
+		} else if (world.isClient || !removeIfInvalid(playerEntity)) {
+			if (onGround) {
+				++removalTimer;
+				if (removalTimer >= 1200) {
+					remove();
 					return;
 				}
 			} else {
-				this.removalTimer = 0;
+				removalTimer = 0;
 			}
 
 			float fluidHeight = 0.0F;
-			BlockPos blockPos = this.getBlockPos();
-			FluidState fluidState = this.world.getFluidState(blockPos);
+			BlockPos blockPos = getBlockPos();
+			FluidState fluidState = world.getFluidState(blockPos);
 			if (fluidState.isIn(FluidTags.LAVA)) {
-				fluidHeight = fluidState.getHeight(this.world, blockPos);
+				fluidHeight = fluidState.getHeight(world, blockPos);
 			}
 
 			boolean validFluid = fluidHeight > 0.0F;
 
-			if (this.state == FishingBobberEntity.State.FLYING) {
-				if (this.hookedEntity != null) {
+			if (state == FishingBobberEntity.State.FLYING) {
+				if (hookedEntity != null) {
 					this.setVelocity(Vec3d.ZERO);
-					this.state = FishingBobberEntity.State.HOOKED_IN_ENTITY;
+					state = FishingBobberEntity.State.HOOKED_IN_ENTITY;
 					return;
 				}
 
 				if (validFluid) {
-					this.setVelocity(this.getVelocity().multiply(0.3D, 0.2D, 0.3D));
-					this.state = FishingBobberEntity.State.BOBBING;
+					this.setVelocity(getVelocity().multiply(0.3D, 0.2D, 0.3D));
+					state = FishingBobberEntity.State.BOBBING;
 					return;
 				}
 
-				this.checkForCollision();
+				checkForCollision();
 			} else {
-				if (this.state == FishingBobberEntity.State.HOOKED_IN_ENTITY) {
-					if (this.hookedEntity != null) {
-						if (this.hookedEntity.removed) {
-							this.hookedEntity = null;
-							this.state = FishingBobberEntity.State.FLYING;
+				if (state == FishingBobberEntity.State.HOOKED_IN_ENTITY) {
+					if (hookedEntity != null) {
+						if (hookedEntity.removed) {
+							hookedEntity = null;
+							state = FishingBobberEntity.State.FLYING;
 						} else {
-							this.updatePosition(this.hookedEntity.getX(), this.hookedEntity.getBodyY(0.8D),
-									this.hookedEntity.getZ());
+							updatePosition(hookedEntity.getX(), hookedEntity.getBodyY(0.8D),
+									hookedEntity.getZ());
 						}
 					}
 
 					return;
 				}
 
-				if (this.state == FishingBobberEntity.State.BOBBING) {
-					Vec3d velocity = this.getVelocity();
-					double d = this.getY() - blockPos.getY() + 0.01 * velocity.y - fluidHeight;
+				if (state == FishingBobberEntity.State.BOBBING) {
+					Vec3d velocity = getVelocity();
+					double d = getY() - blockPos.getY() + 0.01 * velocity.y - fluidHeight;
 					if (Math.abs(d) < 0.01D) {
 						d += Math.signum(d) * 0.1D;
 					}
 
-					this.setVelocity(velocity.x * 0.9D, velocity.y - d * this.random.nextFloat() * 0.4D,
+					this.setVelocity(velocity.x * 0.9D, velocity.y - d * random.nextFloat() * 0.4D,
 							velocity.z * 0.9D);
-					if (this.hookCountdown <= 0 && this.fishTravelCountdown <= 0) {
-						this.inOpenWater = true;
+					if (hookCountdown <= 0 && fishTravelCountdown <= 0) {
+						inOpenWater = true;
 					} else {
-						this.inOpenWater = this.inOpenWater && this.outOfOpenWaterTicks < 10
-								&& this.isOpenOrLavaAround(blockPos);
+						inOpenWater = inOpenWater && outOfOpenWaterTicks < 10
+								&& isOpenOrLavaAround(blockPos);
 					}
 
 					if (validFluid) {
-						this.outOfOpenWaterTicks = Math.max(0, this.outOfOpenWaterTicks - 1);
-						if (this.caughtFish) {
-							this.setVelocity(this.getVelocity().add(0.0D,
-									-0.1D * this.velocityRandom.nextFloat() * this.velocityRandom.nextFloat(), 0.0D));
+						outOfOpenWaterTicks = Math.max(0, outOfOpenWaterTicks - 1);
+						if (caughtFish) {
+							this.setVelocity(getVelocity().add(0.0D,
+									-0.1D * velocityRandom.nextFloat() * velocityRandom.nextFloat(), 0.0D));
 						}
 
 						if (!world.isClient) {
-							this.tickFishingLogic();
+							tickFishingLogic();
 						}
 
 					} else {
-						this.outOfOpenWaterTicks = Math.min(10, this.outOfOpenWaterTicks + 1);
+						outOfOpenWaterTicks = Math.min(10, outOfOpenWaterTicks + 1);
 					}
 				}
 			}
 
 			if (!fluidState.isIn(FluidTags.LAVA)) {
-				this.setVelocity(this.getVelocity().add(0.0D, -0.06D, 0.0D));
+				this.setVelocity(getVelocity().add(0.0D, -0.06D, 0.0D));
 			}
 
-			this.move(MovementType.SELF, this.getVelocity());
-			this.method_26962();
-			if (this.state == FishingBobberEntity.State.FLYING && (this.onGround || this.horizontalCollision)) {
+			move(MovementType.SELF, getVelocity());
+			method_26962();
+			if (state == FishingBobberEntity.State.FLYING && (onGround || horizontalCollision)) {
 				this.setVelocity(Vec3d.ZERO);
 			}
 
 			double e = 0.92D;
-			this.setVelocity(this.getVelocity().multiply(e));
-			System.out.println(this.getVelocity().y);
-			this.refreshPosition();
+			this.setVelocity(getVelocity().multiply(e));
+			System.out.println(inOpenWater);
+			refreshPosition();
 		}
 	}
 
 	private void tickFishingLogic() {
-		ServerWorld serverWorld = (ServerWorld) this.world;
+		ServerWorld serverWorld = (ServerWorld) world;
 		int i = 1;
 
-		if (this.hookCountdown > 0) {
-			--this.hookCountdown;
-			if (this.hookCountdown <= 0) {
-				this.waitCountdown = 0;
-				this.fishTravelCountdown = 0;
-				this.getDataTracker().set(CAUGHT_FISH, false);
+		if (hookCountdown > 0) {
+			--hookCountdown;
+			if (hookCountdown <= 0) {
+				waitCountdown = 0;
+				fishTravelCountdown = 0;
+				getDataTracker().set(CAUGHT_FISH, false);
 			}
 		} else {
 			float n;
@@ -181,74 +181,74 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 			double r;
 			double s;
 			BlockState blockState2;
-			if (this.fishTravelCountdown > 0) {
-				this.fishTravelCountdown -= i;
-				if (this.fishTravelCountdown > 0) {
-					this.fishAngle = (float) (this.fishAngle + this.random.nextGaussian() * 4.0D);
-					n = this.fishAngle * 0.017453292F;
+			if (fishTravelCountdown > 0) {
+				fishTravelCountdown -= i;
+				if (fishTravelCountdown > 0) {
+					fishAngle = (float) (fishAngle + random.nextGaussian() * 4.0D);
+					n = fishAngle * 0.017453292F;
 					o = MathHelper.sin(n);
 					p = MathHelper.cos(n);
-					q = this.getX() + o * this.fishTravelCountdown * 0.1F;
-					r = MathHelper.floor(this.getY()) + 1.0F;
-					s = this.getZ() + p * this.fishTravelCountdown * 0.1F;
+					q = getX() + o * fishTravelCountdown * 0.1F;
+					r = MathHelper.floor(getY()) + 1.0F;
+					s = getZ() + p * fishTravelCountdown * 0.1F;
 					blockState2 = serverWorld.getBlockState(new BlockPos(q, r - 1.0D, s));
 					if (blockState2.isOf(Blocks.LAVA)) {
-						if (this.random.nextFloat() < 0.15F) {
+						if (random.nextFloat() < 0.15F) {
 							serverWorld.spawnParticles(ParticleTypes.LANDING_LAVA, q, r - 0.10000000149011612D, s, 1,
 									(double) o, 0.1D, (double) p, 0.0D);
 						}
 
 						float k = o * 0.04F;
 						float l = p * 0.04F;
-						serverWorld.spawnParticles(ParticleTypes.FLAME, q, r, s, 0, (double) l, 0.01D, (double) (-k),
+						serverWorld.spawnParticles(ParticleTypes.FLAME, q, r, s, 0, (double) l, 0.01D, (double) -k,
 								1.0D);
-						serverWorld.spawnParticles(ParticleTypes.FLAME, q, r, s, 0, (double) (-l), 0.01D, (double) k,
+						serverWorld.spawnParticles(ParticleTypes.FLAME, q, r, s, 0, (double) -l, 0.01D, (double) k,
 								1.0D);
 					}
 				} else {
-					this.playSound(SoundEvents.ENTITY_FISHING_BOBBER_SPLASH, 0.25F,
-							1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.4F);
-					double m = this.getY() + 0.5D;
-					serverWorld.spawnParticles(ParticleTypes.LANDING_LAVA, this.getX(), m, this.getZ(),
-							(int) (1.0F + this.getWidth() * 20.0F), (double) this.getWidth(), 0.0D,
-							(double) this.getWidth(), 0.20000000298023224D);
-					serverWorld.spawnParticles(ParticleTypes.FLAME, this.getX(), m, this.getZ(),
-							(int) (1.0F + this.getWidth() * 20.0F), (double) this.getWidth(), 0.0D,
-							(double) this.getWidth(), 0.20000000298023224D);
-					this.hookCountdown = MathHelper.nextInt(this.random, 20, 40);
-					this.getDataTracker().set(CAUGHT_FISH, true);
+					playSound(SoundEvents.ENTITY_FISHING_BOBBER_SPLASH, 0.25F,
+							1.0F + (random.nextFloat() - random.nextFloat()) * 0.4F);
+					double m = getY() + 0.5D;
+					serverWorld.spawnParticles(ParticleTypes.LANDING_LAVA, getX(), m, getZ(),
+							(int) (1.0F + getWidth() * 20.0F), (double) getWidth(), 0.0D,
+							(double) getWidth(), 0.20000000298023224D);
+					serverWorld.spawnParticles(ParticleTypes.FLAME, getX(), m, getZ(),
+							(int) (1.0F + getWidth() * 20.0F), (double) getWidth(), 0.0D,
+							(double) getWidth(), 0.20000000298023224D);
+					hookCountdown = MathHelper.nextInt(random, 20, 40);
+					getDataTracker().set(CAUGHT_FISH, true);
 				}
-			} else if (this.waitCountdown > 0) {
-				this.waitCountdown -= i;
+			} else if (waitCountdown > 0) {
+				waitCountdown -= i;
 				n = 0.15F;
-				if (this.waitCountdown < 20) {
-					n = (float) (n + (20 - this.waitCountdown) * 0.05D);
-				} else if (this.waitCountdown < 40) {
-					n = (float) (n + (40 - this.waitCountdown) * 0.02D);
-				} else if (this.waitCountdown < 60) {
-					n = (float) (n + (60 - this.waitCountdown) * 0.01D);
+				if (waitCountdown < 20) {
+					n = (float) (n + (20 - waitCountdown) * 0.05D);
+				} else if (waitCountdown < 40) {
+					n = (float) (n + (40 - waitCountdown) * 0.02D);
+				} else if (waitCountdown < 60) {
+					n = (float) (n + (60 - waitCountdown) * 0.01D);
 				}
 
-				if (this.random.nextFloat() < n) {
-					o = MathHelper.nextFloat(this.random, 0.0F, 360.0F) * 0.017453292F;
-					p = MathHelper.nextFloat(this.random, 25.0F, 60.0F);
-					q = this.getX() + MathHelper.sin(o) * p * 0.1F;
-					r = MathHelper.floor(this.getY()) + 1.0F;
-					s = this.getZ() + MathHelper.cos(o) * p * 0.1F;
+				if (random.nextFloat() < n) {
+					o = MathHelper.nextFloat(random, 0.0F, 360.0F) * 0.017453292F;
+					p = MathHelper.nextFloat(random, 25.0F, 60.0F);
+					q = getX() + MathHelper.sin(o) * p * 0.1F;
+					r = MathHelper.floor(getY()) + 1.0F;
+					s = getZ() + MathHelper.cos(o) * p * 0.1F;
 					blockState2 = serverWorld.getBlockState(new BlockPos(q, r - 1.0D, s));
 					if (blockState2.isOf(Blocks.LAVA)) {
-						serverWorld.spawnParticles(ParticleTypes.SMOKE, q, r, s, 2 + this.random.nextInt(2),
+						serverWorld.spawnParticles(ParticleTypes.SMOKE, q, r, s, 2 + random.nextInt(2),
 								0.10000000149011612D, 0.0D, 0.10000000149011612D, 0.0D);
 					}
 				}
 
-				if (this.waitCountdown <= 0) {
-					this.fishAngle = MathHelper.nextFloat(this.random, 0.0F, 360.0F);
-					this.fishTravelCountdown = MathHelper.nextInt(this.random, 20, 80);
+				if (waitCountdown <= 0) {
+					fishAngle = MathHelper.nextFloat(random, 0.0F, 360.0F);
+					fishTravelCountdown = MathHelper.nextInt(random, 20, 80);
 				}
 			} else {
-				this.waitCountdown = MathHelper.nextInt(this.random, 100, 600);
-				this.waitCountdown -= this.lureLevel * 20 * 5;
+				waitCountdown = MathHelper.nextInt(random, 100, 600);
+				waitCountdown -= lureLevel * 20 * 5;
 			}
 		}
 
@@ -305,11 +305,11 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 	}
 
 	private FishingBobberEntity.PositionType getPositionType(BlockPos pos) {
-		BlockState blockState = this.world.getBlockState(pos);
+		BlockState blockState = world.getBlockState(pos);
 		if (!blockState.isAir()) {
 			FluidState fluidState = blockState.getFluidState();
 			return fluidState.isIn(FluidTags.LAVA) && fluidState.isStill()
-					&& blockState.getCollisionShape(this.world, pos).isEmpty()
+					&& blockState.getCollisionShape(world, pos).isEmpty()
 							? FishingBobberEntity.PositionType.INSIDE_WATER
 							: FishingBobberEntity.PositionType.INVALID;
 		} else {
@@ -327,11 +327,11 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 				world.sendEntityStatus(this, (byte) 31);
 				i = hookedEntity instanceof ItemEntity ? 3 : 5;
 			} else if (hookCountdown > 0) {
-				LootContext.Builder builder = (new LootContext.Builder((ServerWorld) this.world))
-						.parameter(LootContextParameters.ORIGIN, this.getPos())
+				LootContext.Builder builder = new LootContext.Builder((ServerWorld) world)
+						.parameter(LootContextParameters.ORIGIN, getPos())
 						.parameter(LootContextParameters.TOOL, usedItem)
-						.parameter(LootContextParameters.THIS_ENTITY, this).random(this.random)
-						.luck(this.luckOfTheSeaLevel + playerEntity.getLuck());
+						.parameter(LootContextParameters.THIS_ENTITY, this).random(random)
+						.luck(luckOfTheSeaLevel + playerEntity.getLuck());
 				LootTable lootTable = world.getServer().getLootManager()
 						.getTable(new Identifier("netherite_plus", "gameplay/fishing"));
 				List<ItemStack> list = lootTable.generateLoot(builder.build(LootContextTypes.FISHING));
@@ -367,16 +367,16 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 
 	@Nullable
 	public PlayerEntity getPlayerOwner() {
-		Entity entity = this.getEntityOwner();
+		Entity entity = getEntityOwner();
 		return entity instanceof PlayerEntity ? (PlayerEntity) entity : null;
 	}
 
 	@Nullable
 	public Entity getEntityOwner() {
-		if (this.ownerUuid != null && this.world instanceof ServerWorld) {
-			return ((ServerWorld) this.world).getEntity(this.ownerUuid);
+		if (ownerUuid != null && world instanceof ServerWorld) {
+			return ((ServerWorld) world).getEntity(ownerUuid);
 		} else {
-			return this.ownerEntityId != 0 ? this.world.getEntityById(this.ownerEntityId) : null;
+			return ownerEntityId != 0 ? world.getEntityById(ownerEntityId) : null;
 		}
 	}
 
