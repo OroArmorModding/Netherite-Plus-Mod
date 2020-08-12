@@ -13,6 +13,7 @@ import com.oroarmor.util.config.ConfigItemGroup;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.loot.v1.LootEntryTypeRegistry;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
@@ -36,6 +37,8 @@ public class NetheritePlusMod implements ModInitializer {
 
 		NetheritePlusItems.registerItems();
 		NetheritePlusDynamicDataPack.configureDynamicDataPack();
+
+		LootEntryTypeRegistry.INSTANCE.register(new Identifier("netherite_plus", "gameplay/fishing"), null);
 
 		NETHERITE_ANVIL = ScreenHandlerRegistry.registerSimple(new Identifier("netherite_plus", "netherite_anvil"),
 				NetheriteAnvilScreenHandler::new);
