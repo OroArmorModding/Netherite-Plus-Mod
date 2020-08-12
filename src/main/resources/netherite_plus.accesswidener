@@ -1,3 +1,29 @@
 accessWidener	v1	named
 
-extendable class net/minecraft/entity/projectilies/FishingBobberEntity
+extendable class net/minecraft/entity/projectile/FishingBobberEntity$State
+extendable class net/minecraft/entity/projectile/FishingBobberEntity$PositionType
+extendable method net/minecraft/entity/projectile/ProjectileEntity <init> (Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;)V
+extendable method net/minecraft/entity/projectile/FishingBobberEntity <init> (Lnet/minecraft/world/World;Lnet/minceraft/entity/player/PlayerEntity;II)V
+
+accessible field net/minecraft/entity/projectile/FishingBobberEntity velocityRandom Ljava/util/Random;
+accessible field net/minecraft/entity/projectile/FishingBobberEntity caughtFish Z
+accessible field net/minecraft/entity/projectile/FishingBobberEntity outOfOpenWaterTicks I
+accessible field net/minecraft/entity/projectile/FishingBobberEntity removalTimer I
+accessible field net/minecraft/entity/projectile/FishingBobberEntity hookCountdown I
+accessible field net/minecraft/entity/projectile/FishingBobberEntity waitCountdown I
+accessible field net/minecraft/entity/projectile/FishingBobberEntity fishTravelCountdown I
+accessible field net/minecraft/entity/projectile/FishingBobberEntity fishAngle F
+accessible field net/minecraft/entity/projectile/FishingBobberEntity inOpenWater Z
+accessible field net/minecraft/entity/projectile/FishingBobberEntity hookedEntity Lnet/minecraft/entity/Entity;
+accessible field net/minecraft/entity/projectile/FishingBobberEntity state Lnet/minecraft/entity/projectile/FishingBobberEntity$State;
+accessible field net/minecraft/entity/projectile/FishingBobberEntity luckOfTheSeaLevel I
+accessible field net/minecraft/entity/projectile/FishingBobberEntity lureLevel I
+
+accessible field net/minecraft/entity/projectile/FishingBobberEntity HOOK_ENTITY_ID Lnet/minecraft/entity/data/TrackedData;
+accessible field net/minecraft/entity/projectile/FishingBobberEntity CAUGHT_FISH Lnet/minecraft/entity/data/TrackedData;
+
+accessible field net/minecraft/entity/projectile/ProjectileEntity leftOwner Z
+accessible field net/minecraft/entity/projectile/ProjectileEntity ownerUuid Ljava/util/UUID;
+accessible field net/minecraft/entity/projectile/ProjectileEntity ownerEntityId I
+
+extendable method net/minecraft/entity/projectile/ProjectileEntity method_26961 ()Z

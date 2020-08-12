@@ -198,7 +198,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 	}
 
 	private void updateNeighborStates() {
-		getCachedState().method_30101(getWorld(), getPos(), 3);
+		getCachedState().updateNeighbors(getWorld(), getPos(), 3);
 	}
 
 	@Override
