@@ -25,6 +25,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BannerBlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.entity.model.ShieldEntityModel;
+import net.minecraft.client.render.entity.model.TridentEntityModel;
 import net.minecraft.client.render.item.BuiltinModelItemRenderer;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformation;
@@ -35,6 +36,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
 import net.minecraft.util.DyeColor;
+import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 @Mixin(BuiltinModelItemRenderer.class)
@@ -48,6 +50,8 @@ public class BuiltinModelItemRendererMixin {
 			});
 	private static final NetheriteShulkerBoxBlockEntity RENDER_NETHERITE_SHULKER_BOX = new NetheriteShulkerBoxBlockEntity(
 			(DyeColor) null);
+
+	private final TridentEntityModel modelTrident = new TridentEntityModel();
 
 	@SuppressWarnings("unused")
 	@Inject(method = "render(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;II)V", at = @At("HEAD"), cancellable = true)
@@ -87,6 +91,15 @@ public class BuiltinModelItemRendererMixin {
 				modelShield.method_23774().render(matrixStack, vertexConsumer, i, j, 1.0F, 1.0F, 1.0F, 1.0F);
 			}
 
+			matrixStack.pop();
+		} else if (item == NetheritePlusItems.NETHERITE_TRIDENT) {
+			matrixStack.push();
+			matrixStack.scale(1.0F, -1.0F, -1.0F);
+			VertexConsumer vertexConsumer2 = ItemRenderer.getDirectGlintVertexConsumer(vertexConsumerProvider,
+					this.modelTrident
+							.getLayer(new Identifier("netherite_plus", "textures/entity/netherite_trident.png")),
+					false, stack.hasGlint());
+			this.modelTrident.render(matrixStack, vertexConsumer2, i, j, 1.0F, 1.0F, 1.0F, 1.0F);
 			matrixStack.pop();
 		}
 

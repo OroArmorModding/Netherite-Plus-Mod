@@ -10,7 +10,6 @@ import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.TridentItem;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
@@ -152,8 +151,9 @@ public final class NetheritePlusItems {
 		}
 	}
 
-	private static void registerTrident(){
-		NETHERITE_TRIDENT = register(new Identifier("netherite_plus", "netherite_trident"), (Item)(new NetheriteTridentItem((new Item.Settings()).maxDamage(500).group(ItemGroup.COMBAT).fireproof())));
+	private static void registerTrident() {
+		NETHERITE_TRIDENT = register(new Identifier("netherite_plus", "netherite_trident"),
+				(new NetheriteTridentItem((new Item.Settings()).maxDamage(500).group(ItemGroup.COMBAT).fireproof())));
 		UniqueItemRegistry.TRIDENT.addItemToRegistry(NETHERITE_TRIDENT);
 	}
 
