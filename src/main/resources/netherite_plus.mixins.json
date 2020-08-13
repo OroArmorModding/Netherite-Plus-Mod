@@ -7,7 +7,6 @@
 	"PlayerEntityMixin",
 	"LivingEntityMixin",
 	"MobEntityMixin",
-	"FishingBobberEntityMixin",
 	"CrossbowItemMixin",
 	"ShulkerBoxBlockEntityMixin",
 	"ShulkerBoxSlotMixin",

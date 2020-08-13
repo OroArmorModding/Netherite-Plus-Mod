@@ -1,6 +1,10 @@
 plugins {
-	id 'fabric-loom' version '0.4-SNAPSHOT'
+	id 'fabric-loom' version '0.5-SNAPSHOT'
 	id 'maven-publish'
+}
+
+minecraft {
+	accessWidener = file("src/main/resources/netherite_plus.accesswidener")
 }
 
 repositories {
@@ -37,9 +41,6 @@ archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
 
-minecraft {
-	accessWidener "src/main/resources/netherite_plus.accesswidener"
-}
 
 dependencies {
 
@@ -51,19 +52,30 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
- 	modApi "me.shedaniel.cloth:config-2:4.6.0"
+ 	modApi("me.shedaniel.cloth:config-2:4.6.0"){
+ 		exclude(module: "fabric-api")
+ 	}
 
 	//Libraries
 	modImplementation 'net.devtech:arrp:0.2.6'
 	include 'net.devtech:arrp:0.2.6'
 	
-	modApi "me.shedaniel:RoughlyEnoughItems:4.10.4"
+	//modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:5.2.1"
+    //modRuntime "me.shedaniel:RoughlyEnoughItems:5.2.1"
 
-	modCompile "io.github.prospector:modmenu:1.14.5+build.30"
+	modCompile "io.github.prospector:modmenu:1.14.6+build.31"
 
 	modCompileOnly "net.kyrptonaught:quickshulker:1.1.1"
 	modCompileOnly "com.github.emilyploszaj:trinkets:2.6.3"
 	modCompileOnly "com.misterpemodder:shulkerboxtooltip:2.1.0+1.16.1"
+	
+	modCompileOnly("me.shedaniel:RoughlyEnoughItems-api:5.2.1")  {
+   		exclude(module: "fabric-api")
+	}
+	
+	modRuntime("me.shedaniel:RoughlyEnoughItems:5.2.1")  {
+   		exclude(module: "fabric-api")
+	}
 	
 	//Runtime tests
 	//modRuntime "fi.dy.masa.malilib:malilib-fabric-1.16.1:0.10.0-dev.21+arne.1"
