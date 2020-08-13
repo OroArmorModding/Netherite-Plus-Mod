@@ -96,10 +96,9 @@ public class BuiltinModelItemRendererMixin {
 			matrixStack.push();
 			matrixStack.scale(1.0F, -1.0F, -1.0F);
 			VertexConsumer vertexConsumer2 = ItemRenderer.getDirectGlintVertexConsumer(vertexConsumerProvider,
-					this.modelTrident
-							.getLayer(new Identifier("netherite_plus", "textures/entity/netherite_trident.png")),
+					modelTrident.getLayer(new Identifier("netherite_plus", "textures/entity/netherite_trident.png")),
 					false, stack.hasGlint());
-			this.modelTrident.render(matrixStack, vertexConsumer2, i, j, 1.0F, 1.0F, 1.0F, 1.0F);
+			modelTrident.render(matrixStack, vertexConsumer2, i, j, 1.0F, 1.0F, 1.0F, 1.0F);
 			matrixStack.pop();
 		}
 

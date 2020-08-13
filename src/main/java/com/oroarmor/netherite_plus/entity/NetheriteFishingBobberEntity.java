@@ -104,8 +104,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 							hookedEntity = null;
 							state = FishingBobberEntity.State.FLYING;
 						} else {
-							updatePosition(hookedEntity.getX(), hookedEntity.getBodyY(0.8D),
-									hookedEntity.getZ());
+							updatePosition(hookedEntity.getX(), hookedEntity.getBodyY(0.8D), hookedEntity.getZ());
 						}
 					}
 
@@ -119,13 +118,11 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 						d += Math.signum(d) * 0.1D;
 					}
 
-					this.setVelocity(velocity.x * 0.9D, velocity.y - d * random.nextFloat() * 0.4D,
-							velocity.z * 0.9D);
+					this.setVelocity(velocity.x * 0.9D, velocity.y - d * random.nextFloat() * 0.4D, velocity.z * 0.9D);
 					if (hookCountdown <= 0 && fishTravelCountdown <= 0) {
 						inOpenWater = true;
 					} else {
-						inOpenWater = inOpenWater && outOfOpenWaterTicks < 10
-								&& isOpenOrLavaAround(blockPos);
+						inOpenWater = inOpenWater && outOfOpenWaterTicks < 10 && isOpenOrLavaAround(blockPos);
 					}
 
 					if (validFluid) {
@@ -210,11 +207,11 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 							1.0F + (random.nextFloat() - random.nextFloat()) * 0.4F);
 					double m = getY() + 0.5D;
 					serverWorld.spawnParticles(ParticleTypes.LANDING_LAVA, getX(), m, getZ(),
-							(int) (1.0F + getWidth() * 20.0F), (double) getWidth(), 0.0D,
-							(double) getWidth(), 0.20000000298023224D);
+							(int) (1.0F + getWidth() * 20.0F), (double) getWidth(), 0.0D, (double) getWidth(),
+							0.20000000298023224D);
 					serverWorld.spawnParticles(ParticleTypes.FLAME, getX(), m, getZ(),
-							(int) (1.0F + getWidth() * 20.0F), (double) getWidth(), 0.0D,
-							(double) getWidth(), 0.20000000298023224D);
+							(int) (1.0F + getWidth() * 20.0F), (double) getWidth(), 0.0D, (double) getWidth(),
+							0.20000000298023224D);
 					hookCountdown = MathHelper.nextInt(random, 20, 40);
 					getDataTracker().set(CAUGHT_FISH, true);
 				}
