@@ -33,7 +33,7 @@ public class ClientPlayNetworkHandlerMixin {
 	@Inject(method = "onEntitySpawn", at = @At("HEAD"), cancellable = true)
 	public void onEntitySpawnMixin(EntitySpawnS2CPacket packet, CallbackInfo info) {
 		NetworkThreadUtils.forceMainThread(packet, (ClientPlayNetworkHandler) (Object) this,
-				(ThreadExecutor<?>) this.client);
+				(ThreadExecutor<?>) client);
 		double d = packet.getX();
 		double e = packet.getY();
 		double f = packet.getZ();
@@ -42,13 +42,13 @@ public class ClientPlayNetworkHandlerMixin {
 
 		Entity entity16;
 		if (entityType == EntityType.TRIDENT) {
-			entity15 = new TridentEntity(this.world, d, e, f);
-			entity16 = this.world.getEntityById(packet.getEntityData());
+			entity15 = new TridentEntity(world, d, e, f);
+			entity16 = world.getEntityById(packet.getEntityData());
 
 			if (entity16 instanceof ClientPlayerEntity) {
 				if (((ClientPlayerEntity) entity16).getItemsHand().iterator().next()
 						.getItem() == NetheritePlusItems.NETHERITE_TRIDENT) {
-					entity15 = new NetheriteTridentEntity(this.world, d, e, f);
+					entity15 = new NetheriteTridentEntity(world, d, e, f);
 				}
 			}
 
@@ -65,7 +65,7 @@ public class ClientPlayNetworkHandlerMixin {
 			entity15.yaw = packet.getYaw() * 360 / 256.0F;
 			entity15.setEntityId(i);
 			entity15.setUuid(packet.getUuid());
-			this.world.addEntity(i, entity15);
+			world.addEntity(i, entity15);
 			info.cancel();
 		}
 	}

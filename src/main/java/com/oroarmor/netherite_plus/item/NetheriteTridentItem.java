@@ -26,7 +26,7 @@ public class NetheriteTridentItem extends TridentItem {
 	public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
 		if (user instanceof PlayerEntity) {
 			PlayerEntity playerEntity = (PlayerEntity) user;
-			int i = this.getMaxUseTime(stack) - remainingUseTicks;
+			int i = getMaxUseTime(stack) - remainingUseTicks;
 			if (i >= 10) {
 				int riptideLevel = EnchantmentHelper.getRiptide(stack);
 				if (riptideLevel <= 0 || playerEntity.isTouchingWaterOrRain()) {

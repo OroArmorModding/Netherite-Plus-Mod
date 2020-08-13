@@ -26,15 +26,22 @@ public final class NetheritePlusConfig extends Config {
 	public static class DAMAGE extends ConfigItemGroup {
 		public static final ConfigItem<Double> BOW_DAMAGE_ADDITION = new ConfigItem<>("bow_damage_addition", 0d,
 				"config.netherite_plus.damage.bow_damage_addition");
-
 		public static final ConfigItem<Double> BOW_DAMAGE_MULTIPLIER = new ConfigItem<>("bow_damage_multiplier", 1d,
 				"config.netherite_plus.damage.bow_damage_multiplier");
+
 		public static final ConfigItem<Double> CROSSBOW_DAMAGE_ADDITION = new ConfigItem<>("crossbow_damage_addition",
 				0d, "config.netherite_plus.damage.crossbow_damage_addition");
 		public static final ConfigItem<Double> CROSSBOW_DAMAGE_MULTIPLIER = new ConfigItem<>(
 				"crossbow_damage_multiplier", 1d, "config.netherite_plus.damage.crossbow_damage_multiplier");
+
+		public static final ConfigItem<Double> TRIDENT_DAMAGE_ADDITION = new ConfigItem<>("trident_damage_addition", 0d,
+				"config.netherite_plus.damage.trident_damage_addition");
+		public static final ConfigItem<Double> TRIDENT_DAMAGE_MULTIPLIER = new ConfigItem<>("trident_damage_multiplier",
+				1d, "config.netherite_plus.damage.trident_damage_multiplier");
+
 		public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(BOW_DAMAGE_ADDITION, BOW_DAMAGE_MULTIPLIER,
-				CROSSBOW_DAMAGE_ADDITION, CROSSBOW_DAMAGE_MULTIPLIER);
+				CROSSBOW_DAMAGE_ADDITION, CROSSBOW_DAMAGE_MULTIPLIER, TRIDENT_DAMAGE_ADDITION,
+				TRIDENT_DAMAGE_MULTIPLIER);
 
 		public DAMAGE() {
 			super(OPTIONS, "damage");
@@ -58,8 +65,11 @@ public final class NetheritePlusConfig extends Config {
 		public static final ConfigItem<Integer> SHIELD_DURABILITY = new ConfigItem<>("shield", 672,
 				"config.netherite_plus.durabilities.shield");
 
+		public static final ConfigItem<Integer> TRIDENT_DURABILITY = new ConfigItem<>("trident", 500,
+				"config.netherite_plus.durabilities.trident");
+
 		public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(ELYTRA_DURABILITY, FISHING_ROD_DURABILITY,
-				SHIELD_DURABILITY, BOW_DURABILITY, CROSSBOW_DURABILITY);
+				SHIELD_DURABILITY, BOW_DURABILITY, CROSSBOW_DURABILITY, TRIDENT_DURABILITY);
 
 		public DURABILITIES() {
 			super(OPTIONS, "durabilities");
@@ -96,8 +106,7 @@ public final class NetheritePlusConfig extends Config {
 				"config.netherite_plus.enabled.shulker_boxes");
 
 		public static final ConfigItem<Boolean> ENABLED_TRIDENT = new ConfigItem<>("trident", true,
-				"config.netherite_plus.enabled_trident");
-
+				"config.netherite_plus.enabled.trident");
 
 		public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(ENABLED_SHULKER_BOXES, ENABLED_ELYTRA,
 				ENABLED_SHIELDS, ENABLED_BOWS_AND_CROSSBOWS, ENABLED_FISHING_ROD, ENABLED_HORSE_ARMOR,
