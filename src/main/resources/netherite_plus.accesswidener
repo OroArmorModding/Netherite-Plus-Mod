@@ -29,3 +29,4 @@ extendable method net/minecraft/entity/projectile/ProjectileEntity method_26961 
 accessible field net/minecraft/entity/projectile/ProjectileEntity ownerEntityId I
 
 accessible field net/minecraft/entity/projectile/TridentEntity tridentStack Lnet/minecraft/item/ItemStack;
+accessible field net/minecraft/entity/projectile/TridentEntity dealtDamage Z

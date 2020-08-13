@@ -69,12 +69,15 @@
 	"config.netherite_plus.durabilities.elytra" : "Netherite Elytra Durability",
 	"config.netherite_plus.durabilities.fishing_rod" : "Netherite Fishing Rod Durability",
 	"config.netherite_plus.durabilities.shield" : "Netherite Shield Durability",
+	"config.netherite_plus.durabilities.trident" : "Netherite Trident Durability",
 	
 	"config.netherite_plus.damage": "Damage Features",
 	"config.netherite_plus.damage.bow_damage_addition":	"Damage added to the netherite bow after the multiplier",
 	"config.netherite_plus.damage.bow_damage_multiplier": "Multiplier of the normal bow damage for the netherite bow",
 	"config.netherite_plus.damage.crossbow_damage_addition": "Damage added to the netherite crossbow after the multiplier",
 	"config.netherite_plus.damage.crossbow_damage_multiplier": "Multiplier of the normal crossbow damage for the netherite crossbow",
+	"config.netherite_plus.damage.trident_damage_addition": "Damage added to the netherite trident after the multiplier",
+	"config.netherite_plus.damage.trident_damage_multiplier": "Multiplier of the normal trident damage for the netherite trident",
 	
 	"config.netherite_plus.anvil": "Anvil Features",
 	"config.netherite_plus.anvil.xp_redcution": "XP Reduction in netherite anvil"
