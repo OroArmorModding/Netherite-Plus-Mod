@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.config.NetheritePlusDynamicDataPack;
+import com.oroarmor.netherite_plus.entity.NetheriteTridentEntity;
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 import com.oroarmor.netherite_plus.recipe.NetheritePlusRecipeSerializer;
 import com.oroarmor.netherite_plus.screen.NetheriteAnvilScreenHandler;
@@ -13,7 +14,11 @@ import com.oroarmor.util.config.ConfigItemGroup;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.loot.v1.LootEntryTypeRegistry;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
 
@@ -36,6 +41,8 @@ public class NetheritePlusMod implements ModInitializer {
 
 		NetheritePlusItems.registerItems();
 		NetheritePlusDynamicDataPack.configureDynamicDataPack();
+
+		LootEntryTypeRegistry.INSTANCE.register(new Identifier("netherite_plus", "gameplay/fishing"), null);
 
 		NETHERITE_ANVIL = ScreenHandlerRegistry.registerSimple(new Identifier("netherite_plus", "netherite_anvil"),
 				NetheriteAnvilScreenHandler::new);

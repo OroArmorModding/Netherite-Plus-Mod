@@ -135,6 +135,9 @@ public final class NetheritePlusItems {
 		if (NetheritePlusConfig.ENABLED.ENABLED_HORSE_ARMOR.getValue()) {
 			registerHorseArmor();
 		}
+		if (NetheritePlusConfig.ENABLED.ENABLED_TRIDENT.getValue()) {
+			registerTrident();
+		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_FAKE_NETHERITE_BLOCKS.getValue()) {
 			FAKE_NETHERITE_BLOCK = register(new Identifier("netherite_plus", "fake_netherite_block"),
@@ -151,6 +154,7 @@ public final class NetheritePlusItems {
 
 	private static void registerTrident(){
 		NETHERITE_TRIDENT = register(new Identifier("netherite_plus", "netherite_trident"), (Item)(new NetheriteTridentItem((new Item.Settings()).maxDamage(500).group(ItemGroup.COMBAT).fireproof())));
+		UniqueItemRegistry.TRIDENT.addItemToRegistry(NETHERITE_TRIDENT);
 	}
 
 	private static void registerShulkerBoxes() {

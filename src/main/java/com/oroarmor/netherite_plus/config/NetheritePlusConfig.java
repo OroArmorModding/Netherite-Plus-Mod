@@ -95,9 +95,13 @@ public final class NetheritePlusConfig extends Config {
 		public static final ConfigItem<Boolean> ENABLED_SHULKER_BOXES = new ConfigItem<>("shulker_boxes", true,
 				"config.netherite_plus.enabled.shulker_boxes");
 
+		public static final ConfigItem<Boolean> ENABLED_TRIDENT = new ConfigItem<>("trident", true,
+				"config.netherite_plus.enabled_trident");
+
+
 		public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(ENABLED_SHULKER_BOXES, ENABLED_ELYTRA,
 				ENABLED_SHIELDS, ENABLED_BOWS_AND_CROSSBOWS, ENABLED_FISHING_ROD, ENABLED_HORSE_ARMOR,
-				ENABLED_FAKE_NETHERITE_BLOCKS, ENABLED_ANVIL, ENABLED_CONFIG_PRINT);
+				ENABLED_FAKE_NETHERITE_BLOCKS, ENABLED_ANVIL, ENABLED_CONFIG_PRINT, ENABLED_TRIDENT);
 
 		public ENABLED() {
 			super(OPTIONS, "enabled");
