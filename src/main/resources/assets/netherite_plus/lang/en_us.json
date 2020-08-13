@@ -1,6 +1,7 @@
 {
 	"item.netherite_plus.netherite_elytra": "Netherite Elytra",
 	"item.netherite_plus.netherite_fishing_rod": "Netherite Fishing Rod",
+	"item.netherite_plus.netherite_trident": "Netherite Trident",
 	
 	"container.netheriteShulkerBox": "Netherite Shulker Box",
 	"block.netherite_plus.netherite_shulker_box": "Netherite Shulker Box",
@@ -60,6 +61,7 @@
 	"config.netherite_plus.enabled.horse_armor": "Enable or disable netherite horse armor",
 	"config.netherite_plus.enabled.shields": "Enable or disable netherite shields",
 	"config.netherite_plus.enabled.shulker_boxes": "Enable or disable netherite shulker boxes",
+	"config.netherite_plus.enabled.trident": "Enable or disable netherite tridents",
 	
 	"config.netherite_plus.durabilities": "Item Durabilities",
 	"config.netherite_plus.durabilities.bow" : "Netherite Bow Durability",

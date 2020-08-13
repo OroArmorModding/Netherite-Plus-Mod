@@ -14,7 +14,8 @@ public final class UniqueItemRegistry {
 	public static UniqueItemRegistry ELYTRA = new UniqueItemRegistry(Items.ELYTRA),
 			FISHING_ROD = new UniqueItemRegistry(Items.FISHING_ROD), SHIELD = new UniqueItemRegistry(Items.SHIELD),
 			BOW = new UniqueItemRegistry(Items.BOW), CROSSBOW = new UniqueItemRegistry(Items.CROSSBOW),
-			HORSE_ARMOR = new UniqueItemRegistry(Items.DIAMOND_HORSE_ARMOR);
+			HORSE_ARMOR = new UniqueItemRegistry(Items.DIAMOND_HORSE_ARMOR),
+			TRIDENT = new UniqueItemRegistry(Items.TRIDENT);
 
 	private UniqueItemRegistry(Item defaultItem) {
 		this.defaultItem = defaultItem;

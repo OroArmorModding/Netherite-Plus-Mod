@@ -24,6 +24,6 @@ accessible field net/minecraft/entity/projectile/FishingBobberEntity CAUGHT_FISH
 
 accessible field net/minecraft/entity/projectile/ProjectileEntity leftOwner Z
 accessible field net/minecraft/entity/projectile/ProjectileEntity ownerUuid Ljava/util/UUID;
-accessible field net/minecraft/entity/projectile/ProjectileEntity ownerEntityId I
 
 extendable method net/minecraft/entity/projectile/ProjectileEntity method_26961 ()Z
+accessible field net/minecraft/entity/projectile/ProjectileEntity ownerEntityId I
