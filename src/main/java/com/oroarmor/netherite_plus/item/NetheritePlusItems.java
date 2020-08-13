@@ -10,6 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.TridentItem;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
@@ -25,6 +26,8 @@ public final class NetheritePlusItems {
 	public static Item NETHERITE_BOW;
 
 	public static Item NETHERITE_CROSSBOW;
+
+	public static Item NETHERITE_TRIDENT;
 
 	public static Item.Settings NETHERITE_SHULKER_BOX_ITEM_SETTINGS = new Item.Settings().maxCount(1)
 			.group(ItemGroup.DECORATIONS).fireproof();
@@ -132,6 +135,9 @@ public final class NetheritePlusItems {
 		if (NetheritePlusConfig.ENABLED.ENABLED_HORSE_ARMOR.getValue()) {
 			registerHorseArmor();
 		}
+		if (NetheritePlusConfig.ENABLED.ENABLED_TRIDENT.getValue()) {
+			registerTrident();
+		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_FAKE_NETHERITE_BLOCKS.getValue()) {
 			FAKE_NETHERITE_BLOCK = register(new Identifier("netherite_plus", "fake_netherite_block"),
@@ -144,6 +150,11 @@ public final class NetheritePlusItems {
 					new BlockItem(NetheritePlusBlocks.NETHERITE_ANVIL_BLOCK,
 							new Item.Settings().group(ItemGroup.DECORATIONS).fireproof()));
 		}
+	}
+
+	private static void registerTrident(){
+		NETHERITE_TRIDENT = register(new Identifier("netherite_plus", "netherite_trident"), (Item)(new NetheriteTridentItem((new Item.Settings()).maxDamage(500).group(ItemGroup.COMBAT).fireproof())));
+		UniqueItemRegistry.TRIDENT.addItemToRegistry(NETHERITE_TRIDENT);
 	}
 
 	private static void registerShulkerBoxes() {
