@@ -22,8 +22,11 @@
 	"render.BuiltinModelItemRendererMixin",
 	"render.FishingBobberEntityRendererMixin",
 	"render.HeldItemRendererMixin",
+	"render.TridentEntityRendererMixin",
+	"render.ItemRendererMixin",
 	
-	"ClientPlayerEntityMixin"
+	"ClientPlayerEntityMixin",
+	"ClientPlayNetworkHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
