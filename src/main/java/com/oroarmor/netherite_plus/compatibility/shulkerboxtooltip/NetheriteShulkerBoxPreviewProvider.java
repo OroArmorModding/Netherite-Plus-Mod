@@ -2,9 +2,10 @@ package com.oroarmor.netherite_plus.compatibility.shulkerboxtooltip;
 
 import com.misterpemodder.shulkerboxtooltip.api.PreviewContext;
 import com.misterpemodder.shulkerboxtooltip.api.provider.BlockEntityPreviewProvider;
+import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
+
 import net.minecraft.block.Block;
 import net.minecraft.util.DyeColor;
-import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
 
 public class NetheriteShulkerBoxPreviewProvider extends BlockEntityPreviewProvider {
 	private static float[] SHULKER_BOX_COLOR = new float[] { 0.592f, 0.403f, 0.592f };
