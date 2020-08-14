@@ -1,5 +1,7 @@
 package com.oroarmor.netherite_plus.mixin;
 
+import java.util.Iterator;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,6 +19,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.TridentEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.NetworkThreadUtils;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.util.thread.ThreadExecutor;
@@ -46,8 +49,13 @@ public class ClientPlayNetworkHandlerMixin {
 			entity16 = world.getEntityById(packet.getEntityData());
 
 			if (entity16 instanceof ClientPlayerEntity) {
-				if (((ClientPlayerEntity) entity16).getItemsHand().iterator().next()
-						.getItem() == NetheritePlusItems.NETHERITE_TRIDENT) {
+
+				boolean hasNetheriteTrident = false;
+				Iterator<ItemStack> items = ((ClientPlayerEntity) entity16).getItemsHand().iterator();
+				while (items.hasNext()) {
+					hasNetheriteTrident |= items.next().getItem() == NetheritePlusItems.NETHERITE_TRIDENT;
+				}
+				if (hasNetheriteTrident) {
 					entity15 = new NetheriteTridentEntity(world, d, e, f);
 				}
 			}
