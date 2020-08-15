@@ -5,6 +5,7 @@ import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_CROS
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_ELYTRA;
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_FISHING_ROD;
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_SHIELD;
+import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_TRIDENT;
 
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 
@@ -35,6 +36,18 @@ public class NetheritePlusModelProvider {
 			registerBowModels();
 			registerCrossbowModels();
 		}
+
+		if (NetheritePlusConfig.ENABLED.ENABLED_TRIDENT.getValue()) {
+			registerTridentModels();
+		}
+	}
+
+	private static void registerTridentModels() {
+		FabricModelPredicateProviderRegistry.register(NETHERITE_TRIDENT, new Identifier("throwing"),
+				(itemStack, clientWorld, livingEntity) -> {
+					return livingEntity != null && livingEntity.isUsingItem()
+							&& livingEntity.getActiveItem() == itemStack ? 1.0F : 0.0F;
+				});
 	}
 
 	private static void registerElytraModels() {

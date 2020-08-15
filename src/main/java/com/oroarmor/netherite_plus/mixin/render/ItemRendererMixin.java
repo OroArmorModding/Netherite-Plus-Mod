@@ -39,7 +39,7 @@ public abstract class ItemRendererMixin {
 			boolean bl = renderMode == ModelTransformation.Mode.GUI || renderMode == ModelTransformation.Mode.GROUND
 					|| renderMode == ModelTransformation.Mode.FIXED;
 			if (stack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT && bl) {
-				model = this.models.getModelManager()
+				model = models.getModelManager()
 						.getModel(new ModelIdentifier("netherite_plus:netherite_trident#inventory"));
 			}
 
@@ -53,7 +53,7 @@ public abstract class ItemRendererMixin {
 				vertexConsumer4 = ItemRenderer.getDirectGlintVertexConsumer(vertexConsumers, renderLayer, true,
 						stack.hasGlint());
 
-				this.renderBakedItemModel(model, stack, light, overlay, matrices, vertexConsumer4);
+				renderBakedItemModel(model, stack, light, overlay, matrices, vertexConsumer4);
 			}
 
 			matrices.pop();

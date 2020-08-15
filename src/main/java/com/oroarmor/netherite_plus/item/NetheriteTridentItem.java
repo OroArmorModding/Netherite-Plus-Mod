@@ -13,6 +13,8 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -29,7 +31,7 @@ public class NetheriteTridentItem extends TridentItem {
 			int i = getMaxUseTime(stack) - remainingUseTicks;
 			if (i >= 10) {
 				int riptideLevel = EnchantmentHelper.getRiptide(stack);
-				if (riptideLevel <= 0 || playerEntity.isTouchingWaterOrRain()) {
+				if (riptideLevel <= 0 || playerEntity.isTouchingWaterOrRain() || playerEntity.isInLava()) {
 					if (!world.isClient) {
 						stack.damage(1, playerEntity, (p) -> {
 							p.sendToolBreakStatus(user.getActiveHand());
@@ -86,6 +88,19 @@ public class NetheriteTridentItem extends TridentItem {
 
 				}
 			}
+		}
+	}
+
+	@Override
+	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+		ItemStack itemStack = user.getStackInHand(hand);
+		if (itemStack.getDamage() >= itemStack.getMaxDamage() - 1) {
+			return TypedActionResult.fail(itemStack);
+		} else if (EnchantmentHelper.getRiptide(itemStack) > 0 && !(user.isTouchingWaterOrRain() || user.isInLava())) {
+			return TypedActionResult.fail(itemStack);
+		} else {
+			user.setCurrentHand(hand);
+			return TypedActionResult.consume(itemStack);
 		}
 	}
 }
