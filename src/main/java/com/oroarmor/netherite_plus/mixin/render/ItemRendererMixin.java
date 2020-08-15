@@ -30,6 +30,15 @@ public abstract class ItemRendererMixin {
 	@Shadow
 	private ItemModels models;
 
+	@Redirect(method = "getHeldItemModel", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
+	public Item getHeldItemModel(ItemStack stack) {
+		return UniqueItemRegistry.TRIDENT.getDefaultItem(stack.getItem());
+	}
+
+	@Shadow
+	protected abstract void renderBakedItemModel(BakedModel model, ItemStack stack, int light, int overlay,
+			MatrixStack matrices, VertexConsumer vertexConsumer4);
+
 	@Inject(method = "renderItem", at = @At(value = "HEAD"), cancellable = true)
 	public void renderItem(ItemStack stack, ModelTransformation.Mode renderMode, boolean leftHanded,
 			MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel model,
@@ -60,14 +69,5 @@ public abstract class ItemRendererMixin {
 			info.cancel();
 		}
 
-	}
-
-	@Shadow
-	protected abstract void renderBakedItemModel(BakedModel model, ItemStack stack, int light, int overlay,
-			MatrixStack matrices, VertexConsumer vertexConsumer4);
-
-	@Redirect(method = "getHeldItemModel", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
-	public Item getHeldItemModel(ItemStack stack) {
-		return UniqueItemRegistry.TRIDENT.getDefaultItem(stack.getItem());
 	}
 }

@@ -37,13 +37,111 @@ import net.minecraft.world.World;
 
 public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 
+	public NetheriteFishingBobberEntity(PlayerEntity thrower, World world, int lureLevel, int luckOfTheSeaLevel) {
+		super(thrower, world, lureLevel, luckOfTheSeaLevel);
+	}
+
 	@Environment(EnvType.CLIENT)
 	public NetheriteFishingBobberEntity(World world, PlayerEntity thrower, double x, double y, double z) {
 		super(world, thrower, x, y, z);
 	}
 
-	public NetheriteFishingBobberEntity(PlayerEntity thrower, World world, int lureLevel, int luckOfTheSeaLevel) {
-		super(thrower, world, lureLevel, luckOfTheSeaLevel);
+	private void checkForCollision() {
+		HitResult hitResult = ProjectileUtil.getCollision(this, this::method_26958);
+		onCollision(hitResult);
+	}
+
+	@Override
+	public boolean doesRenderOnFire() {
+		return false;
+	}
+
+	@Nullable
+	public Entity getEntityOwner() {
+		if (ownerUuid != null && world instanceof ServerWorld) {
+			return ((ServerWorld) world).getEntity(ownerUuid);
+		} else {
+			return ownerEntityId != 0 ? world.getEntityById(ownerEntityId) : null;
+		}
+	}
+
+	@Override
+	public PlayerEntity getOwner() {
+		return getPlayerOwner();
+	}
+
+	@Nullable
+	public PlayerEntity getPlayerOwner() {
+		Entity entity = getEntityOwner();
+		return entity instanceof PlayerEntity ? (PlayerEntity) entity : null;
+	}
+
+	private FishingBobberEntity.PositionType getPositionType(BlockPos pos) {
+		BlockState blockState = world.getBlockState(pos);
+		if (!blockState.isAir()) {
+			FluidState fluidState = blockState.getFluidState();
+			return fluidState.isIn(FluidTags.LAVA) && fluidState.isStill()
+					&& blockState.getCollisionShape(world, pos).isEmpty()
+							? FishingBobberEntity.PositionType.INSIDE_WATER
+							: FishingBobberEntity.PositionType.INVALID;
+		} else {
+			return FishingBobberEntity.PositionType.ABOVE_WATER;
+		}
+	}
+
+	private FishingBobberEntity.PositionType getPositionType(BlockPos start, BlockPos end) {
+		return BlockPos.stream(start, end).map(this::getPositionType).reduce((positionType, positionType2) -> {
+			return positionType == positionType2 ? positionType : FishingBobberEntity.PositionType.INVALID;
+		}).orElse(FishingBobberEntity.PositionType.INVALID);
+	}
+
+	@Override
+	public boolean isFireImmune() {
+		return true;
+	}
+
+	@Override
+	public boolean isOnFire() {
+		return false;
+	}
+
+	private boolean isOpenOrLavaAround(BlockPos pos) {
+		FishingBobberEntity.PositionType positionType = FishingBobberEntity.PositionType.INVALID;
+
+		for (int i = -1; i <= 2; ++i) {
+			FishingBobberEntity.PositionType positionType2 = this.getPositionType(pos.add(-2, i, -2), pos.add(2, i, 2));
+			switch (positionType2) {
+				case INVALID:
+					return false;
+				case ABOVE_WATER:
+					if (positionType == FishingBobberEntity.PositionType.INVALID) {
+						return false;
+					}
+					break;
+				case INSIDE_WATER:
+					if (positionType == FishingBobberEntity.PositionType.ABOVE_WATER) {
+						return false;
+					}
+			}
+
+			positionType = positionType2;
+		}
+
+		return true;
+	}
+
+	private boolean removeIfInvalid(PlayerEntity playerEntity) {
+		ItemStack itemStack = playerEntity.getMainHandStack();
+		ItemStack itemStack2 = playerEntity.getOffHandStack();
+		boolean bl = itemStack.getItem() == NetheritePlusItems.NETHERITE_FISHING_ROD;
+		boolean bl2 = itemStack2.getItem() == NetheritePlusItems.NETHERITE_FISHING_ROD;
+		if (!playerEntity.removed && playerEntity.isAlive() && (bl || bl2)
+				&& this.squaredDistanceTo(playerEntity) <= 1024.0D) {
+			return false;
+		} else {
+			remove();
+			return true;
+		}
 	}
 
 	@Override
@@ -250,69 +348,6 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 
 	}
 
-	private boolean removeIfInvalid(PlayerEntity playerEntity) {
-		ItemStack itemStack = playerEntity.getMainHandStack();
-		ItemStack itemStack2 = playerEntity.getOffHandStack();
-		boolean bl = itemStack.getItem() == NetheritePlusItems.NETHERITE_FISHING_ROD;
-		boolean bl2 = itemStack2.getItem() == NetheritePlusItems.NETHERITE_FISHING_ROD;
-		if (!playerEntity.removed && playerEntity.isAlive() && (bl || bl2)
-				&& this.squaredDistanceTo(playerEntity) <= 1024.0D) {
-			return false;
-		} else {
-			remove();
-			return true;
-		}
-	}
-
-	private void checkForCollision() {
-		HitResult hitResult = ProjectileUtil.getCollision(this, this::method_26958);
-		onCollision(hitResult);
-	}
-
-	private boolean isOpenOrLavaAround(BlockPos pos) {
-		FishingBobberEntity.PositionType positionType = FishingBobberEntity.PositionType.INVALID;
-
-		for (int i = -1; i <= 2; ++i) {
-			FishingBobberEntity.PositionType positionType2 = this.getPositionType(pos.add(-2, i, -2), pos.add(2, i, 2));
-			switch (positionType2) {
-				case INVALID:
-					return false;
-				case ABOVE_WATER:
-					if (positionType == FishingBobberEntity.PositionType.INVALID) {
-						return false;
-					}
-					break;
-				case INSIDE_WATER:
-					if (positionType == FishingBobberEntity.PositionType.ABOVE_WATER) {
-						return false;
-					}
-			}
-
-			positionType = positionType2;
-		}
-
-		return true;
-	}
-
-	private FishingBobberEntity.PositionType getPositionType(BlockPos start, BlockPos end) {
-		return BlockPos.stream(start, end).map(this::getPositionType).reduce((positionType, positionType2) -> {
-			return positionType == positionType2 ? positionType : FishingBobberEntity.PositionType.INVALID;
-		}).orElse(FishingBobberEntity.PositionType.INVALID);
-	}
-
-	private FishingBobberEntity.PositionType getPositionType(BlockPos pos) {
-		BlockState blockState = world.getBlockState(pos);
-		if (!blockState.isAir()) {
-			FluidState fluidState = blockState.getFluidState();
-			return fluidState.isIn(FluidTags.LAVA) && fluidState.isStill()
-					&& blockState.getCollisionShape(world, pos).isEmpty()
-							? FishingBobberEntity.PositionType.INSIDE_WATER
-							: FishingBobberEntity.PositionType.INVALID;
-		} else {
-			return FishingBobberEntity.PositionType.ABOVE_WATER;
-		}
-	}
-
 	@Override
 	public int use(ItemStack usedItem) {
 		PlayerEntity playerEntity = getPlayerOwner();
@@ -359,41 +394,6 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 		} else {
 			return 0;
 		}
-	}
-
-	@Nullable
-	public PlayerEntity getPlayerOwner() {
-		Entity entity = getEntityOwner();
-		return entity instanceof PlayerEntity ? (PlayerEntity) entity : null;
-	}
-
-	@Nullable
-	public Entity getEntityOwner() {
-		if (ownerUuid != null && world instanceof ServerWorld) {
-			return ((ServerWorld) world).getEntity(ownerUuid);
-		} else {
-			return ownerEntityId != 0 ? world.getEntityById(ownerEntityId) : null;
-		}
-	}
-
-	@Override
-	public PlayerEntity getOwner() {
-		return getPlayerOwner();
-	}
-
-	@Override
-	public boolean isOnFire() {
-		return false;
-	}
-
-	@Override
-	public boolean doesRenderOnFire() {
-		return false;
-	}
-
-	@Override
-	public boolean isFireImmune() {
-		return true;
 	}
 
 }

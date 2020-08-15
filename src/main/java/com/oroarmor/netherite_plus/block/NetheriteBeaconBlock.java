@@ -28,6 +28,17 @@ public class NetheriteBeaconBlock extends BeaconBlock {
 	}
 
 	@Override
+	public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
+		if (itemStack.hasCustomName()) {
+			BlockEntity blockEntity = world.getBlockEntity(pos);
+			if (blockEntity instanceof NetheriteBeaconBlockEntity) {
+				((NetheriteBeaconBlockEntity) blockEntity).setCustomName(itemStack.getName());
+			}
+		}
+
+	}
+
+	@Override
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockHitResult hit) {
 		if (world.isClient) {
@@ -41,16 +52,5 @@ public class NetheriteBeaconBlock extends BeaconBlock {
 
 			return ActionResult.CONSUME;
 		}
-	}
-
-	@Override
-	public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
-		if (itemStack.hasCustomName()) {
-			BlockEntity blockEntity = world.getBlockEntity(pos);
-			if (blockEntity instanceof NetheriteBeaconBlockEntity) {
-				((NetheriteBeaconBlockEntity) blockEntity).setCustomName(itemStack.getName());
-			}
-		}
-
 	}
 }

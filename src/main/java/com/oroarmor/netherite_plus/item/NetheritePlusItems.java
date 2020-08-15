@@ -58,20 +58,20 @@ public final class NetheritePlusItems {
 
 	public static Item NETHERITE_ANVIL_ITEM;
 
-	private static void registerFishingRod() {
-		NETHERITE_FISHING_ROD = register(new Identifier("netherite_plus", "netherite_fishing_rod"),
-				new NetheriteFishingRodItem(new Item.Settings()
-						.maxDamage(NetheritePlusConfig.DURABILITIES.FISHING_ROD_DURABILITY.getValue())
-						.group(ItemGroup.TOOLS).fireproof()));
-
-		UniqueItemRegistry.FISHING_ROD.addItemToRegistry(NETHERITE_FISHING_ROD);
+	protected static Item register(Block block, Item item) {
+		return register(Registry.BLOCK.getId(block), item);
 	}
 
-	private static void registerHorseArmor() {
-		NETHERITE_HORSE_ARMOR = register(new Identifier("netherite_plus", "netherite_horse_armor"),
-				new NetheriteHorseArmorItem(15, new Item.Settings().maxCount(1).group(ItemGroup.MISC).fireproof()));
+	private static Item register(BlockItem item) {
+		return register(item.getBlock(), item);
+	}
 
-		UniqueItemRegistry.HORSE_ARMOR.addItemToRegistry(NETHERITE_HORSE_ARMOR);
+	private static Item register(Identifier id, Item item) {
+		if (item instanceof BlockItem) {
+			((BlockItem) item).appendBlocks(Item.BLOCK_ITEMS, item);
+		}
+
+		return Registry.register(Registry.ITEM, id, item);
 	}
 
 	private static void registerBowAndCrossbow() {
@@ -89,15 +89,6 @@ public final class NetheritePlusItems {
 		UniqueItemRegistry.CROSSBOW.addItemToRegistry(NETHERITE_CROSSBOW);
 	}
 
-	private static void registerShield() {
-		NETHERITE_SHIELD = register(new Identifier("netherite_plus", "netherite_shield"),
-				new NetheriteShieldItem(
-						new Item.Settings().maxDamage(NetheritePlusConfig.DURABILITIES.SHIELD_DURABILITY.getValue())
-								.group(ItemGroup.COMBAT).fireproof()));
-
-		UniqueItemRegistry.SHIELD.addItemToRegistry(NETHERITE_SHIELD);
-	}
-
 	private static void registerElytra() {
 		Item.Settings elytraSettings = new Item.Settings()
 				.maxDamage(NetheritePlusConfig.DURABILITIES.ELYTRA_DURABILITY.getValue())
@@ -108,6 +99,22 @@ public final class NetheritePlusItems {
 						: NetheritePlusTrinketsCompatibilty.getTrinketsElytra(elytraSettings));
 
 		UniqueItemRegistry.ELYTRA.addItemToRegistry(NETHERITE_ELYTRA);
+	}
+
+	private static void registerFishingRod() {
+		NETHERITE_FISHING_ROD = register(new Identifier("netherite_plus", "netherite_fishing_rod"),
+				new NetheriteFishingRodItem(new Item.Settings()
+						.maxDamage(NetheritePlusConfig.DURABILITIES.FISHING_ROD_DURABILITY.getValue())
+						.group(ItemGroup.TOOLS).fireproof()));
+
+		UniqueItemRegistry.FISHING_ROD.addItemToRegistry(NETHERITE_FISHING_ROD);
+	}
+
+	private static void registerHorseArmor() {
+		NETHERITE_HORSE_ARMOR = register(new Identifier("netherite_plus", "netherite_horse_armor"),
+				new NetheriteHorseArmorItem(15, new Item.Settings().maxCount(1).group(ItemGroup.MISC).fireproof()));
+
+		UniqueItemRegistry.HORSE_ARMOR.addItemToRegistry(NETHERITE_HORSE_ARMOR);
 	}
 
 	public static void registerItems() {
@@ -152,12 +159,13 @@ public final class NetheritePlusItems {
 		}
 	}
 
-	private static void registerTrident() {
-		NETHERITE_TRIDENT = register(new Identifier("netherite_plus", "netherite_trident"),
-				new NetheriteTridentItem(
-						new Item.Settings().maxDamage(NetheritePlusConfig.DURABILITIES.TRIDENT_DURABILITY.getValue())
+	private static void registerShield() {
+		NETHERITE_SHIELD = register(new Identifier("netherite_plus", "netherite_shield"),
+				new NetheriteShieldItem(
+						new Item.Settings().maxDamage(NetheritePlusConfig.DURABILITIES.SHIELD_DURABILITY.getValue())
 								.group(ItemGroup.COMBAT).fireproof()));
-		UniqueItemRegistry.TRIDENT.addItemToRegistry(NETHERITE_TRIDENT);
+
+		UniqueItemRegistry.SHIELD.addItemToRegistry(NETHERITE_SHIELD);
 	}
 
 	private static void registerShulkerBoxes() {
@@ -197,20 +205,12 @@ public final class NetheritePlusItems {
 				new BlockItem(NetheritePlusBlocks.NETHERITE_BLACK_SHULKER_BOX, NETHERITE_SHULKER_BOX_ITEM_SETTINGS));
 	}
 
-	private static Item register(BlockItem item) {
-		return register(item.getBlock(), item);
-	}
-
-	protected static Item register(Block block, Item item) {
-		return register(Registry.BLOCK.getId(block), item);
-	}
-
-	private static Item register(Identifier id, Item item) {
-		if (item instanceof BlockItem) {
-			((BlockItem) item).appendBlocks(Item.BLOCK_ITEMS, item);
-		}
-
-		return Registry.register(Registry.ITEM, id, item);
+	private static void registerTrident() {
+		NETHERITE_TRIDENT = register(new Identifier("netherite_plus", "netherite_trident"),
+				new NetheriteTridentItem(
+						new Item.Settings().maxDamage(NetheritePlusConfig.DURABILITIES.TRIDENT_DURABILITY.getValue())
+								.group(ItemGroup.COMBAT).fireproof()));
+		UniqueItemRegistry.TRIDENT.addItemToRegistry(NETHERITE_TRIDENT);
 	}
 
 }

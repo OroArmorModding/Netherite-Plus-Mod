@@ -22,11 +22,6 @@ import net.minecraft.world.World;
 @Mixin(CrossbowItem.class)
 public class CrossbowItemMixin {
 
-	@Redirect(method = "getSpeed", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
-	private static Item tickMovement(ItemStack itemStack) {
-		return UniqueItemRegistry.CROSSBOW.getDefaultItem(itemStack.getItem());
-	}
-
 	@SuppressWarnings("unused")
 	@Inject(method = "createArrow", at = @At("RETURN"), locals = LocalCapture.CAPTURE_FAILSOFT, cancellable = true)
 	private static void createArrow(World world, LivingEntity entity, ItemStack crossbow, ItemStack arrow,
@@ -41,5 +36,10 @@ public class CrossbowItemMixin {
 				* NetheritePlusConfig.DAMAGE.CROSSBOW_DAMAGE_MULTIPLIER.getValue()
 				+ NetheritePlusConfig.DAMAGE.CROSSBOW_DAMAGE_ADDITION.getValue());
 		cir.setReturnValue(persistentProjectileEntity);
+	}
+
+	@Redirect(method = "getSpeed", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
+	private static Item tickMovement(ItemStack itemStack) {
+		return UniqueItemRegistry.CROSSBOW.getDefaultItem(itemStack.getItem());
 	}
 }

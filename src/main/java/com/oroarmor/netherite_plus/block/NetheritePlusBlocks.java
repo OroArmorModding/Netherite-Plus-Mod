@@ -65,6 +65,23 @@ public class NetheritePlusBlocks {
 		// }).nonOpaque()));
 	}
 
+	private static NetheriteShulkerBoxBlock createShulkerBoxBlock(DyeColor color, AbstractBlock.Settings settings) {
+		AbstractBlock.ContextPredicate contextPredicate = (blockState, blockView, blockPos) -> {
+			BlockEntity blockEntity = blockView.getBlockEntity(blockPos);
+			if (!(blockEntity instanceof NetheriteShulkerBoxBlockEntity)) {
+				return true;
+			}
+			NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity = (NetheriteShulkerBoxBlockEntity) blockEntity;
+			return shulkerBoxBlockEntity.suffocates();
+		};
+		return new NetheriteShulkerBoxBlock(color, settings.strength(2.0F).dynamicBounds().nonOpaque()
+				.suffocates(contextPredicate).blockVision(contextPredicate));
+	}
+
+	private static Block register(String id, Block block) {
+		return Registry.register(Registry.BLOCK, new Identifier("netherite_plus", id), block);
+	}
+
 	private static void registerShulkerBoxBlocks() {
 		NETHERITE_SHULKER_BOX = register("netherite_shulker_box", createShulkerBoxBlock((DyeColor) null,
 				AbstractBlock.Settings.of(Material.SHULKER_BOX).strength(2f, 1200f)));
@@ -110,23 +127,6 @@ public class NetheritePlusBlocks {
 						NETHERITE_MAGENTA_SHULKER_BOX, NETHERITE_ORANGE_SHULKER_BOX, NETHERITE_PINK_SHULKER_BOX,
 						NETHERITE_PURPLE_SHULKER_BOX, NETHERITE_RED_SHULKER_BOX, NETHERITE_WHITE_SHULKER_BOX,
 						NETHERITE_YELLOW_SHULKER_BOX).build(null));
-	}
-
-	private static NetheriteShulkerBoxBlock createShulkerBoxBlock(DyeColor color, AbstractBlock.Settings settings) {
-		AbstractBlock.ContextPredicate contextPredicate = (blockState, blockView, blockPos) -> {
-			BlockEntity blockEntity = blockView.getBlockEntity(blockPos);
-			if (!(blockEntity instanceof NetheriteShulkerBoxBlockEntity)) {
-				return true;
-			}
-			NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity = (NetheriteShulkerBoxBlockEntity) blockEntity;
-			return shulkerBoxBlockEntity.suffocates();
-		};
-		return new NetheriteShulkerBoxBlock(color, settings.strength(2.0F).dynamicBounds().nonOpaque()
-				.suffocates(contextPredicate).blockVision(contextPredicate));
-	}
-
-	private static Block register(String id, Block block) {
-		return Registry.register(Registry.BLOCK, new Identifier("netherite_plus", id), block);
 	}
 
 }

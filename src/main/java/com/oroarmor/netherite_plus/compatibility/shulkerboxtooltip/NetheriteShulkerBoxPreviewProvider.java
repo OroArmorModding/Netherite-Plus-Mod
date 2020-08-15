@@ -15,11 +15,6 @@ public class NetheriteShulkerBoxPreviewProvider extends BlockEntityPreviewProvid
 	}
 
 	@Override
-	public boolean showTooltipHints(PreviewContext context) {
-		return true;
-	}
-
-	@Override
 	public float[] getWindowColor(PreviewContext context) {
 		DyeColor dye = ((NetheriteShulkerBoxBlock) Block.getBlockFromItem(context.getStack().getItem())).getColor();
 		if (dye != null) {
@@ -29,5 +24,10 @@ public class NetheriteShulkerBoxPreviewProvider extends BlockEntityPreviewProvid
 		} else {
 			return SHULKER_BOX_COLOR;
 		}
+	}
+
+	@Override
+	public boolean showTooltipHints(PreviewContext context) {
+		return true;
 	}
 }

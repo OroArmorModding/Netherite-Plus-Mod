@@ -19,41 +19,6 @@ public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
 	}
 
 	@Override
-	public boolean matches(CraftingInventory craftingInventory, World world) {
-		ItemStack itemStack = ItemStack.EMPTY;
-		ItemStack itemStack2 = ItemStack.EMPTY;
-
-		for (int i = 0; i < craftingInventory.size(); ++i) {
-			ItemStack itemStack3 = craftingInventory.getStack(i);
-			if (!itemStack3.isEmpty()) {
-				if (itemStack3.getItem() instanceof BannerItem) {
-					if (!itemStack2.isEmpty()) {
-						return false;
-					}
-
-					itemStack2 = itemStack3;
-				} else {
-					if (itemStack3.getItem() != NetheritePlusItems.NETHERITE_SHIELD) {
-						return false;
-					}
-
-					if (!itemStack.isEmpty()) {
-						return false;
-					}
-
-					if (itemStack3.getSubTag("BlockEntityTag") != null) {
-						return false;
-					}
-
-					itemStack = itemStack3;
-				}
-			}
-		}
-
-		return !itemStack.isEmpty() && !itemStack2.isEmpty();
-	}
-
-	@Override
 	public ItemStack craft(CraftingInventory craftingInventory) {
 		ItemStack itemStack = ItemStack.EMPTY;
 		ItemStack itemStack2 = ItemStack.EMPTY;
@@ -88,5 +53,40 @@ public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
 	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return RecipeSerializer.SHIELD_DECORATION;
+	}
+
+	@Override
+	public boolean matches(CraftingInventory craftingInventory, World world) {
+		ItemStack itemStack = ItemStack.EMPTY;
+		ItemStack itemStack2 = ItemStack.EMPTY;
+
+		for (int i = 0; i < craftingInventory.size(); ++i) {
+			ItemStack itemStack3 = craftingInventory.getStack(i);
+			if (!itemStack3.isEmpty()) {
+				if (itemStack3.getItem() instanceof BannerItem) {
+					if (!itemStack2.isEmpty()) {
+						return false;
+					}
+
+					itemStack2 = itemStack3;
+				} else {
+					if (itemStack3.getItem() != NetheritePlusItems.NETHERITE_SHIELD) {
+						return false;
+					}
+
+					if (!itemStack.isEmpty()) {
+						return false;
+					}
+
+					if (itemStack3.getSubTag("BlockEntityTag") != null) {
+						return false;
+					}
+
+					itemStack = itemStack3;
+				}
+			}
+		}
+
+		return !itemStack.isEmpty() && !itemStack2.isEmpty();
 	}
 }

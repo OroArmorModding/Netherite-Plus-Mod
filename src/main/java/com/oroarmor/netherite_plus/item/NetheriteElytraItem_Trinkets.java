@@ -32,13 +32,26 @@ public class NetheriteElytraItem_Trinkets extends NetheriteElytraItem implements
 	}
 
 	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-		return Trinket.equipTrinket(player, hand);
+	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
+		tooltip.add(new TranslatableText("warning.netherite_elytra.trinkets"));
+		super.appendTooltip(stack, world, tooltip, context);
 	}
 
 	@Override
 	public boolean canWearInSlot(String group, String slot) {
 		return slot.equals(Slots.CAPE);
+	}
+
+	@Override
+	public void onEquip(PlayerEntity player, ItemStack stack) {
+		player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).setBaseValue(
+				4 + player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).getBaseValue());
+	}
+
+	@Override
+	public void onUnequip(PlayerEntity player, ItemStack stack) {
+		player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).setBaseValue(
+				-4 + player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).getBaseValue());
 	}
 
 	@Environment(EnvType.CLIENT)
@@ -52,21 +65,8 @@ public class NetheriteElytraItem_Trinkets extends NetheriteElytraItem implements
 	}
 
 	@Override
-	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(new TranslatableText("warning.netherite_elytra.trinkets"));
-		super.appendTooltip(stack, world, tooltip, context);
-	}
-
-	@Override
-	public void onEquip(PlayerEntity player, ItemStack stack) {
-		player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).setBaseValue(
-				4 + player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).getBaseValue());
-	}
-
-	@Override
-	public void onUnequip(PlayerEntity player, ItemStack stack) {
-		player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).setBaseValue(
-				-4 + player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).getBaseValue());
+	public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+		return Trinket.equipTrinket(player, hand);
 	}
 
 }

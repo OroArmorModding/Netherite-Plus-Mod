@@ -44,19 +44,58 @@ import net.minecraft.util.math.Box;
 import net.minecraft.world.Heightmap;
 
 public class NetheriteBeaconBlockEntity extends BeaconBlockEntity implements NamedScreenHandlerFactory, Tickable {
+	public static class BeamSegment {
+		private final float[] color;
+		private int height;
+
+		public BeamSegment(float[] color) {
+			this.color = color;
+			height = 1;
+		}
+
+		@Environment(EnvType.CLIENT)
+		public float[] getColor() {
+			return color;
+		}
+
+		@Environment(EnvType.CLIENT)
+		public int getHeight() {
+			return height;
+		}
+
+		protected void increaseHeight() {
+			++height;
+		}
+	}
+
 	public static final StatusEffect[][] EFFECTS_BY_LEVEL;
 	private static final Set<StatusEffect> EFFECTS;
+	static {
+		EFFECTS_BY_LEVEL = new StatusEffect[][] { { StatusEffects.SPEED, StatusEffects.HASTE },
+				{ StatusEffects.RESISTANCE, StatusEffects.JUMP_BOOST }, { StatusEffects.STRENGTH },
+				{ StatusEffects.REGENERATION } };
+		EFFECTS = Arrays.stream(EFFECTS_BY_LEVEL).flatMap(Arrays::stream).collect(Collectors.toSet());
+	}
+
+	private static StatusEffect getPotionEffectById(int id) {
+		StatusEffect statusEffect = StatusEffect.byRawId(id);
+		return EFFECTS.contains(statusEffect) ? statusEffect : null;
+	}
+
 	private List<NetheriteBeaconBlockEntity.BeamSegment> beamSegments = Lists.newArrayList();
+
 	private List<NetheriteBeaconBlockEntity.BeamSegment> field_19178 = Lists.newArrayList();
+
 	private int level;
+
 	private int field_19179 = -1;
-
 	private StatusEffect primary;
-
 	private StatusEffect secondary;
 
 	private StatusEffect tertiary = getPotionEffectById(12);
+
 	private Text customName;
+
 	private ContainerLock lock;
 
 	private final PropertyDelegate propertyDelegate;
@@ -102,6 +141,101 @@ public class NetheriteBeaconBlockEntity extends BeaconBlockEntity implements Nam
 				return 3;
 			}
 		};
+	}
+
+	private void applyPlayerEffects() {
+		if (!world.isClient && primary != null) {
+			double d = level * 10 + 10;
+			int i = 0;
+			if (level >= 4 && primary == secondary) {
+				i = 1;
+			}
+
+			int j = (9 + level * 2) * 20;
+			Box box = new Box(pos).expand(d).stretch(0.0D, world.getHeight(), 0.0D);
+			List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
+			Iterator<PlayerEntity> var7 = list.iterator();
+
+			PlayerEntity playerEntity2;
+			while (var7.hasNext()) {
+				playerEntity2 = var7.next();
+				playerEntity2.addStatusEffect(new StatusEffectInstance(tertiary, j, 0, true, true));
+			}
+			while (var7.hasNext()) {
+				playerEntity2 = var7.next();
+				playerEntity2.addStatusEffect(new StatusEffectInstance(primary, j, i, true, true));
+			}
+
+			if (level >= 4 && primary != secondary && secondary != null) {
+				var7 = list.iterator();
+
+				while (var7.hasNext()) {
+					playerEntity2 = var7.next();
+					playerEntity2.addStatusEffect(new StatusEffectInstance(secondary, j, 0, true, true));
+				}
+			}
+
+		}
+	}
+
+	@Override
+	public ScreenHandler createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
+		return LockableContainerBlockEntity.checkUnlocked(playerEntity, lock, getDisplayName())
+				? new BeaconScreenHandler(i, playerInventory, propertyDelegate,
+						ScreenHandlerContext.create(world, getPos()))
+				: null;
+	}
+
+	@Override
+	public void fromTag(BlockState state, CompoundTag tag) {
+		super.fromTag(state, tag);
+		primary = getPotionEffectById(tag.getInt("Primary"));
+		secondary = getPotionEffectById(tag.getInt("Secondary"));
+		if (tag.contains("CustomName", 8)) {
+			customName = Text.Serializer.fromJson(tag.getString("CustomName"));
+		}
+
+		lock = ContainerLock.fromTag(tag);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Environment(EnvType.CLIENT)
+	@Override
+	public List<BeaconBlockEntity.BeamSegment> getBeamSegments() {
+		return (List<net.minecraft.block.entity.BeaconBlockEntity.BeamSegment>) (level == 0 ? ImmutableList.of()
+				: beamSegments);
+	}
+
+	@Override
+	public Text getDisplayName() {
+		return customName != null ? customName : new TranslatableText("container.beacon");
+	}
+
+	@Override
+	public int getLevel() {
+		return level;
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public double getSquaredRenderDistance() {
+		return 256.0D;
+	}
+
+	@Override
+	public void markRemoved() {
+		playSound(SoundEvents.BLOCK_BEACON_DEACTIVATE);
+		super.markRemoved();
+	}
+
+	@Override
+	public void playSound(SoundEvent soundEvent) {
+		world.playSound((PlayerEntity) null, pos, soundEvent, SoundCategory.BLOCKS, 1.0F, 1.0F);
+	}
+
+	@Override
+	public void setCustomName(Text text) {
+		customName = text;
 	}
 
 	@Override
@@ -190,6 +324,30 @@ public class NetheriteBeaconBlockEntity extends BeaconBlockEntity implements Nam
 
 	}
 
+	@Override
+	public CompoundTag toInitialChunkDataTag() {
+		return toTag(new CompoundTag());
+	}
+
+	@Override
+	public CompoundTag toTag(CompoundTag tag) {
+		super.toTag(tag);
+		tag.putInt("Primary", StatusEffect.getRawId(primary));
+		tag.putInt("Secondary", StatusEffect.getRawId(secondary));
+		tag.putInt("Levels", level);
+		if (customName != null) {
+			tag.putString("CustomName", Text.Serializer.toJson(customName));
+		}
+
+		lock.toTag(tag);
+		return tag;
+	}
+
+	@Override
+	public BlockEntityUpdateS2CPacket toUpdatePacket() {
+		return new BlockEntityUpdateS2CPacket(pos, 3, toInitialChunkDataTag());
+	}
+
 	private void updateLevel(int x, int y, int z) {
 		level = 0;
 
@@ -215,160 +373,5 @@ public class NetheriteBeaconBlockEntity extends BeaconBlockEntity implements Nam
 			}
 		}
 
-	}
-
-	@Override
-	public void markRemoved() {
-		playSound(SoundEvents.BLOCK_BEACON_DEACTIVATE);
-		super.markRemoved();
-	}
-
-	private void applyPlayerEffects() {
-		if (!world.isClient && primary != null) {
-			double d = level * 10 + 10;
-			int i = 0;
-			if (level >= 4 && primary == secondary) {
-				i = 1;
-			}
-
-			int j = (9 + level * 2) * 20;
-			Box box = new Box(pos).expand(d).stretch(0.0D, world.getHeight(), 0.0D);
-			List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
-			Iterator<PlayerEntity> var7 = list.iterator();
-
-			PlayerEntity playerEntity2;
-			while (var7.hasNext()) {
-				playerEntity2 = var7.next();
-				playerEntity2.addStatusEffect(new StatusEffectInstance(tertiary, j, 0, true, true));
-			}
-			while (var7.hasNext()) {
-				playerEntity2 = var7.next();
-				playerEntity2.addStatusEffect(new StatusEffectInstance(primary, j, i, true, true));
-			}
-
-			if (level >= 4 && primary != secondary && secondary != null) {
-				var7 = list.iterator();
-
-				while (var7.hasNext()) {
-					playerEntity2 = var7.next();
-					playerEntity2.addStatusEffect(new StatusEffectInstance(secondary, j, 0, true, true));
-				}
-			}
-
-		}
-	}
-
-	@Override
-	public void playSound(SoundEvent soundEvent) {
-		world.playSound((PlayerEntity) null, pos, soundEvent, SoundCategory.BLOCKS, 1.0F, 1.0F);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Environment(EnvType.CLIENT)
-	@Override
-	public List<BeaconBlockEntity.BeamSegment> getBeamSegments() {
-		return (List<net.minecraft.block.entity.BeaconBlockEntity.BeamSegment>) (level == 0 ? ImmutableList.of()
-				: beamSegments);
-	}
-
-	@Override
-	public int getLevel() {
-		return level;
-	}
-
-	@Override
-	public BlockEntityUpdateS2CPacket toUpdatePacket() {
-		return new BlockEntityUpdateS2CPacket(pos, 3, toInitialChunkDataTag());
-	}
-
-	@Override
-	public CompoundTag toInitialChunkDataTag() {
-		return toTag(new CompoundTag());
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public double getSquaredRenderDistance() {
-		return 256.0D;
-	}
-
-	private static StatusEffect getPotionEffectById(int id) {
-		StatusEffect statusEffect = StatusEffect.byRawId(id);
-		return EFFECTS.contains(statusEffect) ? statusEffect : null;
-	}
-
-	@Override
-	public void fromTag(BlockState state, CompoundTag tag) {
-		super.fromTag(state, tag);
-		primary = getPotionEffectById(tag.getInt("Primary"));
-		secondary = getPotionEffectById(tag.getInt("Secondary"));
-		if (tag.contains("CustomName", 8)) {
-			customName = Text.Serializer.fromJson(tag.getString("CustomName"));
-		}
-
-		lock = ContainerLock.fromTag(tag);
-	}
-
-	@Override
-	public CompoundTag toTag(CompoundTag tag) {
-		super.toTag(tag);
-		tag.putInt("Primary", StatusEffect.getRawId(primary));
-		tag.putInt("Secondary", StatusEffect.getRawId(secondary));
-		tag.putInt("Levels", level);
-		if (customName != null) {
-			tag.putString("CustomName", Text.Serializer.toJson(customName));
-		}
-
-		lock.toTag(tag);
-		return tag;
-	}
-
-	@Override
-	public void setCustomName(Text text) {
-		customName = text;
-	}
-
-	@Override
-	public ScreenHandler createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-		return LockableContainerBlockEntity.checkUnlocked(playerEntity, lock, getDisplayName())
-				? new BeaconScreenHandler(i, playerInventory, propertyDelegate,
-						ScreenHandlerContext.create(world, getPos()))
-				: null;
-	}
-
-	@Override
-	public Text getDisplayName() {
-		return customName != null ? customName : new TranslatableText("container.beacon");
-	}
-
-	static {
-		EFFECTS_BY_LEVEL = new StatusEffect[][] { { StatusEffects.SPEED, StatusEffects.HASTE },
-				{ StatusEffects.RESISTANCE, StatusEffects.JUMP_BOOST }, { StatusEffects.STRENGTH },
-				{ StatusEffects.REGENERATION } };
-		EFFECTS = Arrays.stream(EFFECTS_BY_LEVEL).flatMap(Arrays::stream).collect(Collectors.toSet());
-	}
-
-	public static class BeamSegment {
-		private final float[] color;
-		private int height;
-
-		public BeamSegment(float[] color) {
-			this.color = color;
-			height = 1;
-		}
-
-		protected void increaseHeight() {
-			++height;
-		}
-
-		@Environment(EnvType.CLIENT)
-		public float[] getColor() {
-			return color;
-		}
-
-		@Environment(EnvType.CLIENT)
-		public int getHeight() {
-			return height;
-		}
 	}
 }

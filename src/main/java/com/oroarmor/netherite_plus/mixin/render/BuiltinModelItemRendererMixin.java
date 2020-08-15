@@ -42,7 +42,6 @@ import net.minecraft.util.Identifier;
 @Mixin(BuiltinModelItemRenderer.class)
 public class BuiltinModelItemRendererMixin {
 
-	private final ShieldEntityModel modelShield = new ShieldEntityModel();
 	private static final NetheriteShulkerBoxBlockEntity[] RENDER_NETHERITE_SHULKER_BOX_DYED = Arrays
 			.stream(DyeColor.values()).sorted(Comparator.comparingInt(DyeColor::getId))
 			.map(NetheriteShulkerBoxBlockEntity::new).toArray((i) -> {
@@ -50,6 +49,7 @@ public class BuiltinModelItemRendererMixin {
 			});
 	private static final NetheriteShulkerBoxBlockEntity RENDER_NETHERITE_SHULKER_BOX = new NetheriteShulkerBoxBlockEntity(
 			(DyeColor) null);
+	private final ShieldEntityModel modelShield = new ShieldEntityModel();
 
 	private final TridentEntityModel modelTrident = new TridentEntityModel();
 

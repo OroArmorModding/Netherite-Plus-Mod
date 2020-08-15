@@ -37,15 +37,25 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShapes;
 
 public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity implements SidedInventory, Tickable {
+	public static enum AnimationStage {
+		CLOSED, OPENING, OPENED, CLOSING;
+	}
+
 	private static final int[] AVAILABLE_SLOTS = IntStream.range(0, 27).toArray();
 	private DefaultedList<ItemStack> inventory;
 	private int viewerCount;
 	private AnimationStage animationStage;
 	private float animationProgress;
-	private float prevAnimationProgress;
 
+	private float prevAnimationProgress;
 	private DyeColor cachedColor;
+
 	private boolean cachedColorUpdateNeeded;
+
+	public NetheriteShulkerBoxBlockEntity() {
+		this((DyeColor) null);
+		cachedColorUpdateNeeded = true;
+	}
 
 	public NetheriteShulkerBoxBlockEntity(DyeColor color) {
 		super(NetheritePlusBlocks.NETHERITE_SHULKER_BOX_ENTITY);
@@ -54,55 +64,47 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 		cachedColor = color;
 	}
 
-	public NetheriteShulkerBoxBlockEntity() {
-		this((DyeColor) null);
-		cachedColorUpdateNeeded = true;
+	@Override
+	public boolean canExtract(int slot, ItemStack stack, Direction dir) {
+		return true;
 	}
 
 	@Override
-	public void tick() {
-		updateAnimation();
-		if (animationStage == AnimationStage.OPENING || animationStage == AnimationStage.CLOSING) {
-			pushEntities();
+	public boolean canInsert(int slot, ItemStack stack, Direction dir) {
+		Block block = Block.getBlockFromItem(stack.getItem());
+		return !(block instanceof NetheriteShulkerBoxBlock) && !(block instanceof ShulkerBoxBlock);
+	}
+
+	@Override
+	protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
+		return new ShulkerBoxScreenHandler(syncId, playerInventory, this);
+	}
+
+	public void deserializeInventory(CompoundTag tag) {
+		inventory = DefaultedList.ofSize(size(), ItemStack.EMPTY);
+		if (!deserializeLootTable(tag) && tag.contains("Items", 9)) {
+			Inventories.fromTag(tag, inventory);
 		}
 
 	}
 
-	protected void updateAnimation() {
-		prevAnimationProgress = animationProgress;
-		switch (animationStage) {
-			case CLOSED:
-				animationProgress = 0.0F;
-				break;
-			case OPENING:
-				animationProgress += 0.1F;
-				if (animationProgress >= 1.0F) {
-					pushEntities();
-					animationStage = AnimationStage.OPENED;
-					animationProgress = 1.0F;
-					updateNeighborStates();
-				}
-				break;
-			case CLOSING:
-				animationProgress -= 0.1F;
-				if (animationProgress <= 0.0F) {
-					animationStage = AnimationStage.CLOSED;
-					animationProgress = 0.0F;
-					updateNeighborStates();
-				}
-				break;
-			case OPENED:
-				animationProgress = 1.0F;
-		}
-
+	@Override
+	public void fromTag(BlockState state, CompoundTag tag) {
+		super.fromTag(state, tag);
+		deserializeInventory(tag);
 	}
 
-	public static enum AnimationStage {
-		CLOSED, OPENING, OPENED, CLOSING;
+	public float getAnimationProgress(float f) {
+		return MathHelper.lerp(f, prevAnimationProgress, animationProgress);
 	}
 
 	public AnimationStage getAnimationStage() {
 		return animationStage;
+	}
+
+	@Override
+	public int[] getAvailableSlots(Direction side) {
+		return AVAILABLE_SLOTS;
 	}
 
 	public Box getBoundingBox(BlockState state) {
@@ -119,6 +121,75 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 		Direction direction = facing.getOpposite();
 		return this.getBoundingBox(facing).shrink(direction.getOffsetX(), direction.getOffsetY(),
 				direction.getOffsetZ());
+	}
+
+	@Environment(EnvType.CLIENT)
+	public DyeColor getColor() {
+		if (cachedColorUpdateNeeded) {
+			cachedColor = NetheriteShulkerBoxBlock.getColor(getCachedState().getBlock());
+			cachedColorUpdateNeeded = false;
+		}
+
+		return cachedColor;
+	}
+
+	@Override
+	protected Text getContainerName() {
+		return new TranslatableText("container.netheriteShulkerBox");
+	}
+
+	@Override
+	protected DefaultedList<ItemStack> getInvStackList() {
+		return inventory;
+	}
+
+	@Override
+	public void onClose(PlayerEntity player) {
+		if (!player.isSpectator()) {
+			--viewerCount;
+			world.addSyncedBlockEvent(pos, getCachedState().getBlock(), 1, viewerCount);
+			if (viewerCount <= 0) {
+				world.playSound((PlayerEntity) null, pos, SoundEvents.BLOCK_SHULKER_BOX_CLOSE, SoundCategory.BLOCKS,
+						0.5F, world.random.nextFloat() * 0.1F + 0.9F);
+			}
+		}
+
+	}
+
+	@Override
+	public void onOpen(PlayerEntity player) {
+		if (!player.isSpectator()) {
+			if (viewerCount < 0) {
+				viewerCount = 0;
+			}
+
+			++viewerCount;
+			world.addSyncedBlockEvent(pos, getCachedState().getBlock(), 1, viewerCount);
+			if (viewerCount == 1) {
+				world.playSound((PlayerEntity) null, pos, SoundEvents.BLOCK_SHULKER_BOX_OPEN, SoundCategory.BLOCKS,
+						0.5F, world.random.nextFloat() * 0.1F + 0.9F);
+			}
+		}
+
+	}
+
+	@Override
+	public boolean onSyncedBlockEvent(int type, int data) {
+		if (type == 1) {
+			viewerCount = data;
+			if (data == 0) {
+				animationStage = AnimationStage.CLOSING;
+				updateNeighborStates();
+			}
+
+			if (data == 1) {
+				animationStage = AnimationStage.OPENING;
+				updateNeighborStates();
+			}
+
+			return true;
+		}
+		return super.onSyncedBlockEvent(type, data);
 	}
 
 	private void pushEntities() {
@@ -173,89 +244,6 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 		}
 	}
 
-	@Override
-	public int size() {
-		return inventory.size();
-	}
-
-	@Override
-	public boolean onSyncedBlockEvent(int type, int data) {
-		if (type == 1) {
-			viewerCount = data;
-			if (data == 0) {
-				animationStage = AnimationStage.CLOSING;
-				updateNeighborStates();
-			}
-
-			if (data == 1) {
-				animationStage = AnimationStage.OPENING;
-				updateNeighborStates();
-			}
-
-			return true;
-		}
-		return super.onSyncedBlockEvent(type, data);
-	}
-
-	private void updateNeighborStates() {
-		getCachedState().updateNeighbors(getWorld(), getPos(), 3);
-	}
-
-	@Override
-	public void onOpen(PlayerEntity player) {
-		if (!player.isSpectator()) {
-			if (viewerCount < 0) {
-				viewerCount = 0;
-			}
-
-			++viewerCount;
-			world.addSyncedBlockEvent(pos, getCachedState().getBlock(), 1, viewerCount);
-			if (viewerCount == 1) {
-				world.playSound((PlayerEntity) null, pos, SoundEvents.BLOCK_SHULKER_BOX_OPEN, SoundCategory.BLOCKS,
-						0.5F, world.random.nextFloat() * 0.1F + 0.9F);
-			}
-		}
-
-	}
-
-	@Override
-	public void onClose(PlayerEntity player) {
-		if (!player.isSpectator()) {
-			--viewerCount;
-			world.addSyncedBlockEvent(pos, getCachedState().getBlock(), 1, viewerCount);
-			if (viewerCount <= 0) {
-				world.playSound((PlayerEntity) null, pos, SoundEvents.BLOCK_SHULKER_BOX_CLOSE, SoundCategory.BLOCKS,
-						0.5F, world.random.nextFloat() * 0.1F + 0.9F);
-			}
-		}
-
-	}
-
-	@Override
-	protected Text getContainerName() {
-		return new TranslatableText("container.netheriteShulkerBox");
-	}
-
-	@Override
-	public void fromTag(BlockState state, CompoundTag tag) {
-		super.fromTag(state, tag);
-		deserializeInventory(tag);
-	}
-
-	@Override
-	public CompoundTag toTag(CompoundTag tag) {
-		super.toTag(tag);
-		return serializeInventory(tag);
-	}
-
-	public void deserializeInventory(CompoundTag tag) {
-		inventory = DefaultedList.ofSize(size(), ItemStack.EMPTY);
-		if (!deserializeLootTable(tag) && tag.contains("Items", 9)) {
-			Inventories.fromTag(tag, inventory);
-		}
-
-	}
-
 	public CompoundTag serializeInventory(CompoundTag tag) {
 		if (!serializeLootTable(tag)) {
 			Inventories.toTag(tag, inventory, false);
@@ -265,56 +253,69 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 	}
 
 	@Override
-	public void setStack(int slot, ItemStack stack) {
-		super.setStack(slot, stack);
-	}
-
-	@Override
-	protected DefaultedList<ItemStack> getInvStackList() {
-		return inventory;
-	}
-
-	@Override
 	protected void setInvStackList(DefaultedList<ItemStack> list) {
 		inventory = list;
 	}
 
 	@Override
-	public int[] getAvailableSlots(Direction side) {
-		return AVAILABLE_SLOTS;
+	public void setStack(int slot, ItemStack stack) {
+		super.setStack(slot, stack);
 	}
 
 	@Override
-	public boolean canInsert(int slot, ItemStack stack, Direction dir) {
-		Block block = Block.getBlockFromItem(stack.getItem());
-		return !(block instanceof NetheriteShulkerBoxBlock) && !(block instanceof ShulkerBoxBlock);
-	}
-
-	@Override
-	public boolean canExtract(int slot, ItemStack stack, Direction dir) {
-		return true;
-	}
-
-	public float getAnimationProgress(float f) {
-		return MathHelper.lerp(f, prevAnimationProgress, animationProgress);
-	}
-
-	@Environment(EnvType.CLIENT)
-	public DyeColor getColor() {
-		if (cachedColorUpdateNeeded) {
-			cachedColor = NetheriteShulkerBoxBlock.getColor(getCachedState().getBlock());
-			cachedColorUpdateNeeded = false;
-		}
-
-		return cachedColor;
-	}
-
-	@Override
-	protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
-		return new ShulkerBoxScreenHandler(syncId, playerInventory, this);
+	public int size() {
+		return inventory.size();
 	}
 
 	public boolean suffocates() {
 		return animationStage == AnimationStage.CLOSED;
+	}
+
+	@Override
+	public void tick() {
+		updateAnimation();
+		if (animationStage == AnimationStage.OPENING || animationStage == AnimationStage.CLOSING) {
+			pushEntities();
+		}
+
+	}
+
+	@Override
+	public CompoundTag toTag(CompoundTag tag) {
+		super.toTag(tag);
+		return serializeInventory(tag);
+	}
+
+	protected void updateAnimation() {
+		prevAnimationProgress = animationProgress;
+		switch (animationStage) {
+			case CLOSED:
+				animationProgress = 0.0F;
+				break;
+			case OPENING:
+				animationProgress += 0.1F;
+				if (animationProgress >= 1.0F) {
+					pushEntities();
+					animationStage = AnimationStage.OPENED;
+					animationProgress = 1.0F;
+					updateNeighborStates();
+				}
+				break;
+			case CLOSING:
+				animationProgress -= 0.1F;
+				if (animationProgress <= 0.0F) {
+					animationStage = AnimationStage.CLOSED;
+					animationProgress = 0.0F;
+					updateNeighborStates();
+				}
+				break;
+			case OPENED:
+				animationProgress = 1.0F;
+		}
+
+	}
+
+	private void updateNeighborStates() {
+		getCachedState().updateNeighbors(getWorld(), getPos(), 3);
 	}
 }

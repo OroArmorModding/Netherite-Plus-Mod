@@ -25,8 +25,13 @@ import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.LiteralText;
 
 public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
+	public static int getNextCost(int cost) {
+		return cost * 2 + 1;
+	}
+
 	private int repairItemUsage;
 	private String newItemName;
+
 	private final Property levelCost;
 
 	public NetheriteAnvilScreenHandler(int syncId, PlayerInventory inventory) {
@@ -40,13 +45,18 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
 	}
 
 	@Override
+	protected boolean canTakeOutput(PlayerEntity player, boolean present) {
+		return (player.abilities.creativeMode || player.experienceLevel >= levelCost.get()) && levelCost.get() > 0;
+	}
+
+	@Override
 	protected boolean canUse(BlockState state) {
 		return state.isOf(NetheritePlusBlocks.NETHERITE_ANVIL_BLOCK);
 	}
 
-	@Override
-	protected boolean canTakeOutput(PlayerEntity player, boolean present) {
-		return (player.abilities.creativeMode || player.experienceLevel >= levelCost.get()) && levelCost.get() > 0;
+	@Environment(EnvType.CLIENT)
+	public int getLevelCost() {
+		return levelCost.get();
 	}
 
 	@Override
@@ -75,6 +85,20 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
 		levelCost.set(0);
 		return stack;
 
+	}
+
+	public void setNewItemName(String string) {
+		newItemName = string;
+		if (getSlot(2).hasStack()) {
+			ItemStack itemStack = getSlot(2).getStack();
+			if (StringUtils.isBlank(string)) {
+				itemStack.removeCustomName();
+			} else {
+				itemStack.setCustomName(new LiteralText(newItemName));
+			}
+		}
+
+		updateResult();
 	}
 
 	@Override
@@ -258,28 +282,5 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
 			output.setStack(0, itemStack2);
 			sendContentUpdates();
 		}
-	}
-
-	public static int getNextCost(int cost) {
-		return cost * 2 + 1;
-	}
-
-	public void setNewItemName(String string) {
-		newItemName = string;
-		if (getSlot(2).hasStack()) {
-			ItemStack itemStack = getSlot(2).getStack();
-			if (StringUtils.isBlank(string)) {
-				itemStack.removeCustomName();
-			} else {
-				itemStack.setCustomName(new LiteralText(newItemName));
-			}
-		}
-
-		updateResult();
-	}
-
-	@Environment(EnvType.CLIENT)
-	public int getLevelCost() {
-		return levelCost.get();
 	}
 }

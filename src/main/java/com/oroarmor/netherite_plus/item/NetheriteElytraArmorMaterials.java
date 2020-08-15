@@ -47,11 +47,6 @@ public enum NetheriteElytraArmorMaterials implements ArmorMaterial {
 	}
 
 	@Override
-	public int getProtectionAmount(EquipmentSlot slot) {
-		return protectionAmounts[slot.getEntitySlotId()];
-	}
-
-	@Override
 	public int getEnchantability() {
 		return enchantability;
 	}
@@ -62,8 +57,8 @@ public enum NetheriteElytraArmorMaterials implements ArmorMaterial {
 	}
 
 	@Override
-	public Ingredient getRepairIngredient() {
-		return repairIngredientSupplier.get();
+	public float getKnockbackResistance() {
+		return knockbackResistance;
 	}
 
 	@Override
@@ -73,12 +68,17 @@ public enum NetheriteElytraArmorMaterials implements ArmorMaterial {
 	}
 
 	@Override
-	public float getToughness() {
-		return toughness;
+	public int getProtectionAmount(EquipmentSlot slot) {
+		return protectionAmounts[slot.getEntitySlotId()];
 	}
 
 	@Override
-	public float getKnockbackResistance() {
-		return knockbackResistance;
+	public Ingredient getRepairIngredient() {
+		return repairIngredientSupplier.get();
+	}
+
+	@Override
+	public float getToughness() {
+		return toughness;
 	}
 }

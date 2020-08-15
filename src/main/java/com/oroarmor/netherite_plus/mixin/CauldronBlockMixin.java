@@ -25,9 +25,6 @@ import net.minecraft.world.World;
 @Mixin(CauldronBlock.class)
 public abstract class CauldronBlockMixin {
 
-	@Shadow
-	public abstract void setLevel(World world, BlockPos pos, BlockState state, int i);
-
 	@SuppressWarnings("unused")
 	@Inject(method = "onUse", at = @At("HEAD"), cancellable = true)
 	public void onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit,
@@ -54,4 +51,7 @@ public abstract class CauldronBlockMixin {
 			cir.setReturnValue(ActionResult.SUCCESS);
 		}
 	}
+
+	@Shadow
+	public abstract void setLevel(World world, BlockPos pos, BlockState state, int i);
 }
