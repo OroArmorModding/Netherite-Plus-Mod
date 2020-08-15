@@ -2,19 +2,25 @@ package com.oroarmor.util.config;
 
 import com.google.gson.JsonElement;
 
-public final class ConfigItem<T> {
+public class ConfigItem<T> {
 	public enum Type {
-		BOOLEAN, INTEGER, DOUBLE;
+		BOOLEAN, INTEGER, DOUBLE, STRING, GROUP;
 
-		public static Type getTypeFrom(Object defaultValue) {
-			if (defaultValue instanceof Boolean) {
+		public static Type getTypeFrom(Object value) {
+			if (value instanceof Boolean) {
 				return BOOLEAN;
 			}
-			if (defaultValue instanceof Integer) {
+			if (value instanceof Integer) {
 				return INTEGER;
 			}
-			if (defaultValue instanceof Double) {
+			if (value instanceof Double) {
 				return DOUBLE;
+			}
+			if (value instanceof String) {
+				return STRING;
+			}
+			if (value instanceof ConfigItemGroup) {
+				return GROUP;
 			}
 
 			return null;
@@ -38,22 +44,6 @@ public final class ConfigItem<T> {
 		this.type = Type.getTypeFrom(defaultValue);
 	}
 
-	public T getValue() {
-		return value;
-	}
-
-	public T getDefaultValue() {
-		return defaultValue;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getDetails() {
-		return details;
-	}
-
 	@SuppressWarnings("unchecked")
 	public void fromJson(JsonElement element) {
 		T newValue = null;
@@ -71,6 +61,14 @@ public final class ConfigItem<T> {
 				newValue = (T) (Object) element.getAsDouble();
 				break;
 
+			case STRING:
+				newValue = (T) element.getAsString();
+				break;
+
+			case GROUP:
+				((ConfigItemGroup) defaultValue).fromJson(element.getAsJsonObject());
+				newValue = defaultValue;
+
 			default:
 				return;
 		}
@@ -81,12 +79,28 @@ public final class ConfigItem<T> {
 
 	}
 
-	public void setValue(T value) {
-		this.value = value;
+	public T getDefaultValue() {
+		return defaultValue;
+	}
+
+	public String getDetails() {
+		return details;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public Type getType() {
 		return type;
+	}
+
+	public T getValue() {
+		return value;
+	}
+
+	public void setValue(T value) {
+		this.value = value;
 	}
 
 	@Override

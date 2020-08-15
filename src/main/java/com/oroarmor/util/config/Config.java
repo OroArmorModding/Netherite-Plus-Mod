@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,13 +24,17 @@ public class Config {
 		this.configFile = configFile;
 	}
 
+	public List<ConfigItemGroup> getConfigs() {
+		return configs;
+	}
+
 	public void readConfigFromFile() {
 		try (FileInputStream stream = new FileInputStream(configFile)) {
 			byte[] bytes = new byte[stream.available()];
 			stream.read(bytes);
 			String file = new String(bytes);
 			JsonObject parsed = new JsonParser().parse(file).getAsJsonObject();
-			configs.stream().forEachOrdered(cig -> cig.fromJson((JsonObject) parsed.get(cig.getName())));
+			configs.stream().forEachOrdered(cig -> cig.fromJson(parsed.get(cig.getName())));
 		} catch (FileNotFoundException e) {
 			saveConfigToFile();
 		} catch (Exception e) {
@@ -49,7 +54,9 @@ public class Config {
 		}
 	}
 
-	public List<ConfigItemGroup> getConfigs() {
-		return configs;
+	@Override
+	public String toString() {
+		return configFile.getName() + ": ["
+				+ configs.stream().map(Object::toString).collect(Collectors.joining(", ")) + "]";
 	}
 }
