@@ -20,14 +20,14 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 @Mixin(BlockEntityRenderDispatcher.class)
 public abstract class BlockEntityRenderDispatcherMixin {
 
-	@Shadow
-	public abstract <E extends BlockEntity> void register(BlockEntityType<E> blockEntityType,
-			BlockEntityRenderer<E> blockEntityRenderer);
-
 	@SuppressWarnings("unused")
 	@Inject(method = "<init>", at = @At("RETURN"))
 	public void addNetheriteShulkerBoxRenderer(CallbackInfo info) {
 		this.register(NetheritePlusBlocks.NETHERITE_SHULKER_BOX_ENTITY,
 				new NetheriteShulkerBoxBlockEntityRenderer((BlockEntityRenderDispatcher) (Object) this));
 	}
+
+	@Shadow
+	public abstract <E extends BlockEntity> void register(BlockEntityType<E> blockEntityType,
+			BlockEntityRenderer<E> blockEntityRenderer);
 }

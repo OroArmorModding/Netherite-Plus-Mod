@@ -13,9 +13,8 @@ import net.minecraft.text.TranslatableText;
 
 public class ModMenuIntegration implements ModMenuApi {
 
-	@Override
-	public String getModId() {
-		return "netherite_plus";
+	private ConfigCategory createCategory(ConfigBuilder builder, String categoryName) {
+		return builder.getOrCreateCategory(new TranslatableText(categoryName));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -50,8 +49,15 @@ public class ModMenuIntegration implements ModMenuApi {
 		};
 	}
 
-	private ConfigCategory createCategory(ConfigBuilder builder, String categoryName) {
-		return builder.getOrCreateCategory(new TranslatableText(categoryName));
+	@Override
+	public String getModId() {
+		return "netherite_plus";
+	}
+
+	private void setupBooleanConfigItem(ConfigItem<Boolean> ci, ConfigCategory category,
+			ConfigEntryBuilder entryBuilder) {
+		category.addEntry(entryBuilder.startBooleanToggle(new TranslatableText(ci.getDetails()), ci.getValue())
+				.setSaveConsumer(ci::setValue).setDefaultValue(ci::getDefaultValue).build());
 	}
 
 	private void setupDoubleConfigItem(ConfigItem<Double> ci, ConfigCategory category,
@@ -63,12 +69,6 @@ public class ModMenuIntegration implements ModMenuApi {
 	private void setupIntegerConfigItem(ConfigItem<Integer> ci, ConfigCategory category,
 			ConfigEntryBuilder entryBuilder) {
 		category.addEntry(entryBuilder.startIntField(new TranslatableText(ci.getDetails()), ci.getValue())
-				.setSaveConsumer(ci::setValue).setDefaultValue(ci::getDefaultValue).build());
-	}
-
-	private void setupBooleanConfigItem(ConfigItem<Boolean> ci, ConfigCategory category,
-			ConfigEntryBuilder entryBuilder) {
-		category.addEntry(entryBuilder.startBooleanToggle(new TranslatableText(ci.getDetails()), ci.getValue())
 				.setSaveConsumer(ci::setValue).setDefaultValue(ci::getDefaultValue).build());
 	}
 

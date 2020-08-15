@@ -59,229 +59,9 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
 
 	public static final EnumProperty<Direction> FACING;
 	public static final Identifier CONTENTS;
-	private final DyeColor color;
-
 	public static int numberOfRows = 6;
+
 	public static int numberOfSlots = numberOfRows * 9;
-
-	public NetheriteShulkerBoxBlock(DyeColor color, AbstractBlock.Settings settings) {
-		super(settings);
-		this.color = color;
-		setDefaultState(stateManager.getDefaultState().with(FACING, Direction.UP));
-	}
-
-	@Override
-	public BlockRenderType getRenderType(BlockState state) {
-		return BlockRenderType.ENTITYBLOCK_ANIMATED;
-	}
-
-	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
-			BlockHitResult hit) {
-		if (world.isClient) {
-			return ActionResult.SUCCESS;
-		} else if (player.isSpectator()) {
-			return ActionResult.CONSUME;
-		} else {
-			BlockEntity blockEntity = world.getBlockEntity(pos);
-			if (blockEntity instanceof NetheriteShulkerBoxBlockEntity) {
-				NetheriteShulkerBoxBlockEntity netheriteShulkerBoxBlockEntity = (NetheriteShulkerBoxBlockEntity) blockEntity;
-				boolean bl2;
-				if (netheriteShulkerBoxBlockEntity.getAnimationStage() == AnimationStage.CLOSED) {
-					Direction direction = state.get(FACING);
-					bl2 = world.doesNotCollide(ShulkerLidCollisions.getLidCollisionBox(pos, direction));
-				} else {
-					bl2 = true;
-				}
-
-				if (bl2) {
-					player.openHandledScreen(netheriteShulkerBoxBlockEntity);
-					player.incrementStat(Stats.OPEN_SHULKER_BOX);
-					PiglinBrain.onGuardedBlockBroken(player, true);
-				}
-
-				return ActionResult.CONSUME;
-			}
-			return ActionResult.PASS;
-		}
-	}
-
-	@Override
-	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return getDefaultState().with(FACING, ctx.getSide());
-	}
-
-	@Override
-	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		builder.add(FACING);
-	}
-
-	@Override
-	public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-		BlockEntity blockEntity = world.getBlockEntity(pos);
-		if (blockEntity instanceof NetheriteShulkerBoxBlockEntity) {
-			NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity = (NetheriteShulkerBoxBlockEntity) blockEntity;
-			if (!world.isClient && player.isCreative() && !shulkerBoxBlockEntity.isEmpty()) {
-				ItemStack itemStack = getItemStack(this.getColor());
-				CompoundTag compoundTag = shulkerBoxBlockEntity.serializeInventory(new CompoundTag());
-				if (!compoundTag.isEmpty()) {
-					itemStack.putSubTag("BlockEntityTag", compoundTag);
-				}
-
-				if (shulkerBoxBlockEntity.hasCustomName()) {
-					itemStack.setCustomName(shulkerBoxBlockEntity.getCustomName());
-				}
-
-				ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D,
-						itemStack);
-				itemEntity.setToDefaultPickupDelay();
-				world.spawnEntity(itemEntity);
-			} else {
-				shulkerBoxBlockEntity.checkLootInteraction(player);
-			}
-		}
-
-		super.onBreak(world, pos, state, player);
-	}
-
-	@Override
-	public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
-		BlockEntity blockEntity = builder.getNullable(LootContextParameters.BLOCK_ENTITY);
-		if (blockEntity instanceof NetheriteShulkerBoxBlockEntity) {
-			NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity = (NetheriteShulkerBoxBlockEntity) blockEntity;
-			builder = builder.putDrop(CONTENTS, (lootContext, consumer) -> {
-				for (int i = 0; i < shulkerBoxBlockEntity.size(); ++i) {
-					consumer.accept(shulkerBoxBlockEntity.getStack(i));
-				}
-
-			});
-		}
-
-		return super.getDroppedStacks(state, builder);
-	}
-
-	@Override
-	public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
-		if (itemStack.hasCustomName()) {
-			BlockEntity blockEntity = world.getBlockEntity(pos);
-			if (blockEntity instanceof NetheriteShulkerBoxBlockEntity) {
-				((NetheriteShulkerBoxBlockEntity) blockEntity).setCustomName(itemStack.getName());
-			}
-		}
-
-	}
-
-	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		if (!state.isOf(newState.getBlock())) {
-			BlockEntity blockEntity = world.getBlockEntity(pos);
-			if (blockEntity instanceof NetheriteShulkerBoxBlockEntity) {
-				world.updateComparators(pos, state.getBlock());
-			}
-
-			super.onStateReplaced(state, world, pos, newState, moved);
-		}
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public void appendTooltip(ItemStack stack, BlockView world, List<Text> tooltip, TooltipContext options) {
-		super.appendTooltip(stack, world, tooltip, options);
-		CompoundTag compoundTag = stack.getSubTag("BlockEntityTag");
-		if (compoundTag != null) {
-			if (compoundTag.contains("LootTable", 8)) {
-				tooltip.add(new LiteralText("???????"));
-			}
-
-			if (compoundTag.contains("Items", 9)) {
-				DefaultedList<ItemStack> defaultedList = DefaultedList.ofSize(numberOfSlots, ItemStack.EMPTY);
-				Inventories.fromTag(compoundTag, defaultedList);
-				int i = 0;
-				int j = 0;
-				Iterator<ItemStack> var9 = defaultedList.iterator();
-
-				while (var9.hasNext()) {
-					ItemStack itemStack = var9.next();
-					if (!itemStack.isEmpty()) {
-						++j;
-						if (i <= 4) {
-							++i;
-							MutableText mutableText = itemStack.getName().shallowCopy();
-							mutableText.append(" x").append(String.valueOf(itemStack.getCount()));
-							tooltip.add(mutableText);
-						}
-					}
-				}
-
-				if (j - i > 0) {
-					tooltip.add(new TranslatableText("container.shulkerBox.more", new Object[] { j - i })
-							.formatted(Formatting.ITALIC));
-				}
-			}
-		}
-
-	}
-
-	@Override
-	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		BlockEntity blockEntity = world.getBlockEntity(pos);
-		return blockEntity instanceof NetheriteShulkerBoxBlockEntity
-				? VoxelShapes.cuboid(((NetheriteShulkerBoxBlockEntity) blockEntity).getBoundingBox(state))
-				: VoxelShapes.fullCube();
-	}
-
-	@Override
-	public boolean hasComparatorOutput(BlockState state) {
-		return true;
-	}
-
-	@Override
-	public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
-		return ScreenHandler.calculateComparatorOutput((Inventory) world.getBlockEntity(pos));
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
-		ItemStack itemStack = super.getPickStack(world, pos, state);
-		NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity = (NetheriteShulkerBoxBlockEntity) world
-				.getBlockEntity(pos);
-		CompoundTag compoundTag = shulkerBoxBlockEntity.serializeInventory(new CompoundTag());
-		if (!compoundTag.isEmpty()) {
-			itemStack.putSubTag("BlockEntityTag", compoundTag);
-		}
-
-		return itemStack;
-	}
-
-	@Environment(EnvType.CLIENT)
-	public static DyeColor getColor(Item item) {
-		return getColor(Block.getBlockFromItem(item));
-	}
-
-	@Environment(EnvType.CLIENT)
-	public static DyeColor getColor(Block block) {
-		return block instanceof NetheriteShulkerBoxBlock ? ((NetheriteShulkerBoxBlock) block).getColor() : null;
-	}
-
-	public DyeColor getColor() {
-		return color;
-	}
-
-	public static ItemStack getItemStack(DyeColor color) {
-		return new ItemStack(get(color));
-	}
-
-	@Override
-	public BlockState rotate(BlockState state, BlockRotation rotation) {
-		return state.with(FACING, rotation.rotate(state.get(FACING)));
-	}
-
-	@Override
-	public BlockState mirror(BlockState state, BlockMirror mirror) {
-		return state.rotate(mirror.getRotation(state.get(FACING)));
-	}
-
 	static {
 		FACING = FacingBlock.FACING;
 		CONTENTS = new Identifier("contents");
@@ -328,14 +108,234 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
 		}
 	}
 
+	@Environment(EnvType.CLIENT)
+	public static DyeColor getColor(Block block) {
+		return block instanceof NetheriteShulkerBoxBlock ? ((NetheriteShulkerBoxBlock) block).getColor() : null;
+	}
+
+	@Environment(EnvType.CLIENT)
+	public static DyeColor getColor(Item item) {
+		return getColor(Block.getBlockFromItem(item));
+	}
+
+	public static ItemStack getItemStack(DyeColor color) {
+		return new ItemStack(get(color));
+	}
+
+	private final DyeColor color;
+
+	public NetheriteShulkerBoxBlock(DyeColor color, AbstractBlock.Settings settings) {
+		super(settings);
+		this.color = color;
+		setDefaultState(stateManager.getDefaultState().with(FACING, Direction.UP));
+	}
+
+	@Override
+	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+		builder.add(FACING);
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public void appendTooltip(ItemStack stack, BlockView world, List<Text> tooltip, TooltipContext options) {
+		super.appendTooltip(stack, world, tooltip, options);
+		CompoundTag compoundTag = stack.getSubTag("BlockEntityTag");
+		if (compoundTag != null) {
+			if (compoundTag.contains("LootTable", 8)) {
+				tooltip.add(new LiteralText("???????"));
+			}
+
+			if (compoundTag.contains("Items", 9)) {
+				DefaultedList<ItemStack> defaultedList = DefaultedList.ofSize(numberOfSlots, ItemStack.EMPTY);
+				Inventories.fromTag(compoundTag, defaultedList);
+				int i = 0;
+				int j = 0;
+				Iterator<ItemStack> var9 = defaultedList.iterator();
+
+				while (var9.hasNext()) {
+					ItemStack itemStack = var9.next();
+					if (!itemStack.isEmpty()) {
+						++j;
+						if (i <= 4) {
+							++i;
+							MutableText mutableText = itemStack.getName().shallowCopy();
+							mutableText.append(" x").append(String.valueOf(itemStack.getCount()));
+							tooltip.add(mutableText);
+						}
+					}
+				}
+
+				if (j - i > 0) {
+					tooltip.add(new TranslatableText("container.shulkerBox.more", new Object[] { j - i })
+							.formatted(Formatting.ITALIC));
+				}
+			}
+		}
+
+	}
+
 	@Override
 	public BlockEntity createBlockEntity(BlockView world) {
 		return new NetheriteShulkerBoxBlockEntity(this.getColor());
 	}
 
+	public DyeColor getColor() {
+		return color;
+	}
+
+	@Override
+	public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+		return ScreenHandler.calculateComparatorOutput((Inventory) world.getBlockEntity(pos));
+	}
+
+	@Override
+	public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
+		BlockEntity blockEntity = builder.getNullable(LootContextParameters.BLOCK_ENTITY);
+		if (blockEntity instanceof NetheriteShulkerBoxBlockEntity) {
+			NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity = (NetheriteShulkerBoxBlockEntity) blockEntity;
+			builder = builder.putDrop(CONTENTS, (lootContext, consumer) -> {
+				for (int i = 0; i < shulkerBoxBlockEntity.size(); ++i) {
+					consumer.accept(shulkerBoxBlockEntity.getStack(i));
+				}
+
+			});
+		}
+
+		return super.getDroppedStacks(state, builder);
+	}
+
+	@Override
+	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+		BlockEntity blockEntity = world.getBlockEntity(pos);
+		return blockEntity instanceof NetheriteShulkerBoxBlockEntity
+				? VoxelShapes.cuboid(((NetheriteShulkerBoxBlockEntity) blockEntity).getBoundingBox(state))
+				: VoxelShapes.fullCube();
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
+		ItemStack itemStack = super.getPickStack(world, pos, state);
+		NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity = (NetheriteShulkerBoxBlockEntity) world
+				.getBlockEntity(pos);
+		CompoundTag compoundTag = shulkerBoxBlockEntity.serializeInventory(new CompoundTag());
+		if (!compoundTag.isEmpty()) {
+			itemStack.putSubTag("BlockEntityTag", compoundTag);
+		}
+
+		return itemStack;
+	}
+
 	@Override
 	public PistonBehavior getPistonBehavior(BlockState state) {
 		return PistonBehavior.DESTROY;
+	}
+
+	@Override
+	public BlockState getPlacementState(ItemPlacementContext ctx) {
+		return getDefaultState().with(FACING, ctx.getSide());
+	}
+
+	@Override
+	public BlockRenderType getRenderType(BlockState state) {
+		return BlockRenderType.ENTITYBLOCK_ANIMATED;
+	}
+
+	@Override
+	public boolean hasComparatorOutput(BlockState state) {
+		return true;
+	}
+
+	@Override
+	public BlockState mirror(BlockState state, BlockMirror mirror) {
+		return state.rotate(mirror.getRotation(state.get(FACING)));
+	}
+
+	@Override
+	public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+		BlockEntity blockEntity = world.getBlockEntity(pos);
+		if (blockEntity instanceof NetheriteShulkerBoxBlockEntity) {
+			NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity = (NetheriteShulkerBoxBlockEntity) blockEntity;
+			if (!world.isClient && player.isCreative() && !shulkerBoxBlockEntity.isEmpty()) {
+				ItemStack itemStack = getItemStack(this.getColor());
+				CompoundTag compoundTag = shulkerBoxBlockEntity.serializeInventory(new CompoundTag());
+				if (!compoundTag.isEmpty()) {
+					itemStack.putSubTag("BlockEntityTag", compoundTag);
+				}
+
+				if (shulkerBoxBlockEntity.hasCustomName()) {
+					itemStack.setCustomName(shulkerBoxBlockEntity.getCustomName());
+				}
+
+				ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D,
+						itemStack);
+				itemEntity.setToDefaultPickupDelay();
+				world.spawnEntity(itemEntity);
+			} else {
+				shulkerBoxBlockEntity.checkLootInteraction(player);
+			}
+		}
+
+		super.onBreak(world, pos, state, player);
+	}
+
+	@Override
+	public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
+		if (itemStack.hasCustomName()) {
+			BlockEntity blockEntity = world.getBlockEntity(pos);
+			if (blockEntity instanceof NetheriteShulkerBoxBlockEntity) {
+				((NetheriteShulkerBoxBlockEntity) blockEntity).setCustomName(itemStack.getName());
+			}
+		}
+
+	}
+
+	@Override
+	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+		if (!state.isOf(newState.getBlock())) {
+			BlockEntity blockEntity = world.getBlockEntity(pos);
+			if (blockEntity instanceof NetheriteShulkerBoxBlockEntity) {
+				world.updateComparators(pos, state.getBlock());
+			}
+
+			super.onStateReplaced(state, world, pos, newState, moved);
+		}
+	}
+
+	@Override
+	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+			BlockHitResult hit) {
+		if (world.isClient) {
+			return ActionResult.SUCCESS;
+		} else if (player.isSpectator()) {
+			return ActionResult.CONSUME;
+		} else {
+			BlockEntity blockEntity = world.getBlockEntity(pos);
+			if (blockEntity instanceof NetheriteShulkerBoxBlockEntity) {
+				NetheriteShulkerBoxBlockEntity netheriteShulkerBoxBlockEntity = (NetheriteShulkerBoxBlockEntity) blockEntity;
+				boolean bl2;
+				if (netheriteShulkerBoxBlockEntity.getAnimationStage() == AnimationStage.CLOSED) {
+					Direction direction = state.get(FACING);
+					bl2 = world.doesNotCollide(ShulkerLidCollisions.getLidCollisionBox(pos, direction));
+				} else {
+					bl2 = true;
+				}
+
+				if (bl2) {
+					player.openHandledScreen(netheriteShulkerBoxBlockEntity);
+					player.incrementStat(Stats.OPEN_SHULKER_BOX);
+					PiglinBrain.onGuardedBlockBroken(player, true);
+				}
+
+				return ActionResult.CONSUME;
+			}
+			return ActionResult.PASS;
+		}
+	}
+
+	@Override
+	public BlockState rotate(BlockState state, BlockRotation rotation) {
+		return state.with(FACING, rotation.rotate(state.get(FACING)));
 	}
 
 }

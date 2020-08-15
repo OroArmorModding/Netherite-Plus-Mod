@@ -15,6 +15,10 @@ public class NetheriteAnvilBlock extends AnvilBlock {
 
 	private static final TranslatableText TITLE = new TranslatableText("container.repair");
 
+	public static BlockState getLandingState(BlockState fallingState) {
+		return fallingState;
+	}
+
 	public NetheriteAnvilBlock(Settings settings) {
 		super(settings);
 	}
@@ -24,9 +28,5 @@ public class NetheriteAnvilBlock extends AnvilBlock {
 		return new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) -> {
 			return new NetheriteAnvilScreenHandler(i, playerInventory, ScreenHandlerContext.create(world, pos));
 		}, TITLE);
-	}
-
-	public static BlockState getLandingState(BlockState fallingState) {
-		return fallingState;
 	}
 }

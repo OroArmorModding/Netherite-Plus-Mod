@@ -26,6 +26,16 @@ import net.minecraft.util.Hand;
 public abstract class PlayerEntityRendererMixin
 		extends LivingEntityRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> {
 
+	@Inject(method = "getArmPose", at = @At("HEAD"), cancellable = true)
+	private static void getArmPose(AbstractClientPlayerEntity abstractClientPlayerEntity, Hand hand,
+			CallbackInfoReturnable<BipedEntityModel.ArmPose> cir) {
+		ItemStack itemStack = abstractClientPlayerEntity.getStackInHand(hand);
+		if (!abstractClientPlayerEntity.handSwinging && itemStack.getItem() == NetheritePlusItems.NETHERITE_CROSSBOW
+				&& CrossbowItem.isCharged(itemStack)) {
+			cir.setReturnValue(BipedEntityModel.ArmPose.CROSSBOW_HOLD);
+		}
+	}
+
 	public PlayerEntityRendererMixin(EntityRenderDispatcher dispatcher,
 			PlayerEntityModel<AbstractClientPlayerEntity> model, float shadowRadius) {
 		super(dispatcher, model, shadowRadius);
@@ -35,16 +45,6 @@ public abstract class PlayerEntityRendererMixin
 	@Inject(method = "<init>(Lnet/minecraft/client/render/entity/EntityRenderDispatcher;Z)V", at = @At("RETURN"))
 	private void addNetheriteElytraRenderer(CallbackInfo info) {
 		addFeature(new NetheriteElytraFeatureRenderer(this));
-	}
-
-	@Inject(method = "getArmPose", at = @At("HEAD"), cancellable = true)
-	private static void getArmPose(AbstractClientPlayerEntity abstractClientPlayerEntity, Hand hand,
-			CallbackInfoReturnable<BipedEntityModel.ArmPose> cir) {
-		ItemStack itemStack = abstractClientPlayerEntity.getStackInHand(hand);
-		if (!abstractClientPlayerEntity.handSwinging && itemStack.getItem() == NetheritePlusItems.NETHERITE_CROSSBOW
-				&& CrossbowItem.isCharged(itemStack)) {
-			cir.setReturnValue(BipedEntityModel.ArmPose.CROSSBOW_HOLD);
-		}
 	}
 
 }

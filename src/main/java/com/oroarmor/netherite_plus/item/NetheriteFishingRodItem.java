@@ -20,6 +20,11 @@ public class NetheriteFishingRodItem extends FishingRodItem {
 	}
 
 	@Override
+	public int getEnchantability() {
+		return 2;
+	}
+
+	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		ItemStack itemStack = user.getStackInHand(hand);
 		if (user.fishHook != null) {
@@ -43,11 +48,6 @@ public class NetheriteFishingRodItem extends FishingRodItem {
 		}
 
 		return TypedActionResult.method_29237(itemStack, world.isClient());
-	}
-
-	@Override
-	public int getEnchantability() {
-		return 2;
 	}
 
 }

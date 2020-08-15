@@ -24,9 +24,9 @@ import net.minecraft.world.World;
 
 public class NetheriteTridentEntity extends TridentEntity {
 
-	public NetheriteTridentEntity(World world, LivingEntity owner, ItemStack stack) {
-		super(world, owner, stack);
-		tridentStack = stack;
+	public NetheriteTridentEntity(EntityType<? extends TridentEntity> entityType, World world) {
+		super(entityType, world);
+		tridentStack = new ItemStack(NetheritePlusItems.NETHERITE_TRIDENT);
 	}
 
 	@Environment(EnvType.CLIENT)
@@ -35,9 +35,9 @@ public class NetheriteTridentEntity extends TridentEntity {
 		tridentStack = new ItemStack(NetheritePlusItems.NETHERITE_TRIDENT);
 	}
 
-	public NetheriteTridentEntity(EntityType<? extends TridentEntity> entityType, World world) {
-		super(entityType, world);
-		tridentStack = new ItemStack(NetheritePlusItems.NETHERITE_TRIDENT);
+	public NetheriteTridentEntity(World world, LivingEntity owner, ItemStack stack) {
+		super(world, owner, stack);
+		tridentStack = stack;
 	}
 
 	@Override

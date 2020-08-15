@@ -30,33 +30,30 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
 	}
 
 	@Override
-	protected void setup() {
-		client.keyboard.setRepeatEvents(true);
-		int i = (width - backgroundWidth) / 2;
-		int j = (height - backgroundHeight) / 2;
-		nameField = new TextFieldWidget(textRenderer, i + 62, j + 24, 103, 12,
-				new TranslatableText("container.repair"));
-		nameField.setFocusUnlocked(false);
-		nameField.setEditableColor(-1);
-		nameField.setUneditableColor(-1);
-		nameField.setHasBorder(false);
-		nameField.setMaxLength(35);
-		nameField.setChangedListener(this::onRenamed);
-		children.add(nameField);
-		setInitialFocus(nameField);
-	}
+	protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
+		RenderSystem.disableBlend();
+		super.drawForeground(matrices, mouseX, mouseY);
+		int level = handler.getLevelCost();
+		if (level > 0) {
+			int color = 8453920;
+			boolean bl = true;
+			String string = I18n.translate("container.repair.cost", level);
+			if (level >= 40 && !client.player.abilities.creativeMode) {
+				string = I18n.translate("container.repair.expensive");
+				color = 16736352;
+			} else if (!handler.getSlot(2).hasStack()) {
+				bl = false;
+			} else if (!handler.getSlot(2).canTakeItems(playerInventory.player)) {
+				color = 16736352;
+			}
 
-	@Override
-	public void resize(MinecraftClient client, int width, int height) {
-		String string = nameField.getText();
-		this.init(client, width, height);
-		nameField.setText(string);
-	}
+			if (bl) {
+				int k = backgroundWidth - 8 - textRenderer.getWidth(string) - 2;
+				fill(matrices, k - 2, 67, backgroundWidth - 8, 79, 1325400064);
+				textRenderer.drawWithShadow(matrices, string, k, 69.0F, color);
+			}
+		}
 
-	@Override
-	public void removed() {
-		super.removed();
-		client.keyboard.setRepeatEvents(false);
 	}
 
 	@Override
@@ -85,30 +82,19 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
 	}
 
 	@Override
-	protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-		RenderSystem.disableBlend();
-		super.drawForeground(matrices, mouseX, mouseY);
-		int level = handler.getLevelCost();
-		if (level > 0) {
-			int color = 8453920;
-			boolean bl = true;
-			String string = I18n.translate("container.repair.cost", level);
-			if (level >= 40 && !client.player.abilities.creativeMode) {
-				string = I18n.translate("container.repair.expensive");
-				color = 16736352;
-			} else if (!handler.getSlot(2).hasStack()) {
-				bl = false;
-			} else if (!handler.getSlot(2).canTakeItems(playerInventory.player)) {
-				color = 16736352;
-			}
-
-			if (bl) {
-				int k = backgroundWidth - 8 - textRenderer.getWidth(string) - 2;
-				fill(matrices, k - 2, 67, backgroundWidth - 8, 79, 1325400064);
-				textRenderer.drawWithShadow(matrices, string, k, 69.0F, color);
-			}
+	public void onSlotUpdate(ScreenHandler handler, int slotId, ItemStack stack) {
+		if (slotId == 0) {
+			nameField.setText(stack.isEmpty() ? "" : stack.getName().getString());
+			nameField.setEditable(!stack.isEmpty());
+			setFocused(nameField);
 		}
 
+	}
+
+	@Override
+	public void removed() {
+		super.removed();
+		client.keyboard.setRepeatEvents(false);
 	}
 
 	@Override
@@ -117,12 +103,26 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
 	}
 
 	@Override
-	public void onSlotUpdate(ScreenHandler handler, int slotId, ItemStack stack) {
-		if (slotId == 0) {
-			nameField.setText(stack.isEmpty() ? "" : stack.getName().getString());
-			nameField.setEditable(!stack.isEmpty());
-			setFocused(nameField);
-		}
+	public void resize(MinecraftClient client, int width, int height) {
+		String string = nameField.getText();
+		this.init(client, width, height);
+		nameField.setText(string);
+	}
 
+	@Override
+	protected void setup() {
+		client.keyboard.setRepeatEvents(true);
+		int i = (width - backgroundWidth) / 2;
+		int j = (height - backgroundHeight) / 2;
+		nameField = new TextFieldWidget(textRenderer, i + 62, j + 24, 103, 12,
+				new TranslatableText("container.repair"));
+		nameField.setFocusUnlocked(false);
+		nameField.setEditableColor(-1);
+		nameField.setUneditableColor(-1);
+		nameField.setHasBorder(false);
+		nameField.setMaxLength(35);
+		nameField.setChangedListener(this::onRenamed);
+		children.add(nameField);
+		setInitialFocus(nameField);
 	}
 }

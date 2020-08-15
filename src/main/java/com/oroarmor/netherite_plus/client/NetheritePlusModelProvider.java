@@ -18,70 +18,6 @@ import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
 public class NetheritePlusModelProvider {
-	public static void registerItemsWithModelProvider() {
-
-		if (NetheritePlusConfig.ENABLED.ENABLED_ELYTRA.getValue()) {
-			registerElytraModels();
-		}
-
-		if (NetheritePlusConfig.ENABLED.ENABLED_SHIELDS.getValue()) {
-			registerShieldModels();
-		}
-
-		if (NetheritePlusConfig.ENABLED.ENABLED_FISHING_ROD.getValue()) {
-			registerFishingRodModels();
-		}
-
-		if (NetheritePlusConfig.ENABLED.ENABLED_BOWS_AND_CROSSBOWS.getValue()) {
-			registerBowModels();
-			registerCrossbowModels();
-		}
-
-		if (NetheritePlusConfig.ENABLED.ENABLED_TRIDENT.getValue()) {
-			registerTridentModels();
-		}
-	}
-
-	private static void registerTridentModels() {
-		FabricModelPredicateProviderRegistry.register(NETHERITE_TRIDENT, new Identifier("throwing"),
-				(itemStack, clientWorld, livingEntity) -> {
-					return livingEntity != null && livingEntity.isUsingItem()
-							&& livingEntity.getActiveItem() == itemStack ? 1.0F : 0.0F;
-				});
-	}
-
-	private static void registerElytraModels() {
-		FabricModelPredicateProviderRegistry.register(NETHERITE_ELYTRA, new Identifier("broken"),
-				(itemStack, clientWorld, livingEntity) -> {
-					return ElytraItem.isUsable(itemStack) ? 0.0F : 1.0F;
-				});
-	}
-
-	private static void registerShieldModels() {
-		FabricModelPredicateProviderRegistry.register(NETHERITE_SHIELD, new Identifier("blocking"),
-				(itemStack, clientWorld, livingEntity) -> {
-					return livingEntity != null && livingEntity.isUsingItem()
-							&& livingEntity.getActiveItem() == itemStack ? 1.0F : 0.0F;
-				});
-	}
-
-	private static void registerFishingRodModels() {
-		FabricModelPredicateProviderRegistry.register(NETHERITE_FISHING_ROD, new Identifier("cast"),
-				(itemStack, clientWorld, livingEntity) -> {
-					if (livingEntity == null) {
-						return 0.0F;
-					}
-					boolean bl = livingEntity.getMainHandStack() == itemStack;
-					boolean bl2 = livingEntity.getOffHandStack() == itemStack;
-					if (livingEntity.getMainHandStack().getItem() instanceof FishingRodItem) {
-						bl2 = false;
-					}
-
-					return (bl || bl2) && livingEntity instanceof PlayerEntity
-							&& ((PlayerEntity) livingEntity).fishHook != null ? 1.0F : 0.0F;
-				});
-	}
-
 	private static void registerBowModels() {
 		FabricModelPredicateProviderRegistry.register(NETHERITE_BOW, new Identifier("pull"),
 				(itemStack, clientWorld, livingEntity) -> {
@@ -134,6 +70,70 @@ public class NetheritePlusModelProvider {
 					}
 					return CrossbowItem.isCharged(itemStack1)
 							&& CrossbowItem.hasProjectile(itemStack1, Items.FIREWORK_ROCKET) ? 1.0F : 0.0F;
+				});
+	}
+
+	private static void registerElytraModels() {
+		FabricModelPredicateProviderRegistry.register(NETHERITE_ELYTRA, new Identifier("broken"),
+				(itemStack, clientWorld, livingEntity) -> {
+					return ElytraItem.isUsable(itemStack) ? 0.0F : 1.0F;
+				});
+	}
+
+	private static void registerFishingRodModels() {
+		FabricModelPredicateProviderRegistry.register(NETHERITE_FISHING_ROD, new Identifier("cast"),
+				(itemStack, clientWorld, livingEntity) -> {
+					if (livingEntity == null) {
+						return 0.0F;
+					}
+					boolean bl = livingEntity.getMainHandStack() == itemStack;
+					boolean bl2 = livingEntity.getOffHandStack() == itemStack;
+					if (livingEntity.getMainHandStack().getItem() instanceof FishingRodItem) {
+						bl2 = false;
+					}
+
+					return (bl || bl2) && livingEntity instanceof PlayerEntity
+							&& ((PlayerEntity) livingEntity).fishHook != null ? 1.0F : 0.0F;
+				});
+	}
+
+	public static void registerItemsWithModelProvider() {
+
+		if (NetheritePlusConfig.ENABLED.ENABLED_ELYTRA.getValue()) {
+			registerElytraModels();
+		}
+
+		if (NetheritePlusConfig.ENABLED.ENABLED_SHIELDS.getValue()) {
+			registerShieldModels();
+		}
+
+		if (NetheritePlusConfig.ENABLED.ENABLED_FISHING_ROD.getValue()) {
+			registerFishingRodModels();
+		}
+
+		if (NetheritePlusConfig.ENABLED.ENABLED_BOWS_AND_CROSSBOWS.getValue()) {
+			registerBowModels();
+			registerCrossbowModels();
+		}
+
+		if (NetheritePlusConfig.ENABLED.ENABLED_TRIDENT.getValue()) {
+			registerTridentModels();
+		}
+	}
+
+	private static void registerShieldModels() {
+		FabricModelPredicateProviderRegistry.register(NETHERITE_SHIELD, new Identifier("blocking"),
+				(itemStack, clientWorld, livingEntity) -> {
+					return livingEntity != null && livingEntity.isUsingItem()
+							&& livingEntity.getActiveItem() == itemStack ? 1.0F : 0.0F;
+				});
+	}
+
+	private static void registerTridentModels() {
+		FabricModelPredicateProviderRegistry.register(NETHERITE_TRIDENT, new Identifier("throwing"),
+				(itemStack, clientWorld, livingEntity) -> {
+					return livingEntity != null && livingEntity.isUsingItem()
+							&& livingEntity.getActiveItem() == itemStack ? 1.0F : 0.0F;
 				});
 	}
 }

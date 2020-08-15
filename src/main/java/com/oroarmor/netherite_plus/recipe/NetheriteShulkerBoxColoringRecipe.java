@@ -21,33 +21,6 @@ public class NetheriteShulkerBoxColoringRecipe extends SpecialCraftingRecipe {
 	}
 
 	@Override
-	public boolean matches(CraftingInventory craftingInventory, World world) {
-		int i = 0;
-		int j = 0;
-
-		for (int k = 0; k < craftingInventory.size(); ++k) {
-			ItemStack itemStack = craftingInventory.getStack(k);
-			if (!itemStack.isEmpty()) {
-				if (Block.getBlockFromItem(itemStack.getItem()) instanceof NetheriteShulkerBoxBlock) {
-					++i;
-				} else {
-					if (!(itemStack.getItem() instanceof DyeItem)) {
-						return false;
-					}
-
-					++j;
-				}
-
-				if (j > 1 || i > 1) {
-					return false;
-				}
-			}
-		}
-
-		return i == 1 && j == 1;
-	}
-
-	@Override
 	public ItemStack craft(CraftingInventory craftingInventory) {
 		ItemStack itemStack = ItemStack.EMPTY;
 		DyeItem dyeItem = (DyeItem) Items.WHITE_DYE;
@@ -81,5 +54,32 @@ public class NetheriteShulkerBoxColoringRecipe extends SpecialCraftingRecipe {
 	@Override
 	public RecipeSerializer<?> getSerializer() {
 		return RecipeSerializer.SHULKER_BOX;
+	}
+
+	@Override
+	public boolean matches(CraftingInventory craftingInventory, World world) {
+		int i = 0;
+		int j = 0;
+
+		for (int k = 0; k < craftingInventory.size(); ++k) {
+			ItemStack itemStack = craftingInventory.getStack(k);
+			if (!itemStack.isEmpty()) {
+				if (Block.getBlockFromItem(itemStack.getItem()) instanceof NetheriteShulkerBoxBlock) {
+					++i;
+				} else {
+					if (!(itemStack.getItem() instanceof DyeItem)) {
+						return false;
+					}
+
+					++j;
+				}
+
+				if (j > 1 || i > 1) {
+					return false;
+				}
+			}
+		}
+
+		return i == 1 && j == 1;
 	}
 }
