@@ -18,13 +18,12 @@ public class NetheritePlusTextures {
 
 	public static final SpriteIdentifier NETHERITE_SHIELD_BASE_NO_PATTERN = new SpriteIdentifier(
 			SpriteAtlasTexture.BLOCK_ATLAS_TEX, id("entity/netherite_shield_base_nopattern"));
-	public static final Identifier SHULKER_BOXES_ATLAS_TEXTURE = new Identifier("netherite_plus",
-			"textures/atlas/shulker_boxes.png");
+	public static final Identifier SHULKER_BOXES_ATLAS_TEXTURE = id("textures/atlas/shulker_boxes.png");
 
 	public static void makeAtlases(Consumer<SpriteIdentifier> consumer) {
 		consumer.accept(new SpriteIdentifier(SHULKER_BOXES_ATLAS_TEXTURE, id(NetheritePlusTextures.makePath(null))));
-		Arrays.stream(DyeColor.values()).forEach(c -> consumer.accept(new SpriteIdentifier(SHULKER_BOXES_ATLAS_TEXTURE,
-				new Identifier("netherite_plus", NetheritePlusTextures.makePath(c)))));
+		Arrays.stream(DyeColor.values()).forEach(c -> consumer
+				.accept(new SpriteIdentifier(SHULKER_BOXES_ATLAS_TEXTURE, id(NetheritePlusTextures.makePath(c)))));
 	}
 
 	static String makePath(DyeColor color) {
@@ -52,7 +51,7 @@ public class NetheritePlusTextures {
 	@SuppressWarnings("unused")
 	public static void registerShulkerBoxTextures(SpriteAtlasTexture atlas,
 			ClientSpriteRegistryCallback.Registry registry) {
-		registry.register(new Identifier("netherite_plus", makePath(null)));
+		registry.register(id(makePath(null)));
 		Arrays.stream(DyeColor.values()).forEach(c -> registry.register(id(makePath(c))));
 	}
 
