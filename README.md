@@ -12,6 +12,7 @@ Discord: https://discord.gg/dGCvj56
 * Netherite Fishing Rod
   - Doesnt burn in lava
   - Double durability
+  - Lava Fishing! You can get gold items, nether themed items, and rarely ancient debris.
   
 * Netherite Elytra
   - Doesn't burn in lava
@@ -37,7 +38,11 @@ Discord: https://discord.gg/dGCvj56
   - Never Break
   - Same recipe as normal anvils, but with netherite instead of iron
   - Reduces xp cost for upgrading/repairing items, default of 50%
-  
+
+* Netherite Tridents
+  - Riptide out of lava and water
+  - Don't burn in lava
+ 
 * Configurations
   - All features are fully configable
   - Include or don't include
@@ -47,8 +52,6 @@ Discord: https://discord.gg/dGCvj56
 * Full Trinkets Support
 
 ## Potential Features
-* Netherite Fishing Rod
-  - Maybe fishes in lava
 * Netherite Beacons
   - 3rd tier effects
 * Netherite Chests?
