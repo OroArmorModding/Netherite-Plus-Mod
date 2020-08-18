@@ -1,5 +1,7 @@
 package com.oroarmor.netherite_plus.client;
 
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
+
 import java.util.Arrays;
 import java.util.function.Consumer;
 
@@ -12,17 +14,15 @@ import net.minecraft.util.Identifier;
 public class NetheritePlusTextures {
 
 	public static final SpriteIdentifier NETHERITE_SHIELD_BASE = new SpriteIdentifier(
-			SpriteAtlasTexture.BLOCK_ATLAS_TEX, new Identifier("netherite_plus", "entity/netherite_shield_base"));
+			SpriteAtlasTexture.BLOCK_ATLAS_TEX, id("entity/netherite_shield_base"));
 
 	public static final SpriteIdentifier NETHERITE_SHIELD_BASE_NO_PATTERN = new SpriteIdentifier(
-			SpriteAtlasTexture.BLOCK_ATLAS_TEX,
-			new Identifier("netherite_plus", "entity/netherite_shield_base_nopattern"));
+			SpriteAtlasTexture.BLOCK_ATLAS_TEX, id("entity/netherite_shield_base_nopattern"));
 	public static final Identifier SHULKER_BOXES_ATLAS_TEXTURE = new Identifier("netherite_plus",
 			"textures/atlas/shulker_boxes.png");
 
 	public static void makeAtlases(Consumer<SpriteIdentifier> consumer) {
-		consumer.accept(new SpriteIdentifier(SHULKER_BOXES_ATLAS_TEXTURE,
-				new Identifier("netherite_plus", NetheritePlusTextures.makePath(null))));
+		consumer.accept(new SpriteIdentifier(SHULKER_BOXES_ATLAS_TEXTURE, id(NetheritePlusTextures.makePath(null))));
 		Arrays.stream(DyeColor.values()).forEach(c -> consumer.accept(new SpriteIdentifier(SHULKER_BOXES_ATLAS_TEXTURE,
 				new Identifier("netherite_plus", NetheritePlusTextures.makePath(c)))));
 	}
@@ -53,7 +53,7 @@ public class NetheritePlusTextures {
 	public static void registerShulkerBoxTextures(SpriteAtlasTexture atlas,
 			ClientSpriteRegistryCallback.Registry registry) {
 		registry.register(new Identifier("netherite_plus", makePath(null)));
-		Arrays.stream(DyeColor.values()).forEach(c -> registry.register(new Identifier("netherite_plus", makePath(c))));
+		Arrays.stream(DyeColor.values()).forEach(c -> registry.register(id(makePath(c))));
 	}
 
 }

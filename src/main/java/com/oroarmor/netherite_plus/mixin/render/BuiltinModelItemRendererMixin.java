@@ -1,5 +1,7 @@
 package com.oroarmor.netherite_plus.mixin.render;
 
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -36,7 +38,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
 import net.minecraft.util.DyeColor;
-import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 @Mixin(BuiltinModelItemRenderer.class)
@@ -96,8 +97,7 @@ public class BuiltinModelItemRendererMixin {
 			matrixStack.push();
 			matrixStack.scale(1.0F, -1.0F, -1.0F);
 			VertexConsumer vertexConsumer2 = ItemRenderer.getDirectGlintVertexConsumer(vertexConsumerProvider,
-					modelTrident.getLayer(new Identifier("netherite_plus", "textures/entity/netherite_trident.png")),
-					false, stack.hasGlint());
+					modelTrident.getLayer(id("textures/entity/netherite_trident.png")), false, stack.hasGlint());
 			modelTrident.render(matrixStack, vertexConsumer2, i, j, 1.0F, 1.0F, 1.0F, 1.0F);
 			matrixStack.pop();
 		}

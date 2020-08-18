@@ -1,5 +1,8 @@
 package com.oroarmor.netherite_plus.block;
 
+import static com.oroarmor.netherite_plus.NetheritePlusMod.MOD_ID;
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
+
 import com.oroarmor.netherite_plus.block.entity.NetheriteShulkerBoxBlockEntity;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 
@@ -11,7 +14,6 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.DyeColor;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class NetheritePlusBlocks {
@@ -79,7 +81,7 @@ public class NetheritePlusBlocks {
 	}
 
 	private static Block register(String id, Block block) {
-		return Registry.register(Registry.BLOCK, new Identifier("netherite_plus", id), block);
+		return Registry.register(Registry.BLOCK, id(id), block);
 	}
 
 	private static void registerShulkerBoxBlocks() {
@@ -118,8 +120,7 @@ public class NetheritePlusBlocks {
 		NETHERITE_BLACK_SHULKER_BOX = register("netherite_black_shulker_box", createShulkerBoxBlock(DyeColor.BLACK,
 				AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.BLACK)));
 
-		NETHERITE_SHULKER_BOX_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE,
-				"netherite_plus:netherite_shulker_box",
+		NETHERITE_SHULKER_BOX_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, MOD_ID + ":netherite_shulker_box",
 				BlockEntityType.Builder.create(NetheriteShulkerBoxBlockEntity::new, NETHERITE_SHULKER_BOX,
 						NETHERITE_BLACK_SHULKER_BOX, NETHERITE_BLUE_SHULKER_BOX, NETHERITE_BROWN_SHULKER_BOX,
 						NETHERITE_CYAN_SHULKER_BOX, NETHERITE_GRAY_SHULKER_BOX, NETHERITE_GREEN_SHULKER_BOX,
