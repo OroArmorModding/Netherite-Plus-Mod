@@ -34,7 +34,6 @@ import net.devtech.arrp.api.RuntimeResourcePack;
 import net.devtech.arrp.json.tags.JTag;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.util.DyeColor;
-import net.minecraft.util.Identifier;
 
 public class NetheritePlusDynamicDataPack {
 
@@ -43,7 +42,7 @@ public class NetheritePlusDynamicDataPack {
 	public static void configureDynamicDataPack() {
 		if (NetheritePlusConfig.ENABLED.ENABLED_FAKE_NETHERITE_BLOCKS.getValue()) {
 			DataPack.addTag(id("minecraft:blocks/beacon_base_blocks"),
-					JTag.tag().add(new Identifier(MOD_ID + "", "fake_netherite_block")));
+					JTag.tag().add(id(MOD_ID, "fake_netherite_block")));
 
 			DataPack.addRecipe(id(MOD_ID + ":fake_netherite_block"),
 					shaped(pattern("###", "#I#", "###"),

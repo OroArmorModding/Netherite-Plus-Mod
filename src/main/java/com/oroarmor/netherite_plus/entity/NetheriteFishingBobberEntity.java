@@ -1,5 +1,7 @@
 package com.oroarmor.netherite_plus.entity;
 
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,7 +30,6 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.FluidTags;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -363,8 +364,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 						.parameter(LootContextParameters.TOOL, usedItem)
 						.parameter(LootContextParameters.THIS_ENTITY, this).random(random)
 						.luck(luckOfTheSeaLevel + playerEntity.getLuck());
-				LootTable lootTable = world.getServer().getLootManager()
-						.getTable(new Identifier("netherite_plus", "gameplay/fishing"));
+				LootTable lootTable = world.getServer().getLootManager().getTable(id("gameplay/fishing"));
 				List<ItemStack> list = lootTable.generateLoot(builder.build(LootContextTypes.FISHING));
 				Iterator<ItemStack> var7 = list.iterator();
 
