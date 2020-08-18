@@ -1,5 +1,7 @@
 package com.oroarmor.netherite_plus.item;
 
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
+
 import com.oroarmor.netherite_plus.block.NetheritePlusBlocks;
 import com.oroarmor.netherite_plus.compatibility.NetheritePlusTrinketsCompatibilty;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
@@ -75,12 +77,12 @@ public final class NetheritePlusItems {
 	}
 
 	private static void registerBowAndCrossbow() {
-		NETHERITE_BOW = register(new Identifier("netherite_plus", "netherite_bow"),
+		NETHERITE_BOW = register(id("netherite_bow"),
 				new NetheriteBowItem(
 						new Item.Settings().maxDamage(NetheritePlusConfig.DURABILITIES.BOW_DURABILITY.getValue())
 								.group(ItemGroup.COMBAT).fireproof()));
 
-		NETHERITE_CROSSBOW = register(new Identifier("netherite_plus", "netherite_crossbow"),
+		NETHERITE_CROSSBOW = register(id("netherite_crossbow"),
 				new NetheriteCrossbowItem(
 						new Item.Settings().maxDamage(NetheritePlusConfig.DURABILITIES.CROSSBOW_DURABILITY.getValue())
 								.group(ItemGroup.COMBAT).fireproof()));
@@ -94,7 +96,7 @@ public final class NetheritePlusItems {
 				.maxDamage(NetheritePlusConfig.DURABILITIES.ELYTRA_DURABILITY.getValue())
 				.group(ItemGroup.TRANSPORTATION).rarity(Rarity.UNCOMMON).fireproof();
 
-		NETHERITE_ELYTRA = register(new Identifier("netherite_plus", "netherite_elytra"),
+		NETHERITE_ELYTRA = register(id("netherite_elytra"),
 				!FabricLoader.getInstance().isModLoaded("trinkets") ? new NetheriteElytraItem(elytraSettings)
 						: NetheritePlusTrinketsCompatibilty.getTrinketsElytra(elytraSettings));
 
@@ -102,7 +104,7 @@ public final class NetheritePlusItems {
 	}
 
 	private static void registerFishingRod() {
-		NETHERITE_FISHING_ROD = register(new Identifier("netherite_plus", "netherite_fishing_rod"),
+		NETHERITE_FISHING_ROD = register(id("netherite_fishing_rod"),
 				new NetheriteFishingRodItem(new Item.Settings()
 						.maxDamage(NetheritePlusConfig.DURABILITIES.FISHING_ROD_DURABILITY.getValue())
 						.group(ItemGroup.TOOLS).fireproof()));
@@ -111,7 +113,7 @@ public final class NetheritePlusItems {
 	}
 
 	private static void registerHorseArmor() {
-		NETHERITE_HORSE_ARMOR = register(new Identifier("netherite_plus", "netherite_horse_armor"),
+		NETHERITE_HORSE_ARMOR = register(id("netherite_horse_armor"),
 				new NetheriteHorseArmorItem(15, new Item.Settings().maxCount(1).group(ItemGroup.MISC).fireproof()));
 
 		UniqueItemRegistry.HORSE_ARMOR.addItemToRegistry(NETHERITE_HORSE_ARMOR);
@@ -147,20 +149,20 @@ public final class NetheritePlusItems {
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_FAKE_NETHERITE_BLOCKS.getValue()) {
-			FAKE_NETHERITE_BLOCK = register(new Identifier("netherite_plus", "fake_netherite_block"),
+			FAKE_NETHERITE_BLOCK = register(id("fake_netherite_block"),
 					new BlockItem(NetheritePlusBlocks.FAKE_NETHERITE_BLOCK,
 							new Item.Settings().group(ItemGroup.BUILDING_BLOCKS).fireproof()));
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_ANVIL.getValue()) {
-			NETHERITE_ANVIL_ITEM = register(new Identifier("netherite_plus", "netherite_anvil"),
+			NETHERITE_ANVIL_ITEM = register(id("netherite_anvil"),
 					new BlockItem(NetheritePlusBlocks.NETHERITE_ANVIL_BLOCK,
 							new Item.Settings().group(ItemGroup.DECORATIONS).fireproof()));
 		}
 	}
 
 	private static void registerShield() {
-		NETHERITE_SHIELD = register(new Identifier("netherite_plus", "netherite_shield"),
+		NETHERITE_SHIELD = register(id("netherite_shield"),
 				new NetheriteShieldItem(
 						new Item.Settings().maxDamage(NetheritePlusConfig.DURABILITIES.SHIELD_DURABILITY.getValue())
 								.group(ItemGroup.COMBAT).fireproof()));
@@ -206,7 +208,7 @@ public final class NetheritePlusItems {
 	}
 
 	private static void registerTrident() {
-		NETHERITE_TRIDENT = register(new Identifier("netherite_plus", "netherite_trident"),
+		NETHERITE_TRIDENT = register(id("netherite_trident"),
 				new NetheriteTridentItem(
 						new Item.Settings().maxDamage(NetheritePlusConfig.DURABILITIES.TRIDENT_DURABILITY.getValue())
 								.group(ItemGroup.COMBAT).fireproof()));

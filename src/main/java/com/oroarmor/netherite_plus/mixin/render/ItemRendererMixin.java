@@ -1,5 +1,7 @@
 package com.oroarmor.netherite_plus.mixin.render;
 
+import static com.oroarmor.netherite_plus.NetheritePlusMod.MOD_ID;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -48,8 +50,7 @@ public abstract class ItemRendererMixin {
 			boolean bl = renderMode == ModelTransformation.Mode.GUI || renderMode == ModelTransformation.Mode.GROUND
 					|| renderMode == ModelTransformation.Mode.FIXED;
 			if (stack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT && bl) {
-				model = models.getModelManager()
-						.getModel(new ModelIdentifier("netherite_plus:netherite_trident#inventory"));
+				model = models.getModelManager().getModel(new ModelIdentifier(MOD_ID + ":netherite_trident#inventory"));
 			}
 
 			model.getTransformation().getTransformation(renderMode).apply(leftHanded, matrices);

@@ -1,5 +1,7 @@
 package com.oroarmor.netherite_plus.client.render;
 
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
+
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 
 import net.fabricmc.api.EnvType;
@@ -24,8 +26,7 @@ import net.minecraft.util.Identifier;
 public class NetheriteElytraFeatureRenderer<T extends LivingEntity, M extends EntityModel<T>>
 		extends FeatureRenderer<T, M> {
 
-	public static final Identifier NETHERITE_ELYTRA_SKIN = new Identifier("netherite_plus",
-			"textures/entity/netherite_elytra.png");
+	public static final Identifier NETHERITE_ELYTRA_SKIN = id("textures/entity/netherite_elytra.png");
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private final ElytraEntityModel<T> elytra = new ElytraEntityModel();

@@ -1,5 +1,7 @@
 package com.oroarmor.netherite_plus.item;
 
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.item.HorseArmorItem;
@@ -14,6 +16,6 @@ public class NetheriteHorseArmorItem extends HorseArmorItem {
 	@Override
 	@Environment(EnvType.CLIENT)
 	public Identifier getEntityTexture() {
-		return new Identifier("netherite_plus", "textures/entity/netherite_horse_armor.png");
+		return id("textures/entity/netherite_horse_armor.png");
 	}
 }

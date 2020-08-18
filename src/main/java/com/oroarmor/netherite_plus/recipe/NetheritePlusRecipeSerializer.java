@@ -1,11 +1,12 @@
 package com.oroarmor.netherite_plus.recipe;
 
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
+
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialRecipeSerializer;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public final class NetheritePlusRecipeSerializer {
@@ -25,7 +26,7 @@ public final class NetheritePlusRecipeSerializer {
 	}
 
 	public static <S extends RecipeSerializer<T>, T extends Recipe<?>> S register(String id, S serializer) {
-		return Registry.register(Registry.RECIPE_SERIALIZER, new Identifier("netherite_plus", id), serializer);
+		return Registry.register(Registry.RECIPE_SERIALIZER, id(id), serializer);
 	}
 
 }

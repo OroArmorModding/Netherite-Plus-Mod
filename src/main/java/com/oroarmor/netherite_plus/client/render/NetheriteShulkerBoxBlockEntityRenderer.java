@@ -1,5 +1,7 @@
 package com.oroarmor.netherite_plus.client.render;
 
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
+
 import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
 import com.oroarmor.netherite_plus.block.entity.NetheriteShulkerBoxBlockEntity;
 import com.oroarmor.netherite_plus.client.NetheritePlusTextures;
@@ -17,7 +19,6 @@ import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.util.DyeColor;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 
 @Environment(EnvType.CLIENT)
@@ -44,10 +45,10 @@ public class NetheriteShulkerBoxBlockEntityRenderer extends BlockEntityRenderer<
 		SpriteIdentifier spriteIdentifier2;
 		if (dyeColor == null) {
 			spriteIdentifier2 = new SpriteIdentifier(NetheritePlusTextures.SHULKER_BOXES_ATLAS_TEXTURE,
-					new Identifier("netherite_plus", "entity/netherite_shulker/netherite_shulker"));
+					id("entity/netherite_shulker/netherite_shulker"));
 		} else {
-			spriteIdentifier2 = new SpriteIdentifier(NetheritePlusTextures.SHULKER_BOXES_ATLAS_TEXTURE, new Identifier(
-					"netherite_plus", "entity/netherite_shulker/netherite_shulker_" + dyeColor.getName()));
+			spriteIdentifier2 = new SpriteIdentifier(NetheritePlusTextures.SHULKER_BOXES_ATLAS_TEXTURE,
+					id("entity/netherite_shulker/netherite_shulker_" + dyeColor.getName()));
 		}
 
 		matrixStack.push();

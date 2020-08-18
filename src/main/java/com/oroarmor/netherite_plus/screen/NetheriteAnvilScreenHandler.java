@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.oroarmor.netherite_plus.NetheritePlusMod;
 import com.oroarmor.netherite_plus.block.NetheritePlusBlocks;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 
@@ -39,7 +38,7 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
 	}
 
 	public NetheriteAnvilScreenHandler(int syncId, PlayerInventory inventory, ScreenHandlerContext context) {
-		super(NetheritePlusMod.NETHERITE_ANVIL, syncId, inventory, context);
+		super(NetheritePlusScreenHandlers.NETHERITE_ANVIL, syncId, inventory, context);
 		levelCost = Property.create();
 		addProperty(levelCost);
 	}

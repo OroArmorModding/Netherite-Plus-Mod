@@ -1,5 +1,6 @@
 package com.oroarmor.netherite_plus.config;
 
+import static com.oroarmor.netherite_plus.NetheritePlusMod.MOD_ID;
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.FAKE_NETHERITE_BLOCK;
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_ANVIL_ITEM;
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_BOW;
@@ -37,21 +38,21 @@ import net.minecraft.util.Identifier;
 
 public class NetheritePlusDynamicDataPack {
 
-	public static final RuntimeResourcePack DataPack = RuntimeResourcePack.create("netherite_plus:dynamic_datapack");
+	public static final RuntimeResourcePack DataPack = RuntimeResourcePack.create(MOD_ID + ":dynamic_datapack");
 
 	public static void configureDynamicDataPack() {
 		if (NetheritePlusConfig.ENABLED.ENABLED_FAKE_NETHERITE_BLOCKS.getValue()) {
 			DataPack.addTag(id("minecraft:blocks/beacon_base_blocks"),
-					JTag.tag().add(new Identifier("netherite_plus", "fake_netherite_block")));
+					JTag.tag().add(new Identifier(MOD_ID + "", "fake_netherite_block")));
 
-			DataPack.addRecipe(id("netherite_plus:fake_netherite_block"),
+			DataPack.addRecipe(id(MOD_ID + ":fake_netherite_block"),
 					shaped(pattern("###", "#I#", "###"),
 							keys().key("#", ingredient().item(IRON_BLOCK)).key("I", ingredient().item(NETHERITE_INGOT)),
 							item(FAKE_NETHERITE_BLOCK)));
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_ANVIL.getValue()) {
-			DataPack.addRecipe(id("netherite_plus:netherite_anvil"), shaped(pattern("###", " I ", "III"),
+			DataPack.addRecipe(id(MOD_ID + ":netherite_anvil"), shaped(pattern("###", " I ", "III"),
 					keys().key("#", ingredient().item(NETHERITE_BLOCK)).key("I", ingredient().item(NETHERITE_INGOT)),
 					item(NETHERITE_ANVIL_ITEM)));
 		}
@@ -59,38 +60,37 @@ public class NetheritePlusDynamicDataPack {
 		if (NetheritePlusConfig.ENABLED.ENABLED_SHULKER_BOXES.getValue()) {
 			stream(DyeColor.values()).forEach(NetheritePlusDynamicDataPack::createShulkerRecipe);
 
-			DataPack.addRecipe(id("netherite_plus:netherite_shulker_box"),
+			DataPack.addRecipe(id(MOD_ID + ":netherite_shulker_box"),
 					smithing(ingredient().item(ShulkerBoxBlock.get(null).asItem()), ingredient().item(NETHERITE_INGOT),
 							item(NetheriteShulkerBoxBlock.get(null).asItem())));
 
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_BOWS_AND_CROSSBOWS.getValue()) {
-			DataPack.addRecipe(id("netherite_plus:netherite_bow"),
+			DataPack.addRecipe(id(MOD_ID + ":netherite_bow"),
 					smithing(ingredient().item(BOW), ingredient().item(NETHERITE_INGOT), item(NETHERITE_BOW)));
 
-			DataPack.addRecipe(id("netherite_plus:netherite_crossbow"), smithing(ingredient().item(CROSSBOW),
+			DataPack.addRecipe(id(MOD_ID + ":netherite_crossbow"), smithing(ingredient().item(CROSSBOW),
 					ingredient().item(NETHERITE_INGOT), item(NETHERITE_CROSSBOW)));
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_ELYTRA.getValue()) {
-			DataPack.addRecipe(id("netherite_plus:netherite_eytra"),
+			DataPack.addRecipe(id(MOD_ID + ":netherite_eytra"),
 					smithing(ingredient().item(ELYTRA), ingredient().item(NETHERITE_INGOT), item(NETHERITE_ELYTRA)));
 
 		}
 		if (NetheritePlusConfig.ENABLED.ENABLED_HORSE_ARMOR.getValue()) {
-			DataPack.addRecipe(id("netherite_plus:netherite_horse_armor"),
-					smithing(ingredient().item(DIAMOND_HORSE_ARMOR), ingredient().item(NETHERITE_INGOT),
-							item(NETHERITE_HORSE_ARMOR)));
+			DataPack.addRecipe(id(MOD_ID + ":netherite_horse_armor"), smithing(ingredient().item(DIAMOND_HORSE_ARMOR),
+					ingredient().item(NETHERITE_INGOT), item(NETHERITE_HORSE_ARMOR)));
 
 		}
 		if (NetheritePlusConfig.ENABLED.ENABLED_FISHING_ROD.getValue()) {
-			DataPack.addRecipe(id("netherite_plus:netherite_fishing_rod"), smithing(ingredient().item(FISHING_ROD),
+			DataPack.addRecipe(id(MOD_ID + ":netherite_fishing_rod"), smithing(ingredient().item(FISHING_ROD),
 					ingredient().item(NETHERITE_INGOT), item(NETHERITE_FISHING_ROD)));
 
 		}
 		if (NetheritePlusConfig.ENABLED.ENABLED_SHIELDS.getValue()) {
-			DataPack.addRecipe(id("netherite_plus:netherite_shield"),
+			DataPack.addRecipe(id(MOD_ID + ":netherite_shield"),
 					smithing(ingredient().item(SHIELD), ingredient().item(NETHERITE_INGOT), item(NETHERITE_SHIELD)));
 
 		}
@@ -99,7 +99,7 @@ public class NetheritePlusDynamicDataPack {
 	}
 
 	public static void createShulkerRecipe(DyeColor color) {
-		DataPack.addRecipe(id("netherite_plus:netherite_" + color.getName() + "_shulker_box"),
+		DataPack.addRecipe(id(MOD_ID + ":netherite_" + color.getName() + "_shulker_box"),
 				smithing(ingredient().item(ShulkerBoxBlock.get(color).asItem()), ingredient().item(NETHERITE_INGOT),
 						item(NetheriteShulkerBoxBlock.get(color).asItem())));
 	}

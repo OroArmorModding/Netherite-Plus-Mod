@@ -56,7 +56,7 @@ public class Config {
 
 	@Override
 	public String toString() {
-		return configFile.getName() + ": ["
-				+ configs.stream().map(Object::toString).collect(Collectors.joining(", ")) + "]";
+		return configFile.getName() + ": [" + configs.stream().map(Object::toString).collect(Collectors.joining(", "))
+				+ "]";
 	}
 }
