@@ -30,3 +30,5 @@ accessible field net/minecraft/entity/projectile/ProjectileEntity ownerEntityId 
 
 accessible field net/minecraft/entity/projectile/TridentEntity tridentStack Lnet/minecraft/item/ItemStack;
 accessible field net/minecraft/entity/projectile/TridentEntity dealtDamage Z
+
+accessible method net/minecraft/nbt/CompoundTag <init> (Ljava/util/Map;)V
