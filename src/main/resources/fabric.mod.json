@@ -34,6 +34,9 @@
     ],
 	"modmenu" : [
 	  "com.oroarmor.netherite_plus.compatibility.ModMenuIntegration"
+	],
+	"rei_plugins": [
+		"com.oroarmor.rei_fishing_plugin.REIFishingPlugin"
 	]
   },
   "mixins": [
