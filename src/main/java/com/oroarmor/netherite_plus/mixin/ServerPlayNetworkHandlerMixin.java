@@ -7,9 +7,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.oroarmor.netherite_plus.screen.NetheriteAnvilScreenHandler;
+import com.oroarmor.netherite_plus.screen.NetheriteBeaconScreenHandler;
 
 import net.minecraft.SharedConstants;
 import net.minecraft.network.packet.c2s.play.RenameItemC2SPacket;
+import net.minecraft.network.packet.c2s.play.UpdateBeaconC2SPacket;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 
@@ -29,5 +31,15 @@ public class ServerPlayNetworkHandlerMixin {
 				anvilScreenHandler.setNewItemName(string);
 			}
 		}
+	}
+
+	@SuppressWarnings("unused")
+	@Inject(method = "onUpdateBeacon", at = @At("RETURN"))
+	public void onUpdateBeacon(UpdateBeaconC2SPacket packet, CallbackInfo info) {
+		if (this.player.currentScreenHandler instanceof NetheriteBeaconScreenHandler) {
+			((NetheriteBeaconScreenHandler) this.player.currentScreenHandler).setEffects(packet.getPrimaryEffectId(),
+					packet.getSecondaryEffectId());
+		}
+
 	}
 }

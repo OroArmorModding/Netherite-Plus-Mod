@@ -3,6 +3,7 @@ package com.oroarmor.netherite_plus.block;
 import static com.oroarmor.netherite_plus.NetheritePlusMod.MOD_ID;
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
+import com.oroarmor.netherite_plus.block.entity.NetheriteBeaconBlockEntity;
 import com.oroarmor.netherite_plus.block.entity.NetheriteShulkerBoxBlockEntity;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 
@@ -39,9 +40,10 @@ public class NetheritePlusBlocks {
 
 	public static Block NETHERITE_ANVIL_BLOCK;
 
-	// public static final Block NETHERITE_BEACON;
+	public static Block NETHERITE_BEACON;
 
 	public static BlockEntityType<NetheriteShulkerBoxBlockEntity> NETHERITE_SHULKER_BOX_ENTITY;
+	public static BlockEntityType<NetheriteBeaconBlockEntity> NETHERITE_BEACON_BLOCK_ENTITY;
 
 	static {
 		if (NetheritePlusConfig.ENABLED.ENABLED_SHULKER_BOXES.getValue()) {
@@ -60,11 +62,15 @@ public class NetheritePlusBlocks {
 							.requiresTool().strength(5.0F, 1200.0F).sounds(BlockSoundGroup.ANVIL)));
 		}
 
-		// NETHERITE_BEACON = register("netherite_beacon", new NetheriteBeaconBlock(
-		// AbstractBlock.Settings.of(Material.GLASS,
-		// MaterialColor.DIAMOND).strength(3.0F).lightLevel((state) -> {
-		// return 15;
-		// }).nonOpaque()));
+		if (NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue()) {
+			NETHERITE_BEACON = register("netherite_beacon", new NetheriteBeaconBlock(AbstractBlock.Settings
+					.of(Material.GLASS, MaterialColor.DIAMOND).strength(3.0F).lightLevel((state) -> {
+						return 15;
+					}).nonOpaque()));
+
+			NETHERITE_BEACON_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, MOD_ID + ":netherite_beacon",
+					BlockEntityType.Builder.create(NetheriteBeaconBlockEntity::new, NETHERITE_BEACON).build(null));
+		}
 	}
 
 	private static NetheriteShulkerBoxBlock createShulkerBoxBlock(DyeColor color, AbstractBlock.Settings settings) {
