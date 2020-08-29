@@ -108,9 +108,12 @@ public final class NetheritePlusConfig extends Config {
 		public static final ConfigItem<Boolean> ENABLED_TRIDENT = new ConfigItem<>("trident", true,
 				"config.netherite_plus.enabled.trident");
 
+		public static ConfigItem<Boolean> ENABLED_BEACON = new ConfigItem<>("beacon", true,
+				"config.netherite_plus.enabled.beacon");
+
 		public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(ENABLED_SHULKER_BOXES, ENABLED_ELYTRA,
 				ENABLED_SHIELDS, ENABLED_BOWS_AND_CROSSBOWS, ENABLED_FISHING_ROD, ENABLED_HORSE_ARMOR,
-				ENABLED_FAKE_NETHERITE_BLOCKS, ENABLED_ANVIL, ENABLED_CONFIG_PRINT, ENABLED_TRIDENT);
+				ENABLED_FAKE_NETHERITE_BLOCKS, ENABLED_ANVIL, ENABLED_CONFIG_PRINT, ENABLED_TRIDENT, ENABLED_BEACON);
 
 		public ENABLED() {
 			super(OPTIONS, "enabled");

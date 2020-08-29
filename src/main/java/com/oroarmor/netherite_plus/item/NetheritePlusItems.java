@@ -51,8 +51,7 @@ public final class NetheritePlusItems {
 	public static Item NETHERITE_RED_SHULKER_BOX;
 	public static Item NETHERITE_BLACK_SHULKER_BOX;
 
-//	public static Item NETHERITE_BEACON = register(new BlockItem(NetheritePlusModBlocks.NETHERITE_BEACON,
-//			new Item.Settings().maxCount(64).group(ItemGroup.MISC).fireproof()));
+	public static Item NETHERITE_BEACON;
 
 	public static Item NETHERITE_HORSE_ARMOR;
 
@@ -158,6 +157,11 @@ public final class NetheritePlusItems {
 			NETHERITE_ANVIL_ITEM = register(id("netherite_anvil"),
 					new BlockItem(NetheritePlusBlocks.NETHERITE_ANVIL_BLOCK,
 							new Item.Settings().group(ItemGroup.DECORATIONS).fireproof()));
+		}
+
+		if (NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue()) {
+			NETHERITE_BEACON = register(new BlockItem(NetheritePlusBlocks.NETHERITE_BEACON,
+					new Item.Settings().maxCount(64).group(ItemGroup.MISC).fireproof()));
 		}
 	}
 
