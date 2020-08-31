@@ -101,7 +101,7 @@ public class LavaFishingOutcome {
 	}
 
 	public float getOpenWaterChance() {
-		return this.loottableWeight * this.weight * 0.01f;
+		return loottableWeight * weight * 0.01f;
 	}
 
 	public float getNormalChance(LavaFishingType type) {
@@ -109,6 +109,6 @@ public class LavaFishingOutcome {
 			return 0;
 		}
 
-		return this.loottableWeight * 1f / 0.6f * this.weight * 0.01f;
+		return loottableWeight * 1f / 0.6f * weight * 0.01f;
 	}
 }

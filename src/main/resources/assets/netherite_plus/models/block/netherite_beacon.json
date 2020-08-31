@@ -1,10 +1,11 @@
-{   "parent": "block/block",
+{   
+	"parent": "block/block",
     "ambientocclusion": false,
     "textures": {
         "particle": "block/glass",
         "glass": "block/glass",
-        "obsidian": "block/obsidian",
-        "beacon": "block/beacon"
+        "netherite_block": "block/netherite_block",
+        "beacon": "netherite_plus:block/netherite_beacon"
     },
     "elements": [
         {   "__comment": "Glass shell",
@@ -19,16 +20,16 @@
                 "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#glass" }
             }
         },
-        {   "__comment": "Obsidian base",
+        {   "__comment": "netherite_block base",
             "from": [ 2, 0.1, 2 ],
             "to": [ 14, 3, 14 ],
             "faces": {
-                "down":  { "uv": [ 2,  2, 14, 14 ], "texture": "#obsidian" },
-                "up":    { "uv": [ 2,  2, 14, 14 ], "texture": "#obsidian" },
-                "north": { "uv": [ 2, 13, 14, 16 ], "texture": "#obsidian" },
-                "south": { "uv": [ 2, 13, 14, 16 ], "texture": "#obsidian" },
-                "west":  { "uv": [ 2, 13, 14, 16 ], "texture": "#obsidian" },
-                "east":  { "uv": [ 2, 13, 14, 16 ], "texture": "#obsidian" }
+                "down":  { "uv": [ 2,  2, 14, 14 ], "texture": "#netherite_block" },
+                "up":    { "uv": [ 2,  2, 14, 14 ], "texture": "#netherite_block" },
+                "north": { "uv": [ 2, 13, 14, 16 ], "texture": "#netherite_block" },
+                "south": { "uv": [ 2, 13, 14, 16 ], "texture": "#netherite_block" },
+                "west":  { "uv": [ 2, 13, 14, 16 ], "texture": "#netherite_block" },
+                "east":  { "uv": [ 2, 13, 14, 16 ], "texture": "#netherite_block" }
             }
         },
         {   "__comment": "Inner beacon texture",

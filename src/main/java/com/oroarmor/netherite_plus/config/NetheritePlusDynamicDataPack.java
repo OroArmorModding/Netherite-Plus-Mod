@@ -3,12 +3,14 @@ package com.oroarmor.netherite_plus.config;
 import static com.oroarmor.netherite_plus.NetheritePlusMod.MOD_ID;
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.FAKE_NETHERITE_BLOCK;
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_ANVIL_ITEM;
+import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_BEACON;
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_BOW;
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_CROSSBOW;
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_ELYTRA;
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_FISHING_ROD;
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_HORSE_ARMOR;
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_SHIELD;
+import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_TRIDENT;
 import static java.util.Arrays.stream;
 import static net.devtech.arrp.api.RuntimeResourcePack.id;
 import static net.devtech.arrp.json.recipe.JIngredient.ingredient;
@@ -17,6 +19,7 @@ import static net.devtech.arrp.json.recipe.JPattern.pattern;
 import static net.devtech.arrp.json.recipe.JRecipe.shaped;
 import static net.devtech.arrp.json.recipe.JRecipe.smithing;
 import static net.devtech.arrp.json.recipe.JResult.item;
+import static net.minecraft.item.Items.BEACON;
 import static net.minecraft.item.Items.BOW;
 import static net.minecraft.item.Items.CROSSBOW;
 import static net.minecraft.item.Items.DIAMOND_HORSE_ARMOR;
@@ -26,6 +29,7 @@ import static net.minecraft.item.Items.IRON_BLOCK;
 import static net.minecraft.item.Items.NETHERITE_BLOCK;
 import static net.minecraft.item.Items.NETHERITE_INGOT;
 import static net.minecraft.item.Items.SHIELD;
+import static net.minecraft.item.Items.TRIDENT;
 
 import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
 
@@ -91,6 +95,20 @@ public class NetheritePlusDynamicDataPack {
 		if (NetheritePlusConfig.ENABLED.ENABLED_SHIELDS.getValue()) {
 			DataPack.addRecipe(id(MOD_ID + ":netherite_shield"),
 					smithing(ingredient().item(SHIELD), ingredient().item(NETHERITE_INGOT), item(NETHERITE_SHIELD)));
+
+		}
+
+		if (NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue()) {
+			DataPack.addRecipe(id(MOD_ID + ":netherite_beacon"),
+					shaped(pattern("III", "IBI", "NNN"), keys().key("I", ingredient().item(NETHERITE_INGOT))
+							.key("B", ingredient().item(BEACON)).key("N", ingredient().item(NETHERITE_BLOCK)),
+							item(NETHERITE_BEACON)));
+
+		}
+
+		if (NetheritePlusConfig.ENABLED.ENABLED_TRIDENT.getValue()) {
+			DataPack.addRecipe(id(MOD_ID + ":netherite_trident"),
+					smithing(ingredient().item(TRIDENT), ingredient().item(NETHERITE_INGOT), item(NETHERITE_TRIDENT)));
 
 		}
 

@@ -4,8 +4,10 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.oroarmor.netherite_plus.command.NetheritePlusCommand;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.config.NetheritePlusDynamicDataPack;
+import com.oroarmor.netherite_plus.entity.effect.NetheritePlusStatusEffects;
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 import com.oroarmor.netherite_plus.loot.NetheritePlusLootManager;
 import com.oroarmor.netherite_plus.recipe.NetheritePlusRecipeSerializer;
@@ -13,6 +15,7 @@ import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
 import com.oroarmor.util.config.ConfigItemGroup;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.util.Identifier;
 
@@ -33,6 +36,9 @@ public class NetheritePlusMod implements ModInitializer {
 		NetheritePlusScreenHandlers.initializeMod();
 		NetheritePlusLootManager.initializeLoot();
 		NetheritePlusRecipeSerializer.init();
+		NetheritePlusStatusEffects.init();
+
+		CommandRegistrationCallback.EVENT.register(new NetheritePlusCommand());
 	}
 
 	private void processConfig() {

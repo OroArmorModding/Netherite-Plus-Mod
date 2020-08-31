@@ -32,6 +32,7 @@ public class ModMenuIntegration implements ModMenuApi {
 			ConfigCategory durabilities = createCategory(builder, "config.netherite_plus.durabilities");
 			ConfigCategory damage = createCategory(builder, "config.netherite_plus.damage");
 			ConfigCategory anvil = createCategory(builder, "config.netherite_plus.anvil");
+			ConfigCategory graphics = createCategory(builder, "config.netherite_plus.graphics");
 
 			NetheritePlusConfig.ENABLED.OPTIONS.stream()
 					.forEach(ci -> setupBooleanConfigItem((ConfigItem<Boolean>) ci, enabledFeatures, entryBuilder));
@@ -44,6 +45,9 @@ public class ModMenuIntegration implements ModMenuApi {
 
 			NetheritePlusConfig.ANVIL.OPTIONS.stream()
 					.forEach(ci -> setupDoubleConfigItem((ConfigItem<Double>) ci, anvil, entryBuilder));
+
+			NetheritePlusConfig.GRAPHICS.OPTIONS.stream()
+					.forEach(ci -> setupDoubleConfigItem((ConfigItem<Double>) ci, graphics, entryBuilder));
 
 			return builder.build();
 		};

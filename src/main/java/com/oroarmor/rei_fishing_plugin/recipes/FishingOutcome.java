@@ -140,7 +140,7 @@ public class FishingOutcome {
 	}
 
 	public float getOpenWaterChance() {
-		return this.loottableWeight * this.weight * 0.01f;
+		return loottableWeight * weight * 0.01f;
 	}
 
 	public float getNormalChance(FishingType type) {
@@ -148,6 +148,6 @@ public class FishingOutcome {
 			return 0;
 		}
 
-		return this.loottableWeight * 1f / 0.95f * this.weight * 0.01f;
+		return loottableWeight * 1f / 0.95f * weight * 0.01f;
 	}
 }

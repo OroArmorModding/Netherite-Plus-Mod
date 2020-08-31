@@ -8,7 +8,6 @@ import com.oroarmor.netherite_plus.client.gui.screen.NetheriteBeaconScreen;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
-import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry.Factory;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.screen.ScreenHandlerType;
 
@@ -25,12 +24,8 @@ public class NetheritePlusScreenHandlers {
 
 	@Environment(EnvType.CLIENT)
 	public static void initializeClient() {
-		ScreenRegistry.register(NetheritePlusScreenHandlers.NETHERITE_ANVIL,
-				(Factory<NetheriteAnvilScreenHandler, NetheriteAnvilScreen>) (handler, inventory,
-						title) -> new NetheriteAnvilScreen(handler, inventory, title));
+		ScreenRegistry.register(NetheritePlusScreenHandlers.NETHERITE_ANVIL, NetheriteAnvilScreen::new);
 
-		ScreenRegistry.register(NetheritePlusScreenHandlers.NETHERITE_BEACON,
-				(Factory<NetheriteBeaconScreenHandler, NetheriteBeaconScreen>) (handler, inventory,
-						title) -> new NetheriteBeaconScreen(handler, inventory, title));
+		ScreenRegistry.register(NetheritePlusScreenHandlers.NETHERITE_BEACON, NetheriteBeaconScreen::new);
 	}
 }
