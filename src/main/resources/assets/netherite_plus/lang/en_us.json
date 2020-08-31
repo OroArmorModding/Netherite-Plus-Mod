@@ -4,6 +4,8 @@
 	"item.netherite_plus.netherite_trident": "Netherite Trident",
 	
 	"container.netheriteShulkerBox": "Netherite Shulker Box",
+	"container.netherite_beacon": "Netherite Beacon",
+	
 	"block.netherite_plus.netherite_shulker_box": "Netherite Shulker Box",
     "block.netherite_plus.netherite_white_shulker_box": "White Netherite Shulker Box",
     "block.netherite_plus.netherite_orange_shulker_box": "Orange Netherite Shulker Box",
@@ -24,6 +26,9 @@
 	
 	"block.netherite_plus.fake_netherite_block": "Fake Netherite Block",
 	"block.netherite_plus.netherite_anvil": "Netherite Anvil",
+	"block.netherite_plus.netherite_beacon": "Netherite Beacon",
+	"block.netherite_plus.netherite_beacon.tertiary": "Tertiary Power",
+
 	
     "item.netherite_plus.netherite_shield": "Netherite Shield",
 	"item.netherite_plus.netherite_shield.black": "Black Netherite Shield",
@@ -62,6 +67,7 @@
 	"config.netherite_plus.enabled.shields": "Enable or disable netherite shields",
 	"config.netherite_plus.enabled.shulker_boxes": "Enable or disable netherite shulker boxes",
 	"config.netherite_plus.enabled.trident": "Enable or disable netherite tridents",
+	"config.netherite_plus.enabled.beacon": "Enable or disable netherite beacons",
 	
 	"config.netherite_plus.durabilities": "Item Durabilities",
 	"config.netherite_plus.durabilities.bow" : "Netherite Bow Durability",
@@ -80,5 +86,13 @@
 	"config.netherite_plus.damage.trident_damage_multiplier": "Multiplier of the normal trident damage for the netherite trident",
 	
 	"config.netherite_plus.anvil": "Anvil Features",
-	"config.netherite_plus.anvil.xp_redcution": "XP Reduction in netherite anvil"
+	"config.netherite_plus.anvil.xp_redcution": "XP Reduction in netherite anvil",
+	
+	"config.netherite_plus.graphics": "Graphics Settings",
+	"config.netherite_plus.graphics.lava_vision": "How far each level of lava vision gives",
+	
+	"effect.minecraft.lava_vision": "Lava Vision",
+	
+	"command.netherite_plus.might_require_restart": "Changing some of these features might require a game restart, like enabling or disabling features"
+	
 }

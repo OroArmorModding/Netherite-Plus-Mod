@@ -120,10 +120,22 @@ public final class NetheritePlusConfig extends Config {
 		}
 	}
 
+	public static class GRAPHICS extends ConfigItemGroup {
+
+		public static final ConfigItem<Double> LAVA_VISION_DISTANCE = new ConfigItem<>("lava_vision_distance", 0.25,
+				"config.netherite_plus.graphics.lava_vision");
+		public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(LAVA_VISION_DISTANCE);
+
+		public GRAPHICS() {
+			super(OPTIONS, "graphics");
+		}
+
+	}
+
 	private static final String CONFIG_FILE_NAME = "netherite_plus.json";
 
 	private static final List<ConfigItemGroup> CONFIGS = ImmutableList.of(new ENABLED(), new DURABILITIES(),
-			new DAMAGE(), new ANVIL());
+			new DAMAGE(), new ANVIL(), new GRAPHICS());
 
 	public NetheritePlusConfig() {
 		super(CONFIGS, new File(FabricLoader.getInstance().getConfigDir().toFile(), CONFIG_FILE_NAME));

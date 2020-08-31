@@ -71,8 +71,8 @@ public class LavaFishingCategory implements RecipeCategory<LavaFishingDisplay> {
 		widgets.add(Widgets.createSlot(new Point(bounds.getCenterX() - 8, bounds.y + 3))
 				.entry(getLogo().addSetting(Settings.TOOLTIP_APPEND_EXTRA,
 						(stack) -> ImmutableList.of(new LiteralText(display.getOutcomes().getType().toString())))));
-		Rectangle rectangle = new Rectangle(bounds.getCenterX() - (bounds.width / 2) - 1, bounds.y + 23,
-				bounds.width + 2, bounds.height - 28);
+		Rectangle rectangle = new Rectangle(bounds.getCenterX() - bounds.width / 2 - 1, bounds.y + 23, bounds.width + 2,
+				bounds.height - 28);
 		widgets.add(Widgets.createSlotBase(rectangle));
 		widgets.add(new ScrollableSlotsWidget(rectangle, CollectionUtils.map(display.getEntries(),
 				t -> Widgets.createSlot(new Point(0, 0)).disableBackground().entry(t))));
@@ -127,15 +127,17 @@ public class LavaFishingCategory implements RecipeCategory<LavaFishingDisplay> {
 
 		@Override
 		public boolean mouseClicked(double mouseX, double mouseY, int button) {
-			if (scrolling.updateDraggingState(mouseX, mouseY, button))
+			if (scrolling.updateDraggingState(mouseX, mouseY, button)) {
 				return true;
+			}
 			return super.mouseClicked(mouseX, mouseY, button);
 		}
 
 		@Override
 		public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-			if (scrolling.mouseDragged(mouseX, mouseY, button, deltaX, deltaY))
+			if (scrolling.mouseDragged(mouseX, mouseY, button, deltaX, deltaY)) {
 				return true;
+			}
 			return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
 		}
 
@@ -147,8 +149,9 @@ public class LavaFishingCategory implements RecipeCategory<LavaFishingDisplay> {
 			for (int y = 0; y < MathHelper.ceil(widgets.size() / 8f); y++) {
 				for (int x = 0; x < 8; x++) {
 					int index = y * 8 + x;
-					if (widgets.size() <= index)
+					if (widgets.size() <= index) {
 						break;
+					}
 					Slot widget = widgets.get(index);
 					widget.getBounds().setLocation(bounds.x + 1 + x * 18,
 							(int) (bounds.y + 1 + y * 18 - scrolling.scrollAmount));

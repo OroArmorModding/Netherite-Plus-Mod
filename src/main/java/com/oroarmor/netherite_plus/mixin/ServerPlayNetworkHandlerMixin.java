@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.oroarmor.netherite_plus.network.UpdateNetheriteBeaconC2SPacket;
 import com.oroarmor.netherite_plus.screen.NetheriteAnvilScreenHandler;
 import com.oroarmor.netherite_plus.screen.NetheriteBeaconScreenHandler;
 
@@ -35,10 +36,14 @@ public class ServerPlayNetworkHandlerMixin {
 
 	@SuppressWarnings("unused")
 	@Inject(method = "onUpdateBeacon", at = @At("RETURN"))
-	public void onUpdateBeacon(UpdateBeaconC2SPacket packet, CallbackInfo info) {
-		if (this.player.currentScreenHandler instanceof NetheriteBeaconScreenHandler) {
-			((NetheriteBeaconScreenHandler) this.player.currentScreenHandler).setEffects(packet.getPrimaryEffectId(),
-					packet.getSecondaryEffectId());
+	public void onUpdateBeacon(UpdateBeaconC2SPacket inPacket, CallbackInfo info) {
+		if (inPacket instanceof UpdateNetheriteBeaconC2SPacket) {
+
+			UpdateNetheriteBeaconC2SPacket packet = (UpdateNetheriteBeaconC2SPacket) inPacket;
+			if (player.currentScreenHandler instanceof NetheriteBeaconScreenHandler) {
+				((NetheriteBeaconScreenHandler) player.currentScreenHandler).setEffects(packet.getPrimaryEffectId(),
+						packet.getSecondaryEffectId(), packet.getTertiaryEffectId());
+			}
 		}
 
 	}

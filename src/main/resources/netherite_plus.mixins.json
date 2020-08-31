@@ -17,13 +17,12 @@
 	"render.PlayerEntityRendererMixin",
 	"render.ArmorStandEntityRendererMixin",
 	"render.BipedEntityRendererMixin",
-	"render.BlockEntityRenderDispatcherMixin",
 	"render.TexturedRenderLayersMixin",
-	"render.BuiltinModelItemRendererMixin",
 	"render.FishingBobberEntityRendererMixin",
 	"render.HeldItemRendererMixin",
 	"render.TridentEntityRendererMixin",
 	"render.ItemRendererMixin",
+	"render.BackgroundRendererMixin",
 	
 	"ClientPlayerEntityMixin",
 	"ClientPlayNetworkHandlerMixin"
