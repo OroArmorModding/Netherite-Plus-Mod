@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
 
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.item.ItemStack;
@@ -18,7 +19,8 @@ public class ShulkerBoxBlockEntityMixin {
 	@SuppressWarnings("unused")
 	@Inject(method = "canInsert", at = @At("HEAD"), cancellable = true)
 	public void canInsert(int slot, ItemStack stack, Direction dir, CallbackInfoReturnable<Boolean> cir) {
-		if (Block.getBlockFromItem(stack.getItem()) instanceof NetheriteShulkerBoxBlock) {
+		if (!FabricLoader.getInstance().isModLoaded("shulkularity")
+				&& Block.getBlockFromItem(stack.getItem()) instanceof NetheriteShulkerBoxBlock) {
 			cir.setReturnValue(false);
 		}
 	}

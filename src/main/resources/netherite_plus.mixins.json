@@ -15,8 +15,6 @@
   ],
   "client": [
 	"render.PlayerEntityRendererMixin",
-	"render.ArmorStandEntityRendererMixin",
-	"render.BipedEntityRendererMixin",
 	"render.TexturedRenderLayersMixin",
 	"render.FishingBobberEntityRendererMixin",
 	"render.HeldItemRendererMixin",
