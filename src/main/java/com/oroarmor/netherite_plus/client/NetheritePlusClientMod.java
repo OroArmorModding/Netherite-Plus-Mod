@@ -22,6 +22,7 @@ import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_YELL
 
 import com.oroarmor.netherite_plus.block.NetheritePlusBlocks;
 import com.oroarmor.netherite_plus.client.render.NetheriteBeaconBlockEntityRenderer;
+import com.oroarmor.netherite_plus.client.render.NetheriteElytraFeatureRenderer;
 import com.oroarmor.netherite_plus.client.render.NetheriteShulkerBoxBlockEntityRenderer;
 import com.oroarmor.netherite_plus.client.render.item.NetheriteShieldItemRenderer;
 import com.oroarmor.netherite_plus.client.render.item.NetheriteShulkerBoxItemRenderer;
@@ -31,11 +32,20 @@ import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendereregistry.v1.LivingEntityFeatureRendererRegistrationCallback;
+import net.fabricmc.fabric.api.client.rendereregistry.v1.LivingEntityFeatureRendererRegistrationCallback.RegistrationHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.entity.LivingEntityRenderer;
+import net.minecraft.client.render.entity.model.ArmorStandEntityModel;
+import net.minecraft.client.render.entity.model.BipedEntityModel;
+import net.minecraft.client.render.entity.model.PlayerEntityModel;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 
 public class NetheritePlusClientMod implements ClientModInitializer {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void onInitializeClient() {
 		BlockEntityRendererRegistry.INSTANCE.register(NetheritePlusBlocks.NETHERITE_SHULKER_BOX_ENTITY,
@@ -74,6 +84,15 @@ public class NetheritePlusClientMod implements ClientModInitializer {
 
 		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_SHIELD, new NetheriteShieldItemRenderer());
 		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_TRIDENT, new NetheriteTridentItemRenderer());
+
+		LivingEntityFeatureRendererRegistrationCallback.EVENT.register((EntityType<? extends LivingEntity> entityType,
+				LivingEntityRenderer<?, ?> entityRenderer, RegistrationHelper registrationHelper) -> {
+			if (entityRenderer.getModel() instanceof PlayerEntityModel
+					|| entityRenderer.getModel() instanceof BipedEntityModel
+					|| entityRenderer.getModel() instanceof ArmorStandEntityModel) {
+				registrationHelper.register(new NetheriteElytraFeatureRenderer(entityRenderer));
+			}
+		});
 
 	}
 }
