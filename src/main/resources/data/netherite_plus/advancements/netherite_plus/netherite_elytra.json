@@ -1,5 +1,5 @@
 {
-	"parent": "netherite_plus:netherite_plus/netherite_ingot",
+	"parent": "netherite_plus:netherite_plus/root",
 	"display": {
 		"icon": {
 			"item": "netherite_plus:netherite_elytra"
