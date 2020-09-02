@@ -19,6 +19,7 @@ import static net.devtech.arrp.json.recipe.JPattern.pattern;
 import static net.devtech.arrp.json.recipe.JRecipe.shaped;
 import static net.devtech.arrp.json.recipe.JRecipe.smithing;
 import static net.devtech.arrp.json.recipe.JResult.item;
+import static net.devtech.arrp.json.tags.JTag.tag;
 import static net.minecraft.item.Items.BEACON;
 import static net.minecraft.item.Items.BOW;
 import static net.minecraft.item.Items.CROSSBOW;
@@ -35,7 +36,6 @@ import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
 
 import net.devtech.arrp.api.RRPCallback;
 import net.devtech.arrp.api.RuntimeResourcePack;
-import net.devtech.arrp.json.tags.JTag;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.util.DyeColor;
 
@@ -44,9 +44,9 @@ public class NetheritePlusDynamicDataPack {
 	public static final RuntimeResourcePack DataPack = RuntimeResourcePack.create(MOD_ID + ":dynamic_datapack");
 
 	public static void configureDynamicDataPack() {
+
 		if (NetheritePlusConfig.ENABLED.ENABLED_FAKE_NETHERITE_BLOCKS.getValue()) {
-			DataPack.addTag(id("minecraft:blocks/beacon_base_blocks"),
-					JTag.tag().add(id(MOD_ID, "fake_netherite_block")));
+			DataPack.addTag(id("minecraft:blocks/beacon_base_blocks"), tag().add(id(MOD_ID, "fake_netherite_block")));
 
 			DataPack.addRecipe(id(MOD_ID + ":fake_netherite_block"),
 					shaped(pattern("###", "#I#", "###"),
@@ -66,7 +66,6 @@ public class NetheritePlusDynamicDataPack {
 			DataPack.addRecipe(id(MOD_ID + ":netherite_shulker_box"),
 					smithing(ingredient().item(ShulkerBoxBlock.get(null).asItem()), ingredient().item(NETHERITE_INGOT),
 							item(NetheriteShulkerBoxBlock.get(null).asItem())));
-
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_BOWS_AND_CROSSBOWS.getValue()) {
