@@ -93,6 +93,28 @@
 	
 	"effect.minecraft.lava_vision": "Lava Vision",
 	
-	"command.netherite_plus.might_require_restart": "Changing some of these features might require a game restart, like enabling or disabling features"
-	
+	"command.netherite_plus.might_require_restart": "Changing some of these features might require a game restart, like enabling or disabling features",
+
+	"advancements.netherite_plus.root.title": "Netherite Plus",
+	"advancements.netherite_plus.root.description": "Get a Netherite Ingot",
+	"advancements.netherite_plus.netherite_shulker_boxes.title": "Safety First",
+	"advancements.netherite_plus.netherite_shulker_boxes.description": "Get a Netherite Shulker Box",
+	"advancements.netherite_plus.fake_netherite_block.title": "Made in China",
+	"advancements.netherite_plus.fake_netherite_block.description": "Get a Fake Netherite Block",
+	"advancements.netherite_plus.netherite_anvil.title": "Worth Its Weight in Gold",
+	"advancements.netherite_plus.netherite_anvil.description": "Get a Netherite Anvil",
+	"advancements.netherite_plus.netherite_beacon.title": "The Real Beaconator",
+	"advancements.netherite_plus.netherite_beacon.description": "Get a Netherite Beacon",
+	"advancements.netherite_plus.netherite_bow.title": "Shots Fired",
+	"advancements.netherite_plus.netherite_bow.description": "Get a Netherite Bow or Crossbow",
+	"advancements.netherite_plus.netherite_elytra.title": "Falling with Style",
+	"advancements.netherite_plus.netherite_elytra.description": "Get a Netherite Elytra",
+	"advancements.netherite_plus.netherite_fishing_rod.title": "A Waste of Space",
+	"advancements.netherite_plus.netherite_fishing_rod.description": "Get a Netherite Fishing Rod",
+	"advancements.netherite_plus.netherite_horse_armor.title": "Weird Flex but Ok",
+	"advancements.netherite_plus.netherite_horse_armor.description": "Get some Netherite Horse Armor",
+	"advancements.netherite_plus.netherite_shield.title": "Iron Defense",
+	"advancements.netherite_plus.netherite_shield.description": "Get a Netherite Shield",
+	"advancements.netherite_plus.netherite_trident.title": "A Bigger Throwaway Joke",
+	"advancements.netherite_plus.netherite_trident.description": "Get a Netherite Trident"
 }
