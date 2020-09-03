@@ -5,10 +5,10 @@
 			"item": "netherite_plus:netherite_shulker_box"
 		},
 		"title": {
-			"translate": "advancements.netherite_plus.netherite_shulker_box.title"
+			"translate": "advancements.netherite_plus.netherite_shulker_boxes.title"
 		},
 		"description": {
-			"translate": "advancements.netherite_plus.netherite_shulker_box.description"
+			"translate": "advancements.netherite_plus.netherite_shulker_boxes.description"
 		},
 		"frame": "goal",
 		"show_toast": true,
