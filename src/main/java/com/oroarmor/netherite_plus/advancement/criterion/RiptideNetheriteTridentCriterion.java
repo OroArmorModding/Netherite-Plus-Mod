@@ -47,7 +47,7 @@ public class RiptideNetheriteTridentCriterion extends AbstractCriterion<RiptideN
 	}
 
 	public void trigger(ServerPlayerEntity player) {
-		this.test(player, (conditions) -> {
+		test(player, (conditions) -> {
 			return conditions.matches(player);
 		});
 	}

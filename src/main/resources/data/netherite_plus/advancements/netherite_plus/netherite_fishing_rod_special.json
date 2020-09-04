@@ -10,10 +10,10 @@
 		"description": {
 			"translate": "advancements.netherite_plus.netherite_fishing_rod_special.description"
 		},
-		"frame": "goal",
+		"frame": "challenge",
 		"show_toast": true,
 		"announce_to_chat": true,
-		"hidden": false
+		"hidden": true
 	},
 	"criteria": {
 		"netherite_fishing_rod": {

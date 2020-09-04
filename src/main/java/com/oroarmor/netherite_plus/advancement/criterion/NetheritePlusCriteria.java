@@ -17,6 +17,6 @@ public class NetheritePlusCriteria {
 	}
 
 	public static void init() {
-	};
+	}
 
 }

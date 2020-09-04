@@ -31,7 +31,7 @@ public class ConstructNetheriteBeaconCriterion extends AbstractCriterion<Constru
 	}
 
 	public void trigger(ServerPlayerEntity player, NetheriteBeaconBlockEntity beacon) {
-		this.test(player, (conditions) -> {
+		test(player, (conditions) -> {
 			return conditions.matches(beacon);
 		});
 	}
@@ -49,13 +49,13 @@ public class ConstructNetheriteBeaconCriterion extends AbstractCriterion<Constru
 		}
 
 		public boolean matches(NetheriteBeaconBlockEntity beacon) {
-			return this.level.test(beacon.getLevel());
+			return level.test(beacon.getLevel());
 		}
 
 		@Override
 		public JsonObject toJson(AdvancementEntityPredicateSerializer predicateSerializer) {
 			JsonObject jsonObject = super.toJson(predicateSerializer);
-			jsonObject.add("level", this.level.toJson());
+			jsonObject.add("level", level.toJson());
 			return jsonObject;
 		}
 	}

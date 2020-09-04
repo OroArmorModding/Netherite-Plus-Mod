@@ -33,14 +33,14 @@ public class FullNetheriteNetheriteBeaconCriterion
 		}
 
 		public boolean matches(NetheriteBeaconBlockEntity beacon) {
-			System.out.println(this.netheriteLevel.toJson());
-			return this.netheriteLevel.test(beacon.getNetheriteLevel());
+			System.out.println(netheriteLevel.toJson());
+			return netheriteLevel.test(beacon.getNetheriteLevel());
 		}
 
 		@Override
 		public JsonObject toJson(AdvancementEntityPredicateSerializer predicateSerializer) {
 			JsonObject jsonObject = super.toJson(predicateSerializer);
-			jsonObject.add("netherite_level", this.netheriteLevel.toJson());
+			jsonObject.add("netherite_level", netheriteLevel.toJson());
 			return jsonObject;
 		}
 
@@ -60,7 +60,7 @@ public class FullNetheriteNetheriteBeaconCriterion
 	}
 
 	public void trigger(ServerPlayerEntity player, NetheriteBeaconBlockEntity beacon) {
-		this.test(player, (conditions) -> {
+		test(player, (conditions) -> {
 			return conditions.matches(beacon);
 		});
 	}

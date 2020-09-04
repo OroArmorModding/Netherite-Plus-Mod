@@ -175,8 +175,8 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
 			if (!beamSegments.isEmpty()) {
 				updateLevel(i, j, k);
 				if (netheriteLevel == 164) {
-					List<ServerPlayerEntity> var14 = this.world.getNonSpectatingEntities(ServerPlayerEntity.class,
-							(new Box(i, j, k, i, j - 4, k)).expand(10.0D, 5.0D, 10.0D));
+					List<ServerPlayerEntity> var14 = world.getNonSpectatingEntities(ServerPlayerEntity.class,
+							new Box(i, j, k, i, j - 4, k).expand(10.0D, 5.0D, 10.0D));
 
 					for (ServerPlayerEntity serverPlayerEntity : var14) {
 						NetheritePlusCriteria.FULL_NETHERITE_NETHERITE_BEACON.trigger(serverPlayerEntity, this);
@@ -185,8 +185,8 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
 				}
 
 				if (level == 4) {
-					List<ServerPlayerEntity> var14 = this.world.getNonSpectatingEntities(ServerPlayerEntity.class,
-							(new Box(i, j, k, i, j - 4, k)).expand(10.0D, 5.0D, 10.0D));
+					List<ServerPlayerEntity> var14 = world.getNonSpectatingEntities(ServerPlayerEntity.class,
+							new Box(i, j, k, i, j - 4, k).expand(10.0D, 5.0D, 10.0D));
 
 					for (ServerPlayerEntity serverPlayerEntity : var14) {
 						NetheritePlusCriteria.CONSTRUCT_NETHERITE_BEACON.trigger(serverPlayerEntity, this);
