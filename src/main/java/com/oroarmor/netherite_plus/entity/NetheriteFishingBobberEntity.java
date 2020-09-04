@@ -5,8 +5,6 @@ import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 import java.util.Iterator;
 import java.util.List;
 
-import org.jetbrains.annotations.Nullable;
-
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 
 import net.fabricmc.api.EnvType;
@@ -14,7 +12,6 @@ import net.fabricmc.api.Environment;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.MovementType;
@@ -57,26 +54,6 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 	@Override
 	public boolean doesRenderOnFire() {
 		return false;
-	}
-
-	@Nullable
-	public Entity getEntityOwner() {
-		if (ownerUuid != null && world instanceof ServerWorld) {
-			return ((ServerWorld) world).getEntity(ownerUuid);
-		} else {
-			return ownerEntityId != 0 ? world.getEntityById(ownerEntityId) : null;
-		}
-	}
-
-	@Override
-	public PlayerEntity getOwner() {
-		return getPlayerOwner();
-	}
-
-	@Nullable
-	public PlayerEntity getPlayerOwner() {
-		Entity entity = getEntityOwner();
-		return entity instanceof PlayerEntity ? (PlayerEntity) entity : null;
 	}
 
 	private FishingBobberEntity.PositionType getPositionType(BlockPos pos) {

@@ -316,7 +316,7 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
 				boolean bl2;
 				if (netheriteShulkerBoxBlockEntity.getAnimationStage() == AnimationStage.CLOSED) {
 					Direction direction = state.get(FACING);
-					bl2 = world.doesNotCollide(ShulkerLidCollisions.getLidCollisionBox(pos, direction));
+					bl2 = world.isSpaceEmpty(ShulkerLidCollisions.getLidCollisionBox(pos, direction));
 				} else {
 					bl2 = true;
 				}
@@ -324,7 +324,7 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
 				if (bl2) {
 					player.openHandledScreen(netheriteShulkerBoxBlockEntity);
 					player.incrementStat(Stats.OPEN_SHULKER_BOX);
-					PiglinBrain.onGuardedBlockBroken(player, true);
+					PiglinBrain.onGuardedBlockInteracted(player, true);
 				}
 
 				return ActionResult.CONSUME;

@@ -6,15 +6,16 @@ import java.util.Comparator;
 import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
 import com.oroarmor.netherite_plus.block.entity.NetheriteShulkerBoxBlockEntity;
 
-import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRenderer;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry.DynamicItemRenderer;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
+import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DyeColor;
 
-public class NetheriteShulkerBoxItemRenderer implements BuiltinItemRenderer {
+public class NetheriteShulkerBoxItemRenderer implements DynamicItemRenderer {
 
 	private static final NetheriteShulkerBoxBlockEntity[] RENDER_NETHERITE_SHULKER_BOX_DYED = Arrays
 			.stream(DyeColor.values()).sorted(Comparator.comparingInt(DyeColor::getId))
@@ -25,8 +26,8 @@ public class NetheriteShulkerBoxItemRenderer implements BuiltinItemRenderer {
 			(DyeColor) null);
 
 	@Override
-	public void render(ItemStack stack, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light,
-			int overlay) {
+	public void render(ItemStack stack, Mode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
+			int light, int overlay) {
 		BlockEntity blockEntity9;
 		DyeColor dyeColor = NetheriteShulkerBoxBlock.getColor(stack.getItem());
 		if (dyeColor == null) {
