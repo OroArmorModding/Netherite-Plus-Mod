@@ -42,7 +42,21 @@ Discord: https://discord.gg/dGCvj56
 * Netherite Tridents
   - Riptide out of lava and water
   - Don't burn in lava
- 
+  
+* Netherite Beacons
+  - Three tiers
+  - New lava vision effect that is given based on the number of netherite blocks in the base
+  
+* Full advancement system
+   - Each feature as at least one advancement
+   
+* Configuration commands (Beta)
+  - Edit the config files in game with commands!
+  - NOTE: You must restart your game for most effects to take place
+
+* REI Fishing plugin (Beta)
+  - Shows the stats of fishing in different environments
+
 * Configurations
   - All features are fully configable
   - Include or don't include
@@ -52,6 +66,8 @@ Discord: https://discord.gg/dGCvj56
 * Full Trinkets Support
 
 ## Potential Features
-* Netherite Beacons
-  - 3rd tier effects
-* Netherite Chests?
+* Netherite Food Items
+  - Carrot
+  - Apples
+* Potion of the Nether Master
+  - Similar effects to Enchanted Golden Apple
