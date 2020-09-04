@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.oroarmor.netherite_plus.advancement.criterion.NetheritePlusCriteria;
 import com.oroarmor.netherite_plus.block.NetheritePlusBlocks;
 import com.oroarmor.netherite_plus.entity.effect.NetheritePlusStatusEffects;
 import com.oroarmor.netherite_plus.screen.NetheriteBeaconScreenHandler;
@@ -35,6 +36,7 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -54,6 +56,11 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
 	private List<NetheriteBeaconBlockEntity.BeamSegment> field_19178 = Lists.newArrayList();
 	private int level;
 	private int netheriteLevel;
+
+	public int getNetheriteLevel() {
+		return netheriteLevel;
+	}
+
 	private int field_19179 = -1;
 	@Nullable
 	private StatusEffect primary;
@@ -167,6 +174,24 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
 		if (world.getTime() % 80L == 0L) {
 			if (!beamSegments.isEmpty()) {
 				updateLevel(i, j, k);
+				if (netheriteLevel == 164) {
+					List<ServerPlayerEntity> var14 = this.world.getNonSpectatingEntities(ServerPlayerEntity.class,
+							(new Box(i, j, k, i, j - 4, k)).expand(10.0D, 5.0D, 10.0D));
+
+					for (ServerPlayerEntity serverPlayerEntity : var14) {
+						NetheritePlusCriteria.FULL_NETHERITE_NETHERITE_BEACON.trigger(serverPlayerEntity, this);
+					}
+
+				}
+
+				if (level == 4) {
+					List<ServerPlayerEntity> var14 = this.world.getNonSpectatingEntities(ServerPlayerEntity.class,
+							(new Box(i, j, k, i, j - 4, k)).expand(10.0D, 5.0D, 10.0D));
+
+					for (ServerPlayerEntity serverPlayerEntity : var14) {
+						NetheritePlusCriteria.CONSTRUCT_NETHERITE_BEACON.trigger(serverPlayerEntity, this);
+					}
+				}
 			}
 
 			if (level > 0 && !beamSegments.isEmpty()) {

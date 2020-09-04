@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.oroarmor.netherite_plus.advancement.criterion.NetheritePlusCriteria;
 import com.oroarmor.netherite_plus.command.NetheritePlusCommand;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.config.NetheritePlusDynamicDataPack;
@@ -31,12 +32,13 @@ public class NetheritePlusMod implements ModInitializer {
 	public void onInitialize() {
 		processConfig();
 
-		NetheritePlusItems.registerItems();
-		NetheritePlusDynamicDataPack.configureDynamicDataPack();
-		NetheritePlusScreenHandlers.initializeMod();
-		NetheritePlusLootManager.initializeLoot();
+		NetheritePlusItems.init();
+		NetheritePlusDynamicDataPack.init();
+		NetheritePlusScreenHandlers.init();
+		NetheritePlusLootManager.init();
 		NetheritePlusRecipeSerializer.init();
 		NetheritePlusStatusEffects.init();
+		NetheritePlusCriteria.init();
 
 		CommandRegistrationCallback.EVENT.register(new NetheritePlusCommand());
 	}

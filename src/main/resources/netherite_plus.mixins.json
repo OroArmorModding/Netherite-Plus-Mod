@@ -1,31 +1,31 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "com.oroarmor.netherite_plus.mixin",
-  "compatibilityLevel": "JAVA_8",
-  "mixins": [
-	"PlayerEntityMixin",
-	"LivingEntityMixin",
-	"MobEntityMixin",
-	"CrossbowItemMixin",
-	"ShulkerBoxBlockEntityMixin",
-	"ShulkerBoxSlotMixin",
-	"CauldronBlockMixin",
-	"ServerPlayNetworkHandlerMixin"
-  ],
-  "client": [
-	"render.PlayerEntityRendererMixin",
-	"render.TexturedRenderLayersMixin",
-	"render.FishingBobberEntityRendererMixin",
-	"render.HeldItemRendererMixin",
-	"render.TridentEntityRendererMixin",
-	"render.ItemRendererMixin",
-	"render.BackgroundRendererMixin",
-	
-	"ClientPlayerEntityMixin",
-	"ClientPlayNetworkHandlerMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  }
+	"required": true,
+	"minVersion": "0.8",
+	"package": "com.oroarmor.netherite_plus.mixin",
+	"compatibilityLevel": "JAVA_8",
+	"mixins": [
+		"PlayerEntityMixin",
+		"LivingEntityMixin",
+		"MobEntityMixin",
+		"CrossbowItemMixin",
+		"ShulkerBoxBlockEntityMixin",
+		"ShulkerBoxSlotMixin",
+		"CauldronBlockMixin",
+		"ServerPlayNetworkHandlerMixin",
+		"CriteriaAccessor"
+	],
+	"client": [
+		"render.PlayerEntityRendererMixin",
+		"render.TexturedRenderLayersMixin",
+		"render.FishingBobberEntityRendererMixin",
+		"render.HeldItemRendererMixin",
+		"render.TridentEntityRendererMixin",
+		"render.ItemRendererMixin",
+		"render.BackgroundRendererMixin",
+		"ClientPlayerEntityMixin",
+		"ClientPlayNetworkHandlerMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
 }

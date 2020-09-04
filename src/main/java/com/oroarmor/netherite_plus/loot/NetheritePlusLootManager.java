@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.loot.v1.LootEntryTypeRegistry;
 
 public class NetheritePlusLootManager {
 
-	public static void initializeLoot() {
+	public static void init() {
 		LootEntryTypeRegistry.INSTANCE.register(id("gameplay/fishing"), null);
 	}
 }

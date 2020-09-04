@@ -11,6 +11,7 @@ import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -27,6 +28,7 @@ import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.FluidTags;
@@ -366,6 +368,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 						.luck(luckOfTheSeaLevel + playerEntity.getLuck());
 				LootTable lootTable = world.getServer().getLootManager().getTable(id("gameplay/fishing"));
 				List<ItemStack> list = lootTable.generateLoot(builder.build(LootContextTypes.FISHING));
+				Criteria.FISHING_ROD_HOOKED.trigger((ServerPlayerEntity) playerEntity, usedItem, this, list);
 				Iterator<ItemStack> var7 = list.iterator();
 
 				while (var7.hasNext()) {
