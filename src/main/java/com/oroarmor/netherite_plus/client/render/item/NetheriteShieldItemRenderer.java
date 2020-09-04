@@ -5,7 +5,7 @@ import java.util.List;
 import com.mojang.datafixers.util.Pair;
 import com.oroarmor.netherite_plus.client.NetheritePlusTextures;
 
-import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRenderer;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry.DynamicItemRenderer;
 import net.minecraft.block.entity.BannerBlockEntity;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.render.VertexConsumer;
@@ -13,19 +13,20 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BannerBlockEntityRenderer;
 import net.minecraft.client.render.entity.model.ShieldEntityModel;
 import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
 import net.minecraft.util.DyeColor;
 
-public class NetheriteShieldItemRenderer implements BuiltinItemRenderer {
+public class NetheriteShieldItemRenderer implements DynamicItemRenderer {
 
 	private final ShieldEntityModel modelShield = new ShieldEntityModel();
 
 	@Override
-	public void render(ItemStack stack, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light,
-			int overlay) {
+	public void render(ItemStack stack, Mode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
+			int light, int overlay) {
 		boolean bl = stack.getSubTag("BlockEntityTag") != null;
 		matrices.push();
 		matrices.scale(1.0F, -1.0F, -1.0F);

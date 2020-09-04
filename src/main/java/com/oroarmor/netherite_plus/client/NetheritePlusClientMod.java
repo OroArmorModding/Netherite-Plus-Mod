@@ -34,8 +34,8 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.LivingEntityFeatureRendererRegistrationCallback;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.LivingEntityFeatureRendererRegistrationCallback.RegistrationHelper;
-import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry.DynamicItemRenderer;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.model.ArmorStandEntityModel;
@@ -62,7 +62,7 @@ public class NetheritePlusClientMod implements ClientModInitializer {
 
 		BlockRenderLayerMap.INSTANCE.putBlock(NetheritePlusBlocks.NETHERITE_BEACON, RenderLayer.getCutout());
 
-		BuiltinItemRenderer shulkerRenderer = new NetheriteShulkerBoxItemRenderer();
+		DynamicItemRenderer shulkerRenderer = new NetheriteShulkerBoxItemRenderer();
 
 		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_SHULKER_BOX, shulkerRenderer);
 		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_WHITE_SHULKER_BOX, shulkerRenderer);

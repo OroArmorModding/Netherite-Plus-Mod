@@ -23,7 +23,6 @@ accessible field net/minecraft/entity/projectile/FishingBobberEntity HOOK_ENTITY
 accessible field net/minecraft/entity/projectile/FishingBobberEntity CAUGHT_FISH Lnet/minecraft/entity/data/TrackedData;
 
 accessible field net/minecraft/entity/projectile/ProjectileEntity leftOwner Z
-accessible field net/minecraft/entity/projectile/ProjectileEntity ownerUuid Ljava/util/UUID;
 
 extendable method net/minecraft/entity/projectile/ProjectileEntity method_26961 ()Z
 accessible field net/minecraft/entity/projectile/ProjectileEntity ownerEntityId I
@@ -34,6 +33,6 @@ accessible field net/minecraft/entity/projectile/TridentEntity dealtDamage Z
 accessible method net/minecraft/nbt/CompoundTag <init> (Ljava/util/Map;)V
 accessible method net/minecraft/entity/effect/StatusEffect <init> (Lnet/minecraft/entity/effect/StatusEffectType;I)V
 
-accessible    field    net/minecraft/item/TridentItem field_23746    Lcom/google/common/collect/Multimap;
-mutable       field    net/minecraft/entity/attribute/EntityAttributeModifier    value    D
-accessible    field    net/minecraft/entity/attribute/EntityAttributeModifier    value    D
+accessible    field    net/minecraft/item/TridentItem                            attributeModifiers         Lcom/google/common/collect/Multimap;
+mutable       field    net/minecraft/entity/attribute/EntityAttributeModifier    value                      D
+accessible    field    net/minecraft/entity/attribute/EntityAttributeModifier    value                      D
