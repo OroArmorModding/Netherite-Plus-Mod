@@ -1,5 +1,6 @@
 package com.oroarmor.netherite_plus.item;
 
+import com.oroarmor.netherite_plus.advancement.criterion.NetheritePlusCriteria;
 import com.oroarmor.netherite_plus.entity.NetheriteTridentEntity;
 
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -9,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.TridentItem;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -51,6 +53,8 @@ public class NetheriteTridentItem extends TridentItem {
 							if (!playerEntity.abilities.creativeMode) {
 								playerEntity.inventory.removeOne(stack);
 							}
+						} else {
+							NetheritePlusCriteria.RIPTIDE_NETHERITE_TRIDENT.trigger((ServerPlayerEntity) playerEntity);
 						}
 					}
 
@@ -84,6 +88,7 @@ public class NetheriteTridentItem extends TridentItem {
 
 						world.playSoundFromEntity((PlayerEntity) null, playerEntity, soundEvent3, SoundCategory.PLAYERS,
 								1.0F, 1.0F);
+
 					}
 
 				}

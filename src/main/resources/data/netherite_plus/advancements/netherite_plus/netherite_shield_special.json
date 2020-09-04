@@ -1,37 +1,40 @@
 {
-  "parent": "netherite_plus:netherite_plus/netherite_shield",
-  "display": {
-    "icon": {
-      "item": "netherite_plus:netherite_shield",
-      "nbt": "{Damage:0}"
-    },
-    "title": {
-      "translate": "advancements.netherite_plus.netherite_shield_special.title"
-    },
-    "description": {
-      "translate": "advancements.netherite_plus.netherite_shield_special.description"
-    },
-    "frame": "challenge",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
-  "criteria": {
-    "deflected_projectile": {
-      "trigger": "minecraft:entity_hurt_player",
-      "conditions": {
-        "damage": {
-          "type": {
-            "is_projectile": true
-          },
-          "blocked": true
-        }
-      }
-    }
-  },
-  "requirements": [
-    [
-      "deflected_projectile"
-    ]
-  ]
+	"parent": "netherite_plus:netherite_plus/netherite_shield",
+	"display": {
+		"icon": {
+			"item": "netherite_plus:netherite_shield",
+			"nbt": "{Damage:0}"
+		},
+		"title": {
+			"translate": "advancements.netherite_plus.netherite_shield_special.title"
+		},
+		"description": {
+			"translate": "advancements.netherite_plus.netherite_shield_special.description"
+		},
+		"frame": "challenge",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
+	},
+	"criteria": {
+		"deflected_projectile": {
+			"trigger": "minecraft:entity_hurt_player",
+			"conditions": {
+				"damage": {
+					"source_entity": {
+						"type": "minecraft:blaze"
+					},
+					"type": {
+						"is_projectile": true
+					},
+					"blocked": true
+				}
+			}
+		}
+	},
+	"requirements": [
+		[
+			"deflected_projectile"
+		]
+	]
 }

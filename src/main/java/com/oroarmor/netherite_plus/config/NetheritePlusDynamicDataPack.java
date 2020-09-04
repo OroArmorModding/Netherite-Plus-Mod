@@ -43,7 +43,7 @@ public class NetheritePlusDynamicDataPack {
 
 	public static final RuntimeResourcePack DataPack = RuntimeResourcePack.create(MOD_ID + ":dynamic_datapack");
 
-	public static void configureDynamicDataPack() {
+	public static void init() {
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_FAKE_NETHERITE_BLOCKS.getValue()) {
 			DataPack.addTag(id("minecraft:blocks/beacon_base_blocks"), tag().add(id(MOD_ID, "fake_netherite_block")));

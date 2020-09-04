@@ -118,7 +118,7 @@ public final class NetheritePlusItems {
 		UniqueItemRegistry.HORSE_ARMOR.addItemToRegistry(NETHERITE_HORSE_ARMOR);
 	}
 
-	public static void registerItems() {
+	public static void init() {
 		if (NetheritePlusConfig.ENABLED.ENABLED_SHULKER_BOXES.getValue()) {
 			registerShulkerBoxes();
 		}

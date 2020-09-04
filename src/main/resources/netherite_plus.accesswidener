@@ -33,3 +33,5 @@ accessible field net/minecraft/entity/projectile/TridentEntity dealtDamage Z
 
 accessible method net/minecraft/nbt/CompoundTag <init> (Ljava/util/Map;)V
 accessible method net/minecraft/entity/effect/StatusEffect <init> (Lnet/minecraft/entity/effect/StatusEffectType;I)V
+
+accessible    field    net/minecraft/advancement/criterion/Criteria    VALUES    Ljava/util/Map;

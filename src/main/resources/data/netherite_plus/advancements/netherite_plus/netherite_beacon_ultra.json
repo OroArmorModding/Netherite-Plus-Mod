@@ -1,14 +1,14 @@
 {
-	"parent": "netherite_plus:netherite_plus/netherite_beacon",
+	"parent": "netherite_plus:netherite_plus/netherite_beacon_special",
 	"display": {
 		"icon": {
 			"item": "netherite_plus:netherite_beacon"
 		},
 		"title": {
-			"translate": "advancements.netherite_plus.netherite_beacon_special.title"
+			"translate": "advancements.netherite_plus.netherite_beacon_ultra.title"
 		},
 		"description": {
-			"translate": "advancements.netherite_plus.netherite_beacon_special.description"
+			"translate": "advancements.netherite_plus.netherite_beacon_ultra.description"
 		},
 		"frame": "challenge",
 		"show_toast": true,
@@ -17,9 +17,9 @@
 	},
 	"criteria": {
 		"beacon": {
-			"trigger": "netherite_plus:construct_netherite_beacon",
+			"trigger": "netherite_plus:full_netherite_netherite_beacon",
 			"conditions": {
-				"level": 4
+				"netherite_level": 164
 			}
 		}
 	},
