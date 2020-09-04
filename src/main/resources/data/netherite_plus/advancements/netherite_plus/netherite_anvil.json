@@ -10,7 +10,7 @@
 		"description": {
 			"translate": "advancements.netherite_plus.netherite_anvil.description"
 		},
-		"frame": "goal",
+		"frame": "task",
 		"show_toast": true,
 		"announce_to_chat": true,
 		"hidden": false

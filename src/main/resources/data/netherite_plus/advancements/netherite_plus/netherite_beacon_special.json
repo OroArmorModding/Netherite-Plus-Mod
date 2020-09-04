@@ -10,7 +10,7 @@
 		"description": {
 			"translate": "advancements.netherite_plus.netherite_beacon_special.description"
 		},
-		"frame": "challenge",
+		"frame": "goal",
 		"show_toast": true,
 		"announce_to_chat": true,
 		"hidden": false

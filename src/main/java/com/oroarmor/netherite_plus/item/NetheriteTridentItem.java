@@ -1,11 +1,13 @@
 package com.oroarmor.netherite_plus.item;
 
 import com.oroarmor.netherite_plus.advancement.criterion.NetheritePlusCriteria;
+import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.entity.NetheriteTridentEntity;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
@@ -24,6 +26,10 @@ import net.minecraft.world.World;
 public class NetheriteTridentItem extends TridentItem {
 	public NetheriteTridentItem(Settings settings) {
 		super(settings);
+		field_23746.get(EntityAttributes.GENERIC_ATTACK_DAMAGE).forEach(eam -> {
+			eam.value = eam.getValue() * NetheritePlusConfig.DAMAGE.TRIDENT_DAMAGE_MULTIPLIER.getValue()
+					+ NetheritePlusConfig.DAMAGE.TRIDENT_DAMAGE_ADDITION.getValue();
+		});
 	}
 
 	@Override

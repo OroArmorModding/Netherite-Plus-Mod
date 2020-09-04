@@ -13,6 +13,7 @@ import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 import com.oroarmor.netherite_plus.loot.NetheritePlusLootManager;
 import com.oroarmor.netherite_plus.recipe.NetheritePlusRecipeSerializer;
 import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
+import com.oroarmor.netherite_plus.stat.NetheritePlusStats;
 import com.oroarmor.util.config.ConfigItemGroup;
 
 import net.fabricmc.api.ModInitializer;
@@ -39,6 +40,7 @@ public class NetheritePlusMod implements ModInitializer {
 		NetheritePlusRecipeSerializer.init();
 		NetheritePlusStatusEffects.init();
 		NetheritePlusCriteria.init();
+		NetheritePlusStats.init();
 
 		CommandRegistrationCallback.EVENT.register(new NetheritePlusCommand());
 	}
