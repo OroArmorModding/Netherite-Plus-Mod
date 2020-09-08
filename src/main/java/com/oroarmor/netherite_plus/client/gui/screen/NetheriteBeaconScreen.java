@@ -2,6 +2,7 @@ package com.oroarmor.netherite_plus.client.gui.screen;
 
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
+import java.io.IOException;
 import java.util.Iterator;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -9,8 +10,10 @@ import com.oroarmor.netherite_plus.block.entity.NetheriteBeaconBlockEntity;
 import com.oroarmor.netherite_plus.network.UpdateNetheriteBeaconC2SPacket;
 import com.oroarmor.netherite_plus.screen.NetheriteBeaconScreenHandler;
 
+import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ScreenTexts;
@@ -24,6 +27,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.c2s.play.GuiCloseC2SPacket;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerListener;
@@ -221,9 +225,14 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
 
 		@Override
 		public void onPress() {
-			NetheriteBeaconScreen.this.client.getNetworkHandler()
-					.sendPacket(new UpdateNetheriteBeaconC2SPacket(StatusEffect.getRawId(primaryEffect),
-							StatusEffect.getRawId(secondaryEffect), StatusEffect.getRawId(tertiaryEffect)));
+			PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+			try {
+				new UpdateNetheriteBeaconC2SPacket(StatusEffect.getRawId(primaryEffect),
+						StatusEffect.getRawId(secondaryEffect), StatusEffect.getRawId(tertiaryEffect)).write(buf);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			ClientSidePacketRegistry.INSTANCE.sendToServer(UpdateNetheriteBeaconC2SPacket.ID, buf);
 			NetheriteBeaconScreen.this.client.player.networkHandler.sendPacket(
 					new GuiCloseC2SPacket(NetheriteBeaconScreen.this.client.player.currentScreenHandler.syncId));
 			NetheriteBeaconScreen.this.client.openScreen((Screen) null);

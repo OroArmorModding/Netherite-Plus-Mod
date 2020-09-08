@@ -1,5 +1,9 @@
 package com.oroarmor.util.config;
 
+import java.util.function.Consumer;
+
+import org.jetbrains.annotations.Nullable;
+
 import com.google.gson.JsonElement;
 
 public class ConfigItem<T> {
@@ -36,12 +40,20 @@ public class ConfigItem<T> {
 
 	protected final Type type;
 
+	@Nullable
+	protected final Consumer<ConfigItem<T>> onChange;
+
 	public ConfigItem(String name, T defaultValue, String details) {
+		this(name, defaultValue, details, null);
+	}
+
+	public ConfigItem(String name, T defaultValue, String details, Consumer<ConfigItem<T>> onChange) {
 		this.name = name;
 		this.details = details;
 		this.defaultValue = defaultValue;
 		this.value = defaultValue;
 		this.type = Type.getTypeFrom(defaultValue);
+		this.onChange = onChange;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -101,6 +113,9 @@ public class ConfigItem<T> {
 
 	public void setValue(T value) {
 		this.value = value;
+		if (this.onChange != null) {
+			this.onChange.accept(this);
+		}
 	}
 
 	@Override

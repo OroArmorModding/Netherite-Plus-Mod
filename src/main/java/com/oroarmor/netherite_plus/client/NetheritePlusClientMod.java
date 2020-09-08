@@ -1,5 +1,6 @@
 package com.oroarmor.netherite_plus.client;
 
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_BLACK_SHULKER_BOX;
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_BLUE_SHULKER_BOX;
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_BROWN_SHULKER_BOX;
@@ -27,6 +28,7 @@ import com.oroarmor.netherite_plus.client.render.NetheriteShulkerBoxBlockEntityR
 import com.oroarmor.netherite_plus.client.render.item.NetheriteShieldItemRenderer;
 import com.oroarmor.netherite_plus.client.render.item.NetheriteShulkerBoxItemRenderer;
 import com.oroarmor.netherite_plus.client.render.item.NetheriteTridentItemRenderer;
+import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
 
 import net.fabricmc.api.ClientModInitializer;
@@ -36,6 +38,7 @@ import net.fabricmc.fabric.api.client.rendereregistry.v1.LivingEntityFeatureRend
 import net.fabricmc.fabric.api.client.rendereregistry.v1.LivingEntityFeatureRendererRegistrationCallback.RegistrationHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry.DynamicItemRenderer;
+import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.model.ArmorStandEntityModel;
@@ -45,6 +48,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 
 public class NetheritePlusClientMod implements ClientModInitializer {
+	public static double LAVA_VISION_DISTANCE = NetheritePlusConfig.GRAPHICS.LAVA_VISION_DISTANCE.getValue();
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void onInitializeClient() {
@@ -92,6 +97,10 @@ public class NetheritePlusClientMod implements ClientModInitializer {
 					|| entityRenderer.getModel() instanceof ArmorStandEntityModel) {
 				registrationHelper.register(new NetheriteElytraFeatureRenderer(entityRenderer));
 			}
+		});
+
+		ClientSidePacketRegistry.INSTANCE.register(id("lava_vision_packet"), (context, byteBuf) -> {
+			LAVA_VISION_DISTANCE = byteBuf.getDouble(0);
 		});
 
 	}

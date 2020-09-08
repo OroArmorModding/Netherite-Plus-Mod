@@ -4,11 +4,16 @@ import java.io.File;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
+import com.oroarmor.netherite_plus.NetheritePlusMod;
 import com.oroarmor.util.config.Config;
 import com.oroarmor.util.config.ConfigItem;
 import com.oroarmor.util.config.ConfigItemGroup;
 
+import io.netty.buffer.Unpooled;
+import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.PacketByteBuf;
 
 public final class NetheritePlusConfig extends Config {
 	public static class ANVIL extends ConfigItemGroup {
@@ -123,7 +128,7 @@ public final class NetheritePlusConfig extends Config {
 	public static class GRAPHICS extends ConfigItemGroup {
 
 		public static final ConfigItem<Double> LAVA_VISION_DISTANCE = new ConfigItem<>("lava_vision_distance", 0.25,
-				"config.netherite_plus.graphics.lava_vision");
+				"config.netherite_plus.graphics.lava_vision", NetheritePlusConfig::createLavaVisionUpdatePacket);
 		public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(LAVA_VISION_DISTANCE);
 
 		public GRAPHICS() {
@@ -139,6 +144,22 @@ public final class NetheritePlusConfig extends Config {
 
 	public NetheritePlusConfig() {
 		super(CONFIGS, new File(FabricLoader.getInstance().getConfigDir().toFile(), CONFIG_FILE_NAME));
+	}
+
+	public static void createLavaVisionUpdatePacket(ConfigItem<Double> configItem) {
+		PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
+		passedData.writeDouble(configItem.getValue());
+
+		NetheritePlusMod.CONNECTED_CLIENTS.forEach(_player -> ServerSidePacketRegistry.INSTANCE.sendToPlayer(_player,
+				NetheritePlusMod.id("lava_vision_packet"), passedData));
+
+	}
+
+	public static void createLavaVisionUpdatePacket(PlayerEntity player) {
+		PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
+		passedData.writeDouble(GRAPHICS.LAVA_VISION_DISTANCE.getValue());
+		ServerSidePacketRegistry.INSTANCE.sendToPlayer(player, NetheritePlusMod.id("lava_vision_packet"), passedData);
+
 	}
 
 }
