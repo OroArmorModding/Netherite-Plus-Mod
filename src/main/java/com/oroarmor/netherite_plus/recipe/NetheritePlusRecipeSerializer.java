@@ -14,15 +14,9 @@ public final class NetheritePlusRecipeSerializer {
 	public static SpecialRecipeSerializer<NetheriteShieldDecorationRecipe> NETHERITE_SHIELD;
 
 	public static void init() {
-		NETHERITE_SHULKER_BOX = NetheritePlusConfig.ENABLED.ENABLED_SHULKER_BOXES.getValue()
-				? register("crafting_special_netheriteshulkerboxcoloring",
-						new SpecialRecipeSerializer<>(NetheriteShulkerBoxColoringRecipe::new))
-				: null;
+		NETHERITE_SHULKER_BOX = NetheritePlusConfig.ENABLED.ENABLED_SHULKER_BOXES.getValue() ? register("crafting_special_netheriteshulkerboxcoloring", new SpecialRecipeSerializer<>(NetheriteShulkerBoxColoringRecipe::new)) : null;
 
-		NETHERITE_SHIELD = NetheritePlusConfig.ENABLED.ENABLED_SHIELDS.getValue()
-				? register("crafting_special_netheriteshielddecoration",
-						new SpecialRecipeSerializer<>(NetheriteShieldDecorationRecipe::new))
-				: null;
+		NETHERITE_SHIELD = NetheritePlusConfig.ENABLED.ENABLED_SHIELDS.getValue() ? register("crafting_special_netheriteshielddecoration", new SpecialRecipeSerializer<>(NetheriteShieldDecorationRecipe::new)) : null;
 	}
 
 	public static <S extends RecipeSerializer<T>, T extends Recipe<?>> S register(String id, S serializer) {

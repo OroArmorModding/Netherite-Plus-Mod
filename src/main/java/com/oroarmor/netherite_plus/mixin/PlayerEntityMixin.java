@@ -28,7 +28,6 @@ public class PlayerEntityMixin {
 		return UniqueItemRegistry.SHIELD.getDefaultItem(stack.getItem());
 	}
 
-	@SuppressWarnings("unused")
 	@Inject(method = "increaseTravelMotionStats", at = @At("RETURN"))
 	private void increaseTravelMotionStats(double dx, double dy, double dz, CallbackInfo info) {
 		if (!((PlayerEntity) (Object) this).hasVehicle()) {

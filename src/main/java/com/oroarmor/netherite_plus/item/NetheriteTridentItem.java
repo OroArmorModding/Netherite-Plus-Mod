@@ -27,8 +27,7 @@ public class NetheriteTridentItem extends TridentItem {
 	public NetheriteTridentItem(Settings settings) {
 		super(settings);
 		attributeModifiers.get(EntityAttributes.GENERIC_ATTACK_DAMAGE).forEach(eam -> {
-			eam.value = eam.getValue() * NetheritePlusConfig.DAMAGE.TRIDENT_DAMAGE_MULTIPLIER.getValue()
-					+ NetheritePlusConfig.DAMAGE.TRIDENT_DAMAGE_ADDITION.getValue();
+			eam.value = eam.getValue() * NetheritePlusConfig.DAMAGE.TRIDENT_DAMAGE_MULTIPLIER.getValue() + NetheritePlusConfig.DAMAGE.TRIDENT_DAMAGE_ADDITION.getValue();
 		});
 	}
 
@@ -45,17 +44,14 @@ public class NetheriteTridentItem extends TridentItem {
 							p.sendToolBreakStatus(user.getActiveHand());
 						});
 						if (riptideLevel == 0) {
-							NetheriteTridentEntity tridentEntity = new NetheriteTridentEntity(world, playerEntity,
-									stack);
-							tridentEntity.setProperties(playerEntity, playerEntity.pitch, playerEntity.yaw, 0.0F,
-									2.5F + riptideLevel * 0.5F, 1.0F);
+							NetheriteTridentEntity tridentEntity = new NetheriteTridentEntity(world, playerEntity, stack);
+							tridentEntity.setProperties(playerEntity, playerEntity.pitch, playerEntity.yaw, 0.0F, 2.5F + riptideLevel * 0.5F, 1.0F);
 							if (playerEntity.abilities.creativeMode) {
 								tridentEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
 							}
 
 							world.spawnEntity(tridentEntity);
-							world.playSoundFromEntity((PlayerEntity) null, tridentEntity,
-									SoundEvents.ITEM_TRIDENT_THROW, SoundCategory.PLAYERS, 1.0F, 1.0F);
+							world.playSoundFromEntity((PlayerEntity) null, tridentEntity, SoundEvents.ITEM_TRIDENT_THROW, SoundCategory.PLAYERS, 1.0F, 1.0F);
 							if (!playerEntity.abilities.creativeMode) {
 								playerEntity.inventory.removeOne(stack);
 							}
@@ -92,8 +88,7 @@ public class NetheriteTridentItem extends TridentItem {
 							soundEvent3 = SoundEvents.ITEM_TRIDENT_RIPTIDE_1;
 						}
 
-						world.playSoundFromEntity((PlayerEntity) null, playerEntity, soundEvent3, SoundCategory.PLAYERS,
-								1.0F, 1.0F);
+						world.playSoundFromEntity((PlayerEntity) null, playerEntity, soundEvent3, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
 					}
 

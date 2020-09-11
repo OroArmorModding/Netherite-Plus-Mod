@@ -68,14 +68,10 @@ public class FishingCategory implements RecipeCategory<FishingDisplay> {
 	@Override
 	public List<Widget> setupDisplay(FishingDisplay display, Rectangle bounds) {
 		List<Widget> widgets = Lists.newArrayList();
-		widgets.add(Widgets.createSlot(new Point(bounds.getCenterX() - 8, bounds.y + 3))
-				.entry(getLogo().addSetting(Settings.TOOLTIP_APPEND_EXTRA,
-						(stack) -> ImmutableList.of(new LiteralText(display.getOutcomes().getType().toString())))));
-		Rectangle rectangle = new Rectangle(bounds.getCenterX() - bounds.width / 2 - 1, bounds.y + 23, bounds.width + 2,
-				bounds.height - 28);
+		widgets.add(Widgets.createSlot(new Point(bounds.getCenterX() - 8, bounds.y + 3)).entry(getLogo().addSetting(Settings.TOOLTIP_APPEND_EXTRA, (stack) -> ImmutableList.of(new LiteralText(display.getOutcomes().getType().toString())))));
+		Rectangle rectangle = new Rectangle(bounds.getCenterX() - bounds.width / 2 - 1, bounds.y + 23, bounds.width + 2, bounds.height - 28);
 		widgets.add(Widgets.createSlotBase(rectangle));
-		widgets.add(new ScrollableSlotsWidget(rectangle, CollectionUtils.map(display.getEntries(),
-				t -> Widgets.createSlot(new Point(0, 0)).disableBackground().entry(t))));
+		widgets.add(new ScrollableSlotsWidget(rectangle, CollectionUtils.map(display.getEntries(), t -> Widgets.createSlot(new Point(0, 0)).disableBackground().entry(t))));
 		return widgets;
 	}
 
@@ -153,8 +149,7 @@ public class FishingCategory implements RecipeCategory<FishingDisplay> {
 						break;
 					}
 					Slot widget = widgets.get(index);
-					widget.getBounds().setLocation(bounds.x + 1 + x * 18,
-							(int) (bounds.y + 1 + y * 18 - scrolling.scrollAmount));
+					widget.getBounds().setLocation(bounds.x + 1 + x * 18, (int) (bounds.y + 1 + y * 18 - scrolling.scrollAmount));
 					widget.render(matrices, mouseX, mouseY, delta);
 				}
 			}

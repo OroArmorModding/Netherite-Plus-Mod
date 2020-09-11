@@ -21,8 +21,7 @@ public class ModMenuIntegration implements ModMenuApi {
 	@Override
 	public ConfigScreenFactory<?> getModConfigScreenFactory() {
 		return screen -> {
-			ConfigBuilder builder = ConfigBuilder.create().setParentScreen(screen)
-					.setTitle(new TranslatableText("config.netherite_plus"));
+			ConfigBuilder builder = ConfigBuilder.create().setParentScreen(screen).setTitle(new TranslatableText("config.netherite_plus"));
 
 			builder.setSavingRunnable(NetheritePlusMod.CONFIG::saveConfigToFile);
 
@@ -34,20 +33,15 @@ public class ModMenuIntegration implements ModMenuApi {
 			ConfigCategory anvil = createCategory(builder, "config.netherite_plus.anvil");
 			ConfigCategory graphics = createCategory(builder, "config.netherite_plus.graphics");
 
-			NetheritePlusConfig.ENABLED.OPTIONS.stream()
-					.forEach(ci -> setupBooleanConfigItem((ConfigItem<Boolean>) ci, enabledFeatures, entryBuilder));
+			NetheritePlusConfig.ENABLED.OPTIONS.stream().forEach(ci -> setupBooleanConfigItem((ConfigItem<Boolean>) ci, enabledFeatures, entryBuilder));
 
-			NetheritePlusConfig.DURABILITIES.OPTIONS.stream()
-					.forEach(ci -> setupIntegerConfigItem((ConfigItem<Integer>) ci, durabilities, entryBuilder));
+			NetheritePlusConfig.DURABILITIES.OPTIONS.stream().forEach(ci -> setupIntegerConfigItem((ConfigItem<Integer>) ci, durabilities, entryBuilder));
 
-			NetheritePlusConfig.DAMAGE.OPTIONS.stream()
-					.forEach(ci -> setupDoubleConfigItem((ConfigItem<Double>) ci, damage, entryBuilder));
+			NetheritePlusConfig.DAMAGE.OPTIONS.stream().forEach(ci -> setupDoubleConfigItem((ConfigItem<Double>) ci, damage, entryBuilder));
 
-			NetheritePlusConfig.ANVIL.OPTIONS.stream()
-					.forEach(ci -> setupDoubleConfigItem((ConfigItem<Double>) ci, anvil, entryBuilder));
+			NetheritePlusConfig.ANVIL.OPTIONS.stream().forEach(ci -> setupDoubleConfigItem((ConfigItem<Double>) ci, anvil, entryBuilder));
 
-			NetheritePlusConfig.GRAPHICS.OPTIONS.stream()
-					.forEach(ci -> setupDoubleConfigItem((ConfigItem<Double>) ci, graphics, entryBuilder));
+			NetheritePlusConfig.GRAPHICS.OPTIONS.stream().forEach(ci -> setupDoubleConfigItem((ConfigItem<Double>) ci, graphics, entryBuilder));
 
 			return builder.build();
 		};
@@ -58,22 +52,16 @@ public class ModMenuIntegration implements ModMenuApi {
 		return "netherite_plus";
 	}
 
-	private void setupBooleanConfigItem(ConfigItem<Boolean> ci, ConfigCategory category,
-			ConfigEntryBuilder entryBuilder) {
-		category.addEntry(entryBuilder.startBooleanToggle(new TranslatableText(ci.getDetails()), ci.getValue())
-				.setSaveConsumer(ci::setValue).setDefaultValue(ci::getDefaultValue).build());
+	private void setupBooleanConfigItem(ConfigItem<Boolean> ci, ConfigCategory category, ConfigEntryBuilder entryBuilder) {
+		category.addEntry(entryBuilder.startBooleanToggle(new TranslatableText(ci.getDetails()), ci.getValue()).setSaveConsumer(ci::setValue).setDefaultValue(ci::getDefaultValue).build());
 	}
 
-	private void setupDoubleConfigItem(ConfigItem<Double> ci, ConfigCategory category,
-			ConfigEntryBuilder entryBuilder) {
-		category.addEntry(entryBuilder.startDoubleField(new TranslatableText(ci.getDetails()), ci.getValue())
-				.setSaveConsumer(ci::setValue).setDefaultValue(ci::getDefaultValue).build());
+	private void setupDoubleConfigItem(ConfigItem<Double> ci, ConfigCategory category, ConfigEntryBuilder entryBuilder) {
+		category.addEntry(entryBuilder.startDoubleField(new TranslatableText(ci.getDetails()), ci.getValue()).setSaveConsumer(ci::setValue).setDefaultValue(ci::getDefaultValue).build());
 	}
 
-	private void setupIntegerConfigItem(ConfigItem<Integer> ci, ConfigCategory category,
-			ConfigEntryBuilder entryBuilder) {
-		category.addEntry(entryBuilder.startIntField(new TranslatableText(ci.getDetails()), ci.getValue())
-				.setSaveConsumer(ci::setValue).setDefaultValue(ci::getDefaultValue).build());
+	private void setupIntegerConfigItem(ConfigItem<Integer> ci, ConfigCategory category, ConfigEntryBuilder entryBuilder) {
+		category.addEntry(entryBuilder.startIntField(new TranslatableText(ci.getDetails()), ci.getValue()).setSaveConsumer(ci::setValue).setDefaultValue(ci::getDefaultValue).build());
 	}
 
 }

@@ -63,8 +63,7 @@ public class NetheritePlusMod implements ModInitializer {
 			}
 			context.getTaskQueue().execute(() -> {
 				if (context.getPlayer().currentScreenHandler instanceof NetheriteBeaconScreenHandler) {
-					((NetheriteBeaconScreenHandler) context.getPlayer().currentScreenHandler).setEffects(
-							packet.getPrimaryEffectId(), packet.getSecondaryEffectId(), packet.getTertiaryEffectId());
+					((NetheriteBeaconScreenHandler) context.getPlayer().currentScreenHandler).setEffects(packet.getPrimaryEffectId(), packet.getSecondaryEffectId(), packet.getTertiaryEffectId());
 				}
 			});
 		});
@@ -74,8 +73,7 @@ public class NetheritePlusMod implements ModInitializer {
 		CONFIG.readConfigFromFile();
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_CONFIG_PRINT.getValue()) {
-			CONFIG.getConfigs().stream().map(ConfigItemGroup::getConfigs)
-					.forEach(l -> l.forEach(ci -> LOGGER.log(Level.INFO, ci.toString())));
+			CONFIG.getConfigs().stream().map(ConfigItemGroup::getConfigs).forEach(l -> l.forEach(ci -> LOGGER.log(Level.INFO, ci.toString())));
 		}
 
 		ServerLifecycleEvents.SERVER_STOPPED.register(l -> CONFIG.saveConfigToFile());

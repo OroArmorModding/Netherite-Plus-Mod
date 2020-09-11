@@ -24,21 +24,17 @@ public class ServerPlayNetworkHandlerMixin {
 	@Shadow
 	private ServerPlayerEntity player;
 
-	@SuppressWarnings("unused")
 	@Inject(method = "<init>", at = @At("RETURN"))
-	public void init(MinecraftServer server, ClientConnection connection, ServerPlayerEntity player,
-			CallbackInfo info) {
+	public void init(MinecraftServer server, ClientConnection connection, ServerPlayerEntity player, CallbackInfo info) {
 		NetheritePlusMod.CONNECTED_CLIENTS.add(player);
 		NetheritePlusConfig.createLavaVisionUpdatePacket(player);
 	}
 
-	@SuppressWarnings("unused")
 	@Inject(method = "disconnect", at = @At("RETURN"))
 	public void disconnect(Text reason, CallbackInfo info) {
 		NetheritePlusMod.CONNECTED_CLIENTS.remove(player);
 	}
 
-	@SuppressWarnings("unused")
 	@Inject(method = "onRenameItem", at = @At("RETURN"))
 	public void onRenameItem(RenameItemC2SPacket packet, CallbackInfo info) {
 		if (player.currentScreenHandler instanceof NetheriteAnvilScreenHandler) {

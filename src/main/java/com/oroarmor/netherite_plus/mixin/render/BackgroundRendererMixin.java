@@ -23,22 +23,17 @@ import net.minecraft.tag.FluidTags;
 @Environment(EnvType.CLIENT)
 @Mixin(BackgroundRenderer.class)
 public class BackgroundRendererMixin {
-	@SuppressWarnings("unused")
 	@Inject(at = @At("HEAD"), method = "applyFog", cancellable = true)
-	private static void applyFog(Camera camera, BackgroundRenderer.FogType fogType, float viewDistance,
-			boolean thickFog, CallbackInfo info) {
+	private static void applyFog(Camera camera, BackgroundRenderer.FogType fogType, float viewDistance, boolean thickFog, CallbackInfo info) {
 		FluidState fluidState = camera.getSubmergedFluidState();
 		Entity entity = camera.getFocusedEntity();
 		if (fluidState.isIn(FluidTags.LAVA)) {
 			float s;
 			float v;
-			if (entity instanceof LivingEntity
-					&& ((LivingEntity) entity).hasStatusEffect(NetheritePlusStatusEffects.LAVA_VISION)) {
+			if (entity instanceof LivingEntity && ((LivingEntity) entity).hasStatusEffect(NetheritePlusStatusEffects.LAVA_VISION)) {
 				s = 0.0F;
-				v = (float) (3.0F + NetheritePlusClientMod.LAVA_VISION_DISTANCE * ((LivingEntity) entity)
-						.getStatusEffect(NetheritePlusStatusEffects.LAVA_VISION).getAmplifier());
-			} else if (entity instanceof LivingEntity
-					&& ((LivingEntity) entity).hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) {
+				v = (float) (3.0F + NetheritePlusClientMod.LAVA_VISION_DISTANCE * ((LivingEntity) entity).getStatusEffect(NetheritePlusStatusEffects.LAVA_VISION).getAmplifier());
+			} else if (entity instanceof LivingEntity && ((LivingEntity) entity).hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) {
 				s = 0.0F;
 				v = 3.0F;
 			} else {

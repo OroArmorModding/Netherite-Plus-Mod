@@ -23,9 +23,7 @@ public class ConstructNetheriteBeaconCriterion extends AbstractCriterion<Constru
 	}
 
 	@Override
-	public ConstructNetheriteBeaconCriterion.Conditions conditionsFromJson(JsonObject jsonObject,
-			EntityPredicate.Extended extended,
-			AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
+	public ConstructNetheriteBeaconCriterion.Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended extended, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
 		NumberRange.IntRange intRange = NumberRange.IntRange.fromJson(jsonObject.get("level"));
 		return new ConstructNetheriteBeaconCriterion.Conditions(extended, intRange);
 	}

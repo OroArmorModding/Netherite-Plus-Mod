@@ -35,19 +35,19 @@ public class ConfigItemGroup extends ConfigItem<ConfigItemGroup> {
 
 	private void parseConfig(ConfigItem<?> c, JsonObject object) {
 		switch (c.getType()) {
-			case BOOLEAN:
-				object.addProperty(c.getName(), (Boolean) c.getValue());
-				break;
-			case DOUBLE:
-			case INTEGER:
-				object.addProperty(c.getName(), (Number) c.getValue());
-				break;
-			case STRING:
-				object.addProperty(c.getName(), (String) c.getValue());
-			case GROUP:
-				object.add(c.getName(), ((ConfigItemGroup) c).toJson());
-			default:
-				break;
+		case BOOLEAN:
+			object.addProperty(c.getName(), (Boolean) c.getValue());
+			break;
+		case DOUBLE:
+		case INTEGER:
+			object.addProperty(c.getName(), (Number) c.getValue());
+			break;
+		case STRING:
+			object.addProperty(c.getName(), (String) c.getValue());
+		case GROUP:
+			object.add(c.getName(), ((ConfigItemGroup) c).toJson());
+		default:
+			break;
 		}
 	}
 

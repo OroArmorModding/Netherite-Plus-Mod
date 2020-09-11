@@ -8,7 +8,6 @@ import net.minecraft.advancement.criterion.Criterion;
 
 @Mixin(Criteria.class)
 public interface CriteriaAccessor {
-	@SuppressWarnings("unused")
 	@Invoker
 	public static <T extends Criterion<?>> T callRegister(T object) {
 		throw new AssertionError("Mixin dummy");

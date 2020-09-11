@@ -35,8 +35,7 @@ public class ClientPlayNetworkHandlerMixin {
 
 	@Inject(method = "onEntitySpawn", at = @At("HEAD"), cancellable = true)
 	public void onEntitySpawnMixin(EntitySpawnS2CPacket packet, CallbackInfo info) {
-		NetworkThreadUtils.forceMainThread(packet, (ClientPlayNetworkHandler) (Object) this,
-				(ThreadExecutor<?>) client);
+		NetworkThreadUtils.forceMainThread(packet, (ClientPlayNetworkHandler) (Object) this, (ThreadExecutor<?>) client);
 		double d = packet.getX();
 		double e = packet.getY();
 		double f = packet.getZ();

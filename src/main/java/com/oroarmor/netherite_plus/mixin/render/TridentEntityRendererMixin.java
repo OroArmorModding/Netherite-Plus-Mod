@@ -15,11 +15,8 @@ import net.minecraft.util.Identifier;
 @Mixin(TridentEntityRenderer.class)
 public class TridentEntityRendererMixin {
 
-	@SuppressWarnings("unused")
 	@Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/TridentEntityRenderer;getTexture(Lnet/minecraft/entity/projectile/TridentEntity;)Lnet/minecraft/util/Identifier;"))
 	public Identifier getTextureMixin(TridentEntityRenderer renderer, TridentEntity entity) {
-		return entity.tridentStack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT
-				? id("textures/entity/netherite_trident.png")
-				: TridentEntityRenderer.TEXTURE;
+		return entity.tridentStack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT ? id("textures/entity/netherite_trident.png") : TridentEntityRenderer.TEXTURE;
 	}
 }

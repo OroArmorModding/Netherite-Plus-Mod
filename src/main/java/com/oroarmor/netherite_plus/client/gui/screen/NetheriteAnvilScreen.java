@@ -62,17 +62,14 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
 			client.player.closeHandledScreen();
 		}
 
-		return !nameField.keyPressed(keyCode, scanCode, modifiers) && !nameField.isActive()
-				? super.keyPressed(keyCode, scanCode, modifiers)
-				: true;
+		return !nameField.keyPressed(keyCode, scanCode, modifiers) && !nameField.isActive() ? super.keyPressed(keyCode, scanCode, modifiers) : true;
 	}
 
 	private void onRenamed(String name) {
 		if (!name.isEmpty()) {
 			String string = name;
 			Slot slot = handler.getSlot(0);
-			if (slot != null && slot.hasStack() && !slot.getStack().hasCustomName()
-					&& name.equals(slot.getStack().getName().getString())) {
+			if (slot != null && slot.hasStack() && !slot.getStack().hasCustomName() && name.equals(slot.getStack().getName().getString())) {
 				string = "";
 			}
 
@@ -114,8 +111,7 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
 		client.keyboard.setRepeatEvents(true);
 		int i = (width - backgroundWidth) / 2;
 		int j = (height - backgroundHeight) / 2;
-		nameField = new TextFieldWidget(textRenderer, i + 62, j + 24, 103, 12,
-				new TranslatableText("container.repair"));
+		nameField = new TextFieldWidget(textRenderer, i + 62, j + 24, 103, 12, new TranslatableText("container.repair"));
 		nameField.setFocusUnlocked(false);
 		nameField.setEditableColor(-1);
 		nameField.setUneditableColor(-1);

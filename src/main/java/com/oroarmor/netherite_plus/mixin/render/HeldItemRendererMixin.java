@@ -25,7 +25,6 @@ public class HeldItemRendererMixin {
 
 	@Redirect(method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;Lnet/minecraft/client/network/ClientPlayerEntity;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
 	private Item renderItem(ItemStack itemStack) {
-		return itemStack.getItem() == NetheritePlusItems.NETHERITE_BOW ? Items.CROSSBOW
-				: UniqueItemRegistry.CROSSBOW.getDefaultItem(itemStack.getItem());
+		return itemStack.getItem() == NetheritePlusItems.NETHERITE_BOW ? Items.CROSSBOW : UniqueItemRegistry.CROSSBOW.getDefaultItem(itemStack.getItem());
 	}
 }

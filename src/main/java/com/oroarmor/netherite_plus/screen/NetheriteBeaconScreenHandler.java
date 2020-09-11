@@ -28,8 +28,7 @@ public class NetheriteBeaconScreenHandler extends ScreenHandler {
 		this(syncId, inventory, new ArrayPropertyDelegate(4), ScreenHandlerContext.EMPTY);
 	}
 
-	public NetheriteBeaconScreenHandler(int syncId, Inventory inventory, PropertyDelegate propertyDelegate,
-			ScreenHandlerContext context) {
+	public NetheriteBeaconScreenHandler(int syncId, Inventory inventory, PropertyDelegate propertyDelegate, ScreenHandlerContext context) {
 		super(NetheritePlusScreenHandlers.NETHERITE_BEACON, syncId);
 		payment = new SimpleInventory(1) {
 			@Override

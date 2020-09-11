@@ -117,8 +117,7 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
 			j = j + itemStack.getRepairCost() + (itemStack3.isEmpty() ? 0 : itemStack3.getRepairCost());
 			repairItemUsage = 0;
 			if (!itemStack3.isEmpty()) {
-				boolean bl = itemStack3.getItem() == Items.ENCHANTED_BOOK
-						&& !EnchantedBookItem.getEnchantmentTag(itemStack3).isEmpty();
+				boolean bl = itemStack3.getItem() == Items.ENCHANTED_BOOK && !EnchantedBookItem.getEnchantmentTag(itemStack3).isEmpty();
 				int o;
 				int p;
 				int q;
@@ -210,17 +209,17 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
 							map.put(enchantment, u);
 							int v = 0;
 							switch (enchantment.getRarity()) {
-								case COMMON:
-									v = 1;
-									break;
-								case UNCOMMON:
-									v = 2;
-									break;
-								case RARE:
-									v = 4;
-									break;
-								case VERY_RARE:
-									v = 8;
+							case COMMON:
+								v = 1;
+								break;
+							case UNCOMMON:
+								v = 2;
+								break;
+							case RARE:
+								v = 4;
+								break;
+							case VERY_RARE:
+								v = 8;
 							}
 
 							if (bl) {

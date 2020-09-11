@@ -27,8 +27,7 @@ public class NetheriteBowItem extends BowItem {
 	public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
 		if (user instanceof PlayerEntity) {
 			PlayerEntity playerEntity = (PlayerEntity) user;
-			boolean bl = playerEntity.abilities.creativeMode
-					|| EnchantmentHelper.getLevel(Enchantments.INFINITY, stack) > 0;
+			boolean bl = playerEntity.abilities.creativeMode || EnchantmentHelper.getLevel(Enchantments.INFINITY, stack) > 0;
 			ItemStack itemStack = playerEntity.getArrowType(stack);
 			if (!itemStack.isEmpty() || bl) {
 				if (itemStack.isEmpty()) {
@@ -40,26 +39,19 @@ public class NetheriteBowItem extends BowItem {
 				if (f >= 0.1D) {
 					boolean bl2 = bl && itemStack.getItem() == Items.ARROW;
 					if (!world.isClient) {
-						ArrowItem arrowItem = (ArrowItem) (itemStack.getItem() instanceof ArrowItem
-								? itemStack.getItem()
-								: Items.ARROW);
-						PersistentProjectileEntity persistentProjectileEntity = arrowItem.createArrow(world, itemStack,
-								playerEntity);
-						persistentProjectileEntity.setProperties(playerEntity, playerEntity.pitch, playerEntity.yaw,
-								0.0F, f * 3.0F, 1.0F);
+						ArrowItem arrowItem = (ArrowItem) (itemStack.getItem() instanceof ArrowItem ? itemStack.getItem() : Items.ARROW);
+						PersistentProjectileEntity persistentProjectileEntity = arrowItem.createArrow(world, itemStack, playerEntity);
+						persistentProjectileEntity.setProperties(playerEntity, playerEntity.pitch, playerEntity.yaw, 0.0F, f * 3.0F, 1.0F);
 						if (f == 1.0F) {
 							persistentProjectileEntity.setCritical(true);
 						}
 
 						int j = EnchantmentHelper.getLevel(Enchantments.POWER, stack);
 						if (j > 0) {
-							persistentProjectileEntity
-									.setDamage(persistentProjectileEntity.getDamage() + j * 0.5D + 0.5D);
+							persistentProjectileEntity.setDamage(persistentProjectileEntity.getDamage() + j * 0.5D + 0.5D);
 						}
 
-						persistentProjectileEntity.setDamage(persistentProjectileEntity.getDamage()
-								* NetheritePlusConfig.DAMAGE.BOW_DAMAGE_MULTIPLIER.getValue()
-								+ NetheritePlusConfig.DAMAGE.BOW_DAMAGE_ADDITION.getValue());
+						persistentProjectileEntity.setDamage(persistentProjectileEntity.getDamage() * NetheritePlusConfig.DAMAGE.BOW_DAMAGE_MULTIPLIER.getValue() + NetheritePlusConfig.DAMAGE.BOW_DAMAGE_ADDITION.getValue());
 
 						int k = EnchantmentHelper.getLevel(Enchantments.PUNCH, stack);
 						if (k > 0) {
@@ -73,17 +65,14 @@ public class NetheriteBowItem extends BowItem {
 						stack.damage(1, (LivingEntity) playerEntity, (Consumer<LivingEntity>) (p) -> {
 							p.sendToolBreakStatus(playerEntity.getActiveHand());
 						});
-						if (bl2 || playerEntity.abilities.creativeMode && (itemStack.getItem() == Items.SPECTRAL_ARROW
-								|| itemStack.getItem() == Items.TIPPED_ARROW)) {
+						if (bl2 || playerEntity.abilities.creativeMode && (itemStack.getItem() == Items.SPECTRAL_ARROW || itemStack.getItem() == Items.TIPPED_ARROW)) {
 							persistentProjectileEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
 						}
 
 						world.spawnEntity(persistentProjectileEntity);
 					}
 
-					world.playSound((PlayerEntity) null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(),
-							SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F,
-							1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+					world.playSound((PlayerEntity) null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 					if (!bl2 && !playerEntity.abilities.creativeMode) {
 						itemStack.decrement(1);
 						if (itemStack.isEmpty()) {
