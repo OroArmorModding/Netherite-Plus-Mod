@@ -13,11 +13,7 @@ public class QuickShulkerHook implements RegisterQuickShulker {
 
 	@Override
 	public void registerProviders() {
-		QuickOpenableRegistry.register(NetheriteShulkerBoxBlock.class,
-				(player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory(
-						(i, playerInventory, playerEntity) -> new ShulkerBoxScreenHandler(i, player.inventory,
-								new ItemStackInventory(stack, 27)),
-						new TranslatableText("container.netheriteShulkerBox"))));
+		QuickOpenableRegistry.register(NetheriteShulkerBoxBlock.class, (player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) -> new ShulkerBoxScreenHandler(i, player.inventory, new ItemStackInventory(stack, 27)), new TranslatableText("container.netheriteShulkerBox"))));
 	}
 
 }

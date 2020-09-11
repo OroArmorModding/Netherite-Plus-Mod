@@ -8,8 +8,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class NetheritePlusStats {
-	public static final Identifier FLY_NETHERITE_ELYTRA = register("netherite_elytra_flight_distance",
-			StatFormatter.DISTANCE);
+	public static final Identifier FLY_NETHERITE_ELYTRA = register("netherite_elytra_flight_distance", StatFormatter.DISTANCE);
 
 	private static Identifier register(String string, StatFormatter statFormatter) {
 		Identifier identifier = id(string);

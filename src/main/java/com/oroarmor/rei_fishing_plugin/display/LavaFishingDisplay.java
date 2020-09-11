@@ -28,8 +28,7 @@ public class LavaFishingDisplay implements RecipeDisplay {
 
 	@Override
 	public List<List<EntryStack>> getInputEntries() {
-		return ImmutableList.of(outcomes.getOutcomes().stream().map(LavaFishingOutcome::getOutput)
-				.map(EntryStack::create).map(this::generateEntrySettings).collect(Collectors.toList()));
+		return ImmutableList.of(outcomes.getOutcomes().stream().map(LavaFishingOutcome::getOutput).map(EntryStack::create).map(this::generateEntrySettings).collect(Collectors.toList()));
 	}
 
 	@Override
@@ -38,20 +37,14 @@ public class LavaFishingDisplay implements RecipeDisplay {
 	}
 
 	private EntryStack generateEntrySettings(EntryStack stack) {
-		LavaFishingOutcome outcome = outcomes.getOutcomes().stream().filter(o -> o.getOutput() == stack.getItemStack())
-				.findFirst().get();
+		LavaFishingOutcome outcome = outcomes.getOutcomes().stream().filter(o -> o.getOutput() == stack.getItemStack()).findFirst().get();
 
-		return stack.addSetting(Settings.TOOLTIP_ENABLED, () -> true).addSetting(Settings.TOOLTIP_APPEND_EXTRA,
-				(entry) -> ImmutableList.of(
-						new LiteralText("Open lava: " + format.format(outcome.getOpenWaterChance()) + "%"),
-						new LiteralText(
-								"Normal: " + format.format(outcome.getNormalChance(outcomes.getType())) + "%")));
+		return stack.addSetting(Settings.TOOLTIP_ENABLED, () -> true).addSetting(Settings.TOOLTIP_APPEND_EXTRA, (entry) -> ImmutableList.of(new LiteralText("Open lava: " + format.format(outcome.getOpenWaterChance()) + "%"), new LiteralText("Normal: " + format.format(outcome.getNormalChance(outcomes.getType())) + "%")));
 
 	}
 
 	public List<EntryStack> getEntries() {
-		return outcomes.getOutcomes().stream().map(LavaFishingOutcome::getOutput).map(EntryStack::create)
-				.map(this::generateEntrySettings).collect(Collectors.toList());
+		return outcomes.getOutcomes().stream().map(LavaFishingOutcome::getOutput).map(EntryStack::create).map(this::generateEntrySettings).collect(Collectors.toList());
 	}
 
 	public LavaFishingOutcomeCategory getOutcomes() {

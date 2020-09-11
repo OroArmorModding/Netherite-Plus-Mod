@@ -21,11 +21,9 @@ import net.minecraft.util.Hand;
 public class PlayerEntityRendererMixin {
 
 	@Inject(method = "getArmPose", at = @At("HEAD"), cancellable = true)
-	private static void getArmPose(AbstractClientPlayerEntity abstractClientPlayerEntity, Hand hand,
-			CallbackInfoReturnable<BipedEntityModel.ArmPose> cir) {
+	private static void getArmPose(AbstractClientPlayerEntity abstractClientPlayerEntity, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> cir) {
 		ItemStack itemStack = abstractClientPlayerEntity.getStackInHand(hand);
-		if (!abstractClientPlayerEntity.handSwinging && itemStack.getItem() == NetheritePlusItems.NETHERITE_CROSSBOW
-				&& CrossbowItem.isCharged(itemStack)) {
+		if (!abstractClientPlayerEntity.handSwinging && itemStack.getItem() == NetheritePlusItems.NETHERITE_CROSSBOW && CrossbowItem.isCharged(itemStack)) {
 			cir.setReturnValue(BipedEntityModel.ArmPose.CROSSBOW_HOLD);
 		}
 	}

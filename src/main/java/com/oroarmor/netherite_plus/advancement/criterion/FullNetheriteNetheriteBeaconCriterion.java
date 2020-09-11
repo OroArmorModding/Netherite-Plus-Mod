@@ -14,8 +14,7 @@ import net.minecraft.predicate.entity.EntityPredicate;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
-public class FullNetheriteNetheriteBeaconCriterion
-		extends AbstractCriterion<FullNetheriteNetheriteBeaconCriterion.Conditions> {
+public class FullNetheriteNetheriteBeaconCriterion extends AbstractCriterion<FullNetheriteNetheriteBeaconCriterion.Conditions> {
 
 	public static final Identifier id = id("full_netherite_netherite_beacon");
 
@@ -52,9 +51,7 @@ public class FullNetheriteNetheriteBeaconCriterion
 	}
 
 	@Override
-	public FullNetheriteNetheriteBeaconCriterion.Conditions conditionsFromJson(JsonObject jsonObject,
-			EntityPredicate.Extended extended,
-			AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
+	public FullNetheriteNetheriteBeaconCriterion.Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended extended, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
 		NumberRange.IntRange intRange = NumberRange.IntRange.fromJson(jsonObject.get("netherite_level"));
 		return new FullNetheriteNetheriteBeaconCriterion.Conditions(extended, intRange);
 	}

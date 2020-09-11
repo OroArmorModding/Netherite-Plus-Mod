@@ -38,17 +38,13 @@ public abstract class ItemRendererMixin {
 	}
 
 	@Shadow
-	protected abstract void renderBakedItemModel(BakedModel model, ItemStack stack, int light, int overlay,
-			MatrixStack matrices, VertexConsumer vertexConsumer4);
+	protected abstract void renderBakedItemModel(BakedModel model, ItemStack stack, int light, int overlay, MatrixStack matrices, VertexConsumer vertexConsumer4);
 
 	@Inject(method = "renderItem", at = @At(value = "HEAD"), cancellable = true)
-	public void renderItem(ItemStack stack, ModelTransformation.Mode renderMode, boolean leftHanded,
-			MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel model,
-			CallbackInfo info) {
+	public void renderItem(ItemStack stack, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel model, CallbackInfo info) {
 		if (!stack.isEmpty() && stack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT) {
 			matrices.push();
-			boolean bl = renderMode == ModelTransformation.Mode.GUI || renderMode == ModelTransformation.Mode.GROUND
-					|| renderMode == ModelTransformation.Mode.FIXED;
+			boolean bl = renderMode == ModelTransformation.Mode.GUI || renderMode == ModelTransformation.Mode.GROUND || renderMode == ModelTransformation.Mode.FIXED;
 			if (stack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT && bl) {
 				model = models.getModelManager().getModel(new ModelIdentifier(MOD_ID + ":netherite_trident#inventory"));
 			}
@@ -60,8 +56,7 @@ public abstract class ItemRendererMixin {
 			} else {
 				RenderLayer renderLayer = RenderLayers.getItemLayer(stack, true);
 				VertexConsumer vertexConsumer4;
-				vertexConsumer4 = ItemRenderer.getDirectGlintVertexConsumer(vertexConsumers, renderLayer, true,
-						stack.hasGlint());
+				vertexConsumer4 = ItemRenderer.getDirectGlintVertexConsumer(vertexConsumers, renderLayer, true, stack.hasGlint());
 
 				renderBakedItemModel(model, stack, light, overlay, matrices, vertexConsumer4);
 			}

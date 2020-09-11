@@ -19,8 +19,7 @@ public class NetheriteShulkerBoxPreviewProvider extends BlockEntityPreviewProvid
 		DyeColor dye = ((NetheriteShulkerBoxBlock) Block.getBlockFromItem(context.getStack().getItem())).getColor();
 		if (dye != null) {
 			float[] components = dye.getColorComponents();
-			return new float[] { Math.max(0.15f, components[0]), Math.max(0.15f, components[1]),
-					Math.max(0.15f, components[2]) };
+			return new float[] { Math.max(0.15f, components[0]), Math.max(0.15f, components[1]), Math.max(0.15f, components[2]) };
 		} else {
 			return SHULKER_BOX_COLOR;
 		}

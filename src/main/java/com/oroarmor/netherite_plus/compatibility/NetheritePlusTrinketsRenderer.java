@@ -20,15 +20,12 @@ public class NetheritePlusTrinketsRenderer {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public final static ElytraEntityModel<AbstractClientPlayerEntity> elytra = new ElytraEntityModel();
 
-	public static void renderTrinketsElytra(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider,
-			int light, AbstractClientPlayerEntity livingEntity, Item item) {
+	public static void renderTrinketsElytra(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, AbstractClientPlayerEntity livingEntity, Item item) {
 		matrixStack.push();
 		matrixStack.scale(1.5f, 1.5f, 1.5f);
 		matrixStack.translate(0.0D, -0.775D, 0.125D);
 		elytra.setAngles(livingEntity, 0f, 0f, 0f, 0f, 0f);
-		VertexConsumer vertexConsumer = ItemRenderer.getDirectGlintVertexConsumer(vertexConsumerProvider,
-				elytra.getLayer(NetheriteElytraFeatureRenderer.NETHERITE_ELYTRA_SKIN), false,
-				item.getStackForRender().hasGlint());
+		VertexConsumer vertexConsumer = ItemRenderer.getDirectGlintVertexConsumer(vertexConsumerProvider, elytra.getLayer(NetheriteElytraFeatureRenderer.NETHERITE_ELYTRA_SKIN), false, item.getStackForRender().hasGlint());
 		elytra.render(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
 		matrixStack.pop();
 	}

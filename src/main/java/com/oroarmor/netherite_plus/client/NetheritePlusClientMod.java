@@ -53,11 +53,9 @@ public class NetheritePlusClientMod implements ClientModInitializer {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void onInitializeClient() {
-		BlockEntityRendererRegistry.INSTANCE.register(NetheritePlusBlocks.NETHERITE_SHULKER_BOX_ENTITY,
-				NetheriteShulkerBoxBlockEntityRenderer::new);
+		BlockEntityRendererRegistry.INSTANCE.register(NetheritePlusBlocks.NETHERITE_SHULKER_BOX_ENTITY, NetheriteShulkerBoxBlockEntityRenderer::new);
 
-		BlockEntityRendererRegistry.INSTANCE.register(NetheritePlusBlocks.NETHERITE_BEACON_BLOCK_ENTITY,
-				NetheriteBeaconBlockEntityRenderer::new);
+		BlockEntityRendererRegistry.INSTANCE.register(NetheritePlusBlocks.NETHERITE_BEACON_BLOCK_ENTITY, NetheriteBeaconBlockEntityRenderer::new);
 
 		NetheritePlusTextures.register();
 
@@ -90,11 +88,8 @@ public class NetheritePlusClientMod implements ClientModInitializer {
 		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_SHIELD, new NetheriteShieldItemRenderer());
 		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_TRIDENT, new NetheriteTridentItemRenderer());
 
-		LivingEntityFeatureRendererRegistrationCallback.EVENT.register((EntityType<? extends LivingEntity> entityType,
-				LivingEntityRenderer<?, ?> entityRenderer, RegistrationHelper registrationHelper) -> {
-			if (entityRenderer.getModel() instanceof PlayerEntityModel
-					|| entityRenderer.getModel() instanceof BipedEntityModel
-					|| entityRenderer.getModel() instanceof ArmorStandEntityModel) {
+		LivingEntityFeatureRendererRegistrationCallback.EVENT.register((EntityType<? extends LivingEntity> entityType, LivingEntityRenderer<?, ?> entityRenderer, RegistrationHelper registrationHelper) -> {
+			if (entityRenderer.getModel() instanceof PlayerEntityModel || entityRenderer.getModel() instanceof BipedEntityModel || entityRenderer.getModel() instanceof ArmorStandEntityModel) {
 				registrationHelper.register(new NetheriteElytraFeatureRenderer(entityRenderer));
 			}
 		});

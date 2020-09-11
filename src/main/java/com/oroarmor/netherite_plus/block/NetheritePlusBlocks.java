@@ -51,25 +51,19 @@ public class NetheritePlusBlocks {
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_FAKE_NETHERITE_BLOCKS.getValue()) {
-			FAKE_NETHERITE_BLOCK = register("fake_netherite_block",
-					new FakeNetheriteBlock(AbstractBlock.Settings.of(Material.METAL, MaterialColor.BLACK).requiresTool()
-							.strength(5.0F, 6.0F).sounds(BlockSoundGroup.NETHERITE)));
+			FAKE_NETHERITE_BLOCK = register("fake_netherite_block", new FakeNetheriteBlock(AbstractBlock.Settings.of(Material.METAL, MaterialColor.BLACK).requiresTool().strength(5.0F, 6.0F).sounds(BlockSoundGroup.NETHERITE)));
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_ANVIL.getValue()) {
-			NETHERITE_ANVIL_BLOCK = register("netherite_anvil",
-					new NetheriteAnvilBlock(AbstractBlock.Settings.of(Material.REPAIR_STATION, MaterialColor.IRON)
-							.requiresTool().strength(5.0F, 1200.0F).sounds(BlockSoundGroup.ANVIL)));
+			NETHERITE_ANVIL_BLOCK = register("netherite_anvil", new NetheriteAnvilBlock(AbstractBlock.Settings.of(Material.REPAIR_STATION, MaterialColor.IRON).requiresTool().strength(5.0F, 1200.0F).sounds(BlockSoundGroup.ANVIL)));
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue()) {
-			NETHERITE_BEACON = register("netherite_beacon", new NetheriteBeaconBlock(AbstractBlock.Settings
-					.of(Material.GLASS, MaterialColor.DIAMOND).strength(3.0F).lightLevel((state) -> {
-						return 15;
-					}).nonOpaque()));
+			NETHERITE_BEACON = register("netherite_beacon", new NetheriteBeaconBlock(AbstractBlock.Settings.of(Material.GLASS, MaterialColor.DIAMOND).strength(3.0F).lightLevel((state) -> {
+				return 15;
+			}).nonOpaque()));
 
-			NETHERITE_BEACON_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, MOD_ID + ":netherite_beacon",
-					BlockEntityType.Builder.create(NetheriteBeaconBlockEntity::new, NETHERITE_BEACON).build(null));
+			NETHERITE_BEACON_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, MOD_ID + ":netherite_beacon", BlockEntityType.Builder.create(NetheriteBeaconBlockEntity::new, NETHERITE_BEACON).build(null));
 		}
 	}
 
@@ -82,8 +76,7 @@ public class NetheritePlusBlocks {
 			NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity = (NetheriteShulkerBoxBlockEntity) blockEntity;
 			return shulkerBoxBlockEntity.suffocates();
 		};
-		return new NetheriteShulkerBoxBlock(color, settings.strength(2.0F).dynamicBounds().nonOpaque()
-				.suffocates(contextPredicate).blockVision(contextPredicate));
+		return new NetheriteShulkerBoxBlock(color, settings.strength(2.0F).dynamicBounds().nonOpaque().suffocates(contextPredicate).blockVision(contextPredicate));
 	}
 
 	private static Block register(String id, Block block) {
@@ -91,49 +84,25 @@ public class NetheritePlusBlocks {
 	}
 
 	private static void registerShulkerBoxBlocks() {
-		NETHERITE_SHULKER_BOX = register("netherite_shulker_box", createShulkerBoxBlock((DyeColor) null,
-				AbstractBlock.Settings.of(Material.SHULKER_BOX).strength(2f, 1200f)));
-		NETHERITE_WHITE_SHULKER_BOX = register("netherite_white_shulker_box", createShulkerBoxBlock(DyeColor.WHITE,
-				AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.WHITE)));
-		NETHERITE_ORANGE_SHULKER_BOX = register("netherite_orange_shulker_box", createShulkerBoxBlock(DyeColor.ORANGE,
-				AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.ORANGE)));
-		NETHERITE_MAGENTA_SHULKER_BOX = register("netherite_magenta_shulker_box", createShulkerBoxBlock(
-				DyeColor.MAGENTA, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.MAGENTA)));
-		NETHERITE_LIGHT_BLUE_SHULKER_BOX = register("netherite_light_blue_shulker_box", createShulkerBoxBlock(
-				DyeColor.LIGHT_BLUE, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.LIGHT_BLUE)));
-		NETHERITE_YELLOW_SHULKER_BOX = register("netherite_yellow_shulker_box", createShulkerBoxBlock(DyeColor.YELLOW,
-				AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.YELLOW)));
-		NETHERITE_LIME_SHULKER_BOX = register("netherite_lime_shulker_box", createShulkerBoxBlock(DyeColor.LIME,
-				AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.LIME)));
-		NETHERITE_PINK_SHULKER_BOX = register("netherite_pink_shulker_box", createShulkerBoxBlock(DyeColor.PINK,
-				AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.PINK)));
-		NETHERITE_GRAY_SHULKER_BOX = register("netherite_gray_shulker_box", createShulkerBoxBlock(DyeColor.GRAY,
-				AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.GRAY)));
-		NETHERITE_LIGHT_GRAY_SHULKER_BOX = register("netherite_light_gray_shulker_box", createShulkerBoxBlock(
-				DyeColor.LIGHT_GRAY, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.LIGHT_GRAY)));
-		NETHERITE_CYAN_SHULKER_BOX = register("netherite_cyan_shulker_box", createShulkerBoxBlock(DyeColor.CYAN,
-				AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.CYAN)));
-		NETHERITE_PURPLE_SHULKER_BOX = register("netherite_purple_shulker_box", createShulkerBoxBlock(DyeColor.PURPLE,
-				AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.PURPLE_TERRACOTTA)));
-		NETHERITE_BLUE_SHULKER_BOX = register("netherite_blue_shulker_box", createShulkerBoxBlock(DyeColor.BLUE,
-				AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.BLUE)));
-		NETHERITE_BROWN_SHULKER_BOX = register("netherite_brown_shulker_box", createShulkerBoxBlock(DyeColor.BROWN,
-				AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.BROWN)));
-		NETHERITE_GREEN_SHULKER_BOX = register("netherite_green_shulker_box", createShulkerBoxBlock(DyeColor.GREEN,
-				AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.GREEN)));
-		NETHERITE_RED_SHULKER_BOX = register("netherite_red_shulker_box", createShulkerBoxBlock(DyeColor.RED,
-				AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.RED)));
-		NETHERITE_BLACK_SHULKER_BOX = register("netherite_black_shulker_box", createShulkerBoxBlock(DyeColor.BLACK,
-				AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.BLACK)));
+		NETHERITE_SHULKER_BOX = register("netherite_shulker_box", createShulkerBoxBlock((DyeColor) null, AbstractBlock.Settings.of(Material.SHULKER_BOX).strength(2f, 1200f)));
+		NETHERITE_WHITE_SHULKER_BOX = register("netherite_white_shulker_box", createShulkerBoxBlock(DyeColor.WHITE, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.WHITE)));
+		NETHERITE_ORANGE_SHULKER_BOX = register("netherite_orange_shulker_box", createShulkerBoxBlock(DyeColor.ORANGE, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.ORANGE)));
+		NETHERITE_MAGENTA_SHULKER_BOX = register("netherite_magenta_shulker_box", createShulkerBoxBlock(DyeColor.MAGENTA, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.MAGENTA)));
+		NETHERITE_LIGHT_BLUE_SHULKER_BOX = register("netherite_light_blue_shulker_box", createShulkerBoxBlock(DyeColor.LIGHT_BLUE, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.LIGHT_BLUE)));
+		NETHERITE_YELLOW_SHULKER_BOX = register("netherite_yellow_shulker_box", createShulkerBoxBlock(DyeColor.YELLOW, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.YELLOW)));
+		NETHERITE_LIME_SHULKER_BOX = register("netherite_lime_shulker_box", createShulkerBoxBlock(DyeColor.LIME, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.LIME)));
+		NETHERITE_PINK_SHULKER_BOX = register("netherite_pink_shulker_box", createShulkerBoxBlock(DyeColor.PINK, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.PINK)));
+		NETHERITE_GRAY_SHULKER_BOX = register("netherite_gray_shulker_box", createShulkerBoxBlock(DyeColor.GRAY, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.GRAY)));
+		NETHERITE_LIGHT_GRAY_SHULKER_BOX = register("netherite_light_gray_shulker_box", createShulkerBoxBlock(DyeColor.LIGHT_GRAY, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.LIGHT_GRAY)));
+		NETHERITE_CYAN_SHULKER_BOX = register("netherite_cyan_shulker_box", createShulkerBoxBlock(DyeColor.CYAN, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.CYAN)));
+		NETHERITE_PURPLE_SHULKER_BOX = register("netherite_purple_shulker_box", createShulkerBoxBlock(DyeColor.PURPLE, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.PURPLE_TERRACOTTA)));
+		NETHERITE_BLUE_SHULKER_BOX = register("netherite_blue_shulker_box", createShulkerBoxBlock(DyeColor.BLUE, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.BLUE)));
+		NETHERITE_BROWN_SHULKER_BOX = register("netherite_brown_shulker_box", createShulkerBoxBlock(DyeColor.BROWN, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.BROWN)));
+		NETHERITE_GREEN_SHULKER_BOX = register("netherite_green_shulker_box", createShulkerBoxBlock(DyeColor.GREEN, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.GREEN)));
+		NETHERITE_RED_SHULKER_BOX = register("netherite_red_shulker_box", createShulkerBoxBlock(DyeColor.RED, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.RED)));
+		NETHERITE_BLACK_SHULKER_BOX = register("netherite_black_shulker_box", createShulkerBoxBlock(DyeColor.BLACK, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.BLACK)));
 
-		NETHERITE_SHULKER_BOX_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, MOD_ID + ":netherite_shulker_box",
-				BlockEntityType.Builder.create(NetheriteShulkerBoxBlockEntity::new, NETHERITE_SHULKER_BOX,
-						NETHERITE_BLACK_SHULKER_BOX, NETHERITE_BLUE_SHULKER_BOX, NETHERITE_BROWN_SHULKER_BOX,
-						NETHERITE_CYAN_SHULKER_BOX, NETHERITE_GRAY_SHULKER_BOX, NETHERITE_GREEN_SHULKER_BOX,
-						NETHERITE_LIGHT_BLUE_SHULKER_BOX, NETHERITE_LIGHT_GRAY_SHULKER_BOX, NETHERITE_LIME_SHULKER_BOX,
-						NETHERITE_MAGENTA_SHULKER_BOX, NETHERITE_ORANGE_SHULKER_BOX, NETHERITE_PINK_SHULKER_BOX,
-						NETHERITE_PURPLE_SHULKER_BOX, NETHERITE_RED_SHULKER_BOX, NETHERITE_WHITE_SHULKER_BOX,
-						NETHERITE_YELLOW_SHULKER_BOX).build(null));
+		NETHERITE_SHULKER_BOX_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, MOD_ID + ":netherite_shulker_box", BlockEntityType.Builder.create(NetheriteShulkerBoxBlockEntity::new, NETHERITE_SHULKER_BOX, NETHERITE_BLACK_SHULKER_BOX, NETHERITE_BLUE_SHULKER_BOX, NETHERITE_BROWN_SHULKER_BOX, NETHERITE_CYAN_SHULKER_BOX, NETHERITE_GRAY_SHULKER_BOX, NETHERITE_GREEN_SHULKER_BOX, NETHERITE_LIGHT_BLUE_SHULKER_BOX, NETHERITE_LIGHT_GRAY_SHULKER_BOX, NETHERITE_LIME_SHULKER_BOX, NETHERITE_MAGENTA_SHULKER_BOX, NETHERITE_ORANGE_SHULKER_BOX, NETHERITE_PINK_SHULKER_BOX, NETHERITE_PURPLE_SHULKER_BOX, NETHERITE_RED_SHULKER_BOX, NETHERITE_WHITE_SHULKER_BOX, NETHERITE_YELLOW_SHULKER_BOX).build(null));
 	}
 
 }

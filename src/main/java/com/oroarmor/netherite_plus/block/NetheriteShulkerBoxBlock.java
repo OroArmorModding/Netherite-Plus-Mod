@@ -72,39 +72,39 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
 			return NetheritePlusBlocks.NETHERITE_SHULKER_BOX;
 		}
 		switch (dyeColor) {
-			case WHITE:
-				return NetheritePlusBlocks.NETHERITE_WHITE_SHULKER_BOX;
-			case ORANGE:
-				return NetheritePlusBlocks.NETHERITE_ORANGE_SHULKER_BOX;
-			case MAGENTA:
-				return NetheritePlusBlocks.NETHERITE_MAGENTA_SHULKER_BOX;
-			case LIGHT_BLUE:
-				return NetheritePlusBlocks.NETHERITE_LIGHT_BLUE_SHULKER_BOX;
-			case YELLOW:
-				return NetheritePlusBlocks.NETHERITE_YELLOW_SHULKER_BOX;
-			case LIME:
-				return NetheritePlusBlocks.NETHERITE_LIME_SHULKER_BOX;
-			case PINK:
-				return NetheritePlusBlocks.NETHERITE_PINK_SHULKER_BOX;
-			case GRAY:
-				return NetheritePlusBlocks.NETHERITE_GRAY_SHULKER_BOX;
-			case LIGHT_GRAY:
-				return NetheritePlusBlocks.NETHERITE_LIGHT_GRAY_SHULKER_BOX;
-			case CYAN:
-				return NetheritePlusBlocks.NETHERITE_CYAN_SHULKER_BOX;
-			case PURPLE:
-			default:
-				return NetheritePlusBlocks.NETHERITE_PURPLE_SHULKER_BOX;
-			case BLUE:
-				return NetheritePlusBlocks.NETHERITE_BLUE_SHULKER_BOX;
-			case BROWN:
-				return NetheritePlusBlocks.NETHERITE_BROWN_SHULKER_BOX;
-			case GREEN:
-				return NetheritePlusBlocks.NETHERITE_GREEN_SHULKER_BOX;
-			case RED:
-				return NetheritePlusBlocks.NETHERITE_RED_SHULKER_BOX;
-			case BLACK:
-				return NetheritePlusBlocks.NETHERITE_BLACK_SHULKER_BOX;
+		case WHITE:
+			return NetheritePlusBlocks.NETHERITE_WHITE_SHULKER_BOX;
+		case ORANGE:
+			return NetheritePlusBlocks.NETHERITE_ORANGE_SHULKER_BOX;
+		case MAGENTA:
+			return NetheritePlusBlocks.NETHERITE_MAGENTA_SHULKER_BOX;
+		case LIGHT_BLUE:
+			return NetheritePlusBlocks.NETHERITE_LIGHT_BLUE_SHULKER_BOX;
+		case YELLOW:
+			return NetheritePlusBlocks.NETHERITE_YELLOW_SHULKER_BOX;
+		case LIME:
+			return NetheritePlusBlocks.NETHERITE_LIME_SHULKER_BOX;
+		case PINK:
+			return NetheritePlusBlocks.NETHERITE_PINK_SHULKER_BOX;
+		case GRAY:
+			return NetheritePlusBlocks.NETHERITE_GRAY_SHULKER_BOX;
+		case LIGHT_GRAY:
+			return NetheritePlusBlocks.NETHERITE_LIGHT_GRAY_SHULKER_BOX;
+		case CYAN:
+			return NetheritePlusBlocks.NETHERITE_CYAN_SHULKER_BOX;
+		case PURPLE:
+		default:
+			return NetheritePlusBlocks.NETHERITE_PURPLE_SHULKER_BOX;
+		case BLUE:
+			return NetheritePlusBlocks.NETHERITE_BLUE_SHULKER_BOX;
+		case BROWN:
+			return NetheritePlusBlocks.NETHERITE_BROWN_SHULKER_BOX;
+		case GREEN:
+			return NetheritePlusBlocks.NETHERITE_GREEN_SHULKER_BOX;
+		case RED:
+			return NetheritePlusBlocks.NETHERITE_RED_SHULKER_BOX;
+		case BLACK:
+			return NetheritePlusBlocks.NETHERITE_BLACK_SHULKER_BOX;
 		}
 	}
 
@@ -166,8 +166,7 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
 				}
 
 				if (j - i > 0) {
-					tooltip.add(new TranslatableText("container.shulkerBox.more", new Object[] { j - i })
-							.formatted(Formatting.ITALIC));
+					tooltip.add(new TranslatableText("container.shulkerBox.more", new Object[] { j - i }).formatted(Formatting.ITALIC));
 				}
 			}
 		}
@@ -207,17 +206,14 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
 	@Override
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		BlockEntity blockEntity = world.getBlockEntity(pos);
-		return blockEntity instanceof NetheriteShulkerBoxBlockEntity
-				? VoxelShapes.cuboid(((NetheriteShulkerBoxBlockEntity) blockEntity).getBoundingBox(state))
-				: VoxelShapes.fullCube();
+		return blockEntity instanceof NetheriteShulkerBoxBlockEntity ? VoxelShapes.cuboid(((NetheriteShulkerBoxBlockEntity) blockEntity).getBoundingBox(state)) : VoxelShapes.fullCube();
 	}
 
 	@Override
 	@Environment(EnvType.CLIENT)
 	public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
 		ItemStack itemStack = super.getPickStack(world, pos, state);
-		NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity = (NetheriteShulkerBoxBlockEntity) world
-				.getBlockEntity(pos);
+		NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity = (NetheriteShulkerBoxBlockEntity) world.getBlockEntity(pos);
 		CompoundTag compoundTag = shulkerBoxBlockEntity.serializeInventory(new CompoundTag());
 		if (!compoundTag.isEmpty()) {
 			itemStack.putSubTag("BlockEntityTag", compoundTag);
@@ -267,8 +263,7 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
 					itemStack.setCustomName(shulkerBoxBlockEntity.getCustomName());
 				}
 
-				ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D,
-						itemStack);
+				ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, itemStack);
 				itemEntity.setToDefaultPickupDelay();
 				world.spawnEntity(itemEntity);
 			} else {
@@ -303,8 +298,7 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
 	}
 
 	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
-			BlockHitResult hit) {
+	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 		if (world.isClient) {
 			return ActionResult.SUCCESS;
 		} else if (player.isSpectator()) {

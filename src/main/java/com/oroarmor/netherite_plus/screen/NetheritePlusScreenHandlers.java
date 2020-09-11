@@ -18,8 +18,7 @@ public class NetheritePlusScreenHandlers {
 
 	public static void init() {
 		NETHERITE_ANVIL = ScreenHandlerRegistry.registerSimple(id("netherite_anvil"), NetheriteAnvilScreenHandler::new);
-		NETHERITE_BEACON = ScreenHandlerRegistry.registerSimple(id("netherite_beacon"),
-				NetheriteBeaconScreenHandler::new);
+		NETHERITE_BEACON = ScreenHandlerRegistry.registerSimple(id("netherite_beacon"), NetheriteBeaconScreenHandler::new);
 	}
 
 	@Environment(EnvType.CLIENT)

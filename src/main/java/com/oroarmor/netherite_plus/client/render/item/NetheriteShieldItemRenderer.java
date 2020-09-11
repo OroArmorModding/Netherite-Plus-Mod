@@ -25,22 +25,16 @@ public class NetheriteShieldItemRenderer implements DynamicItemRenderer {
 	private final ShieldEntityModel modelShield = new ShieldEntityModel();
 
 	@Override
-	public void render(ItemStack stack, Mode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
-			int light, int overlay) {
+	public void render(ItemStack stack, Mode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
 		boolean bl = stack.getSubTag("BlockEntityTag") != null;
 		matrices.push();
 		matrices.scale(1.0F, -1.0F, -1.0F);
-		SpriteIdentifier spriteIdentifier = bl ? NetheritePlusTextures.NETHERITE_SHIELD_BASE
-				: NetheritePlusTextures.NETHERITE_SHIELD_BASE_NO_PATTERN;
-		VertexConsumer vertexConsumer = spriteIdentifier.getSprite()
-				.getTextureSpecificVertexConsumer(ItemRenderer.getDirectGlintVertexConsumer(vertexConsumers,
-						modelShield.getLayer(spriteIdentifier.getAtlasId()), true, stack.hasGlint()));
+		SpriteIdentifier spriteIdentifier = bl ? NetheritePlusTextures.NETHERITE_SHIELD_BASE : NetheritePlusTextures.NETHERITE_SHIELD_BASE_NO_PATTERN;
+		VertexConsumer vertexConsumer = spriteIdentifier.getSprite().getTextureSpecificVertexConsumer(ItemRenderer.getDirectGlintVertexConsumer(vertexConsumers, modelShield.getLayer(spriteIdentifier.getAtlasId()), true, stack.hasGlint()));
 		modelShield.method_23775().render(matrices, vertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
 		if (bl) {
-			List<Pair<BannerPattern, DyeColor>> list = BannerBlockEntity.method_24280(ShieldItem.getColor(stack),
-					BannerBlockEntity.getPatternListTag(stack));
-			BannerBlockEntityRenderer.renderCanvas(matrices, vertexConsumers, light, overlay,
-					modelShield.method_23774(), spriteIdentifier, false, list, stack.hasGlint());
+			List<Pair<BannerPattern, DyeColor>> list = BannerBlockEntity.method_24280(ShieldItem.getColor(stack), BannerBlockEntity.getPatternListTag(stack));
+			BannerBlockEntityRenderer.renderCanvas(matrices, vertexConsumers, light, overlay, modelShield.method_23774(), spriteIdentifier, false, list, stack.hasGlint());
 		} else {
 			modelShield.method_23774().render(matrices, vertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
 		}

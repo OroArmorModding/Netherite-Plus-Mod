@@ -17,7 +17,6 @@ import net.minecraft.client.util.SpriteIdentifier;
 @Environment(EnvType.CLIENT)
 @Mixin(TexturedRenderLayers.class)
 public class TexturedRenderLayersMixin {
-	@SuppressWarnings("unused")
 	@Inject(at = @At("HEAD"), method = "addDefaultTextures(Ljava/util/function/Consumer;)V")
 	private static void onAddDefaultTextures(Consumer<SpriteIdentifier> consumer, CallbackInfo info) {
 		NetheritePlusTextures.makeAtlases(consumer);

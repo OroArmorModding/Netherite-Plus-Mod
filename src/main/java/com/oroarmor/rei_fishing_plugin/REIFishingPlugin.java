@@ -52,8 +52,7 @@ public class REIFishingPlugin implements REIPluginV0 {
 		recipeHelper.registerWorkingStations(FishingDisplay.ID, EntryStack.create(Items.FISHING_ROD));
 		recipeHelper.removeAutoCraftButton(FishingDisplay.ID);
 
-		recipeHelper.registerWorkingStations(LavaFishingDisplay.ID,
-				EntryStack.create(NetheritePlusItems.NETHERITE_FISHING_ROD));
+		recipeHelper.registerWorkingStations(LavaFishingDisplay.ID, EntryStack.create(NetheritePlusItems.NETHERITE_FISHING_ROD));
 		recipeHelper.removeAutoCraftButton(LavaFishingDisplay.ID);
 	}
 

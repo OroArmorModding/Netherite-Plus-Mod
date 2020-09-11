@@ -95,9 +95,7 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
 
 				for (int levelEffectIndex = 0; levelEffectIndex < levelEffects; ++levelEffectIndex) {
 					StatusEffect level1and2Effects = NetheriteBeaconBlockEntity.EFFECTS_BY_LEVEL[primaryEffectLevel][levelEffectIndex];
-					EffectButtonWidget effectButtonWidget = new EffectButtonWidget(
-							x + 76 + levelEffectIndex * 24 - xLocation / 2, y + 22 + primaryEffectLevel * 25,
-							level1and2Effects, 1);
+					EffectButtonWidget effectButtonWidget = new EffectButtonWidget(x + 76 + levelEffectIndex * 24 - xLocation / 2, y + 22 + primaryEffectLevel * 25, level1and2Effects, 1);
 					this.addButton(effectButtonWidget);
 					if (primaryEffectLevel >= handlerProperties) {
 						effectButtonWidget.active = false;
@@ -112,8 +110,7 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
 			int xLocation = levelThreeEffects * 22 + levelThreeEffects * 2;
 			for (int q = 0; q < levelThreeEffects; ++q) {
 				StatusEffect level3Effect = NetheriteBeaconBlockEntity.EFFECTS_BY_LEVEL[3][q];
-				EffectButtonWidget effectButtonWidget = new EffectButtonWidget(x + 167 + q * 24 - xLocation / 2, y + 22,
-						level3Effect, 2);
+				EffectButtonWidget effectButtonWidget = new EffectButtonWidget(x + 167 + q * 24 - xLocation / 2, y + 22, level3Effect, 2);
 				this.addButton(effectButtonWidget);
 				if (1 >= handlerProperties) {
 					effectButtonWidget.active = false;
@@ -123,8 +120,7 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
 			}
 
 			if (primaryEffect != null) {
-				EffectButtonWidget effectButtonWidget = new EffectButtonWidget(
-						x + 167 + levelThreeEffects * 24 - xLocation / 2, y + 22, primaryEffect, 2);
+				EffectButtonWidget effectButtonWidget = new EffectButtonWidget(x + 167 + levelThreeEffects * 24 - xLocation / 2, y + 22, primaryEffect, 2);
 				this.addButton(effectButtonWidget);
 				if (1 >= handlerProperties) {
 					effectButtonWidget.active = false;
@@ -137,8 +133,7 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
 			int levelFourEffects = NetheriteBeaconBlockEntity.EFFECTS_BY_LEVEL[3].length;
 			for (int q = 0; q < levelFourEffects; ++q) {
 				StatusEffect level4Effect = NetheriteBeaconBlockEntity.EFFECTS_BY_LEVEL[4][q];
-				EffectButtonWidget effectButtonWidget = new EffectButtonWidget(x + 167 + q * 24 - xLocation / 2, y + 72,
-						level4Effect, 3);
+				EffectButtonWidget effectButtonWidget = new EffectButtonWidget(x + 167 + q * 24 - xLocation / 2, y + 72, level4Effect, 3);
 				this.addButton(effectButtonWidget);
 				if (3 >= handlerProperties) {
 					effectButtonWidget.active = false;
@@ -148,8 +143,7 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
 			}
 
 			if (secondaryEffect != null) {
-				EffectButtonWidget effectButtonWidget = new EffectButtonWidget(
-						x + 167 + levelFourEffects * 24 - xLocation / 2, y + 72, secondaryEffect, 3);
+				EffectButtonWidget effectButtonWidget = new EffectButtonWidget(x + 167 + levelFourEffects * 24 - xLocation / 2, y + 72, secondaryEffect, 3);
 				this.addButton(effectButtonWidget);
 				if (3 >= handlerProperties) {
 					effectButtonWidget.active = false;
@@ -206,8 +200,7 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
 
 		@Override
 		public void onPress() {
-			NetheriteBeaconScreen.this.client.player.networkHandler.sendPacket(
-					new GuiCloseC2SPacket(NetheriteBeaconScreen.this.client.player.currentScreenHandler.syncId));
+			NetheriteBeaconScreen.this.client.player.networkHandler.sendPacket(new GuiCloseC2SPacket(NetheriteBeaconScreen.this.client.player.currentScreenHandler.syncId));
 			NetheriteBeaconScreen.this.client.openScreen((Screen) null);
 		}
 
@@ -227,14 +220,12 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
 		public void onPress() {
 			PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
 			try {
-				new UpdateNetheriteBeaconC2SPacket(StatusEffect.getRawId(primaryEffect),
-						StatusEffect.getRawId(secondaryEffect), StatusEffect.getRawId(tertiaryEffect)).write(buf);
+				new UpdateNetheriteBeaconC2SPacket(StatusEffect.getRawId(primaryEffect), StatusEffect.getRawId(secondaryEffect), StatusEffect.getRawId(tertiaryEffect)).write(buf);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			ClientSidePacketRegistry.INSTANCE.sendToServer(UpdateNetheriteBeaconC2SPacket.ID, buf);
-			NetheriteBeaconScreen.this.client.player.networkHandler.sendPacket(
-					new GuiCloseC2SPacket(NetheriteBeaconScreen.this.client.player.currentScreenHandler.syncId));
+			NetheriteBeaconScreen.this.client.player.networkHandler.sendPacket(new GuiCloseC2SPacket(NetheriteBeaconScreen.this.client.player.currentScreenHandler.syncId));
 			NetheriteBeaconScreen.this.client.openScreen((Screen) null);
 		}
 

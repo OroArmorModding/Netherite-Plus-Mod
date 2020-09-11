@@ -60,10 +60,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 		BlockState blockState = world.getBlockState(pos);
 		if (!blockState.isAir()) {
 			FluidState fluidState = blockState.getFluidState();
-			return fluidState.isIn(FluidTags.LAVA) && fluidState.isStill()
-					&& blockState.getCollisionShape(world, pos).isEmpty()
-							? FishingBobberEntity.PositionType.INSIDE_WATER
-							: FishingBobberEntity.PositionType.INVALID;
+			return fluidState.isIn(FluidTags.LAVA) && fluidState.isStill() && blockState.getCollisionShape(world, pos).isEmpty() ? FishingBobberEntity.PositionType.INSIDE_WATER : FishingBobberEntity.PositionType.INVALID;
 		} else {
 			return FishingBobberEntity.PositionType.ABOVE_WATER;
 		}
@@ -91,17 +88,17 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 		for (int i = -1; i <= 2; ++i) {
 			FishingBobberEntity.PositionType positionType2 = this.getPositionType(pos.add(-2, i, -2), pos.add(2, i, 2));
 			switch (positionType2) {
-				case INVALID:
+			case INVALID:
+				return false;
+			case ABOVE_WATER:
+				if (positionType == FishingBobberEntity.PositionType.INVALID) {
 					return false;
-				case ABOVE_WATER:
-					if (positionType == FishingBobberEntity.PositionType.INVALID) {
-						return false;
-					}
-					break;
-				case INSIDE_WATER:
-					if (positionType == FishingBobberEntity.PositionType.ABOVE_WATER) {
-						return false;
-					}
+				}
+				break;
+			case INSIDE_WATER:
+				if (positionType == FishingBobberEntity.PositionType.ABOVE_WATER) {
+					return false;
+				}
 			}
 
 			positionType = positionType2;
@@ -115,8 +112,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 		ItemStack itemStack2 = playerEntity.getOffHandStack();
 		boolean bl = itemStack.getItem() == NetheritePlusItems.NETHERITE_FISHING_ROD;
 		boolean bl2 = itemStack2.getItem() == NetheritePlusItems.NETHERITE_FISHING_ROD;
-		if (!playerEntity.removed && playerEntity.isAlive() && (bl || bl2)
-				&& this.squaredDistanceTo(playerEntity) <= 1024.0D) {
+		if (!playerEntity.removed && playerEntity.isAlive() && (bl || bl2) && this.squaredDistanceTo(playerEntity) <= 1024.0D) {
 			return false;
 		} else {
 			remove();
@@ -206,8 +202,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 					if (validFluid) {
 						outOfOpenWaterTicks = Math.max(0, outOfOpenWaterTicks - 1);
 						if (caughtFish) {
-							this.setVelocity(getVelocity().add(0.0D,
-									-0.1D * velocityRandom.nextFloat() * velocityRandom.nextFloat(), 0.0D));
+							this.setVelocity(getVelocity().add(0.0D, -0.1D * velocityRandom.nextFloat() * velocityRandom.nextFloat(), 0.0D));
 						}
 
 						if (!world.isClient) {
@@ -268,27 +263,19 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 					blockState2 = serverWorld.getBlockState(new BlockPos(q, r - 1.0D, s));
 					if (blockState2.isOf(Blocks.LAVA)) {
 						if (random.nextFloat() < 0.15F) {
-							serverWorld.spawnParticles(ParticleTypes.LANDING_LAVA, q, r - 0.10000000149011612D, s, 1,
-									(double) o, 0.1D, (double) p, 0.0D);
+							serverWorld.spawnParticles(ParticleTypes.LANDING_LAVA, q, r - 0.10000000149011612D, s, 1, (double) o, 0.1D, (double) p, 0.0D);
 						}
 
 						float k = o * 0.04F;
 						float l = p * 0.04F;
-						serverWorld.spawnParticles(ParticleTypes.FLAME, q, r, s, 0, (double) l, 0.01D, (double) -k,
-								1.0D);
-						serverWorld.spawnParticles(ParticleTypes.FLAME, q, r, s, 0, (double) -l, 0.01D, (double) k,
-								1.0D);
+						serverWorld.spawnParticles(ParticleTypes.FLAME, q, r, s, 0, (double) l, 0.01D, (double) -k, 1.0D);
+						serverWorld.spawnParticles(ParticleTypes.FLAME, q, r, s, 0, (double) -l, 0.01D, (double) k, 1.0D);
 					}
 				} else {
-					playSound(SoundEvents.ENTITY_FISHING_BOBBER_SPLASH, 0.25F,
-							1.0F + (random.nextFloat() - random.nextFloat()) * 0.4F);
+					playSound(SoundEvents.ENTITY_FISHING_BOBBER_SPLASH, 0.25F, 1.0F + (random.nextFloat() - random.nextFloat()) * 0.4F);
 					double m = getY() + 0.5D;
-					serverWorld.spawnParticles(ParticleTypes.LANDING_LAVA, getX(), m, getZ(),
-							(int) (1.0F + getWidth() * 20.0F), (double) getWidth(), 0.0D, (double) getWidth(),
-							0.20000000298023224D);
-					serverWorld.spawnParticles(ParticleTypes.FLAME, getX(), m, getZ(),
-							(int) (1.0F + getWidth() * 20.0F), (double) getWidth(), 0.0D, (double) getWidth(),
-							0.20000000298023224D);
+					serverWorld.spawnParticles(ParticleTypes.LANDING_LAVA, getX(), m, getZ(), (int) (1.0F + getWidth() * 20.0F), (double) getWidth(), 0.0D, (double) getWidth(), 0.20000000298023224D);
+					serverWorld.spawnParticles(ParticleTypes.FLAME, getX(), m, getZ(), (int) (1.0F + getWidth() * 20.0F), (double) getWidth(), 0.0D, (double) getWidth(), 0.20000000298023224D);
 					hookCountdown = MathHelper.nextInt(random, 20, 40);
 					getDataTracker().set(CAUGHT_FISH, true);
 				}
@@ -311,8 +298,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 					s = getZ() + MathHelper.cos(o) * p * 0.1F;
 					blockState2 = serverWorld.getBlockState(new BlockPos(q, r - 1.0D, s));
 					if (blockState2.isOf(Blocks.LAVA)) {
-						serverWorld.spawnParticles(ParticleTypes.SMOKE, q, r, s, 2 + random.nextInt(2),
-								0.10000000149011612D, 0.0D, 0.10000000149011612D, 0.0D);
+						serverWorld.spawnParticles(ParticleTypes.SMOKE, q, r, s, 2 + random.nextInt(2), 0.10000000149011612D, 0.0D, 0.10000000149011612D, 0.0D);
 					}
 				}
 
@@ -338,11 +324,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 				world.sendEntityStatus(this, (byte) 31);
 				i = hookedEntity instanceof ItemEntity ? 3 : 5;
 			} else if (hookCountdown > 0) {
-				LootContext.Builder builder = new LootContext.Builder((ServerWorld) world)
-						.parameter(LootContextParameters.ORIGIN, getPos())
-						.parameter(LootContextParameters.TOOL, usedItem)
-						.parameter(LootContextParameters.THIS_ENTITY, this).random(random)
-						.luck(luckOfTheSeaLevel + playerEntity.getLuck());
+				LootContext.Builder builder = new LootContext.Builder((ServerWorld) world).parameter(LootContextParameters.ORIGIN, getPos()).parameter(LootContextParameters.TOOL, usedItem).parameter(LootContextParameters.THIS_ENTITY, this).random(random).luck(luckOfTheSeaLevel + playerEntity.getLuck());
 				LootTable lootTable = world.getServer().getLootManager().getTable(id("gameplay/fishing"));
 				List<ItemStack> list = lootTable.generateLoot(builder.build(LootContextTypes.FISHING));
 				Criteria.FISHING_ROD_HOOKED.trigger((ServerPlayerEntity) playerEntity, usedItem, this, list);
@@ -358,8 +340,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 					itemEntity.setVelocity(d * g, e * g + Math.sqrt(Math.sqrt(d * d + e * e + f * f)) * 0.08D, f * g);
 					itemEntity.setInvulnerable(true);
 					world.spawnEntity(itemEntity);
-					playerEntity.world.spawnEntity(new ExperienceOrbEntity(playerEntity.world, playerEntity.getX(),
-							playerEntity.getY() + 0.5D, playerEntity.getZ() + 0.5D, random.nextInt(6) + 1));
+					playerEntity.world.spawnEntity(new ExperienceOrbEntity(playerEntity.world, playerEntity.getX(), playerEntity.getY() + 0.5D, playerEntity.getZ() + 0.5D, random.nextInt(6) + 1));
 				}
 
 				i = 1;

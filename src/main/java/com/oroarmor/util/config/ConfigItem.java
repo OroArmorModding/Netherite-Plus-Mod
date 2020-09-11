@@ -61,28 +61,28 @@ public class ConfigItem<T> {
 		T newValue = null;
 
 		switch (this.type) {
-			case BOOLEAN:
-				newValue = (T) (Object) element.getAsBoolean();
-				break;
+		case BOOLEAN:
+			newValue = (T) (Object) element.getAsBoolean();
+			break;
 
-			case INTEGER:
-				newValue = (T) (Object) element.getAsInt();
-				break;
+		case INTEGER:
+			newValue = (T) (Object) element.getAsInt();
+			break;
 
-			case DOUBLE:
-				newValue = (T) (Object) element.getAsDouble();
-				break;
+		case DOUBLE:
+			newValue = (T) (Object) element.getAsDouble();
+			break;
 
-			case STRING:
-				newValue = (T) element.getAsString();
-				break;
+		case STRING:
+			newValue = (T) element.getAsString();
+			break;
 
-			case GROUP:
-				((ConfigItemGroup) defaultValue).fromJson(element.getAsJsonObject());
-				newValue = defaultValue;
+		case GROUP:
+			((ConfigItemGroup) defaultValue).fromJson(element.getAsJsonObject());
+			newValue = defaultValue;
 
-			default:
-				return;
+		default:
+			return;
 		}
 
 		if (newValue != null) {

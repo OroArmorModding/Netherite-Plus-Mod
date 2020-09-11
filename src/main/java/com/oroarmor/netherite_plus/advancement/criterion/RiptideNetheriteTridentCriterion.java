@@ -21,7 +21,6 @@ public class RiptideNetheriteTridentCriterion extends AbstractCriterion<RiptideN
 			super(id, player);
 		}
 
-		@SuppressWarnings("unused")
 		public boolean matches(ServerPlayerEntity player) {
 			return true;
 		}
@@ -40,9 +39,7 @@ public class RiptideNetheriteTridentCriterion extends AbstractCriterion<RiptideN
 	}
 
 	@Override
-	public RiptideNetheriteTridentCriterion.Conditions conditionsFromJson(JsonObject jsonObject,
-			EntityPredicate.Extended extended,
-			AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
+	public RiptideNetheriteTridentCriterion.Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended extended, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
 		return new RiptideNetheriteTridentCriterion.Conditions(extended);
 	}
 

@@ -80,36 +80,36 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
 			@Override
 			public int get(int index) {
 				switch (index) {
-					case 0:
-						return level;
-					case 1:
-						return StatusEffect.getRawId(primary);
-					case 2:
-						return StatusEffect.getRawId(secondary);
-					case 3:
-						return StatusEffect.getRawId(tertiary);
-					default:
-						return 0;
+				case 0:
+					return level;
+				case 1:
+					return StatusEffect.getRawId(primary);
+				case 2:
+					return StatusEffect.getRawId(secondary);
+				case 3:
+					return StatusEffect.getRawId(tertiary);
+				default:
+					return 0;
 				}
 			}
 
 			@Override
 			public void set(int index, int value) {
 				switch (index) {
-					case 0:
-						level = value;
-						break;
-					case 1:
-						if (!NetheriteBeaconBlockEntity.this.world.isClient && !beamSegments.isEmpty()) {
-							NetheriteBeaconBlockEntity.this.playSound(SoundEvents.BLOCK_BEACON_POWER_SELECT);
-						}
+				case 0:
+					level = value;
+					break;
+				case 1:
+					if (!NetheriteBeaconBlockEntity.this.world.isClient && !beamSegments.isEmpty()) {
+						NetheriteBeaconBlockEntity.this.playSound(SoundEvents.BLOCK_BEACON_POWER_SELECT);
+					}
 
-						primary = NetheriteBeaconBlockEntity.getPotionEffectById(value);
-						break;
-					case 2:
-						secondary = NetheriteBeaconBlockEntity.getPotionEffectById(value);
-					case 3:
-						tertiary = NetheriteBeaconBlockEntity.getPotionEffectById(value);
+					primary = NetheriteBeaconBlockEntity.getPotionEffectById(value);
+					break;
+				case 2:
+					secondary = NetheriteBeaconBlockEntity.getPotionEffectById(value);
+				case 3:
+					tertiary = NetheriteBeaconBlockEntity.getPotionEffectById(value);
 				}
 
 			}
@@ -151,8 +151,7 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
 					if (Arrays.equals(fs, beamSegment.color)) {
 						beamSegment.increaseHeight();
 					} else {
-						beamSegment = new BeamSegment(new float[] { (beamSegment.color[0] + fs[0]) / 2.0F,
-								(beamSegment.color[1] + fs[1]) / 2.0F, (beamSegment.color[2] + fs[2]) / 2.0F });
+						beamSegment = new BeamSegment(new float[] { (beamSegment.color[0] + fs[0]) / 2.0F, (beamSegment.color[1] + fs[1]) / 2.0F, (beamSegment.color[2] + fs[2]) / 2.0F });
 						field_19178.add(beamSegment);
 					}
 				}
@@ -175,8 +174,7 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
 			if (!beamSegments.isEmpty()) {
 				updateLevel(i, j, k);
 				if (netheriteLevel == 164) {
-					List<ServerPlayerEntity> var14 = world.getNonSpectatingEntities(ServerPlayerEntity.class,
-							new Box(i, j, k, i, j - 4, k).expand(10.0D, 5.0D, 10.0D));
+					List<ServerPlayerEntity> var14 = world.getNonSpectatingEntities(ServerPlayerEntity.class, new Box(i, j, k, i, j - 4, k).expand(10.0D, 5.0D, 10.0D));
 
 					for (ServerPlayerEntity serverPlayerEntity : var14) {
 						NetheritePlusCriteria.FULL_NETHERITE_NETHERITE_BEACON.trigger(serverPlayerEntity, this);
@@ -185,8 +183,7 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
 				}
 
 				if (level == 4) {
-					List<ServerPlayerEntity> var14 = world.getNonSpectatingEntities(ServerPlayerEntity.class,
-							new Box(i, j, k, i, j - 4, k).expand(10.0D, 5.0D, 10.0D));
+					List<ServerPlayerEntity> var14 = world.getNonSpectatingEntities(ServerPlayerEntity.class, new Box(i, j, k, i, j - 4, k).expand(10.0D, 5.0D, 10.0D));
 
 					for (ServerPlayerEntity serverPlayerEntity : var14) {
 						NetheritePlusCriteria.CONSTRUCT_NETHERITE_BEACON.trigger(serverPlayerEntity, this);
@@ -279,23 +276,19 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
 
 			for (PlayerEntity player : list) {
 				player.addStatusEffect(new StatusEffectInstance(primary, effectLength, primaryEffectLevel, true, true));
-				player.addStatusEffect(
-						new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, effectLength, 0, true, true));
-				player.addStatusEffect(new StatusEffectInstance(NetheritePlusStatusEffects.LAVA_VISION, effectLength,
-						Math.min(netheriteLevel, 127), true, true));
+				player.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, effectLength, 0, true, true));
+				player.addStatusEffect(new StatusEffectInstance(NetheritePlusStatusEffects.LAVA_VISION, effectLength, Math.min(netheriteLevel, 127), true, true));
 
 				// regeneration case
 				if (level >= 4 && primary != secondary && secondary != null) {
-					player.addStatusEffect(
-							new StatusEffectInstance(secondary, effectLength, secondaryEffectLevel, true, true));
+					player.addStatusEffect(new StatusEffectInstance(secondary, effectLength, secondaryEffectLevel, true, true));
 				}
 			}
 
 			if (tertiary == StatusEffects.GLOWING) {
 				List<MobEntity> entities = world.getNonSpectatingEntities(MobEntity.class, box);
 				for (LivingEntity entity : entities) {
-					entity.addStatusEffect(
-							new StatusEffectInstance(StatusEffects.GLOWING, effectLength, 0, true, true));
+					entity.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, effectLength, 0, true, true));
 				}
 			}
 
@@ -375,10 +368,7 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
 	@Override
 	@Nullable
 	public ScreenHandler createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-		return LockableContainerBlockEntity.checkUnlocked(playerEntity, lock, getDisplayName())
-				? new NetheriteBeaconScreenHandler(i, playerInventory, propertyDelegate,
-						ScreenHandlerContext.create(world, getPos()))
-				: null;
+		return LockableContainerBlockEntity.checkUnlocked(playerEntity, lock, getDisplayName()) ? new NetheriteBeaconScreenHandler(i, playerInventory, propertyDelegate, ScreenHandlerContext.create(world, getPos())) : null;
 	}
 
 	@Override
@@ -387,9 +377,7 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
 	}
 
 	static {
-		EFFECTS_BY_LEVEL = new StatusEffect[][] { { StatusEffects.SPEED, StatusEffects.HASTE },
-				{ StatusEffects.RESISTANCE, StatusEffects.JUMP_BOOST }, { StatusEffects.STRENGTH },
-				{ StatusEffects.REGENERATION }, { StatusEffects.GLOWING } };
+		EFFECTS_BY_LEVEL = new StatusEffect[][] { { StatusEffects.SPEED, StatusEffects.HASTE }, { StatusEffects.RESISTANCE, StatusEffects.JUMP_BOOST }, { StatusEffects.STRENGTH }, { StatusEffects.REGENERATION }, { StatusEffects.GLOWING } };
 		EFFECTS = Arrays.stream(EFFECTS_BY_LEVEL).flatMap(Arrays::stream).collect(Collectors.toSet());
 	}
 

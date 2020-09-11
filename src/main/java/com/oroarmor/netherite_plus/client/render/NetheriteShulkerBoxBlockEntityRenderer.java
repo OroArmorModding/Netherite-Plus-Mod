@@ -31,8 +31,7 @@ public class NetheriteShulkerBoxBlockEntityRenderer extends BlockEntityRenderer<
 	}
 
 	@Override
-	public void render(NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity, float f, MatrixStack matrixStack,
-			VertexConsumerProvider vertexConsumerProvider, int i, int j) {
+	public void render(NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity, float f, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, int j) {
 		Direction direction = Direction.UP;
 		if (shulkerBoxBlockEntity.hasWorld()) {
 			BlockState blockState = shulkerBoxBlockEntity.getWorld().getBlockState(shulkerBoxBlockEntity.getPos());
@@ -44,11 +43,9 @@ public class NetheriteShulkerBoxBlockEntityRenderer extends BlockEntityRenderer<
 		DyeColor dyeColor = shulkerBoxBlockEntity.getColor();
 		SpriteIdentifier spriteIdentifier2;
 		if (dyeColor == null) {
-			spriteIdentifier2 = new SpriteIdentifier(NetheritePlusTextures.SHULKER_BOXES_ATLAS_TEXTURE,
-					id("entity/netherite_shulker/netherite_shulker"));
+			spriteIdentifier2 = new SpriteIdentifier(NetheritePlusTextures.SHULKER_BOXES_ATLAS_TEXTURE, id("entity/netherite_shulker/netherite_shulker"));
 		} else {
-			spriteIdentifier2 = new SpriteIdentifier(NetheritePlusTextures.SHULKER_BOXES_ATLAS_TEXTURE,
-					id("entity/netherite_shulker/netherite_shulker_" + dyeColor.getName()));
+			spriteIdentifier2 = new SpriteIdentifier(NetheritePlusTextures.SHULKER_BOXES_ATLAS_TEXTURE, id("entity/netherite_shulker/netherite_shulker_" + dyeColor.getName()));
 		}
 
 		matrixStack.push();
@@ -57,12 +54,10 @@ public class NetheriteShulkerBoxBlockEntityRenderer extends BlockEntityRenderer<
 		matrixStack.multiply(direction.getRotationQuaternion());
 		matrixStack.scale(1.0F, -1.0F, -1.0F);
 		matrixStack.translate(0.0D, -1.0D, 0.0D);
-		VertexConsumer vertexConsumer = spriteIdentifier2.getVertexConsumer(vertexConsumerProvider,
-				RenderLayer::getEntityCutoutNoCull);
+		VertexConsumer vertexConsumer = spriteIdentifier2.getVertexConsumer(vertexConsumerProvider, RenderLayer::getEntityCutoutNoCull);
 		model.getBottomShell().render(matrixStack, vertexConsumer, i, j);
 		matrixStack.translate(0.0D, -shulkerBoxBlockEntity.getAnimationProgress(f) * 0.5F, 0.0D);
-		matrixStack.multiply(
-				Vector3f.POSITIVE_Y.getDegreesQuaternion(270.0F * shulkerBoxBlockEntity.getAnimationProgress(f)));
+		matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(270.0F * shulkerBoxBlockEntity.getAnimationProgress(f)));
 		model.getTopShell().render(matrixStack, vertexConsumer, i, j);
 		matrixStack.pop();
 	}

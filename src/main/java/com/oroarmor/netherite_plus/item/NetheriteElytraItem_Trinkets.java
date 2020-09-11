@@ -44,24 +44,19 @@ public class NetheriteElytraItem_Trinkets extends NetheriteElytraItem implements
 
 	@Override
 	public void onEquip(PlayerEntity player, ItemStack stack) {
-		player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).setBaseValue(
-				4 + player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).getBaseValue());
+		player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).setBaseValue(4 + player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).getBaseValue());
 	}
 
 	@Override
 	public void onUnequip(PlayerEntity player, ItemStack stack) {
-		player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).setBaseValue(
-				-4 + player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).getBaseValue());
+		player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).setBaseValue(-4 + player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).getBaseValue());
 	}
 
 	@Environment(EnvType.CLIENT)
 	@Override
-	public void render(String slot, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light,
-			PlayerEntityModel<AbstractClientPlayerEntity> model, AbstractClientPlayerEntity livingEntity, float headYaw,
-			float headPitch) {
+	public void render(String slot, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, PlayerEntityModel<AbstractClientPlayerEntity> model, AbstractClientPlayerEntity livingEntity, float headYaw, float headPitch) {
 
-		NetheritePlusTrinketsRenderer.renderTrinketsElytra(matrixStack, vertexConsumerProvider, light, livingEntity,
-				this);
+		NetheritePlusTrinketsRenderer.renderTrinketsElytra(matrixStack, vertexConsumerProvider, light, livingEntity, this);
 	}
 
 	@Override

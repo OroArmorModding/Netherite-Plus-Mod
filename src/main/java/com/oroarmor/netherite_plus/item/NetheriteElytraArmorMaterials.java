@@ -13,10 +13,9 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Lazy;
 
 public enum NetheriteElytraArmorMaterials implements ArmorMaterial {
-	NETHERITE_ELYTRA_MATERIAL("netherite_elytra", 37, new int[] { 3, 6, 4, 3 }, 15,
-			SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F, () -> {
-				return Ingredient.ofItems(Items.NETHERITE_INGOT);
-			});
+	NETHERITE_ELYTRA_MATERIAL("netherite_elytra", 37, new int[] { 3, 6, 4, 3 }, 15, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F, () -> {
+		return Ingredient.ofItems(Items.NETHERITE_INGOT);
+	});
 
 	private static final int[] BASE_DURABILITY = new int[] { 13, 15, 16, 11 };
 	private final String name;
@@ -28,9 +27,7 @@ public enum NetheriteElytraArmorMaterials implements ArmorMaterial {
 	private final float knockbackResistance;
 	private final Lazy<Ingredient> repairIngredientSupplier;
 
-	private NetheriteElytraArmorMaterials(String name, int durabilityMultiplier, int[] protectionAmounts,
-			int enchantability, SoundEvent equipSound, float toughness, float knockbackResistance,
-			Supplier<Ingredient> supplier) {
+	private NetheriteElytraArmorMaterials(String name, int durabilityMultiplier, int[] protectionAmounts, int enchantability, SoundEvent equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> supplier) {
 		this.name = name;
 		this.durabilityMultiplier = durabilityMultiplier;
 		this.protectionAmounts = protectionAmounts;
