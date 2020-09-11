@@ -89,12 +89,12 @@ public class NetheritePlusCommand implements CommandRegistrationCallback {
 	}
 
 	private int setItemBoolean(CommandContext<ServerCommandSource> c, ConfigItem<Boolean> item, ConfigItemGroup group) {
-		boolean result = BoolArgumentType.getBool(c, "bool");
+		boolean result = BoolArgumentType.getBool(c, "boolean");
 		return setPrintAndSaveConfig(c, item, result);
 	}
 
 	private int setItemDouble(CommandContext<ServerCommandSource> c, ConfigItem<Double> item, ConfigItemGroup group) {
-		double result = DoubleArgumentType.getDouble(c, "dbl");
+		double result = DoubleArgumentType.getDouble(c, "double");
 		return setPrintAndSaveConfig(c, item, result);
 	}
 
