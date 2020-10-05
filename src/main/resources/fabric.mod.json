@@ -7,11 +7,12 @@
   "description": "This mod adds extra netherite features that aren't vanillia. \n\nNOTE: Editing the config requires a game restart",
   "authors": [
     "OroArmor",
-	"1198159"
+	"1198159",
+	"Ron (Texture Artist)"
   ],
   "contact": {
-    "sources": "https://github.com/OroArmor/NetheriteElytraFabric",
-	"homepage": "https://www.curseforge.com/minecraft/mc-mods/netherite-elytra",
+    "sources": "https://github.com/OroArmor/Netherite-Plus-Mod/",
+	"homepage": "https://www.curseforge.com/minecraft/mc-mods/netherite-plus-mod",
     "issues": "https://github.com/OroArmor/Netherite-Plus-Mod/issues"
   },
 

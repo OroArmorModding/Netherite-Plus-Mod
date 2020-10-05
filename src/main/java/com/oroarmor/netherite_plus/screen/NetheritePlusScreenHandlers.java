@@ -16,15 +16,17 @@ public class NetheritePlusScreenHandlers {
 	public static ScreenHandlerType<NetheriteAnvilScreenHandler> NETHERITE_ANVIL;
 	public static ScreenHandlerType<NetheriteBeaconScreenHandler> NETHERITE_BEACON;
 
-	public static void init() {
+	static {
 		NETHERITE_ANVIL = ScreenHandlerRegistry.registerSimple(id("netherite_anvil"), NetheriteAnvilScreenHandler::new);
 		NETHERITE_BEACON = ScreenHandlerRegistry.registerSimple(id("netherite_beacon"), NetheriteBeaconScreenHandler::new);
+	}
+
+	public static void init() {
 	}
 
 	@Environment(EnvType.CLIENT)
 	public static void initializeClient() {
 		ScreenRegistry.register(NetheritePlusScreenHandlers.NETHERITE_ANVIL, NetheriteAnvilScreen::new);
-
 		ScreenRegistry.register(NetheritePlusScreenHandlers.NETHERITE_BEACON, NetheriteBeaconScreen::new);
 	}
 }

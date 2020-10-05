@@ -1,5 +1,7 @@
 package com.oroarmor.netherite_plus.entity.effect;
 
+import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
+
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectType;
 import net.minecraft.util.registry.Registry;
@@ -13,7 +15,7 @@ public class NetheritePlusStatusEffects {
 	}
 
 	static {
-		LAVA_VISION = register(33, "lava_vision", new StatusEffect(StatusEffectType.BENEFICIAL, 16744207));
+		LAVA_VISION = NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue() ? register(33, "lava_vision", new StatusEffect(StatusEffectType.BENEFICIAL, 16744207)) : null;
 	}
 
 	public static void init() {
