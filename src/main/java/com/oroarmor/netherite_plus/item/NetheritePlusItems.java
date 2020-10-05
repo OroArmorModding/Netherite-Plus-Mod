@@ -30,7 +30,7 @@ public final class NetheritePlusItems {
 
 	public static Item NETHERITE_TRIDENT;
 
-	public static Item.Settings NETHERITE_SHULKER_BOX_ITEM_SETTINGS = new Item.Settings().maxCount(1).group(ItemGroup.DECORATIONS).fireproof();
+	public static final Item.Settings NETHERITE_SHULKER_BOX_ITEM_SETTINGS = new Item.Settings().maxCount(1).group(ItemGroup.DECORATIONS).fireproof();
 
 	public static Item NETHERITE_SHULKER_BOX;
 	public static Item NETHERITE_WHITE_SHULKER_BOX;
@@ -76,7 +76,6 @@ public final class NetheritePlusItems {
 
 	private static void registerBowAndCrossbow() {
 		NETHERITE_BOW = register(id("netherite_bow"), new NetheriteBowItem(new Item.Settings().maxDamage(NetheritePlusConfig.DURABILITIES.BOW_DURABILITY.getValue()).group(ItemGroup.COMBAT).fireproof()));
-
 		NETHERITE_CROSSBOW = register(id("netherite_crossbow"), new NetheriteCrossbowItem(new Item.Settings().maxDamage(NetheritePlusConfig.DURABILITIES.CROSSBOW_DURABILITY.getValue()).group(ItemGroup.COMBAT).fireproof()));
 
 		UniqueItemRegistry.BOW.addItemToRegistry(NETHERITE_BOW);
@@ -133,11 +132,11 @@ public final class NetheritePlusItems {
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_FAKE_NETHERITE_BLOCKS.getValue()) {
-			FAKE_NETHERITE_BLOCK = register(id("fake_netherite_block"), new BlockItem(NetheritePlusBlocks.FAKE_NETHERITE_BLOCK, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS).fireproof()));
+			FAKE_NETHERITE_BLOCK = register(new BlockItem(NetheritePlusBlocks.FAKE_NETHERITE_BLOCK, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS).fireproof()));
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_ANVIL.getValue()) {
-			NETHERITE_ANVIL_ITEM = register(id("netherite_anvil"), new BlockItem(NetheritePlusBlocks.NETHERITE_ANVIL_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS).fireproof()));
+			NETHERITE_ANVIL_ITEM = register(new BlockItem(NetheritePlusBlocks.NETHERITE_ANVIL_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS).fireproof()));
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue()) {

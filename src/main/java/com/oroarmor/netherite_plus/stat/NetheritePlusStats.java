@@ -13,7 +13,6 @@ public class NetheritePlusStats {
 	private static Identifier register(String string, StatFormatter statFormatter) {
 		Identifier identifier = id(string);
 		Registry.register(Registry.CUSTOM_STAT, identifier, identifier);
-		System.out.println(Registry.CUSTOM_STAT.get(identifier));
 		Stats.CUSTOM.getOrCreateStat(identifier, statFormatter);
 		return identifier;
 	}

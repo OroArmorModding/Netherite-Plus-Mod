@@ -30,6 +30,68 @@ import net.minecraft.util.Util;
 
 public class NetheritePlusCommand implements CommandRegistrationCallback {
 
+	private MutableText createItemText(ConfigItem<?> item, ConfigItemGroup group) {
+		MutableText configList = new LiteralText("");
+		boolean atDefault = item.getDefaultValue().equals(item.getValue());
+		configList.append(new LiteralText("[" + I18n.translate(item.getDetails()) + "]"));
+		configList.append(" : ");
+		configList.append(new LiteralText("[" + item.getValue() + "]").formatted(atDefault ? Formatting.GREEN : Formatting.DARK_GREEN).styled(s -> s.withHoverEvent(new HoverEvent(Action.SHOW_TEXT, new LiteralText((atDefault ? "At Default " : "") + "Value: " + (atDefault ? item.getDefaultValue() + ". Click to change value." : item.getValue() + ". Click to reset value.")))).withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/netherite_plus " + group.getName() + " " + item.getName() + " " + (atDefault ? "value" : item.getDefaultValue())))));
+		return configList;
+	}
+
+	private int listConfigGroup(CommandContext<ServerCommandSource> c, ConfigItemGroup group) {
+		MutableText configList = new LiteralText("");
+
+		configList.append(new LiteralText(group.getName() + "\n").formatted(Formatting.BOLD));
+		for (ConfigItem<?> item : group.getConfigs()) {
+			configList.append("  |--> ");
+			configList.append(createItemText(item, group));
+			configList.append("\n");
+		}
+
+		try {
+			c.getSource().getPlayer().sendSystemMessage(configList, Util.NIL_UUID);
+		} catch (CommandSyntaxException e) {
+			e.printStackTrace();
+		}
+
+		return 1;
+	}
+
+	private int listConfigGroups(CommandContext<ServerCommandSource> c) {
+
+		MutableText configList = new LiteralText("");
+
+		for (ConfigItemGroup group : NetheritePlusMod.CONFIG.getConfigs()) {
+			configList.append(new LiteralText(group.getName() + "\n").formatted(Formatting.BOLD));
+			for (ConfigItem<?> item : group.getConfigs()) {
+				configList.append("  |--> ");
+				configList.append(createItemText(item, group));
+				if (item != NetheritePlusConfig.GRAPHICS.LAVA_VISION_DISTANCE) {
+					configList.append("\n");
+				}
+			}
+		}
+
+		try {
+			c.getSource().getPlayer().sendSystemMessage(configList, Util.NIL_UUID);
+		} catch (CommandSyntaxException e) {
+			e.printStackTrace();
+		}
+
+		return 1;
+	}
+
+	private int listItem(CommandContext<ServerCommandSource> c, ConfigItem<?> item, ConfigItemGroup group) {
+		try {
+			c.getSource().getPlayer().sendSystemMessage(createItemText(item, group), Util.NIL_UUID);
+		} catch (CommandSyntaxException e) {
+			e.printStackTrace();
+		}
+
+		return 1;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void register(CommandDispatcher<ServerCommandSource> dispatcher, boolean dedicated) {
@@ -64,13 +126,23 @@ public class NetheritePlusCommand implements CommandRegistrationCallback {
 		dispatcher.register(literalArgumentBuilder);
 	}
 
-	private int setItemString(CommandContext<ServerCommandSource> c, ConfigItem<String> item, ConfigItemGroup group) {
-		String result = StringArgumentType.getString(c, "string");
+	private int setItemBoolean(CommandContext<ServerCommandSource> c, ConfigItem<Boolean> item, ConfigItemGroup group) {
+		boolean result = BoolArgumentType.getBool(c, "boolean");
+		return setPrintAndSaveConfig(c, item, result);
+	}
+
+	private int setItemDouble(CommandContext<ServerCommandSource> c, ConfigItem<Double> item, ConfigItemGroup group) {
+		double result = DoubleArgumentType.getDouble(c, "double");
 		return setPrintAndSaveConfig(c, item, result);
 	}
 
 	private int setItemInteger(CommandContext<ServerCommandSource> c, ConfigItem<Integer> item, ConfigItemGroup group) {
 		int result = IntegerArgumentType.getInteger(c, "int");
+		return setPrintAndSaveConfig(c, item, result);
+	}
+
+	private int setItemString(CommandContext<ServerCommandSource> c, ConfigItem<String> item, ConfigItemGroup group) {
+		String result = StringArgumentType.getString(c, "string");
 		return setPrintAndSaveConfig(c, item, result);
 	}
 
@@ -84,77 +156,6 @@ public class NetheritePlusCommand implements CommandRegistrationCallback {
 		}
 
 		NetheritePlusMod.CONFIG.saveConfigToFile();
-
-		return 1;
-	}
-
-	private int setItemBoolean(CommandContext<ServerCommandSource> c, ConfigItem<Boolean> item, ConfigItemGroup group) {
-		boolean result = BoolArgumentType.getBool(c, "boolean");
-		return setPrintAndSaveConfig(c, item, result);
-	}
-
-	private int setItemDouble(CommandContext<ServerCommandSource> c, ConfigItem<Double> item, ConfigItemGroup group) {
-		double result = DoubleArgumentType.getDouble(c, "double");
-		return setPrintAndSaveConfig(c, item, result);
-	}
-
-	private int listItem(CommandContext<ServerCommandSource> c, ConfigItem<?> item, ConfigItemGroup group) {
-		try {
-			c.getSource().getPlayer().sendSystemMessage(createItemText(item, group), Util.NIL_UUID);
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-
-		return 1;
-	}
-
-	private int listConfigGroup(CommandContext<ServerCommandSource> c, ConfigItemGroup group) {
-		MutableText configList = new LiteralText("");
-
-		configList.append(new LiteralText(group.getName() + "\n").formatted(Formatting.BOLD));
-		for (ConfigItem<?> item : group.getConfigs()) {
-			configList.append("  |--> ");
-			configList.append(createItemText(item, group));
-			configList.append("\n");
-		}
-
-		try {
-			c.getSource().getPlayer().sendSystemMessage(configList, Util.NIL_UUID);
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
-
-		return 1;
-	}
-
-	private MutableText createItemText(ConfigItem<?> item, ConfigItemGroup group) {
-		MutableText configList = new LiteralText("");
-		boolean atDefault = item.getDefaultValue().equals(item.getValue());
-		configList.append(new LiteralText("[" + I18n.translate(item.getDetails()) + "]"));
-		configList.append(" : ");
-		configList.append(new LiteralText("[" + item.getValue() + "]").formatted(atDefault ? Formatting.GREEN : Formatting.DARK_GREEN).styled(s -> s.withHoverEvent(new HoverEvent(Action.SHOW_TEXT, new LiteralText((atDefault ? "At Default " : "") + "Value: " + (atDefault ? item.getDefaultValue() + ". Click to change value." : item.getValue() + ". Click to reset value.")))).withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/netherite_plus " + group.getName() + " " + item.getName() + " " + (atDefault ? "value" : item.getDefaultValue())))));
-		return configList;
-	}
-
-	private int listConfigGroups(CommandContext<ServerCommandSource> c) {
-
-		MutableText configList = new LiteralText("");
-
-		for (ConfigItemGroup group : NetheritePlusMod.CONFIG.getConfigs()) {
-			configList.append(new LiteralText(group.getName() + "\n").formatted(Formatting.BOLD));
-			for (ConfigItem<?> item : group.getConfigs()) {
-				configList.append("  |--> ");
-				configList.append(createItemText(item, group));
-				if (item != NetheritePlusConfig.GRAPHICS.LAVA_VISION_DISTANCE) // hard coded TODO fix this
-					configList.append("\n");
-			}
-		}
-
-		try {
-			c.getSource().getPlayer().sendSystemMessage(configList, Util.NIL_UUID);
-		} catch (CommandSyntaxException e) {
-			e.printStackTrace();
-		}
 
 		return 1;
 	}

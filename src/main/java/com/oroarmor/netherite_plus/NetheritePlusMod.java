@@ -30,7 +30,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class NetheritePlusMod implements ModInitializer {
-
 	public static final NetheritePlusConfig CONFIG = new NetheritePlusConfig();
 
 	public static final Logger LOGGER = LogManager.getLogger("Netherite Plus");
@@ -43,14 +42,14 @@ public class NetheritePlusMod implements ModInitializer {
 	public void onInitialize() {
 		processConfig();
 
-		NetheritePlusItems.init();
+		NetheritePlusCriteria.init();
 		NetheritePlusDynamicDataPack.init();
-		NetheritePlusScreenHandlers.init();
+		NetheritePlusItems.init();
 		NetheritePlusLootManager.init();
 		NetheritePlusRecipeSerializer.init();
-		NetheritePlusStatusEffects.init();
-		NetheritePlusCriteria.init();
+		NetheritePlusScreenHandlers.init();
 		NetheritePlusStats.init();
+		NetheritePlusStatusEffects.init();
 
 		CommandRegistrationCallback.EVENT.register(new NetheritePlusCommand());
 
