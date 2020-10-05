@@ -13,9 +13,9 @@ import net.minecraft.util.Identifier;
 
 public class NetheritePlusTextures {
 
-	public static final SpriteIdentifier NETHERITE_SHIELD_BASE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEX, id("entity/netherite_shield_base"));
+	public static final SpriteIdentifier NETHERITE_SHIELD_BASE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, id("entity/netherite_shield_base"));
 
-	public static final SpriteIdentifier NETHERITE_SHIELD_BASE_NO_PATTERN = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEX, id("entity/netherite_shield_base_nopattern"));
+	public static final SpriteIdentifier NETHERITE_SHIELD_BASE_NO_PATTERN = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, id("entity/netherite_shield_base_nopattern"));
 	public static final Identifier SHULKER_BOXES_ATLAS_TEXTURE = id("textures/atlas/shulker_boxes.png");
 
 	public static void makeAtlases(Consumer<SpriteIdentifier> consumer) {
@@ -33,7 +33,7 @@ public class NetheritePlusTextures {
 
 	public static void register() {
 		ClientSpriteRegistryCallback.event(NetheritePlusTextures.SHULKER_BOXES_ATLAS_TEXTURE).register(NetheritePlusTextures::registerShulkerBoxTextures);
-		ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEX).register(NetheritePlusTextures::registerShieldTextures);
+		ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(NetheritePlusTextures::registerShieldTextures);
 	}
 
 	public static void registerShieldTextures(SpriteAtlasTexture atlas, ClientSpriteRegistryCallback.Registry registry) {

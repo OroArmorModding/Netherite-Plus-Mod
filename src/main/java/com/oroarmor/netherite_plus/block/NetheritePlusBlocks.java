@@ -59,7 +59,7 @@ public class NetheritePlusBlocks {
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue()) {
-			NETHERITE_BEACON = register("netherite_beacon", new NetheriteBeaconBlock(AbstractBlock.Settings.of(Material.GLASS, MaterialColor.DIAMOND).strength(3.0F).lightLevel((state) -> {
+			NETHERITE_BEACON = register("netherite_beacon", new NetheriteBeaconBlock(AbstractBlock.Settings.of(Material.GLASS, MaterialColor.DIAMOND).strength(3.0F).luminance((state) -> {
 				return 15;
 			}).nonOpaque()));
 

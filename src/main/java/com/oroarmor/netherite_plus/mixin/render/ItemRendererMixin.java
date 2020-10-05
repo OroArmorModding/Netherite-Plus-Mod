@@ -56,7 +56,7 @@ public abstract class ItemRendererMixin {
 			} else {
 				RenderLayer renderLayer = RenderLayers.getItemLayer(stack, true);
 				VertexConsumer vertexConsumer4;
-				vertexConsumer4 = ItemRenderer.getDirectGlintVertexConsumer(vertexConsumers, renderLayer, true, stack.hasGlint());
+				vertexConsumer4 = ItemRenderer.getDirectItemGlintConsumer(vertexConsumers, renderLayer, true, stack.hasGlint());
 
 				renderBakedItemModel(model, stack, light, overlay, matrices, vertexConsumer4);
 			}
@@ -64,6 +64,5 @@ public abstract class ItemRendererMixin {
 			matrices.pop();
 			info.cancel();
 		}
-
 	}
 }
