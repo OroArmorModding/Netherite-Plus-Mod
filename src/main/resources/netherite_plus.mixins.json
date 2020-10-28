@@ -12,7 +12,8 @@
 		"ShulkerBoxSlotMixin",
 		"CauldronBlockMixin",
 		"ServerPlayNetworkHandlerMixin",
-		"CriteriaAccessor"
+		"CriteriaAccessor",
+		"UnbreakingEnchantmentMixin"
 	],
 	"client": [
 		"render.PlayerEntityRendererMixin",

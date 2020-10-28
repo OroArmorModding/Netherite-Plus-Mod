@@ -31,12 +31,12 @@ import net.minecraft.util.Util;
 public class NetheritePlusCommand implements CommandRegistrationCallback {
 
 	private MutableText createItemText(ConfigItem<?> item, ConfigItemGroup group) {
-		MutableText configList = new LiteralText("");
+		MutableText configListText = new LiteralText("");
 		boolean atDefault = item.getDefaultValue().equals(item.getValue());
-		configList.append(new LiteralText("[" + I18n.translate(item.getDetails()) + "]"));
-		configList.append(" : ");
-		configList.append(new LiteralText("[" + item.getValue() + "]").formatted(atDefault ? Formatting.GREEN : Formatting.DARK_GREEN).styled(s -> s.withHoverEvent(new HoverEvent(Action.SHOW_TEXT, new LiteralText((atDefault ? "At Default " : "") + "Value: " + (atDefault ? item.getDefaultValue() + ". Click to change value." : item.getValue() + ". Click to reset value.")))).withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/netherite_plus " + group.getName() + " " + item.getName() + " " + (atDefault ? "value" : item.getDefaultValue())))));
-		return configList;
+		configListText.append(new LiteralText("[" + I18n.translate(item.getDetails()) + "]"));
+		configListText.append(" : ");
+		configListText.append(new LiteralText("[" + item.getValue() + "]").formatted(atDefault ? Formatting.GREEN : Formatting.DARK_GREEN).styled(s -> s.withHoverEvent(new HoverEvent(Action.SHOW_TEXT, new LiteralText((atDefault ? "At Default " : "") + "Value: " + (atDefault ? item.getDefaultValue() + ". Click to change value." : item.getValue() + ". Click to reset value.")))).withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/netherite_plus " + group.getName() + " " + item.getName() + " " + (atDefault ? "value" : item.getDefaultValue())))));
+		return configListText;
 	}
 
 	private int listConfigGroup(CommandContext<ServerCommandSource> c, ConfigItemGroup group) {
@@ -65,11 +65,7 @@ public class NetheritePlusCommand implements CommandRegistrationCallback {
 		for (ConfigItemGroup group : NetheritePlusMod.CONFIG.getConfigs()) {
 			configList.append(new LiteralText(group.getName() + "\n").formatted(Formatting.BOLD));
 			for (ConfigItem<?> item : group.getConfigs()) {
-				configList.append("  |--> ");
-				configList.append(createItemText(item, group));
-				if (item != NetheritePlusConfig.GRAPHICS.LAVA_VISION_DISTANCE) {
-					configList.append("\n");
-				}
+				parseConfigItemText(configList, group, item, 1);
 			}
 		}
 
@@ -82,6 +78,27 @@ public class NetheritePlusCommand implements CommandRegistrationCallback {
 		return 1;
 	}
 
+	private void parseConfigItemText(MutableText configList, ConfigItemGroup group, ConfigItem<?> item, int i) {
+		for (int j = 0; j < i; j++) {
+			configList.append("  ");
+		}
+
+		configList.append("|--> ");
+		switch (item.getType()) {
+		case GROUP:
+			configList.append(new LiteralText(item.getName() + "\n").formatted(Formatting.BOLD));
+			for (ConfigItem<?> item2 : ((ConfigItemGroup) item).getConfigs()) {
+				parseConfigItemText(configList, (ConfigItemGroup) item, item2, i + 1);
+			}
+			break;
+		default:
+			configList.append(createItemText(item, group));
+			if (item != NetheritePlusConfig.GRAPHICS.LAVA_VISION_DISTANCE) {
+				configList.append("\n");
+			}
+		}
+	}
+
 	private int listItem(CommandContext<ServerCommandSource> c, ConfigItem<?> item, ConfigItemGroup group) {
 		try {
 			c.getSource().getPlayer().sendSystemMessage(createItemText(item, group), Util.NIL_UUID);
@@ -92,38 +109,43 @@ public class NetheritePlusCommand implements CommandRegistrationCallback {
 		return 1;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void register(CommandDispatcher<ServerCommandSource> dispatcher, boolean dedicated) {
 		LiteralArgumentBuilder<ServerCommandSource> literalArgumentBuilder = literal("netherite_plus").requires(p -> p.hasPermissionLevel(2)).executes(c -> listConfigGroups(c));
 
 		for (ConfigItemGroup group : NetheritePlusMod.CONFIG.getConfigs()) {
-			LiteralArgumentBuilder<ServerCommandSource> configGroupCommand = literal(group.getName()).executes((c) -> listConfigGroup(c, group));
-			for (ConfigItem<?> item : group.getConfigs()) {
-				LiteralArgumentBuilder<ServerCommandSource> configItemCommand = literal(item.getName()).executes((c) -> listItem(c, item, group));
-
-				switch (item.getType()) {
-				case BOOLEAN:
-					configItemCommand.then(argument("boolean", BoolArgumentType.bool()).executes(c -> setItemBoolean(c, (ConfigItem<Boolean>) item, group)));
-					break;
-				case DOUBLE:
-					configItemCommand.then(argument("double", DoubleArgumentType.doubleArg()).executes(c -> setItemDouble(c, (ConfigItem<Double>) item, group)));
-					break;
-				case GROUP:
-					break;
-				case INTEGER:
-					configItemCommand.then(argument("int", IntegerArgumentType.integer()).executes(c -> setItemInteger(c, (ConfigItem<Integer>) item, group)));
-					break;
-				case STRING:
-					configItemCommand.then(argument("string", StringArgumentType.string()).executes(c -> setItemString(c, (ConfigItem<String>) item, group)));
-					break;
-				}
-				configGroupCommand.then(configItemCommand);
-			}
-			literalArgumentBuilder.then(configGroupCommand);
+			parseConfigItemGroupCommand(literalArgumentBuilder, group);
 		}
 
 		dispatcher.register(literalArgumentBuilder);
+	}
+
+	@SuppressWarnings("unchecked")
+	private void parseConfigItemGroupCommand(LiteralArgumentBuilder<ServerCommandSource> literalArgumentBuilder, ConfigItemGroup group) {
+		LiteralArgumentBuilder<ServerCommandSource> configGroupCommand = literal(group.getName()).executes((c) -> listConfigGroup(c, group));
+		for (ConfigItem<?> item : group.getConfigs()) {
+			LiteralArgumentBuilder<ServerCommandSource> configItemCommand = literal(item.getName()).executes((c) -> listItem(c, item, group));
+
+			switch (item.getType()) {
+			case BOOLEAN:
+				configItemCommand.then(argument("boolean", BoolArgumentType.bool()).executes(c -> setItemBoolean(c, (ConfigItem<Boolean>) item, group)));
+				break;
+			case DOUBLE:
+				configItemCommand.then(argument("double", DoubleArgumentType.doubleArg()).executes(c -> setItemDouble(c, (ConfigItem<Double>) item, group)));
+				break;
+			case GROUP:
+				parseConfigItemGroupCommand(literalArgumentBuilder, (ConfigItemGroup) item);
+				break;
+			case INTEGER:
+				configItemCommand.then(argument("int", IntegerArgumentType.integer()).executes(c -> setItemInteger(c, (ConfigItem<Integer>) item, group)));
+				break;
+			case STRING:
+				configItemCommand.then(argument("string", StringArgumentType.string()).executes(c -> setItemString(c, (ConfigItem<String>) item, group)));
+				break;
+			}
+			configGroupCommand.then(configItemCommand);
+		}
+		literalArgumentBuilder.then(configGroupCommand);
 	}
 
 	private int setItemBoolean(CommandContext<ServerCommandSource> c, ConfigItem<Boolean> item, ConfigItemGroup group) {
@@ -156,8 +178,6 @@ public class NetheritePlusCommand implements CommandRegistrationCallback {
 		}
 
 		NetheritePlusMod.CONFIG.saveConfigToFile();
-
 		return 1;
 	}
-
 }

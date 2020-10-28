@@ -44,6 +44,7 @@ public class ConfigItemGroup extends ConfigItem<ConfigItemGroup> {
 			break;
 		case STRING:
 			object.addProperty(c.getName(), (String) c.getValue());
+			break;
 		case GROUP:
 			object.add(c.getName(), ((ConfigItemGroup) c).toJson());
 		default:
