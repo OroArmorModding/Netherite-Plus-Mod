@@ -28,7 +28,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.c2s.play.GuiCloseC2SPacket;
+import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerListener;
 import net.minecraft.text.LiteralText;
@@ -200,7 +200,7 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
 
 		@Override
 		public void onPress() {
-			NetheriteBeaconScreen.this.client.player.networkHandler.sendPacket(new GuiCloseC2SPacket(NetheriteBeaconScreen.this.client.player.currentScreenHandler.syncId));
+			NetheriteBeaconScreen.this.client.player.networkHandler.sendPacket(new CloseHandledScreenC2SPacket(NetheriteBeaconScreen.this.client.player.currentScreenHandler.syncId));
 			NetheriteBeaconScreen.this.client.openScreen((Screen) null);
 		}
 
@@ -225,7 +225,7 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
 				e.printStackTrace();
 			}
 			ClientSidePacketRegistry.INSTANCE.sendToServer(UpdateNetheriteBeaconC2SPacket.ID, buf);
-			NetheriteBeaconScreen.this.client.player.networkHandler.sendPacket(new GuiCloseC2SPacket(NetheriteBeaconScreen.this.client.player.currentScreenHandler.syncId));
+			NetheriteBeaconScreen.this.client.player.networkHandler.sendPacket(new CloseHandledScreenC2SPacket(NetheriteBeaconScreen.this.client.player.currentScreenHandler.syncId));
 			NetheriteBeaconScreen.this.client.openScreen((Screen) null);
 		}
 

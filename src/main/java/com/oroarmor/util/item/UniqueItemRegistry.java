@@ -7,8 +7,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 
 public final class UniqueItemRegistry {
+	public static UniqueItemRegistry ELYTRA = new UniqueItemRegistry(Items.ELYTRA);
+	public static UniqueItemRegistry FISHING_ROD = new UniqueItemRegistry(Items.FISHING_ROD);
+	public static UniqueItemRegistry SHIELD = new UniqueItemRegistry(Items.SHIELD);
+	public static UniqueItemRegistry BOW = new UniqueItemRegistry(Items.BOW);
+	public static UniqueItemRegistry CROSSBOW = new UniqueItemRegistry(Items.CROSSBOW);
+	public static UniqueItemRegistry TRIDENT = new UniqueItemRegistry(Items.TRIDENT);
 
-	public static UniqueItemRegistry ELYTRA = new UniqueItemRegistry(Items.ELYTRA), FISHING_ROD = new UniqueItemRegistry(Items.FISHING_ROD), SHIELD = new UniqueItemRegistry(Items.SHIELD), BOW = new UniqueItemRegistry(Items.BOW), CROSSBOW = new UniqueItemRegistry(Items.CROSSBOW), HORSE_ARMOR = new UniqueItemRegistry(Items.DIAMOND_HORSE_ARMOR), TRIDENT = new UniqueItemRegistry(Items.TRIDENT);
 	private final List<Item> itemList;
 
 	private final Item defaultItem;

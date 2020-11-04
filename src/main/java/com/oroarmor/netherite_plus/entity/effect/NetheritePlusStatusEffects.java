@@ -1,12 +1,13 @@
 package com.oroarmor.netherite_plus.entity.effect;
 
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
+import com.oroarmor.util.init.Initable;
 
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectType;
 import net.minecraft.util.registry.Registry;
 
-public class NetheritePlusStatusEffects {
+public class NetheritePlusStatusEffects implements Initable {
 
 	public static final StatusEffect LAVA_VISION;
 

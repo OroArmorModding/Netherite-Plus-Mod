@@ -33,13 +33,14 @@ import static net.minecraft.item.Items.SHIELD;
 import static net.minecraft.item.Items.TRIDENT;
 
 import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
+import com.oroarmor.util.init.Initable;
 
 import net.devtech.arrp.api.RRPCallback;
 import net.devtech.arrp.api.RuntimeResourcePack;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.util.DyeColor;
 
-public class NetheritePlusDynamicDataPack {
+public class NetheritePlusDynamicDataPack implements Initable {
 
 	public static final RuntimeResourcePack DATA_PACK = RuntimeResourcePack.create(MOD_ID + ":dynamic_datapack");
 
