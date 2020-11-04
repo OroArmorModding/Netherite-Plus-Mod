@@ -251,23 +251,23 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
 	public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
 		BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof NetheriteShulkerBoxBlockEntity) {
-			NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity = (NetheriteShulkerBoxBlockEntity) blockEntity;
-			if (!world.isClient && player.isCreative() && !shulkerBoxBlockEntity.isEmpty()) {
+			NetheriteShulkerBoxBlockEntity netheriteShulkerBoxBlockEntity = (NetheriteShulkerBoxBlockEntity) blockEntity;
+			if (!world.isClient && player.isCreative() && !netheriteShulkerBoxBlockEntity.isEmpty()) {
 				ItemStack itemStack = getItemStack(this.getColor());
-				CompoundTag compoundTag = shulkerBoxBlockEntity.serializeInventory(new CompoundTag());
+				CompoundTag compoundTag = netheriteShulkerBoxBlockEntity.serializeInventory(new CompoundTag());
 				if (!compoundTag.isEmpty()) {
 					itemStack.putSubTag("BlockEntityTag", compoundTag);
 				}
 
-				if (shulkerBoxBlockEntity.hasCustomName()) {
-					itemStack.setCustomName(shulkerBoxBlockEntity.getCustomName());
+				if (netheriteShulkerBoxBlockEntity.hasCustomName()) {
+					itemStack.setCustomName(netheriteShulkerBoxBlockEntity.getCustomName());
 				}
 
 				ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, itemStack);
 				itemEntity.setToDefaultPickupDelay();
 				world.spawnEntity(itemEntity);
 			} else {
-				shulkerBoxBlockEntity.checkLootInteraction(player);
+				netheriteShulkerBoxBlockEntity.checkLootInteraction(player);
 			}
 		}
 

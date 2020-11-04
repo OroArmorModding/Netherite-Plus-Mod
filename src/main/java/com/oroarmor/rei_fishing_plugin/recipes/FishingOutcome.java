@@ -95,7 +95,7 @@ public class FishingOutcome {
 		public static final List<FishingOutcome> recipes = ImmutableList.of(name_tag, saddle, bow, fishing_rod, book, nautilus_shell);
 	}
 
-	public static class FishingOutcomeCategory {
+	public static abstract class FishingOutcomeCategory {
 
 		private final List<FishingOutcome> outcomes;
 		private final FishingType type;

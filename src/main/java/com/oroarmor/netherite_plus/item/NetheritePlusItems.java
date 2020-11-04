@@ -5,6 +5,7 @@ import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 import com.oroarmor.netherite_plus.block.NetheritePlusBlocks;
 import com.oroarmor.netherite_plus.compatibility.NetheritePlusTrinketsCompatibilty;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
+import com.oroarmor.util.init.Initable;
 import com.oroarmor.util.item.UniqueItemRegistry;
 
 import net.fabricmc.loader.api.FabricLoader;
@@ -16,7 +17,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 
-public final class NetheritePlusItems {
+public final class NetheritePlusItems implements Initable {
 
 	public static Item NETHERITE_ELYTRA;
 
@@ -98,8 +99,6 @@ public final class NetheritePlusItems {
 
 	private static void registerHorseArmor() {
 		NETHERITE_HORSE_ARMOR = register(id("netherite_horse_armor"), new NetheriteHorseArmorItem(15, new Item.Settings().maxCount(1).group(ItemGroup.MISC).fireproof()));
-
-		UniqueItemRegistry.HORSE_ARMOR.addItemToRegistry(NETHERITE_HORSE_ARMOR);
 	}
 
 	public static void init() {

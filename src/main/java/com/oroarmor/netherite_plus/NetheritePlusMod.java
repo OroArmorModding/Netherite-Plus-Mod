@@ -21,6 +21,7 @@ import com.oroarmor.netherite_plus.screen.NetheriteBeaconScreenHandler;
 import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
 import com.oroarmor.netherite_plus.stat.NetheritePlusStats;
 import com.oroarmor.util.config.ConfigItemGroup;
+import com.oroarmor.util.init.Initable;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
@@ -42,14 +43,7 @@ public class NetheritePlusMod implements ModInitializer {
 	public void onInitialize() {
 		processConfig();
 
-		NetheritePlusCriteria.init();
-		NetheritePlusDynamicDataPack.init();
-		NetheritePlusItems.init();
-		NetheritePlusLootManager.init();
-		NetheritePlusRecipeSerializer.init();
-		NetheritePlusScreenHandlers.init();
-		NetheritePlusStats.init();
-		NetheritePlusStatusEffects.init();
+		Initable.initClasses(NetheritePlusItems.class, NetheritePlusDynamicDataPack.class, NetheritePlusScreenHandlers.class, NetheritePlusLootManager.class, NetheritePlusRecipeSerializer.class, NetheritePlusStatusEffects.class, NetheritePlusCriteria.class, NetheritePlusStats.class);
 
 		CommandRegistrationCallback.EVENT.register(new NetheritePlusCommand());
 

@@ -3,13 +3,14 @@ package com.oroarmor.netherite_plus.recipe;
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
+import com.oroarmor.util.init.Initable;
 
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialRecipeSerializer;
 import net.minecraft.util.registry.Registry;
 
-public final class NetheritePlusRecipeSerializer {
+public final class NetheritePlusRecipeSerializer implements Initable {
 	public static SpecialRecipeSerializer<NetheriteShulkerBoxColoringRecipe> NETHERITE_SHULKER_BOX;
 	public static SpecialRecipeSerializer<NetheriteShieldDecorationRecipe> NETHERITE_SHIELD;
 

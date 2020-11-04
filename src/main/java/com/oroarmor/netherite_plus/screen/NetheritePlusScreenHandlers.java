@@ -4,6 +4,7 @@ import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 import com.oroarmor.netherite_plus.client.gui.screen.NetheriteAnvilScreen;
 import com.oroarmor.netherite_plus.client.gui.screen.NetheriteBeaconScreen;
+import com.oroarmor.util.init.Initable;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -11,7 +12,7 @@ import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.screen.ScreenHandlerType;
 
-public class NetheritePlusScreenHandlers {
+public class NetheritePlusScreenHandlers implements Initable {
 
 	public static ScreenHandlerType<NetheriteAnvilScreenHandler> NETHERITE_ANVIL;
 	public static ScreenHandlerType<NetheriteBeaconScreenHandler> NETHERITE_BEACON;
