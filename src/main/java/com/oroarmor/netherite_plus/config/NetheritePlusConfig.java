@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 import com.oroarmor.netherite_plus.NetheritePlusMod;
-import com.oroarmor.util.config.Config;
-import com.oroarmor.util.config.ConfigItem;
-import com.oroarmor.util.config.ConfigItemGroup;
+import com.oroarmor.config.Config;
+import com.oroarmor.config.ConfigItem;
+import com.oroarmor.config.ConfigItemGroup;
 
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
@@ -90,7 +90,7 @@ public final class NetheritePlusConfig extends Config {
 	private static final List<ConfigItemGroup> CONFIGS = ImmutableList.of(new ENABLED(), new DURABILITIES(), new DAMAGE(), new ANVIL(), new GRAPHICS());
 
 	public NetheritePlusConfig() {
-		super(CONFIGS, new File(FabricLoader.getInstance().getConfigDir().toFile(), CONFIG_FILE_NAME));
+		super(CONFIGS, new File(FabricLoader.getInstance().getConfigDir().toFile(), CONFIG_FILE_NAME), "netherite_plus");
 	}
 
 	public static void createLavaVisionUpdatePacket(ConfigItem<Double> configItem) {

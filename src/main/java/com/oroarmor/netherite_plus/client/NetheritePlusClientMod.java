@@ -63,8 +63,9 @@ public class NetheritePlusClientMod implements ClientModInitializer {
 
 		NetheritePlusScreenHandlers.initializeClient();
 
-		if (NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue())
+		if (NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue()) {
 			BlockRenderLayerMap.INSTANCE.putBlock(NetheritePlusBlocks.NETHERITE_BEACON, RenderLayer.getCutout());
+		}
 
 		DynamicItemRenderer shulkerRenderer = new NetheriteShulkerBoxItemRenderer();
 
