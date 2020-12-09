@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.5-SNAPSHOT'
+	id 'fabric-loom' version '0.5.38'
 	id 'maven-publish'
 }
 
@@ -60,14 +60,22 @@ dependencies {
 	modImplementation 'net.devtech:arrp:0.2.6'
 	include 'net.devtech:arrp:0.2.6'
 	
-	//modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:5.2.1"
-    //modRuntime "me.shedaniel:RoughlyEnoughItems:5.2.1"
+	modImplementation 'com.github.OroArmor:oro-config:-SNAPSHOT'
+	include 'com.github.OroArmor:oro-config:-SNAPSHOT'
 
-	modCompile "io.github.prospector:modmenu:1.14.6+build.31"
+	modCompile("io.github.prospector:modmenu:1.14.6+build.31")  {
+   		exclude(module: "fabric-api")
+	}
 
-	modCompileOnly "net.kyrptonaught:quickshulker:1.1.1"
-	modCompileOnly "com.github.emilyploszaj:trinkets:2.6.3"
-	modCompileOnly "com.misterpemodder:shulkerboxtooltip:2.1.0+1.16.1"
+	modCompileOnly("net.kyrptonaught:quickshulker:1.1.1")  {
+   		exclude(module: "fabric-api")
+	}
+	modCompileOnly("com.github.emilyploszaj:trinkets:2.6.3")  {
+   		exclude(module: "fabric-api")
+	}
+	modCompileOnly("com.misterpemodder:shulkerboxtooltip:2.1.0+1.16.1")  {
+   		exclude(module: "fabric-api")
+	}
 	
 	modCompileOnly("me.shedaniel:RoughlyEnoughItems-api:5.2.1")  {
    		exclude(module: "fabric-api")

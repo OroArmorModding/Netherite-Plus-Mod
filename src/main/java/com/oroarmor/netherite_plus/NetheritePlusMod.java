@@ -9,7 +9,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.oroarmor.netherite_plus.advancement.criterion.NetheritePlusCriteria;
-import com.oroarmor.netherite_plus.command.NetheritePlusCommand;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.config.NetheritePlusDynamicDataPack;
 import com.oroarmor.netherite_plus.entity.effect.NetheritePlusStatusEffects;
@@ -20,7 +19,8 @@ import com.oroarmor.netherite_plus.recipe.NetheritePlusRecipeSerializer;
 import com.oroarmor.netherite_plus.screen.NetheriteBeaconScreenHandler;
 import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
 import com.oroarmor.netherite_plus.stat.NetheritePlusStats;
-import com.oroarmor.util.config.ConfigItemGroup;
+import com.oroarmor.config.ConfigItemGroup;
+import com.oroarmor.config.command.ConfigCommand;
 import com.oroarmor.util.init.Initable;
 
 import net.fabricmc.api.ModInitializer;
@@ -45,7 +45,7 @@ public class NetheritePlusMod implements ModInitializer {
 
 		Initable.initClasses(NetheritePlusItems.class, NetheritePlusDynamicDataPack.class, NetheritePlusScreenHandlers.class, NetheritePlusLootManager.class, NetheritePlusRecipeSerializer.class, NetheritePlusStatusEffects.class, NetheritePlusCriteria.class, NetheritePlusStats.class);
 
-		CommandRegistrationCallback.EVENT.register(new NetheritePlusCommand());
+		CommandRegistrationCallback.EVENT.register(new ConfigCommand(CONFIG));
 
 		ServerSidePacketRegistry.INSTANCE.register(UpdateNetheriteBeaconC2SPacket.ID, (context, byteBuffer) -> {
 			UpdateNetheriteBeaconC2SPacket packet = new UpdateNetheriteBeaconC2SPacket();
