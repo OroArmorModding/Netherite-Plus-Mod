@@ -1,6 +1,6 @@
 package com.oroarmor.netherite_plus.item;
 
-import com.oroarmor.util.item.UniqueItemRegistry;
+import com.oroarmor.multi_item_lib.UniqueItemRegistry;
 
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorItem;

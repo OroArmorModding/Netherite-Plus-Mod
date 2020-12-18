@@ -8,6 +8,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.oroarmor.config.ConfigItemGroup;
+import com.oroarmor.config.command.ConfigCommand;
 import com.oroarmor.netherite_plus.advancement.criterion.NetheritePlusCriteria;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.config.NetheritePlusDynamicDataPack;
@@ -19,8 +21,6 @@ import com.oroarmor.netherite_plus.recipe.NetheritePlusRecipeSerializer;
 import com.oroarmor.netherite_plus.screen.NetheriteBeaconScreenHandler;
 import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
 import com.oroarmor.netherite_plus.stat.NetheritePlusStats;
-import com.oroarmor.config.ConfigItemGroup;
-import com.oroarmor.config.command.ConfigCommand;
 import com.oroarmor.util.init.Initable;
 
 import net.fabricmc.api.ModInitializer;
