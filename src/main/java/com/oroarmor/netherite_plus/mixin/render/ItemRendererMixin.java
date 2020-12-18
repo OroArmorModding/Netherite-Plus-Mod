@@ -6,11 +6,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
-import com.oroarmor.util.item.UniqueItemRegistry;
 
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderLayers;
@@ -23,7 +21,6 @@ import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 @Mixin(ItemRenderer.class)
@@ -31,11 +28,6 @@ public abstract class ItemRendererMixin {
 
 	@Shadow
 	private ItemModels models;
-
-	@Redirect(method = "getHeldItemModel", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
-	public Item getHeldItemModel(ItemStack stack) {
-		return UniqueItemRegistry.TRIDENT.getDefaultItem(stack.getItem());
-	}
 
 	@Shadow
 	protected abstract void renderBakedItemModel(BakedModel model, ItemStack stack, int light, int overlay, MatrixStack matrices, VertexConsumer vertexConsumer4);

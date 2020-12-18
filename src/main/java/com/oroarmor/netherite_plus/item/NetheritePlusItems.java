@@ -2,11 +2,11 @@ package com.oroarmor.netherite_plus.item;
 
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
+import com.oroarmor.multi_item_lib.UniqueItemRegistry;
 import com.oroarmor.netherite_plus.block.NetheritePlusBlocks;
 import com.oroarmor.netherite_plus.compatibility.NetheritePlusTrinketsCompatibilty;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.util.init.Initable;
-import com.oroarmor.util.item.UniqueItemRegistry;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;

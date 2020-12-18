@@ -5,25 +5,19 @@
 	"compatibilityLevel": "JAVA_8",
 	"mixins": [
 		"PlayerEntityMixin",
-		"LivingEntityMixin",
-		"MobEntityMixin",
 		"CrossbowItemMixin",
 		"ShulkerBoxBlockEntityMixin",
 		"ShulkerBoxSlotMixin",
 		"CauldronBlockMixin",
 		"ServerPlayNetworkHandlerMixin",
-		"CriteriaAccessor",
-		"UnbreakingEnchantmentMixin"
+		"CriteriaAccessor"
 	],
 	"client": [
 		"render.PlayerEntityRendererMixin",
 		"render.TexturedRenderLayersMixin",
-		"render.FishingBobberEntityRendererMixin",
-		"render.HeldItemRendererMixin",
 		"render.TridentEntityRendererMixin",
 		"render.ItemRendererMixin",
 		"render.BackgroundRendererMixin",
-		"ClientPlayerEntityMixin",
 		"ClientPlayNetworkHandlerMixin"
 	],
 	"injectors": {

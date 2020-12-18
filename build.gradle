@@ -62,6 +62,9 @@ dependencies {
 	
 	modImplementation 'com.github.OroArmor:oro-config:-SNAPSHOT'
 	include 'com.github.OroArmor:oro-config:-SNAPSHOT'
+	
+	modImplementation 'com.github.OroArmor:Multi-Item-Lib:-SNAPSHOT'
+	include 'com.github.OroArmor:Multi-Item-Lib:-SNAPSHOT'
 
 	modCompile("io.github.prospector:modmenu:1.14.6+build.31")  {
    		exclude(module: "fabric-api")
