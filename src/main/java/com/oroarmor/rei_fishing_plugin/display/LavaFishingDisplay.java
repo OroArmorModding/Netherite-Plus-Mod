@@ -20,7 +20,7 @@ public class LavaFishingDisplay implements RecipeDisplay {
 
 	public static final Identifier ID = new Identifier("netherite_plus:lava_fishing_category");
 
-	private LavaFishingOutcomeCategory outcomes;
+	private final LavaFishingOutcomeCategory outcomes;
 
 	public LavaFishingDisplay(LavaFishingOutcomeCategory outcomes) {
 		this.outcomes = outcomes;

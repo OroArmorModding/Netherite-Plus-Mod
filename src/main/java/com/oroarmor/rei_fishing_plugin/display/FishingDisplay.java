@@ -20,7 +20,7 @@ public class FishingDisplay implements RecipeDisplay {
 
 	public static final Identifier ID = new Identifier("netherite_plus:fishing_category");
 
-	private FishingOutcomeCategory outcomes;
+	private final FishingOutcomeCategory outcomes;
 
 	public FishingDisplay(FishingOutcomeCategory outcomes) {
 		this.outcomes = outcomes;

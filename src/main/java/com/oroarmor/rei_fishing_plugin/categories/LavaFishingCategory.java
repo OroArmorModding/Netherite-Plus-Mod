@@ -86,8 +86,8 @@ public class LavaFishingCategory implements RecipeCategory<LavaFishingDisplay> {
 	}
 
 	private static class ScrollableSlotsWidget extends WidgetWithBounds {
-		private Rectangle bounds;
-		private List<Slot> widgets;
+		private final Rectangle bounds;
+		private final List<Slot> widgets;
 		private final ScrollingContainer scrolling = new ScrollingContainer() {
 			@Override
 			public Rectangle getBounds() {

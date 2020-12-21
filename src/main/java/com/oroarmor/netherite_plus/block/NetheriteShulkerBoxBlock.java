@@ -166,7 +166,7 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
 				}
 
 				if (j - i > 0) {
-					tooltip.add(new TranslatableText("container.shulkerBox.more", new Object[] { j - i }).formatted(Formatting.ITALIC));
+					tooltip.add(new TranslatableText("container.shulkerBox.more", j - i).formatted(Formatting.ITALIC));
 				}
 			}
 		}

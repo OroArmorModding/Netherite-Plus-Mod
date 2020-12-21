@@ -263,19 +263,19 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 					blockState2 = serverWorld.getBlockState(new BlockPos(q, r - 1.0D, s));
 					if (blockState2.isOf(Blocks.LAVA)) {
 						if (random.nextFloat() < 0.15F) {
-							serverWorld.spawnParticles(ParticleTypes.LANDING_LAVA, q, r - 0.10000000149011612D, s, 1, (double) o, 0.1D, (double) p, 0.0D);
+							serverWorld.spawnParticles(ParticleTypes.LANDING_LAVA, q, r - 0.10000000149011612D, s, 1, o, 0.1D, p, 0.0D);
 						}
 
 						float k = o * 0.04F;
 						float l = p * 0.04F;
-						serverWorld.spawnParticles(ParticleTypes.FLAME, q, r, s, 0, (double) l, 0.01D, (double) -k, 1.0D);
-						serverWorld.spawnParticles(ParticleTypes.FLAME, q, r, s, 0, (double) -l, 0.01D, (double) k, 1.0D);
+						serverWorld.spawnParticles(ParticleTypes.FLAME, q, r, s, 0, l, 0.01D, -k, 1.0D);
+						serverWorld.spawnParticles(ParticleTypes.FLAME, q, r, s, 0, -l, 0.01D, k, 1.0D);
 					}
 				} else {
 					playSound(SoundEvents.ENTITY_FISHING_BOBBER_SPLASH, 0.25F, 1.0F + (random.nextFloat() - random.nextFloat()) * 0.4F);
 					double m = getY() + 0.5D;
-					serverWorld.spawnParticles(ParticleTypes.LANDING_LAVA, getX(), m, getZ(), (int) (1.0F + getWidth() * 20.0F), (double) getWidth(), 0.0D, (double) getWidth(), 0.20000000298023224D);
-					serverWorld.spawnParticles(ParticleTypes.FLAME, getX(), m, getZ(), (int) (1.0F + getWidth() * 20.0F), (double) getWidth(), 0.0D, (double) getWidth(), 0.20000000298023224D);
+					serverWorld.spawnParticles(ParticleTypes.LANDING_LAVA, getX(), m, getZ(), (int) (1.0F + getWidth() * 20.0F), getWidth(), 0.0D, getWidth(), 0.20000000298023224D);
+					serverWorld.spawnParticles(ParticleTypes.FLAME, getX(), m, getZ(), (int) (1.0F + getWidth() * 20.0F), getWidth(), 0.0D, getWidth(), 0.20000000298023224D);
 					hookCountdown = MathHelper.nextInt(random, 20, 40);
 					getDataTracker().set(CAUGHT_FISH, true);
 				}

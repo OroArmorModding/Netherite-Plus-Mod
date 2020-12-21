@@ -35,7 +35,7 @@ public class ClientPlayNetworkHandlerMixin {
 
 	@Inject(method = "onEntitySpawn", at = @At("HEAD"), cancellable = true)
 	public void onEntitySpawnMixin(EntitySpawnS2CPacket packet, CallbackInfo info) {
-		NetworkThreadUtils.forceMainThread(packet, (ClientPlayNetworkHandler) (Object) this, (ThreadExecutor<?>) client);
+		NetworkThreadUtils.forceMainThread(packet, (ClientPlayNetworkHandler) (Object) this, client);
 		double d = packet.getX();
 		double e = packet.getY();
 		double f = packet.getZ();
@@ -50,7 +50,7 @@ public class ClientPlayNetworkHandlerMixin {
 			if (entity16 instanceof ClientPlayerEntity) {
 
 				boolean hasNetheriteTrident = false;
-				Iterator<ItemStack> items = ((ClientPlayerEntity) entity16).getItemsHand().iterator();
+				Iterator<ItemStack> items = entity16.getItemsHand().iterator();
 				while (items.hasNext()) {
 					hasNetheriteTrident |= items.next().getItem() == NetheritePlusItems.NETHERITE_TRIDENT;
 				}

@@ -62,7 +62,7 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
 			client.player.closeHandledScreen();
 		}
 
-		return !nameField.keyPressed(keyCode, scanCode, modifiers) && !nameField.isActive() ? super.keyPressed(keyCode, scanCode, modifiers) : true;
+		return nameField.keyPressed(keyCode, scanCode, modifiers) || nameField.isActive() || super.keyPressed(keyCode, scanCode, modifiers);
 	}
 
 	private void onRenamed(String name) {

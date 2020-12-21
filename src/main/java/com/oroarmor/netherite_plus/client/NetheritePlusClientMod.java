@@ -54,40 +54,41 @@ public class NetheritePlusClientMod implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		BlockEntityRendererRegistry.INSTANCE.register(NetheritePlusBlocks.NETHERITE_SHULKER_BOX_ENTITY, NetheriteShulkerBoxBlockEntityRenderer::new);
-
 		BlockEntityRendererRegistry.INSTANCE.register(NetheritePlusBlocks.NETHERITE_BEACON_BLOCK_ENTITY, NetheriteBeaconBlockEntityRenderer::new);
 
 		NetheritePlusTextures.register();
-
 		NetheritePlusModelProvider.registerItemsWithModelProvider();
-
 		NetheritePlusScreenHandlers.initializeClient();
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue()) {
 			BlockRenderLayerMap.INSTANCE.putBlock(NetheritePlusBlocks.NETHERITE_BEACON, RenderLayer.getCutout());
 		}
 
-		DynamicItemRenderer shulkerRenderer = new NetheriteShulkerBoxItemRenderer();
+		if(NetheritePlusConfig.ENABLED.ENABLED_SHULKER_BOXES.getValue()) {
+			DynamicItemRenderer shulkerRenderer = new NetheriteShulkerBoxItemRenderer();
 
-		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_SHULKER_BOX, shulkerRenderer);
-		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_WHITE_SHULKER_BOX, shulkerRenderer);
-		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_ORANGE_SHULKER_BOX, shulkerRenderer);
-		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_MAGENTA_SHULKER_BOX, shulkerRenderer);
-		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_LIGHT_BLUE_SHULKER_BOX, shulkerRenderer);
-		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_YELLOW_SHULKER_BOX, shulkerRenderer);
-		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_LIME_SHULKER_BOX, shulkerRenderer);
-		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_PINK_SHULKER_BOX, shulkerRenderer);
-		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_GRAY_SHULKER_BOX, shulkerRenderer);
-		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_LIGHT_GRAY_SHULKER_BOX, shulkerRenderer);
-		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_CYAN_SHULKER_BOX, shulkerRenderer);
-		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_PURPLE_SHULKER_BOX, shulkerRenderer);
-		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_BLUE_SHULKER_BOX, shulkerRenderer);
-		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_BROWN_SHULKER_BOX, shulkerRenderer);
-		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_GREEN_SHULKER_BOX, shulkerRenderer);
-		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_RED_SHULKER_BOX, shulkerRenderer);
-		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_BLACK_SHULKER_BOX, shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_SHULKER_BOX, shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_WHITE_SHULKER_BOX, shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_ORANGE_SHULKER_BOX, shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_MAGENTA_SHULKER_BOX, shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_LIGHT_BLUE_SHULKER_BOX, shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_YELLOW_SHULKER_BOX, shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_LIME_SHULKER_BOX, shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_PINK_SHULKER_BOX, shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_GRAY_SHULKER_BOX, shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_LIGHT_GRAY_SHULKER_BOX, shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_CYAN_SHULKER_BOX, shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_PURPLE_SHULKER_BOX, shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_BLUE_SHULKER_BOX, shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_BROWN_SHULKER_BOX, shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_GREEN_SHULKER_BOX, shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_RED_SHULKER_BOX, shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_BLACK_SHULKER_BOX, shulkerRenderer);
+		}
 
-		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_SHIELD, new NetheriteShieldItemRenderer());
+		if(NetheritePlusConfig.ENABLED.ENABLED_SHIELDS.getValue())
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_SHIELD, new NetheriteShieldItemRenderer());
+		if(NetheritePlusConfig.ENABLED.ENABLED_TRIDENT.getValue())
 		BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_TRIDENT, new NetheriteTridentItemRenderer());
 
 		LivingEntityFeatureRendererRegistrationCallback.EVENT.register((EntityType<? extends LivingEntity> entityType, LivingEntityRenderer<?, ?> entityRenderer, RegistrationHelper registrationHelper) -> {

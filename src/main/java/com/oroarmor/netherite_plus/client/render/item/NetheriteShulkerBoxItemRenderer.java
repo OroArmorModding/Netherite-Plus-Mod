@@ -20,7 +20,7 @@ public class NetheriteShulkerBoxItemRenderer implements DynamicItemRenderer {
 	private static final NetheriteShulkerBoxBlockEntity[] RENDER_NETHERITE_SHULKER_BOX_DYED = Arrays.stream(DyeColor.values()).sorted(Comparator.comparingInt(DyeColor::getId)).map(NetheriteShulkerBoxBlockEntity::new).toArray((i) -> {
 		return new NetheriteShulkerBoxBlockEntity[i];
 	});
-	private static final NetheriteShulkerBoxBlockEntity RENDER_NETHERITE_SHULKER_BOX = new NetheriteShulkerBoxBlockEntity((DyeColor) null);
+	private static final NetheriteShulkerBoxBlockEntity RENDER_NETHERITE_SHULKER_BOX = new NetheriteShulkerBoxBlockEntity(null);
 
 	@Override
 	public void render(ItemStack stack, Mode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
