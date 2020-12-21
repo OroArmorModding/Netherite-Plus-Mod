@@ -84,7 +84,7 @@ public class NetheritePlusBlocks {
 	}
 
 	private static void registerShulkerBoxBlocks() {
-		NETHERITE_SHULKER_BOX = register("netherite_shulker_box", createShulkerBoxBlock((DyeColor) null, AbstractBlock.Settings.of(Material.SHULKER_BOX).strength(2f, 1200f)));
+		NETHERITE_SHULKER_BOX = register("netherite_shulker_box", createShulkerBoxBlock(null, AbstractBlock.Settings.of(Material.SHULKER_BOX).strength(2f, 1200f)));
 		NETHERITE_WHITE_SHULKER_BOX = register("netherite_white_shulker_box", createShulkerBoxBlock(DyeColor.WHITE, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.WHITE)));
 		NETHERITE_ORANGE_SHULKER_BOX = register("netherite_orange_shulker_box", createShulkerBoxBlock(DyeColor.ORANGE, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.ORANGE)));
 		NETHERITE_MAGENTA_SHULKER_BOX = register("netherite_magenta_shulker_box", createShulkerBoxBlock(DyeColor.MAGENTA, AbstractBlock.Settings.of(Material.SHULKER_BOX, MaterialColor.MAGENTA)));

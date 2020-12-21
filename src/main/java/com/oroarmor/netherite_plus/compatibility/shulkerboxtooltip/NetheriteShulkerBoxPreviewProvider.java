@@ -8,7 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.util.DyeColor;
 
 public class NetheriteShulkerBoxPreviewProvider extends BlockEntityPreviewProvider {
-	private static float[] SHULKER_BOX_COLOR = new float[] { 0.592f, 0.403f, 0.592f };
+	private static final float[] SHULKER_BOX_COLOR = new float[] { 0.592f, 0.403f, 0.592f };
 
 	public NetheriteShulkerBoxPreviewProvider() {
 		super(27, true);

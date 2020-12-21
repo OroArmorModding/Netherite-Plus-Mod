@@ -296,7 +296,7 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
 	}
 
 	public void playSound(SoundEvent soundEvent) {
-		world.playSound((PlayerEntity) null, pos, soundEvent, SoundCategory.BLOCKS, 1.0F, 1.0F);
+		world.playSound(null, pos, soundEvent, SoundCategory.BLOCKS, 1.0F, 1.0F);
 	}
 
 	@Environment(EnvType.CLIENT)

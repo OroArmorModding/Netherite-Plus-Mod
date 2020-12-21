@@ -62,7 +62,7 @@ public class NetheriteBowItem extends BowItem {
 							persistentProjectileEntity.setOnFireFor(100);
 						}
 
-						stack.damage(1, (LivingEntity) playerEntity, (Consumer<LivingEntity>) (p) -> {
+						stack.damage(1, playerEntity, (p) -> {
 							p.sendToolBreakStatus(playerEntity.getActiveHand());
 						});
 						if (bl2 || playerEntity.abilities.creativeMode && (itemStack.getItem() == Items.SPECTRAL_ARROW || itemStack.getItem() == Items.TIPPED_ARROW)) {
@@ -72,7 +72,7 @@ public class NetheriteBowItem extends BowItem {
 						world.spawnEntity(persistentProjectileEntity);
 					}
 
-					world.playSound((PlayerEntity) null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+					world.playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 					if (!bl2 && !playerEntity.abilities.creativeMode) {
 						itemStack.decrement(1);
 						if (itemStack.isEmpty()) {

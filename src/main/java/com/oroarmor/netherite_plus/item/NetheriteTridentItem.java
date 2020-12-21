@@ -51,7 +51,7 @@ public class NetheriteTridentItem extends TridentItem {
 							}
 
 							world.spawnEntity(tridentEntity);
-							world.playSoundFromEntity((PlayerEntity) null, tridentEntity, SoundEvents.ITEM_TRIDENT_THROW, SoundCategory.PLAYERS, 1.0F, 1.0F);
+							world.playSoundFromEntity(null, tridentEntity, SoundEvents.ITEM_TRIDENT_THROW, SoundCategory.PLAYERS, 1.0F, 1.0F);
 							if (!playerEntity.abilities.creativeMode) {
 								playerEntity.inventory.removeOne(stack);
 							}
@@ -88,7 +88,7 @@ public class NetheriteTridentItem extends TridentItem {
 							soundEvent3 = SoundEvents.ITEM_TRIDENT_RIPTIDE_1;
 						}
 
-						world.playSoundFromEntity((PlayerEntity) null, playerEntity, soundEvent3, SoundCategory.PLAYERS, 1.0F, 1.0F);
+						world.playSoundFromEntity(null, playerEntity, soundEvent3, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
 					}
 

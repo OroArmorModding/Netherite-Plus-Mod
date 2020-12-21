@@ -27,7 +27,7 @@ public enum NetheriteElytraArmorMaterials implements ArmorMaterial {
 	private final float knockbackResistance;
 	private final Lazy<Ingredient> repairIngredientSupplier;
 
-	private NetheriteElytraArmorMaterials(String name, int durabilityMultiplier, int[] protectionAmounts, int enchantability, SoundEvent equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> supplier) {
+	NetheriteElytraArmorMaterials(String name, int durabilityMultiplier, int[] protectionAmounts, int enchantability, SoundEvent equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> supplier) {
 		this.name = name;
 		this.durabilityMultiplier = durabilityMultiplier;
 		this.protectionAmounts = protectionAmounts;

@@ -37,8 +37,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShapes;
 
 public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity implements SidedInventory, Tickable {
-	public static enum AnimationStage {
-		CLOSED, OPENING, OPENED, CLOSING;
+	public enum AnimationStage {
+		CLOSED, OPENING, OPENED, CLOSING
 	}
 
 	private static final int[] AVAILABLE_SLOTS = IntStream.range(0, 27).toArray();
@@ -53,7 +53,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 	private boolean cachedColorUpdateNeeded;
 
 	public NetheriteShulkerBoxBlockEntity() {
-		this((DyeColor) null);
+		this(null);
 		cachedColorUpdateNeeded = true;
 	}
 
@@ -147,7 +147,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 			--viewerCount;
 			world.addSyncedBlockEvent(pos, getCachedState().getBlock(), 1, viewerCount);
 			if (viewerCount <= 0) {
-				world.playSound((PlayerEntity) null, pos, SoundEvents.BLOCK_SHULKER_BOX_CLOSE, SoundCategory.BLOCKS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
+				world.playSound(null, pos, SoundEvents.BLOCK_SHULKER_BOX_CLOSE, SoundCategory.BLOCKS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
 			}
 		}
 
@@ -163,7 +163,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 			++viewerCount;
 			world.addSyncedBlockEvent(pos, getCachedState().getBlock(), 1, viewerCount);
 			if (viewerCount == 1) {
-				world.playSound((PlayerEntity) null, pos, SoundEvents.BLOCK_SHULKER_BOX_OPEN, SoundCategory.BLOCKS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
+				world.playSound(null, pos, SoundEvents.BLOCK_SHULKER_BOX_OPEN, SoundCategory.BLOCKS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
 			}
 		}
 
@@ -193,7 +193,7 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 		if (blockState.getBlock() instanceof NetheriteShulkerBoxBlock) {
 			Direction direction = blockState.get(NetheriteShulkerBoxBlock.FACING);
 			Box box = getCollisionBox(direction).offset(pos);
-			List<Entity> list = world.getOtherEntities((Entity) null, box);
+			List<Entity> list = world.getOtherEntities(null, box);
 			if (!list.isEmpty()) {
 				for (int i = 0; i < list.size(); ++i) {
 					Entity entity = list.get(i);

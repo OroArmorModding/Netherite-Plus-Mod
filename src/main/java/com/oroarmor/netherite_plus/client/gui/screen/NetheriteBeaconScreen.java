@@ -201,7 +201,7 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
 		@Override
 		public void onPress() {
 			NetheriteBeaconScreen.this.client.player.networkHandler.sendPacket(new CloseHandledScreenC2SPacket(NetheriteBeaconScreen.this.client.player.currentScreenHandler.syncId));
-			NetheriteBeaconScreen.this.client.openScreen((Screen) null);
+			NetheriteBeaconScreen.this.client.openScreen(null);
 		}
 
 		@Override
@@ -226,7 +226,7 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
 			}
 			ClientSidePacketRegistry.INSTANCE.sendToServer(UpdateNetheriteBeaconC2SPacket.ID, buf);
 			NetheriteBeaconScreen.this.client.player.networkHandler.sendPacket(new CloseHandledScreenC2SPacket(NetheriteBeaconScreen.this.client.player.currentScreenHandler.syncId));
-			NetheriteBeaconScreen.this.client.openScreen((Screen) null);
+			NetheriteBeaconScreen.this.client.openScreen(null);
 		}
 
 		@Override

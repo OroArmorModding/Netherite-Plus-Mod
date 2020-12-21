@@ -3,7 +3,7 @@ package com.oroarmor.util.init;
 import java.lang.reflect.Method;
 
 public interface Initable {
-	public static void initClass(Class<?> clazz) {
+	static void initClass(Class<?> clazz) {
 		try {
 			Class<?>[] interfaces = clazz.getInterfaces();
 			for (Class<?> _interface : interfaces) {
@@ -18,7 +18,7 @@ public interface Initable {
 		}
 	}
 
-	public static void initClasses(Class<?>... classes) {
+	static void initClasses(Class<?>... classes) {
 		for (Class<?> clazz : classes) {
 			initClass(clazz);
 		}
