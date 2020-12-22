@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:fishing",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "weight": 60,
+          "quality": -2,
+          "name": "netherite_plus:gameplay/fishing/junk"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "conditions": [
+            {
+              "condition": "minecraft:entity_properties",
+              "predicate": {
+                "fishing_hook": {
+                  "in_open_water": true
+                }
+              },
+              "entity": "this"
+            }
+          ],
+          "weight": 40,
+          "quality": 2,
+          "name": "netherite_plus:gameplay/fishing/treasure"
+        }
+      ]
+    }
+  ]
+}
