@@ -1,0 +1,8 @@
+{
+  "_comment": "This file is here to make fabric loader load this on the Knot classloader.",
+  "schemaVersion": 1,
+  "id": "netherite-plus-mod-common",
+  "version": "0.0.1",
+
+  "accesswidener" : "netherite_plus.accesswidener"
+}

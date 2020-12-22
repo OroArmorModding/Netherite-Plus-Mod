@@ -1,148 +1,20 @@
 plugins {
-    id 'fabric-loom' version '0.5.38'
-    id 'maven-publish'
+    id "architect-plugin" version "1.1.19"
 }
 
-minecraft {
-    accessWidener = file("src/main/resources/netherite_plus.accesswidener")
+architect {
+    minecraft = rootProject.minecraft_version
 }
 
-repositories {
-    jcenter()
-    maven {
-        name = "Fabric"
-        url = "https://maven.fabricmc.net/"
-    }
-    maven {
-        url = 'https://maven.modmuss50.me/'
-    }
-    maven {
-        url = "https://jitpack.io"
-    }
-    maven {
-        name = "NerdHubMC"
-        url = "https://maven.abusedmaster.xyz/"
-    }
-    maven {
-        url = 'https://raw.githubusercontent.com/Devan-Kerman/Devan-Repo/master/'
-    }
-    maven { url = "https://dl.bintray.com/kyrptonaught/Quickshulker/" }
-    maven { url = "https://dl.bintray.com/kyrptonaught/kyrptconfig/" }
-    maven { url = "https://maven.misterpemodder.com/libs-release/" }
-}
+allprojects {
+    apply plugin: "java"
+    apply plugin: "architect-plugin"
+    
+    archivesBaseName = rootProject.archives_base_name
+    version = rootProject.mod_version
+    group = rootProject.maven_group
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
-archivesBaseName = project.archives_base_name
-version = project.mod_version
-group = project.maven_group
-
-def runAndCompile(List<String> mods, boolean run) {
-    dependencies {
-        mods.each {
-            modCompileOnly(it) {
-                exclude(module: "fabric-api")
-            }
-            if (run) {
-                modRuntime it
-            }
-        }
-    }
-}
-
-def includeLibraries(List<String> libraries) {
-    dependencies {
-        libraries.each {
-            modImplementation it
-            include it
-        }
-    }
-}
-
-def runAlways(List<String> mods) {
-    dependencies {
-        mods.each {
-            modRuntime it
-        }
-    }
-}
-
-dependencies {
-
-    //to change the versions see the gradle.properties file
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings minecraft.officialMojangMappings()
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-    // Fabric API. This is technically optional, but you probably want it anyway.
-    modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    //Libraries
-    includeLibraries(['net.devtech:arrp:0.2.6',
-                      'com.github.OroArmor:oro-config:-SNAPSHOT',
-                      'com.github.OroArmor:Multi-Item-Lib:-SNAPSHOT'])
-
-    runAndCompile(["net.kyrptonaught:quickshulker:${project.quickshulker}",
-                   "com.github.emilyploszaj:trinkets:${project.trinkets}",
-                   "com.misterpemodder:shulkerboxtooltip:${project.shulkerboxtooltip}+${project.minecraft_version}"], true)
-
-    runAlways(["io.github.prospector:modmenu:${project.modmenu}", "me.shedaniel:RoughlyEnoughItems:${project.rei}"])
-
-    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api:${project.rei}") {
-        exclude(module: "fabric-api")
-    }
-}
-
-processResources {
-    inputs.property "version", project.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include "fabric.mod.json"
-        expand "version": project.version
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude "fabric.mod.json"
-    }
-}
-
-// ensure that the encoding is set to UTF-8, no matter what the system default is
-// this fixes some edge cases with special characters not displaying correctly
-// see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
-tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
-}
-
-// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-// if it is present.
-// If you remove this task, sources will not be generated.
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = "sources"
-    from sourceSets.main.allSource
-}
-
-jar {
-    from "LICENSE"
-}
-
-// configure the maven publication
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            // add all the jars that should be included when publishing to maven
-            artifact(remapJar) {
-                builtBy remapJar
-            }
-            artifact(sourcesJar) {
-                builtBy remapSourcesJar
-            }
-        }
-    }
-
-    // select the repositories you want to publish to
-    repositories {
-        // uncomment to publish to the local maven
-        // mavenLocal()
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
     }
 }
