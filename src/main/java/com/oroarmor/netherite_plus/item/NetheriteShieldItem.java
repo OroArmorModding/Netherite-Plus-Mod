@@ -1,9 +1,9 @@
 package com.oroarmor.netherite_plus.item;
 
-import net.minecraft.item.ShieldItem;
+import net.minecraft.world.item.ShieldItem;
 
 public class NetheriteShieldItem extends ShieldItem {
-	public NetheriteShieldItem(Settings settings) {
+	public NetheriteShieldItem(Properties settings) {
 		super(settings);
 	}
 

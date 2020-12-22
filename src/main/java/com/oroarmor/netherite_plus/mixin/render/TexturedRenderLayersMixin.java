@@ -11,14 +11,14 @@ import com.oroarmor.netherite_plus.client.NetheritePlusTextures;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.render.TexturedRenderLayers;
-import net.minecraft.client.util.SpriteIdentifier;
+import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.resources.model.Material;
 
 @Environment(EnvType.CLIENT)
-@Mixin(TexturedRenderLayers.class)
+@Mixin(Sheets.class)
 public class TexturedRenderLayersMixin {
-	@Inject(at = @At("HEAD"), method = "addDefaultTextures(Ljava/util/function/Consumer;)V")
-	private static void onAddDefaultTextures(Consumer<SpriteIdentifier> consumer, CallbackInfo info) {
+	@Inject(at = @At("HEAD"), method = "getAllMaterials")
+	private static void onAddDefaultTextures(Consumer<Material> consumer, CallbackInfo info) {
 		NetheritePlusTextures.makeAtlases(consumer);
 	}
 }

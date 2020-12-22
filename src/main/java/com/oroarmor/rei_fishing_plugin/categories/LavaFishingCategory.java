@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 import com.oroarmor.rei_fishing_plugin.display.LavaFishingDisplay;
 
@@ -25,18 +26,17 @@ import me.shedaniel.rei.gui.entries.RecipeEntry;
 import me.shedaniel.rei.gui.widget.Widget;
 import me.shedaniel.rei.gui.widget.WidgetWithBounds;
 import me.shedaniel.rei.utils.CollectionUtils;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 public class LavaFishingCategory implements RecipeCategory<LavaFishingDisplay> {
 
 	@Override
-	public Identifier getIdentifier() {
-		return new Identifier("netherite_plus:lava_fishing_category");
+	public ResourceLocation getIdentifier() {
+		return new ResourceLocation("netherite_plus:lava_fishing_category");
 	}
 
 	@Override
@@ -55,12 +55,12 @@ public class LavaFishingCategory implements RecipeCategory<LavaFishingDisplay> {
 		return new RecipeEntry() {
 			@Override
 			public int getHeight() {
-				return 10 + MinecraftClient.getInstance().textRenderer.fontHeight;
+				return 10 + Minecraft.getInstance().font.lineHeight;
 			}
 
 			@Override
-			public void render(MatrixStack matrices, Rectangle rectangle, int mouseX, int mouseY, float delta) {
-				MinecraftClient.getInstance().textRenderer.draw(matrices, name, rectangle.x + 5, rectangle.y + 6, -1);
+			public void render(PoseStack matrices, Rectangle rectangle, int mouseX, int mouseY, float delta) {
+				Minecraft.getInstance().font.draw(matrices, name, rectangle.x + 5, rectangle.y + 6, -1);
 			}
 		};
 	}
@@ -68,7 +68,7 @@ public class LavaFishingCategory implements RecipeCategory<LavaFishingDisplay> {
 	@Override
 	public List<Widget> setupDisplay(LavaFishingDisplay display, Rectangle bounds) {
 		List<Widget> widgets = Lists.newArrayList();
-		widgets.add(Widgets.createSlot(new Point(bounds.getCenterX() - 8, bounds.y + 3)).entry(getLogo().addSetting(Settings.TOOLTIP_APPEND_EXTRA, (stack) -> ImmutableList.of(new LiteralText(display.getOutcomes().getType().toString())))));
+		widgets.add(Widgets.createSlot(new Point(bounds.getCenterX() - 8, bounds.y + 3)).entry(getLogo().addSetting(Settings.TOOLTIP_APPEND_EXTRA, (stack) -> ImmutableList.of(new TextComponent(display.getOutcomes().getType().toString())))));
 		Rectangle rectangle = new Rectangle(bounds.getCenterX() - bounds.width / 2 - 1, bounds.y + 23, bounds.width + 2, bounds.height - 28);
 		widgets.add(Widgets.createSlotBase(rectangle));
 		widgets.add(new ScrollableSlotsWidget(rectangle, CollectionUtils.map(display.getEntries(), t -> Widgets.createSlot(new Point(0, 0)).disableBackground().entry(t))));
@@ -97,7 +97,7 @@ public class LavaFishingCategory implements RecipeCategory<LavaFishingDisplay> {
 
 			@Override
 			public int getMaxScrollHeight() {
-				return MathHelper.ceil(widgets.size() / 8f) * 18;
+				return Mth.ceil(widgets.size() / 8f) * 18;
 			}
 		};
 
@@ -138,11 +138,11 @@ public class LavaFishingCategory implements RecipeCategory<LavaFishingDisplay> {
 		}
 
 		@Override
-		public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+		public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
 			scrolling.updatePosition(delta);
 			Rectangle innerBounds = scrolling.getScissorBounds();
 			ScissorsHandler.INSTANCE.scissor(innerBounds);
-			for (int y = 0; y < MathHelper.ceil(widgets.size() / 8f); y++) {
+			for (int y = 0; y < Mth.ceil(widgets.size() / 8f); y++) {
 				for (int x = 0; x < 8; x++) {
 					int index = y * 8 + x;
 					if (widgets.size() <= index) {
@@ -160,7 +160,7 @@ public class LavaFishingCategory implements RecipeCategory<LavaFishingDisplay> {
 		}
 
 		@Override
-		public List<? extends Element> children() {
+		public List<? extends GuiEventListener> children() {
 			return widgets;
 		}
 	}

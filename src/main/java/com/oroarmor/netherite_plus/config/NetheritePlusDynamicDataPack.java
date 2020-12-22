@@ -20,25 +20,25 @@ import static net.devtech.arrp.json.recipe.JRecipe.shaped;
 import static net.devtech.arrp.json.recipe.JRecipe.smithing;
 import static net.devtech.arrp.json.recipe.JResult.item;
 import static net.devtech.arrp.json.tags.JTag.tag;
-import static net.minecraft.item.Items.BEACON;
-import static net.minecraft.item.Items.BOW;
-import static net.minecraft.item.Items.CROSSBOW;
-import static net.minecraft.item.Items.DIAMOND_HORSE_ARMOR;
-import static net.minecraft.item.Items.ELYTRA;
-import static net.minecraft.item.Items.FISHING_ROD;
-import static net.minecraft.item.Items.IRON_BLOCK;
-import static net.minecraft.item.Items.NETHERITE_BLOCK;
-import static net.minecraft.item.Items.NETHERITE_INGOT;
-import static net.minecraft.item.Items.SHIELD;
-import static net.minecraft.item.Items.TRIDENT;
+import static net.minecraft.world.item.Items.BEACON;
+import static net.minecraft.world.item.Items.BOW;
+import static net.minecraft.world.item.Items.CROSSBOW;
+import static net.minecraft.world.item.Items.DIAMOND_HORSE_ARMOR;
+import static net.minecraft.world.item.Items.ELYTRA;
+import static net.minecraft.world.item.Items.FISHING_ROD;
+import static net.minecraft.world.item.Items.IRON_BLOCK;
+import static net.minecraft.world.item.Items.NETHERITE_BLOCK;
+import static net.minecraft.world.item.Items.NETHERITE_INGOT;
+import static net.minecraft.world.item.Items.SHIELD;
+import static net.minecraft.world.item.Items.TRIDENT;
 
 import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
 import com.oroarmor.util.init.Initable;
 
 import net.devtech.arrp.api.RRPCallback;
 import net.devtech.arrp.api.RuntimeResourcePack;
-import net.minecraft.block.ShulkerBoxBlock;
-import net.minecraft.util.DyeColor;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.block.ShulkerBoxBlock;
 
 public class NetheritePlusDynamicDataPack implements Initable {
 
@@ -56,7 +56,7 @@ public class NetheritePlusDynamicDataPack implements Initable {
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_SHULKER_BOXES.getValue()) {
 			stream(DyeColor.values()).forEach(NetheritePlusDynamicDataPack::createShulkerRecipe);
-			DATA_PACK.addRecipe(id(MOD_ID + ":netherite_shulker_box"), smithing(ingredient().item(ShulkerBoxBlock.get(null).asItem()), ingredient().item(NETHERITE_INGOT), item(NetheriteShulkerBoxBlock.get(null).asItem())));
+			DATA_PACK.addRecipe(id(MOD_ID + ":netherite_shulker_box"), smithing(ingredient().item(ShulkerBoxBlock.getBlockByColor(null).asItem()), ingredient().item(NETHERITE_INGOT), item(NetheriteShulkerBoxBlock.get(null).asItem())));
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_BOWS_AND_CROSSBOWS.getValue()) {
@@ -89,7 +89,7 @@ public class NetheritePlusDynamicDataPack implements Initable {
 	}
 
 	public static void createShulkerRecipe(DyeColor color) {
-		DATA_PACK.addRecipe(id(MOD_ID + ":netherite_" + color.getName() + "_shulker_box"), smithing(ingredient().item(ShulkerBoxBlock.get(color).asItem()), ingredient().item(NETHERITE_INGOT), item(NetheriteShulkerBoxBlock.get(color).asItem())));
+		DATA_PACK.addRecipe(id(MOD_ID + ":netherite_" + color.getName() + "_shulker_box"), smithing(ingredient().item(ShulkerBoxBlock.getBlockByColor(color).asItem()), ingredient().item(NETHERITE_INGOT), item(NetheriteShulkerBoxBlock.get(color).asItem())));
 	}
 
 }

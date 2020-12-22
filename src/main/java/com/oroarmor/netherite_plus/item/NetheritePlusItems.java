@@ -9,13 +9,13 @@ import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.util.init.Initable;
 
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Rarity;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.block.Block;
 
 public final class NetheritePlusItems implements Initable {
 
@@ -31,7 +31,7 @@ public final class NetheritePlusItems implements Initable {
 
 	public static Item NETHERITE_TRIDENT;
 
-	public static final Item.Settings NETHERITE_SHULKER_BOX_ITEM_SETTINGS = new Item.Settings().maxCount(1).group(ItemGroup.DECORATIONS).fireproof();
+	public static final Item.Properties NETHERITE_SHULKER_BOX_ITEM_SETTINGS = new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_DECORATIONS).fireResistant();
 
 	public static Item NETHERITE_SHULKER_BOX;
 	public static Item NETHERITE_WHITE_SHULKER_BOX;
@@ -60,31 +60,31 @@ public final class NetheritePlusItems implements Initable {
 	public static Item NETHERITE_ANVIL_ITEM;
 
 	protected static Item register(Block block, Item item) {
-		return register(Registry.BLOCK.getId(block), item);
+		return register(Registry.BLOCK.getKey(block), item);
 	}
 
 	private static Item register(BlockItem item) {
 		return register(item.getBlock(), item);
 	}
 
-	private static Item register(Identifier id, Item item) {
+	private static Item register(ResourceLocation id, Item item) {
 		if (item instanceof BlockItem) {
-			((BlockItem) item).appendBlocks(Item.BLOCK_ITEMS, item);
+			((BlockItem) item).registerBlocks(Item.BY_BLOCK, item);
 		}
 
 		return Registry.register(Registry.ITEM, id, item);
 	}
 
 	private static void registerBowAndCrossbow() {
-		NETHERITE_BOW = register(id("netherite_bow"), new NetheriteBowItem(new Item.Settings().maxDamage(NetheritePlusConfig.DURABILITIES.BOW_DURABILITY.getValue()).group(ItemGroup.COMBAT).fireproof()));
-		NETHERITE_CROSSBOW = register(id("netherite_crossbow"), new NetheriteCrossbowItem(new Item.Settings().maxDamage(NetheritePlusConfig.DURABILITIES.CROSSBOW_DURABILITY.getValue()).group(ItemGroup.COMBAT).fireproof()));
+		NETHERITE_BOW = register(id("netherite_bow"), new NetheriteBowItem(new Item.Properties().durability(NetheritePlusConfig.DURABILITIES.BOW_DURABILITY.getValue()).tab(CreativeModeTab.TAB_COMBAT).fireResistant()));
+		NETHERITE_CROSSBOW = register(id("netherite_crossbow"), new NetheriteCrossbowItem(new Item.Properties().durability(NetheritePlusConfig.DURABILITIES.CROSSBOW_DURABILITY.getValue()).tab(CreativeModeTab.TAB_COMBAT).fireResistant()));
 
 		UniqueItemRegistry.BOW.addItemToRegistry(NETHERITE_BOW);
 		UniqueItemRegistry.CROSSBOW.addItemToRegistry(NETHERITE_CROSSBOW);
 	}
 
 	private static void registerElytra() {
-		Item.Settings elytraSettings = new Item.Settings().maxDamage(NetheritePlusConfig.DURABILITIES.ELYTRA_DURABILITY.getValue()).group(ItemGroup.TRANSPORTATION).rarity(Rarity.UNCOMMON).fireproof();
+		Item.Properties elytraSettings = new Item.Properties().durability(NetheritePlusConfig.DURABILITIES.ELYTRA_DURABILITY.getValue()).tab(CreativeModeTab.TAB_TRANSPORTATION).rarity(Rarity.UNCOMMON).fireResistant();
 
 		NETHERITE_ELYTRA = register(id("netherite_elytra"), !FabricLoader.getInstance().isModLoaded("trinkets") ? new NetheriteElytraItem(elytraSettings) : NetheritePlusTrinketsCompatibilty.getTrinketsElytra(elytraSettings));
 
@@ -92,13 +92,13 @@ public final class NetheritePlusItems implements Initable {
 	}
 
 	private static void registerFishingRod() {
-		NETHERITE_FISHING_ROD = register(id("netherite_fishing_rod"), new NetheriteFishingRodItem(new Item.Settings().maxDamage(NetheritePlusConfig.DURABILITIES.FISHING_ROD_DURABILITY.getValue()).group(ItemGroup.TOOLS).fireproof()));
+		NETHERITE_FISHING_ROD = register(id("netherite_fishing_rod"), new NetheriteFishingRodItem(new Item.Properties().durability(NetheritePlusConfig.DURABILITIES.FISHING_ROD_DURABILITY.getValue()).tab(CreativeModeTab.TAB_TOOLS).fireResistant()));
 
 		UniqueItemRegistry.FISHING_ROD.addItemToRegistry(NETHERITE_FISHING_ROD);
 	}
 
 	private static void registerHorseArmor() {
-		NETHERITE_HORSE_ARMOR = register(id("netherite_horse_armor"), new NetheriteHorseArmorItem(15, new Item.Settings().maxCount(1).group(ItemGroup.MISC).fireproof()));
+		NETHERITE_HORSE_ARMOR = register(id("netherite_horse_armor"), new NetheriteHorseArmorItem(15, new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_MISC).fireResistant()));
 	}
 
 	public static void init() {
@@ -131,20 +131,20 @@ public final class NetheritePlusItems implements Initable {
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_FAKE_NETHERITE_BLOCKS.getValue()) {
-			FAKE_NETHERITE_BLOCK = register(new BlockItem(NetheritePlusBlocks.FAKE_NETHERITE_BLOCK, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS).fireproof()));
+			FAKE_NETHERITE_BLOCK = register(new BlockItem(NetheritePlusBlocks.FAKE_NETHERITE_BLOCK, new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS).fireResistant()));
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_ANVIL.getValue()) {
-			NETHERITE_ANVIL_ITEM = register(new BlockItem(NetheritePlusBlocks.NETHERITE_ANVIL_BLOCK, new Item.Settings().group(ItemGroup.DECORATIONS).fireproof()));
+			NETHERITE_ANVIL_ITEM = register(new BlockItem(NetheritePlusBlocks.NETHERITE_ANVIL_BLOCK, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS).fireResistant()));
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue()) {
-			NETHERITE_BEACON = register(new BlockItem(NetheritePlusBlocks.NETHERITE_BEACON, new Item.Settings().maxCount(64).group(ItemGroup.MISC).fireproof()));
+			NETHERITE_BEACON = register(new BlockItem(NetheritePlusBlocks.NETHERITE_BEACON, new Item.Properties().stacksTo(64).tab(CreativeModeTab.TAB_MISC).fireResistant()));
 		}
 	}
 
 	private static void registerShield() {
-		NETHERITE_SHIELD = register(id("netherite_shield"), new NetheriteShieldItem(new Item.Settings().maxDamage(NetheritePlusConfig.DURABILITIES.SHIELD_DURABILITY.getValue()).group(ItemGroup.COMBAT).fireproof()));
+		NETHERITE_SHIELD = register(id("netherite_shield"), new NetheriteShieldItem(new Item.Properties().durability(NetheritePlusConfig.DURABILITIES.SHIELD_DURABILITY.getValue()).tab(CreativeModeTab.TAB_COMBAT).fireResistant()));
 
 		UniqueItemRegistry.SHIELD.addItemToRegistry(NETHERITE_SHIELD);
 	}
@@ -170,7 +170,7 @@ public final class NetheritePlusItems implements Initable {
 	}
 
 	private static void registerTrident() {
-		NETHERITE_TRIDENT = register(id("netherite_trident"), new NetheriteTridentItem(new Item.Settings().maxDamage(NetheritePlusConfig.DURABILITIES.TRIDENT_DURABILITY.getValue()).group(ItemGroup.COMBAT).fireproof()));
+		NETHERITE_TRIDENT = register(id("netherite_trident"), new NetheriteTridentItem(new Item.Properties().durability(NetheritePlusConfig.DURABILITIES.TRIDENT_DURABILITY.getValue()).tab(CreativeModeTab.TAB_COMBAT).fireResistant()));
 		UniqueItemRegistry.TRIDENT.addItemToRegistry(NETHERITE_TRIDENT);
 	}
 

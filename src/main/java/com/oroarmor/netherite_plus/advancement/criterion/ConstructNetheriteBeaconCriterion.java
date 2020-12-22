@@ -4,56 +4,55 @@ import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 import com.google.gson.JsonObject;
 import com.oroarmor.netherite_plus.block.entity.NetheriteBeaconBlockEntity;
+import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
+import net.minecraft.advancements.critereon.DeserializationContext;
+import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.critereon.MinMaxBounds;
+import net.minecraft.advancements.critereon.SerializationContext;
+import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 
-import net.minecraft.advancement.criterion.AbstractCriterion;
-import net.minecraft.advancement.criterion.AbstractCriterionConditions;
-import net.minecraft.predicate.NumberRange;
-import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
-import net.minecraft.predicate.entity.AdvancementEntityPredicateSerializer;
-import net.minecraft.predicate.entity.EntityPredicate;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
-
-public class ConstructNetheriteBeaconCriterion extends AbstractCriterion<ConstructNetheriteBeaconCriterion.Conditions> {
-	private static final Identifier ID = id("construct_netherite_beacon");
+public class ConstructNetheriteBeaconCriterion extends SimpleCriterionTrigger<ConstructNetheriteBeaconCriterion.Conditions> {
+	private static final ResourceLocation ID = id("construct_netherite_beacon");
 
 	@Override
-	public Identifier getId() {
+	public ResourceLocation getId() {
 		return ID;
 	}
 
 	@Override
-	public ConstructNetheriteBeaconCriterion.Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended extended, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
-		NumberRange.IntRange intRange = NumberRange.IntRange.fromJson(jsonObject.get("level"));
+	public ConstructNetheriteBeaconCriterion.Conditions createInstance(JsonObject jsonObject, EntityPredicate.Composite extended, DeserializationContext advancementEntityPredicateDeserializer) {
+		MinMaxBounds.Ints intRange = MinMaxBounds.Ints.fromJson(jsonObject.get("level"));
 		return new ConstructNetheriteBeaconCriterion.Conditions(extended, intRange);
 	}
 
-	public void trigger(ServerPlayerEntity player, NetheriteBeaconBlockEntity beacon) {
-		test(player, (conditions) -> {
+	public void trigger(ServerPlayer player, NetheriteBeaconBlockEntity beacon) {
+		trigger(player, (conditions) -> {
 			return conditions.matches(beacon);
 		});
 	}
 
-	public static class Conditions extends AbstractCriterionConditions {
-		private final NumberRange.IntRange level;
+	public static class Conditions extends AbstractCriterionTriggerInstance {
+		private final MinMaxBounds.Ints level;
 
-		public Conditions(EntityPredicate.Extended player, NumberRange.IntRange level) {
+		public Conditions(EntityPredicate.Composite player, MinMaxBounds.Ints level) {
 			super(ConstructNetheriteBeaconCriterion.ID, player);
 			this.level = level;
 		}
 
-		public static ConstructNetheriteBeaconCriterion.Conditions level(NumberRange.IntRange level) {
-			return new ConstructNetheriteBeaconCriterion.Conditions(EntityPredicate.Extended.EMPTY, level);
+		public static ConstructNetheriteBeaconCriterion.Conditions level(MinMaxBounds.Ints level) {
+			return new ConstructNetheriteBeaconCriterion.Conditions(EntityPredicate.Composite.ANY, level);
 		}
 
 		public boolean matches(NetheriteBeaconBlockEntity beacon) {
-			return level.test(beacon.getLevel());
+			return level.matches(beacon.getBeaconLevel());
 		}
 
 		@Override
-		public JsonObject toJson(AdvancementEntityPredicateSerializer predicateSerializer) {
-			JsonObject jsonObject = super.toJson(predicateSerializer);
-			jsonObject.add("level", level.toJson());
+		public JsonObject serializeToJson(SerializationContext predicateSerializer) {
+			JsonObject jsonObject = super.serializeToJson(predicateSerializer);
+			jsonObject.add("level", level.serializeToJson());
 			return jsonObject;
 		}
 	}

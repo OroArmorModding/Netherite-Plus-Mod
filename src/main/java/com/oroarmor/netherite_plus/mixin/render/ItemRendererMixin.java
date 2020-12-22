@@ -2,6 +2,8 @@ package com.oroarmor.netherite_plus.mixin.render;
 
 import static com.oroarmor.netherite_plus.NetheritePlusMod.MOD_ID;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -9,51 +11,48 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
-
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.RenderLayers;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.item.BuiltinModelItemRenderer;
-import net.minecraft.client.render.item.ItemModels;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.json.ModelTransformation;
-import net.minecraft.client.util.ModelIdentifier;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.ItemModelShaper;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 @Mixin(ItemRenderer.class)
 public abstract class ItemRendererMixin {
 
 	@Shadow
-	private ItemModels models;
+	private ItemModelShaper itemModelShaper;
 
 	@Shadow
-	protected abstract void renderBakedItemModel(BakedModel model, ItemStack stack, int light, int overlay, MatrixStack matrices, VertexConsumer vertexConsumer4);
+	protected abstract void renderModelLists(BakedModel model, ItemStack stack, int light, int overlay, PoseStack matrices, VertexConsumer vertexConsumer4);
 
-	@Inject(method = "renderItem", at = @At(value = "HEAD"), cancellable = true)
-	public void renderItem(ItemStack stack, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel model, CallbackInfo info) {
+	@Inject(method = "render", at = @At(value = "HEAD"), cancellable = true)
+	public void renderItem(ItemStack stack, ItemTransforms.TransformType renderMode, boolean leftHanded, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay, BakedModel model, CallbackInfo info) {
 		if (!stack.isEmpty() && stack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT) {
-			matrices.push();
-			boolean bl = renderMode == ModelTransformation.Mode.GUI || renderMode == ModelTransformation.Mode.GROUND || renderMode == ModelTransformation.Mode.FIXED;
+			matrices.pushPose();
+			boolean bl = renderMode == ItemTransforms.TransformType.GUI || renderMode == ItemTransforms.TransformType.GROUND || renderMode == ItemTransforms.TransformType.FIXED;
 			if (stack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT && bl) {
-				model = models.getModelManager().getModel(new ModelIdentifier(MOD_ID + ":netherite_trident#inventory"));
+				model = itemModelShaper.getModelManager().getModel(new ModelResourceLocation(MOD_ID + ":netherite_trident#inventory"));
 			}
 
-			model.getTransformation().getTransformation(renderMode).apply(leftHanded, matrices);
+			model.getTransforms().getTransform(renderMode).apply(leftHanded, matrices);
 			matrices.translate(-0.5D, -0.5D, -0.5D);
-			if (model.isBuiltin() || stack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT && !bl) {
-				BuiltinModelItemRenderer.INSTANCE.render(stack, renderMode, matrices, vertexConsumers, light, overlay);
+			if (model.isCustomRenderer() || stack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT && !bl) {
+				BlockEntityWithoutLevelRenderer.instance.renderByItem(stack, renderMode, matrices, vertexConsumers, light, overlay);
 			} else {
-				RenderLayer renderLayer = RenderLayers.getItemLayer(stack, true);
+				RenderType renderLayer = ItemBlockRenderTypes.getRenderType(stack, true);
 				VertexConsumer vertexConsumer4;
-				vertexConsumer4 = ItemRenderer.getDirectItemGlintConsumer(vertexConsumers, renderLayer, true, stack.hasGlint());
+				vertexConsumer4 = ItemRenderer.getFoilBufferDirect(vertexConsumers, renderLayer, true, stack.hasFoil());
 
-				renderBakedItemModel(model, stack, light, overlay, matrices, vertexConsumer4);
+				renderModelLists(model, stack, light, overlay, matrices, vertexConsumer4);
 			}
 
-			matrices.pop();
+			matrices.popPose();
 			info.cancel();
 		}
 	}

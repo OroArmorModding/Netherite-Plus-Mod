@@ -2,21 +2,20 @@ package com.oroarmor.netherite_plus.entity.effect;
 
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.util.init.Initable;
-
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectType;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
 
 public class NetheritePlusStatusEffects implements Initable {
 
-	public static final StatusEffect LAVA_VISION;
+	public static final MobEffect LAVA_VISION;
 
-	private static StatusEffect register(int rawId, String id, StatusEffect entry) {
-		return Registry.register(Registry.STATUS_EFFECT, rawId, id, entry);
+	private static MobEffect register(int rawId, String id, MobEffect entry) {
+		return Registry.registerMapping(Registry.MOB_EFFECT, rawId, id, entry);
 	}
 
 	static {
-		LAVA_VISION = NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue() ? register(33, "lava_vision", new StatusEffect(StatusEffectType.BENEFICIAL, 16744207)) : null;
+		LAVA_VISION = NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue() ? register(33, "lava_vision", new MobEffect(MobEffectCategory.BENEFICIAL, 16744207)) : null;
 	}
 
 	public static void init() {

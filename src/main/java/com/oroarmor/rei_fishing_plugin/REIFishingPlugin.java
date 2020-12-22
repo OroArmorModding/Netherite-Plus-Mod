@@ -13,14 +13,14 @@ import me.shedaniel.rei.api.EntryRegistry;
 import me.shedaniel.rei.api.EntryStack;
 import me.shedaniel.rei.api.RecipeHelper;
 import me.shedaniel.rei.api.plugins.REIPluginV0;
-import net.minecraft.item.Items;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
 
 public class REIFishingPlugin implements REIPluginV0 {
 
 	@Override
-	public Identifier getPluginIdentifier() {
-		return new Identifier("netherite_plus:fishing_plugin");
+	public ResourceLocation getPluginIdentifier() {
+		return new ResourceLocation("netherite_plus:fishing_plugin");
 	}
 
 	@Override

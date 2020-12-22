@@ -6,13 +6,13 @@ import java.io.IOException;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.c2s.play.UpdateBeaconC2SPacket;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.game.ServerboundSetBeaconPacket;
+import net.minecraft.resources.ResourceLocation;
 
-public class UpdateNetheriteBeaconC2SPacket extends UpdateBeaconC2SPacket {
+public class UpdateNetheriteBeaconC2SPacket extends ServerboundSetBeaconPacket {
 
-	public static final Identifier ID = id("netherite_beacon_update_packet");
+	public static final ResourceLocation ID = id("netherite_beacon_update_packet");
 
 	private int tertiaryEffectId;
 
@@ -26,13 +26,13 @@ public class UpdateNetheriteBeaconC2SPacket extends UpdateBeaconC2SPacket {
 	}
 
 	@Override
-	public void read(PacketByteBuf buf) throws IOException {
+	public void read(FriendlyByteBuf buf) throws IOException {
 		super.read(buf);
 		tertiaryEffectId = buf.readVarInt();
 	}
 
 	@Override
-	public void write(PacketByteBuf buf) throws IOException {
+	public void write(FriendlyByteBuf buf) throws IOException {
 		super.write(buf);
 		buf.writeVarInt(tertiaryEffectId);
 	}

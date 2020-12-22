@@ -3,14 +3,12 @@ package com.oroarmor.netherite_plus.compatibility;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+import net.minecraft.Util;
+import net.minecraft.world.item.Item;
 import com.misterpemodder.shulkerboxtooltip.api.ShulkerBoxTooltipApi;
 import com.misterpemodder.shulkerboxtooltip.api.provider.PreviewProvider;
 import com.oroarmor.netherite_plus.compatibility.shulkerboxtooltip.NetheriteShulkerBoxPreviewProvider;
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
-
-import net.minecraft.item.Item;
-import net.minecraft.util.Util;
 
 public class ShulkerBoxTooltipHook implements ShulkerBoxTooltipApi {
 
