@@ -11,14 +11,14 @@ import com.oroarmor.rei_fishing_plugin.recipes.FishingOutcome.FishingOutcomeCate
 import me.shedaniel.rei.api.EntryStack;
 import me.shedaniel.rei.api.EntryStack.Settings;
 import me.shedaniel.rei.api.RecipeDisplay;
-import net.minecraft.text.LiteralText;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
 
 public class FishingDisplay implements RecipeDisplay {
 
 	private static final DecimalFormat format = new DecimalFormat("#.##");
 
-	public static final Identifier ID = new Identifier("netherite_plus:fishing_category");
+	public static final ResourceLocation ID = new ResourceLocation("netherite_plus:fishing_category");
 
 	private final FishingOutcomeCategory outcomes;
 
@@ -32,14 +32,14 @@ public class FishingDisplay implements RecipeDisplay {
 	}
 
 	@Override
-	public Identifier getRecipeCategory() {
+	public ResourceLocation getRecipeCategory() {
 		return ID;
 	}
 
 	private EntryStack generateEntrySettings(EntryStack stack) {
 		FishingOutcome outcome = outcomes.getOutcomes().stream().filter(o -> o.getOutput() == stack.getItemStack()).findFirst().get();
 
-		return stack.addSetting(Settings.TOOLTIP_ENABLED, () -> true).addSetting(Settings.TOOLTIP_APPEND_EXTRA, (entry) -> ImmutableList.of(new LiteralText("Open water: " + format.format(outcome.getOpenWaterChance()) + "%"), new LiteralText("Normal: " + format.format(outcome.getNormalChance(outcomes.getType())) + "%")));
+		return stack.addSetting(Settings.TOOLTIP_ENABLED, () -> true).addSetting(Settings.TOOLTIP_APPEND_EXTRA, (entry) -> ImmutableList.of(new TextComponent("Open water: " + format.format(outcome.getOpenWaterChance()) + "%"), new TextComponent("Normal: " + format.format(outcome.getNormalChance(outcomes.getType())) + "%")));
 
 	}
 

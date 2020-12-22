@@ -10,12 +10,12 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
-import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.world.inventory.MenuType;
 
 public class NetheritePlusScreenHandlers implements Initable {
 
-	public static ScreenHandlerType<NetheriteAnvilScreenHandler> NETHERITE_ANVIL;
-	public static ScreenHandlerType<NetheriteBeaconScreenHandler> NETHERITE_BEACON;
+	public static MenuType<NetheriteAnvilScreenHandler> NETHERITE_ANVIL;
+	public static MenuType<NetheriteBeaconScreenHandler> NETHERITE_BEACON;
 
 	static {
 		NETHERITE_ANVIL = ScreenHandlerRegistry.registerSimple(id("netherite_anvil"), NetheriteAnvilScreenHandler::new);

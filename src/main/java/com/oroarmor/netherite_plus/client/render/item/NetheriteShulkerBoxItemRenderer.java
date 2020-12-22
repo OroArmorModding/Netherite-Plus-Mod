@@ -2,18 +2,17 @@ package com.oroarmor.netherite_plus.client.render.item;
 
 import java.util.Arrays;
 import java.util.Comparator;
-
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
 import com.oroarmor.netherite_plus.block.entity.NetheriteShulkerBoxBlockEntity;
 
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry.DynamicItemRenderer;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
-import net.minecraft.client.render.model.json.ModelTransformation.Mode;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.DyeColor;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class NetheriteShulkerBoxItemRenderer implements DynamicItemRenderer {
 
@@ -23,7 +22,7 @@ public class NetheriteShulkerBoxItemRenderer implements DynamicItemRenderer {
 	private static final NetheriteShulkerBoxBlockEntity RENDER_NETHERITE_SHULKER_BOX = new NetheriteShulkerBoxBlockEntity(null);
 
 	@Override
-	public void render(ItemStack stack, Mode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+	public void render(ItemStack stack, TransformType mode, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
 		BlockEntity blockEntity9;
 		DyeColor dyeColor = NetheriteShulkerBoxBlock.getColor(stack.getItem());
 		if (dyeColor == null) {
@@ -32,7 +31,7 @@ public class NetheriteShulkerBoxItemRenderer implements DynamicItemRenderer {
 			blockEntity9 = RENDER_NETHERITE_SHULKER_BOX_DYED[dyeColor.getId()];
 		}
 
-		BlockEntityRenderDispatcher.INSTANCE.renderEntity(blockEntity9, matrices, vertexConsumers, light, overlay);
+		BlockEntityRenderDispatcher.instance.renderItem(blockEntity9, matrices, vertexConsumers, light, overlay);
 	}
 
 }

@@ -7,16 +7,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
+import net.minecraft.client.renderer.entity.ThrownTridentRenderer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.projectile.ThrownTrident;
 
-import net.minecraft.client.render.entity.TridentEntityRenderer;
-import net.minecraft.entity.projectile.TridentEntity;
-import net.minecraft.util.Identifier;
-
-@Mixin(TridentEntityRenderer.class)
+@Mixin(ThrownTridentRenderer.class)
 public class TridentEntityRendererMixin {
 
-	@Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/TridentEntityRenderer;getTexture(Lnet/minecraft/entity/projectile/TridentEntity;)Lnet/minecraft/util/Identifier;"))
-	public Identifier getTextureMixin(TridentEntityRenderer renderer, TridentEntity entity) {
-		return entity.tridentStack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT ? id("textures/entity/netherite_trident.png") : TridentEntityRenderer.TEXTURE;
+	@Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/ThrownTridentRenderer;getTextureLocation(Lnet/minecraft/world/entity/projectile/ThrownTrident;)Lnet/minecraft/resources/ResourceLocation;"))
+	public ResourceLocation getTextureMixin(ThrownTridentRenderer renderer, ThrownTrident entity) {
+		return entity.tridentItem.getItem() == NetheritePlusItems.NETHERITE_TRIDENT ? id("textures/entity/netherite_trident.png") : ThrownTridentRenderer.TRIDENT_LOCATION;
 	}
 }

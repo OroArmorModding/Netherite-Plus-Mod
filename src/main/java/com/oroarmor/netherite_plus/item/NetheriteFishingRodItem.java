@@ -1,51 +1,50 @@
 package com.oroarmor.netherite_plus.item;
 
 import com.oroarmor.netherite_plus.entity.NetheriteFishingBobberEntity;
-
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.FishingRodItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.stat.Stats;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.world.World;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.FishingRodItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
 
 public class NetheriteFishingRodItem extends FishingRodItem {
 
-	public NetheriteFishingRodItem(Settings settings) {
+	public NetheriteFishingRodItem(Properties settings) {
 		super(settings);
 	}
 
 	@Override
-	public int getEnchantability() {
+	public int getEnchantmentValue() {
 		return 2;
 	}
 
 	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-		ItemStack itemStack = user.getStackInHand(hand);
-		if (user.fishHook != null) {
-			if (!world.isClient) {
-				int fishingLevelUsage = user.fishHook.use(itemStack);
-				itemStack.damage(fishingLevelUsage, user, p -> p.sendToolBreakStatus(hand));
+	public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
+		ItemStack itemStack = user.getItemInHand(hand);
+		if (user.fishing != null) {
+			if (!world.isClientSide) {
+				int fishingLevelUsage = user.fishing.retrieve(itemStack);
+				itemStack.hurtAndBreak(fishingLevelUsage, user, p -> p.broadcastBreakEvent(hand));
 			}
 
-			world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_FISHING_BOBBER_RETRIEVE, SoundCategory.NEUTRAL, 1.0F, 0.4F / (RANDOM.nextFloat() * 0.4F + 0.8F));
+			world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.FISHING_BOBBER_RETRIEVE, SoundSource.NEUTRAL, 1.0F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
 		} else {
-			world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_FISHING_BOBBER_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (RANDOM.nextFloat() * 0.4F + 0.8F));
-			if (!world.isClient) {
-				int lureLevel = EnchantmentHelper.getLure(itemStack);
-				int luckOfTheSeaLevel = EnchantmentHelper.getLuckOfTheSea(itemStack);
-				world.spawnEntity(new NetheriteFishingBobberEntity(user, world, luckOfTheSeaLevel, lureLevel));
+			world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.FISHING_BOBBER_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+			if (!world.isClientSide) {
+				int lureLevel = EnchantmentHelper.getFishingSpeedBonus(itemStack);
+				int luckOfTheSeaLevel = EnchantmentHelper.getFishingLuckBonus(itemStack);
+				world.addFreshEntity(new NetheriteFishingBobberEntity(user, world, luckOfTheSeaLevel, lureLevel));
 			}
 
-			user.incrementStat(Stats.USED.getOrCreateStat(this));
+			user.awardStat(Stats.ITEM_USED.get(this));
 		}
 
-		return TypedActionResult.success(itemStack);
+		return InteractionResultHolder.success(itemStack);
 	}
 
 }

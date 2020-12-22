@@ -27,8 +27,8 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 
 public class NetheritePlusMod implements ModInitializer {
 	public static final NetheritePlusConfig CONFIG = new NetheritePlusConfig();
@@ -37,7 +37,7 @@ public class NetheritePlusMod implements ModInitializer {
 
 	public static final String MOD_ID = "netherite_plus";
 
-	public static final List<PlayerEntity> CONNECTED_CLIENTS = new ArrayList<>();
+	public static final List<Player> CONNECTED_CLIENTS = new ArrayList<>();
 
 	@Override
 	public void onInitialize() {
@@ -55,8 +55,8 @@ public class NetheritePlusMod implements ModInitializer {
 				e.printStackTrace();
 			}
 			context.getTaskQueue().execute(() -> {
-				if (context.getPlayer().currentScreenHandler instanceof NetheriteBeaconScreenHandler) {
-					((NetheriteBeaconScreenHandler) context.getPlayer().currentScreenHandler).setEffects(packet.getPrimaryEffectId(), packet.getSecondaryEffectId(), packet.getTertiaryEffectId());
+				if (context.getPlayer().containerMenu instanceof NetheriteBeaconScreenHandler) {
+					((NetheriteBeaconScreenHandler) context.getPlayer().containerMenu).setEffects(packet.getPrimary(), packet.getSecondary(), packet.getTertiaryEffectId());
 				}
 			});
 		});
@@ -72,8 +72,8 @@ public class NetheritePlusMod implements ModInitializer {
 		ServerLifecycleEvents.SERVER_STOPPED.register(l -> CONFIG.saveConfigToFile());
 	}
 
-	public static Identifier id(String id) {
-		return new Identifier(MOD_ID, id);
+	public static ResourceLocation id(String id) {
+		return new ResourceLocation(MOD_ID, id);
 	}
 
 }

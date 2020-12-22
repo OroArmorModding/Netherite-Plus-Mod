@@ -9,22 +9,22 @@ import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.render.entity.PlayerEntityRenderer;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.item.CrossbowItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.CrossbowItem;
+import net.minecraft.world.item.ItemStack;
 
 @Environment(EnvType.CLIENT)
-@Mixin(PlayerEntityRenderer.class)
+@Mixin(PlayerRenderer.class)
 public class PlayerEntityRendererMixin {
 
 	@Inject(method = "getArmPose", at = @At("HEAD"), cancellable = true)
-	private static void getArmPose(AbstractClientPlayerEntity abstractClientPlayerEntity, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> cir) {
-		ItemStack itemStack = abstractClientPlayerEntity.getStackInHand(hand);
-		if (!abstractClientPlayerEntity.handSwinging && itemStack.getItem() == NetheritePlusItems.NETHERITE_CROSSBOW && CrossbowItem.isCharged(itemStack)) {
-			cir.setReturnValue(BipedEntityModel.ArmPose.CROSSBOW_HOLD);
+	private static void getArmPose(AbstractClientPlayer abstractClientPlayerEntity, InteractionHand hand, CallbackInfoReturnable<HumanoidModel.ArmPose> cir) {
+		ItemStack itemStack = abstractClientPlayerEntity.getItemInHand(hand);
+		if (!abstractClientPlayerEntity.swinging && itemStack.getItem() == NetheritePlusItems.NETHERITE_CROSSBOW && CrossbowItem.isCharged(itemStack)) {
+			cir.setReturnValue(HumanoidModel.ArmPose.CROSSBOW_HOLD);
 		}
 	}
 

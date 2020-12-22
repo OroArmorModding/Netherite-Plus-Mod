@@ -4,27 +4,27 @@ import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.BannerItem;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.SpecialCraftingRecipe;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.BannerItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 
-public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
-	public NetheriteShieldDecorationRecipe(Identifier identifier) {
+public class NetheriteShieldDecorationRecipe extends CustomRecipe {
+	public NetheriteShieldDecorationRecipe(ResourceLocation identifier) {
 		super(identifier);
 	}
 
 	@Override
-	public ItemStack craft(CraftingInventory craftingInventory) {
+	public ItemStack assemble(CraftingContainer craftingInventory) {
 		ItemStack itemStack = ItemStack.EMPTY;
 		ItemStack itemStack2 = ItemStack.EMPTY;
 
-		for (int i = 0; i < craftingInventory.size(); ++i) {
-			ItemStack itemStack3 = craftingInventory.getStack(i);
+		for (int i = 0; i < craftingInventory.getContainerSize(); ++i) {
+			ItemStack itemStack3 = craftingInventory.getItem(i);
 			if (!itemStack3.isEmpty()) {
 				if (itemStack3.getItem() instanceof BannerItem) {
 					itemStack = itemStack3;
@@ -37,16 +37,16 @@ public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
 		if (itemStack2.isEmpty()) {
 			return itemStack2;
 		}
-		CompoundTag compoundTag = itemStack.getSubTag("BlockEntityTag");
+		CompoundTag compoundTag = itemStack.getTagElement("BlockEntityTag");
 		CompoundTag compoundTag2 = compoundTag == null ? new CompoundTag() : compoundTag.copy();
 		compoundTag2.putInt("Base", ((BannerItem) itemStack.getItem()).getColor().getId());
-		itemStack2.putSubTag("BlockEntityTag", compoundTag2);
+		itemStack2.addTagElement("BlockEntityTag", compoundTag2);
 		return itemStack2;
 	}
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public boolean fits(int width, int height) {
+	public boolean canCraftInDimensions(int width, int height) {
 		return width * height >= 2;
 	}
 
@@ -56,12 +56,12 @@ public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
 	}
 
 	@Override
-	public boolean matches(CraftingInventory craftingInventory, World world) {
+	public boolean matches(CraftingContainer craftingInventory, Level world) {
 		ItemStack itemStack = ItemStack.EMPTY;
 		ItemStack itemStack2 = ItemStack.EMPTY;
 
-		for (int i = 0; i < craftingInventory.size(); ++i) {
-			ItemStack itemStack3 = craftingInventory.getStack(i);
+		for (int i = 0; i < craftingInventory.getContainerSize(); ++i) {
+			ItemStack itemStack3 = craftingInventory.getItem(i);
 			if (!itemStack3.isEmpty()) {
 				if (itemStack3.getItem() instanceof BannerItem) {
 					if (!itemStack2.isEmpty()) {
@@ -78,7 +78,7 @@ public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
 						return false;
 					}
 
-					if (itemStack3.getSubTag("BlockEntityTag") != null) {
+					if (itemStack3.getTagElement("BlockEntityTag") != null) {
 						return false;
 					}
 

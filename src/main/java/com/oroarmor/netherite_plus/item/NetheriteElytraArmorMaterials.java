@@ -4,17 +4,17 @@ import java.util.function.Supplier;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.ArmorMaterial;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Lazy;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.LazyLoadedValue;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 
 public enum NetheriteElytraArmorMaterials implements ArmorMaterial {
-	NETHERITE_ELYTRA_MATERIAL("netherite_elytra", 37, new int[] { 3, 6, 4, 3 }, 15, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F, () -> {
-		return Ingredient.ofItems(Items.NETHERITE_INGOT);
+	NETHERITE_ELYTRA_MATERIAL("netherite_elytra", 37, new int[] { 3, 6, 4, 3 }, 15, SoundEvents.ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F, () -> {
+		return Ingredient.of(Items.NETHERITE_INGOT);
 	});
 
 	private static final int[] BASE_DURABILITY = new int[] { 13, 15, 16, 11 };
@@ -25,7 +25,7 @@ public enum NetheriteElytraArmorMaterials implements ArmorMaterial {
 	private final SoundEvent equipSound;
 	private final float toughness;
 	private final float knockbackResistance;
-	private final Lazy<Ingredient> repairIngredientSupplier;
+	private final LazyLoadedValue<Ingredient> repairIngredientSupplier;
 
 	NetheriteElytraArmorMaterials(String name, int durabilityMultiplier, int[] protectionAmounts, int enchantability, SoundEvent equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> supplier) {
 		this.name = name;
@@ -35,16 +35,16 @@ public enum NetheriteElytraArmorMaterials implements ArmorMaterial {
 		this.equipSound = equipSound;
 		this.toughness = toughness;
 		this.knockbackResistance = knockbackResistance;
-		repairIngredientSupplier = new Lazy<>(supplier);
+		repairIngredientSupplier = new LazyLoadedValue<>(supplier);
 	}
 
 	@Override
-	public int getDurability(EquipmentSlot slot) {
-		return BASE_DURABILITY[slot.getEntitySlotId()] * durabilityMultiplier;
+	public int getDurabilityForSlot(EquipmentSlot slot) {
+		return BASE_DURABILITY[slot.getIndex()] * durabilityMultiplier;
 	}
 
 	@Override
-	public int getEnchantability() {
+	public int getEnchantmentValue() {
 		return enchantability;
 	}
 
@@ -65,8 +65,8 @@ public enum NetheriteElytraArmorMaterials implements ArmorMaterial {
 	}
 
 	@Override
-	public int getProtectionAmount(EquipmentSlot slot) {
-		return protectionAmounts[slot.getEntitySlotId()];
+	public int getDefenseForSlot(EquipmentSlot slot) {
+		return protectionAmounts[slot.getIndex()];
 	}
 
 	@Override

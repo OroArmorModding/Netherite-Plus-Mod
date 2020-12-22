@@ -1,56 +1,56 @@
 package com.oroarmor.netherite_plus.client.gui.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.oroarmor.netherite_plus.screen.NetheriteAnvilScreenHandler;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ingame.ForgingScreen;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.packet.c2s.play.RenameItemC2SPacket;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.inventory.ItemCombinerScreen;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.protocol.game.ServerboundRenameItemPacket;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 
 @Environment(EnvType.CLIENT)
-public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHandler> {
-	private static final Identifier TEXTURE = new Identifier("textures/gui/container/anvil.png");
-	private TextFieldWidget nameField;
+public class NetheriteAnvilScreen extends ItemCombinerScreen<NetheriteAnvilScreenHandler> {
+	private static final ResourceLocation TEXTURE = new ResourceLocation("textures/gui/container/anvil.png");
+	private EditBox nameField;
 
-	public NetheriteAnvilScreen(NetheriteAnvilScreenHandler handler, PlayerInventory inventory, Text title) {
+	public NetheriteAnvilScreen(NetheriteAnvilScreenHandler handler, Inventory inventory, Component title) {
 		super(handler, inventory, title, TEXTURE);
-		titleX = 60;
+		titleLabelX = 60;
 	}
 
 	@Override
-	protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
+	protected void renderLabels(PoseStack matrices, int mouseX, int mouseY) {
 		RenderSystem.disableBlend();
-		super.drawForeground(matrices, mouseX, mouseY);
-		int level = handler.getLevelCost();
+		super.renderLabels(matrices, mouseX, mouseY);
+		int level = menu.getLevelCost();
 		if (level > 0) {
 			int color = 8453920;
 			boolean bl = true;
-			String string = I18n.translate("container.repair.cost", level);
-			if (level >= 40 && !client.player.abilities.creativeMode) {
-				string = I18n.translate("container.repair.expensive");
+			String string = I18n.get("container.repair.cost", level);
+			if (level >= 40 && !minecraft.player.abilities.instabuild) {
+				string = I18n.get("container.repair.expensive");
 				color = 16736352;
-			} else if (!handler.getSlot(2).hasStack()) {
+			} else if (!menu.getSlot(2).hasItem()) {
 				bl = false;
-			} else if (!handler.getSlot(2).canTakeItems(playerInventory.player)) {
+			} else if (!menu.getSlot(2).mayPickup(inventory.player)) {
 				color = 16736352;
 			}
 
 			if (bl) {
-				int k = backgroundWidth - 8 - textRenderer.getWidth(string) - 2;
-				fill(matrices, k - 2, 67, backgroundWidth - 8, 79, 1325400064);
-				textRenderer.drawWithShadow(matrices, string, k, 69.0F, color);
+				int k = imageWidth - 8 - font.width(string) - 2;
+				fill(matrices, k - 2, 67, imageWidth - 8, 79, 1325400064);
+				font.drawShadow(matrices, string, k, 69.0F, color);
 			}
 		}
 
@@ -59,29 +59,29 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 		if (keyCode == 256) {
-			client.player.closeHandledScreen();
+			minecraft.player.closeContainer();
 		}
 
-		return nameField.keyPressed(keyCode, scanCode, modifiers) || nameField.isActive() || super.keyPressed(keyCode, scanCode, modifiers);
+		return nameField.keyPressed(keyCode, scanCode, modifiers) || nameField.canConsumeInput() || super.keyPressed(keyCode, scanCode, modifiers);
 	}
 
 	private void onRenamed(String name) {
 		if (!name.isEmpty()) {
 			String string = name;
-			Slot slot = handler.getSlot(0);
-			if (slot != null && slot.hasStack() && !slot.getStack().hasCustomName() && name.equals(slot.getStack().getName().getString())) {
+			Slot slot = menu.getSlot(0);
+			if (slot != null && slot.hasItem() && !slot.getItem().hasCustomHoverName() && name.equals(slot.getItem().getHoverName().getString())) {
 				string = "";
 			}
 
-			handler.setNewItemName(string);
-			client.player.networkHandler.sendPacket(new RenameItemC2SPacket(string));
+			menu.setNewItemName(string);
+			minecraft.player.connection.send(new ServerboundRenameItemPacket(string));
 		}
 	}
 
 	@Override
-	public void onSlotUpdate(ScreenHandler handler, int slotId, ItemStack stack) {
+	public void slotChanged(AbstractContainerMenu handler, int slotId, ItemStack stack) {
 		if (slotId == 0) {
-			nameField.setText(stack.isEmpty() ? "" : stack.getName().getString());
+			nameField.setValue(stack.isEmpty() ? "" : stack.getHoverName().getString());
 			nameField.setEditable(!stack.isEmpty());
 			setFocused(nameField);
 		}
@@ -91,33 +91,33 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
 	@Override
 	public void removed() {
 		super.removed();
-		client.keyboard.setRepeatEvents(false);
+		minecraft.keyboardHandler.setSendRepeatsToGui(false);
 	}
 
 	@Override
-	public void renderForeground(MatrixStack matrixStack, int mouseY, int i, float f) {
+	public void renderFg(PoseStack matrixStack, int mouseY, int i, float f) {
 		nameField.render(matrixStack, mouseY, i, f);
 	}
 
 	@Override
-	public void resize(MinecraftClient client, int width, int height) {
-		String string = nameField.getText();
+	public void resize(Minecraft client, int width, int height) {
+		String string = nameField.getValue();
 		this.init(client, width, height);
-		nameField.setText(string);
+		nameField.setValue(string);
 	}
 
 	@Override
-	protected void setup() {
-		client.keyboard.setRepeatEvents(true);
-		int i = (width - backgroundWidth) / 2;
-		int j = (height - backgroundHeight) / 2;
-		nameField = new TextFieldWidget(textRenderer, i + 62, j + 24, 103, 12, new TranslatableText("container.repair"));
-		nameField.setFocusUnlocked(false);
-		nameField.setEditableColor(-1);
-		nameField.setUneditableColor(-1);
-		nameField.setHasBorder(false);
+	protected void subInit() {
+		minecraft.keyboardHandler.setSendRepeatsToGui(true);
+		int i = (width - imageWidth) / 2;
+		int j = (height - imageHeight) / 2;
+		nameField = new EditBox(font, i + 62, j + 24, 103, 12, new TranslatableComponent("container.repair"));
+		nameField.setCanLoseFocus(false);
+		nameField.setTextColor(-1);
+		nameField.setTextColorUneditable(-1);
+		nameField.setBordered(false);
 		nameField.setMaxLength(35);
-		nameField.setChangedListener(this::onRenamed);
+		nameField.setResponder(this::onRenamed);
 		children.add(nameField);
 		setInitialFocus(nameField);
 	}
