@@ -33,16 +33,16 @@ public abstract class ItemRendererMixin {
 
 	@Inject(method = "render", at = @At(value = "HEAD"), cancellable = true)
 	public void renderItem(ItemStack stack, ItemTransforms.TransformType renderMode, boolean leftHanded, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay, BakedModel model, CallbackInfo info) {
-		if (!stack.isEmpty() && stack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT) {
+		if (!stack.isEmpty() && stack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT.get()) {
 			matrices.pushPose();
 			boolean bl = renderMode == ItemTransforms.TransformType.GUI || renderMode == ItemTransforms.TransformType.GROUND || renderMode == ItemTransforms.TransformType.FIXED;
-			if (stack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT && bl) {
+			if (stack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT.get() && bl) {
 				model = itemModelShaper.getModelManager().getModel(new ModelResourceLocation(MOD_ID + ":netherite_trident#inventory"));
 			}
 
 			model.getTransforms().getTransform(renderMode).apply(leftHanded, matrices);
 			matrices.translate(-0.5D, -0.5D, -0.5D);
-			if (model.isCustomRenderer() || stack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT && !bl) {
+			if (model.isCustomRenderer() || stack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT.get() && !bl) {
 				BlockEntityWithoutLevelRenderer.instance.renderByItem(stack, renderMode, matrices, vertexConsumers, light, overlay);
 			} else {
 				RenderType renderLayer = ItemBlockRenderTypes.getRenderType(stack, true);

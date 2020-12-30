@@ -19,14 +19,14 @@ import net.minecraft.world.item.Items;
 
 public class NetheritePlusModelProvider {
 	private static void registerBowModels() {
-		FabricModelPredicateProviderRegistry.register(NETHERITE_BOW, new ResourceLocation("pull"), (itemStack, clientWorld, livingEntity) -> {
+		FabricModelPredicateProviderRegistry.register(NETHERITE_BOW.get(), new ResourceLocation("pull"), (itemStack, clientWorld, livingEntity) -> {
 			if (livingEntity == null) {
 				return 0.0F;
 			}
 			return livingEntity.getUseItem() != itemStack ? 0.0F : (itemStack.getUseDuration() - livingEntity.getUseItemRemainingTicks()) / 20.0F;
 		});
 
-		FabricModelPredicateProviderRegistry.register(NETHERITE_BOW, new ResourceLocation("pulling"), (itemStack, clientWorld, livingEntity) -> {
+		FabricModelPredicateProviderRegistry.register(NETHERITE_BOW.get(), new ResourceLocation("pulling"), (itemStack, clientWorld, livingEntity) -> {
 			if (livingEntity == null) {
 				return 0.0F;
 			}
@@ -35,26 +35,26 @@ public class NetheritePlusModelProvider {
 	}
 
 	private static void registerCrossbowModels() {
-		FabricModelPredicateProviderRegistry.register(NETHERITE_CROSSBOW, new ResourceLocation("pull"), (itemStack4, clientWorld3, livingEntity2) -> {
+		FabricModelPredicateProviderRegistry.register(NETHERITE_CROSSBOW.get(), new ResourceLocation("pull"), (itemStack4, clientWorld3, livingEntity2) -> {
 			if (livingEntity2 == null) {
 				return 0.0F;
 			}
 			return CrossbowItem.isCharged(itemStack4) ? 0.0F : (float) (itemStack4.getUseDuration() - livingEntity2.getUseItemRemainingTicks()) / (float) CrossbowItem.getChargeDuration(itemStack4);
 		});
-		FabricModelPredicateProviderRegistry.register(NETHERITE_CROSSBOW, new ResourceLocation("pulling"), (itemStack3, clientWorld1, livingEntity1) -> {
+		FabricModelPredicateProviderRegistry.register(NETHERITE_CROSSBOW.get(), new ResourceLocation("pulling"), (itemStack3, clientWorld1, livingEntity1) -> {
 			if (livingEntity1 == null) {
 				return 0.0F;
 			}
 			return livingEntity1.isUsingItem() && livingEntity1.getUseItem() == itemStack3 && !CrossbowItem.isCharged(itemStack3) ? 1.0F : 0.0F;
 		});
-		FabricModelPredicateProviderRegistry.register(NETHERITE_CROSSBOW, new ResourceLocation("charged"), (itemStack2, clientWorld4, livingEntity3) -> {
+		FabricModelPredicateProviderRegistry.register(NETHERITE_CROSSBOW.get(), new ResourceLocation("charged"), (itemStack2, clientWorld4, livingEntity3) -> {
 			if (livingEntity3 == null) {
 				return 0.0F;
 			}
 			return CrossbowItem.isCharged(itemStack2) ? 1.0F : 0.0F;
 		});
 
-		FabricModelPredicateProviderRegistry.register(NETHERITE_CROSSBOW, new ResourceLocation("firework"), (itemStack1, clientWorld2, livingEntity4) -> {
+		FabricModelPredicateProviderRegistry.register(NETHERITE_CROSSBOW.get(), new ResourceLocation("firework"), (itemStack1, clientWorld2, livingEntity4) -> {
 			if (livingEntity4 == null) {
 				return 0.0F;
 			}
@@ -63,13 +63,13 @@ public class NetheritePlusModelProvider {
 	}
 
 	private static void registerElytraModels() {
-		FabricModelPredicateProviderRegistry.register(NETHERITE_ELYTRA, new ResourceLocation("broken"), (itemStack, clientWorld, livingEntity) -> {
+		FabricModelPredicateProviderRegistry.register(NETHERITE_ELYTRA.get(), new ResourceLocation("broken"), (itemStack, clientWorld, livingEntity) -> {
 			return ElytraItem.isFlyEnabled(itemStack) ? 0.0F : 1.0F;
 		});
 	}
 
 	private static void registerFishingRodModels() {
-		FabricModelPredicateProviderRegistry.register(NETHERITE_FISHING_ROD, new ResourceLocation("cast"), (itemStack, clientWorld, livingEntity) -> {
+		FabricModelPredicateProviderRegistry.register(NETHERITE_FISHING_ROD.get(), new ResourceLocation("cast"), (itemStack, clientWorld, livingEntity) -> {
 			if (livingEntity == null) {
 				return 0.0F;
 			}
@@ -108,13 +108,13 @@ public class NetheritePlusModelProvider {
 	}
 
 	private static void registerShieldModels() {
-		FabricModelPredicateProviderRegistry.register(NETHERITE_SHIELD, new ResourceLocation("blocking"), (itemStack, clientWorld, livingEntity) -> {
+		FabricModelPredicateProviderRegistry.register(NETHERITE_SHIELD.get(), new ResourceLocation("blocking"), (itemStack, clientWorld, livingEntity) -> {
 			return livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1.0F : 0.0F;
 		});
 	}
 
 	private static void registerTridentModels() {
-		FabricModelPredicateProviderRegistry.register(NETHERITE_TRIDENT, new ResourceLocation("throwing"), (itemStack, clientWorld, livingEntity) -> {
+		FabricModelPredicateProviderRegistry.register(NETHERITE_TRIDENT.get(), new ResourceLocation("throwing"), (itemStack, clientWorld, livingEntity) -> {
 			return livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1.0F : 0.0F;
 		});
 	}

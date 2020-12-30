@@ -13,37 +13,47 @@ import com.oroarmor.netherite_plus.recipe.NetheritePlusRecipeSerializer;
 import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
 import com.oroarmor.netherite_plus.stat.NetheritePlusStats;
 import com.oroarmor.util.init.Initable;
+import me.shedaniel.architectury.registry.Registries;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.entity.player.Player;
 
-public class NetheritePlusMod  {
-	public static final NetheritePlusConfig CONFIG = new NetheritePlusConfig();
+public class NetheritePlusMod {
+    public static final NetheritePlusConfig CONFIG = new NetheritePlusConfig();
 
-	public static final Logger LOGGER = LogManager.getLogger("Netherite Plus");
+    public static final Logger LOGGER = LogManager.getLogger("Netherite Plus");
 
-	public static final String MOD_ID = "netherite_plus";
+    public static final String MOD_ID = "netherite_plus";
 
-	public static final List<Player> CONNECTED_CLIENTS = new ArrayList<>();
+    public static final List<Player> CONNECTED_CLIENTS = new ArrayList<>();
 
-	public static void initialize() {
-		processConfig();
-		Initable.initClasses(NetheritePlusItems.class, NetheritePlusScreenHandlers.class, NetheritePlusLootManager.class, NetheritePlusRecipeSerializer.class, NetheritePlusStatusEffects.class, NetheritePlusCriteria.class, NetheritePlusStats.class);
-	}
+    public static final LazyLoadedValue<Registries> REGISTRIES = new LazyLoadedValue<>(() -> Registries.get(MOD_ID));
 
-	private static void processConfig() {
-		CONFIG.readConfigFromFile();
+    public static void initialize() {
+        processConfig();
+        NetheritePlusItems.init();
+        NetheritePlusScreenHandlers.init();
+        NetheritePlusLootManager.init();
+        NetheritePlusRecipeSerializer.init();
+        NetheritePlusStatusEffects.init();
+        NetheritePlusCriteria.init();
+        NetheritePlusStats.init();
+    }
 
-		if (NetheritePlusConfig.ENABLED.ENABLED_CONFIG_PRINT.getValue()) {
-			CONFIG.getConfigs().stream().map(ConfigItemGroup::getConfigs).forEach(l -> l.forEach(ci -> LOGGER.log(Level.INFO, ci.toString())));
-		}
-	}
+    private static void processConfig() {
+        CONFIG.readConfigFromFile();
 
-	public static ResourceLocation id(String id) {
-		return new ResourceLocation(MOD_ID, id);
-	}
+        if (NetheritePlusConfig.ENABLED.ENABLED_CONFIG_PRINT.getValue()) {
+            CONFIG.getConfigs().stream().map(ConfigItemGroup::getConfigs).forEach(l -> l.forEach(ci -> LOGGER.log(Level.INFO, ci.toString())));
+        }
+    }
+
+    public static ResourceLocation id(String id) {
+        return new ResourceLocation(MOD_ID, id);
+    }
 
 }

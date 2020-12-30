@@ -47,11 +47,11 @@ public class NetheritePlusDynamicDataPack implements Initable {
 	public static void init() {
 		if (NetheritePlusConfig.ENABLED.ENABLED_FAKE_NETHERITE_BLOCKS.getValue()) {
 			DATA_PACK.addTag(id("minecraft:blocks/beacon_base_blocks"), tag().add(id(MOD_ID, "fake_netherite_block")));
-			DATA_PACK.addRecipe(id(MOD_ID + ":fake_netherite_block"), shaped(pattern("###", "#I#", "###"), keys().key("#", ingredient().item(IRON_BLOCK)).key("I", ingredient().item(NETHERITE_INGOT)), item(FAKE_NETHERITE_BLOCK)));
+			DATA_PACK.addRecipe(id(MOD_ID + ":fake_netherite_block"), shaped(pattern("###", "#I#", "###"), keys().key("#", ingredient().item(IRON_BLOCK)).key("I", ingredient().item(NETHERITE_INGOT)), item(FAKE_NETHERITE_BLOCK.get())));
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_ANVIL.getValue()) {
-			DATA_PACK.addRecipe(id(MOD_ID + ":netherite_anvil"), shaped(pattern("###", " I ", "III"), keys().key("#", ingredient().item(NETHERITE_BLOCK)).key("I", ingredient().item(NETHERITE_INGOT)), item(NETHERITE_ANVIL_ITEM)));
+			DATA_PACK.addRecipe(id(MOD_ID + ":netherite_anvil"), shaped(pattern("###", " I ", "III"), keys().key("#", ingredient().item(NETHERITE_BLOCK)).key("I", ingredient().item(NETHERITE_INGOT)), item(NETHERITE_ANVIL_ITEM.get())));
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_SHULKER_BOXES.getValue()) {
@@ -60,29 +60,29 @@ public class NetheritePlusDynamicDataPack implements Initable {
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_BOWS_AND_CROSSBOWS.getValue()) {
-			DATA_PACK.addRecipe(id(MOD_ID + ":netherite_bow"), smithing(ingredient().item(BOW), ingredient().item(NETHERITE_INGOT), item(NETHERITE_BOW)));
-			DATA_PACK.addRecipe(id(MOD_ID + ":netherite_crossbow"), smithing(ingredient().item(CROSSBOW), ingredient().item(NETHERITE_INGOT), item(NETHERITE_CROSSBOW)));
+			DATA_PACK.addRecipe(id(MOD_ID + ":netherite_bow"), smithing(ingredient().item(BOW), ingredient().item(NETHERITE_INGOT), item(NETHERITE_BOW.get())));
+			DATA_PACK.addRecipe(id(MOD_ID + ":netherite_crossbow"), smithing(ingredient().item(CROSSBOW), ingredient().item(NETHERITE_INGOT), item(NETHERITE_CROSSBOW.get())));
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_ELYTRA.getValue()) {
-			DATA_PACK.addRecipe(id(MOD_ID + ":netherite_eytra"), smithing(ingredient().item(ELYTRA), ingredient().item(NETHERITE_INGOT), item(NETHERITE_ELYTRA)));
+			DATA_PACK.addRecipe(id(MOD_ID + ":netherite_eytra"), smithing(ingredient().item(ELYTRA), ingredient().item(NETHERITE_INGOT), item(NETHERITE_ELYTRA.get())));
 		}
 		if (NetheritePlusConfig.ENABLED.ENABLED_HORSE_ARMOR.getValue()) {
-			DATA_PACK.addRecipe(id(MOD_ID + ":netherite_horse_armor"), smithing(ingredient().item(DIAMOND_HORSE_ARMOR), ingredient().item(NETHERITE_INGOT), item(NETHERITE_HORSE_ARMOR)));
+			DATA_PACK.addRecipe(id(MOD_ID + ":netherite_horse_armor"), smithing(ingredient().item(DIAMOND_HORSE_ARMOR), ingredient().item(NETHERITE_INGOT), item(NETHERITE_HORSE_ARMOR.get())));
 		}
 		if (NetheritePlusConfig.ENABLED.ENABLED_FISHING_ROD.getValue()) {
-			DATA_PACK.addRecipe(id(MOD_ID + ":netherite_fishing_rod"), smithing(ingredient().item(FISHING_ROD), ingredient().item(NETHERITE_INGOT), item(NETHERITE_FISHING_ROD)));
+			DATA_PACK.addRecipe(id(MOD_ID + ":netherite_fishing_rod"), smithing(ingredient().item(FISHING_ROD), ingredient().item(NETHERITE_INGOT), item(NETHERITE_FISHING_ROD.get())));
 		}
 		if (NetheritePlusConfig.ENABLED.ENABLED_SHIELDS.getValue()) {
-			DATA_PACK.addRecipe(id(MOD_ID + ":netherite_shield"), smithing(ingredient().item(SHIELD), ingredient().item(NETHERITE_INGOT), item(NETHERITE_SHIELD)));
+			DATA_PACK.addRecipe(id(MOD_ID + ":netherite_shield"), smithing(ingredient().item(SHIELD), ingredient().item(NETHERITE_INGOT), item(NETHERITE_SHIELD.get())));
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue()) {
-			DATA_PACK.addRecipe(id(MOD_ID + ":netherite_beacon"), shaped(pattern("III", "IBI", "NNN"), keys().key("I", ingredient().item(NETHERITE_INGOT)).key("B", ingredient().item(BEACON)).key("N", ingredient().item(NETHERITE_BLOCK)), item(NETHERITE_BEACON)));
+			DATA_PACK.addRecipe(id(MOD_ID + ":netherite_beacon"), shaped(pattern("III", "IBI", "NNN"), keys().key("I", ingredient().item(NETHERITE_INGOT)).key("B", ingredient().item(BEACON)).key("N", ingredient().item(NETHERITE_BLOCK)), item(NETHERITE_BEACON.get())));
 		}
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_TRIDENT.getValue()) {
-			DATA_PACK.addRecipe(id(MOD_ID + ":netherite_trident"), smithing(ingredient().item(TRIDENT), ingredient().item(NETHERITE_INGOT), item(NETHERITE_TRIDENT)));
+			DATA_PACK.addRecipe(id(MOD_ID + ":netherite_trident"), smithing(ingredient().item(TRIDENT), ingredient().item(NETHERITE_INGOT), item(NETHERITE_TRIDENT.get())));
 		}
 
 		RRPCallback.EVENT.register(a -> a.add(DATA_PACK));

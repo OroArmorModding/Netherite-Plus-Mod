@@ -3,6 +3,5 @@
   "schemaVersion": 1,
   "id": "netherite-plus-mod-common",
   "version": "0.0.1",
-
-  "accesswidener" : "netherite_plus.accesswidener"
+  "accessWidener": "netherite_plus.accesswidener"
 }
