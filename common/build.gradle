@@ -1,7 +1,3 @@
-plugins {
-    id "fabric-loom"
-}
-
 repositories {
     maven {
         url = "https://jitpack.io"
@@ -23,8 +19,14 @@ dependencies {
         exclude(module: "fabric-api")
     }
 
-    modCompile 'com.github.OroArmor:oro-config:-SNAPSHOT'
-    include 'com.github.OroArmor:oro-config:-SNAPSHOT'
+    modCompile( 'com.github.OroArmor:oro-config:-SNAPSHOT') {
+        exclude(module: "fabric-api")
+        exclude(module: "fabric-loader")
+    }
+    include('com.github.OroArmor:oro-config:-SNAPSHOT') {
+        exclude(module: "fabric-api")
+        exclude(module: "fabric-loader")
+    }
 }
 
 architect {

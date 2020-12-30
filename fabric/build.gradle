@@ -1,5 +1,4 @@
 plugins {
-    id 'fabric-loom'
     id 'maven-publish'
 	id "com.github.johnrengelman.shadow" version "5.0.0"
 }
@@ -10,6 +9,10 @@ minecraft {
 
 configurations {
 	shadow
+}
+
+architectury {
+    platformSetupLoomIde()
 }
 
 repositories {
@@ -102,7 +105,7 @@ dependencies {
         transitive = false
         exclude(module: "fabric-api")
     }
-    runtimeOnly(project(path: ":common", configuration: "transformed")) {
+    runtimeOnly(project(path: ":common", configuration: "transformForgeFakeMod")) {
         transitive = false
         exclude(module: "fabric-api")
     }
@@ -127,6 +130,7 @@ shadowJar {
 remapJar {
     dependsOn(shadowJar)
     input.set(shadowJar.archivePath)
+    archiveClassifier = "fabric"
 }
 
 processResources {

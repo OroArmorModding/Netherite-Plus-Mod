@@ -7,7 +7,6 @@ import com.oroarmor.netherite_plus.NetheritePlusModPlatform;
 import com.oroarmor.netherite_plus.compatibility.NetheritePlusTrinketsCompatibilty;
 import com.oroarmor.netherite_plus.item.NetheriteElytraItem;
 import com.oroarmor.netherite_plus.network.UpdateNetheriteBeaconC2SPacket;
-import me.shedaniel.architectury.ExpectPlatform;
 
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.client.gui.screens.Screen;
@@ -22,7 +21,6 @@ import net.minecraft.world.item.Item;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.fabricmc.fabric.mixin.object.builder.CriteriaAccessor;
 import net.fabricmc.loader.api.FabricLoader;

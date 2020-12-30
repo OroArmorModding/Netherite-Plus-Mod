@@ -2,9 +2,6 @@ package com.oroarmor.netherite_plus.recipe;
 
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -13,6 +10,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 public class NetheriteShieldDecorationRecipe extends CustomRecipe {
     public NetheriteShieldDecorationRecipe(ResourceLocation identifier) {

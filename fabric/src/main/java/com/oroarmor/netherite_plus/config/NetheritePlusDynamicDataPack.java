@@ -1,16 +1,15 @@
 package com.oroarmor.netherite_plus.config;
 
+import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
+import com.oroarmor.util.init.Initable;
+import net.devtech.arrp.api.RRPCallback;
+import net.devtech.arrp.api.RuntimeResourcePack;
+
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.block.ShulkerBoxBlock;
+
 import static com.oroarmor.netherite_plus.NetheritePlusMod.MOD_ID;
-import static com.oroarmor.netherite_plus.item.NetheritePlusItems.FAKE_NETHERITE_BLOCK;
-import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_ANVIL_ITEM;
-import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_BEACON;
-import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_BOW;
-import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_CROSSBOW;
-import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_ELYTRA;
-import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_FISHING_ROD;
-import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_HORSE_ARMOR;
-import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_SHIELD;
-import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_TRIDENT;
+import static com.oroarmor.netherite_plus.item.NetheritePlusItems.*;
 import static java.util.Arrays.stream;
 import static net.devtech.arrp.api.RuntimeResourcePack.id;
 import static net.devtech.arrp.json.recipe.JIngredient.ingredient;
@@ -20,25 +19,7 @@ import static net.devtech.arrp.json.recipe.JRecipe.shaped;
 import static net.devtech.arrp.json.recipe.JRecipe.smithing;
 import static net.devtech.arrp.json.recipe.JResult.item;
 import static net.devtech.arrp.json.tags.JTag.tag;
-import static net.minecraft.world.item.Items.BEACON;
-import static net.minecraft.world.item.Items.BOW;
-import static net.minecraft.world.item.Items.CROSSBOW;
-import static net.minecraft.world.item.Items.DIAMOND_HORSE_ARMOR;
-import static net.minecraft.world.item.Items.ELYTRA;
-import static net.minecraft.world.item.Items.FISHING_ROD;
-import static net.minecraft.world.item.Items.IRON_BLOCK;
-import static net.minecraft.world.item.Items.NETHERITE_BLOCK;
-import static net.minecraft.world.item.Items.NETHERITE_INGOT;
-import static net.minecraft.world.item.Items.SHIELD;
-import static net.minecraft.world.item.Items.TRIDENT;
-
-import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
-import com.oroarmor.util.init.Initable;
-
-import net.devtech.arrp.api.RRPCallback;
-import net.devtech.arrp.api.RuntimeResourcePack;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.level.block.ShulkerBoxBlock;
+import static net.minecraft.world.item.Items.*;
 
 public class NetheritePlusDynamicDataPack implements Initable {
 

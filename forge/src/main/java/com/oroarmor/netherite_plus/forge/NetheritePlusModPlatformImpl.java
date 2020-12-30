@@ -10,24 +10,22 @@ import me.shedaniel.architectury.ExpectPlatform;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.fml.loading.FMLPaths;
 
-import net.minecraft.advancements.ICriterionTrigger;
-import net.minecraft.block.Block;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.client.gui.IHasContainer;
+import net.minecraft.advancements.CriterionTrigger;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.MenuAccess;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.Item;
 
 public class NetheritePlusModPlatformImpl {
-    public static void sendBeaconUpdatePacket(PacketBuffer buf) {
+    public static void sendBeaconUpdatePacket(FriendlyByteBuf buf) {
         throw new AssertionError();
     }
 
-    public static <T extends ICriterionTrigger<?>> T registerCriteria(T object) {
+    public static <T extends CriterionTrigger<?>> T registerCriteria(T object) {
         throw new AssertionError();
     }
 
@@ -39,31 +37,14 @@ public class NetheritePlusModPlatformImpl {
         return new File(FMLPaths.CONFIGDIR.get().toFile(), NetheritePlusConfig.CONFIG_FILE_NAME);
     }
 
-    public static BiFunction<Item, String, Item> getItemRegisterer() {
-        return (item, string) -> {
-            return item;
-        };
-    }
-
-    public static BiFunction<Block, String, Block> getBlockRegisterer() {
-        return (block, string) -> {
-            return block;
-        };
-    }
-
-    public static BiFunction<TileEntityType, String, TileEntityType> getBlockEntityTypeRegisterer() {
-        return (type, string) -> {
-            return type;
-        };
-    }
 
     @ExpectPlatform
-    public static <H extends Container, S extends Screen & IHasContainer<H>> void registerScreen(ContainerType<?> menuType, NetheritePlusModPlatform.Factory<H, S> screenSupplier) {
+    public static <H extends AbstractContainerMenu, S extends Screen & MenuAccess<H>> void registerScreen(MenuType<?> menuType, NetheritePlusModPlatform.Factory<H, S> screenSupplier) {
 
     }
 
     @ExpectPlatform
-    public static <T extends Container> ContainerType<T> registerScreenHandler(ResourceLocation identifier, BiFunction<Integer, IInventory, T> menuTypeSupplier) {
+    public static <T extends AbstractContainerMenu> MenuType<T> registerScreenHandler(ResourceLocation identifier, BiFunction<Integer, Inventory, T> menuTypeSupplier) {
         return IForgeContainerType.create((windowId, inv, data) -> menuTypeSupplier.apply(windowId, inv));
     }
 

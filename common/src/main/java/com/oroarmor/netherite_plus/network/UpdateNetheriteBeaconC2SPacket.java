@@ -1,15 +1,14 @@
 package com.oroarmor.netherite_plus.network;
 
-import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
-
 import java.io.IOException;
-
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.ServerboundSetBeaconPacket;
 import net.minecraft.resources.ResourceLocation;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 public class UpdateNetheriteBeaconC2SPacket extends ServerboundSetBeaconPacket {
 

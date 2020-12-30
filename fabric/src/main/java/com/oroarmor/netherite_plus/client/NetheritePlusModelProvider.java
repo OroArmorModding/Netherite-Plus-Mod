@@ -1,21 +1,16 @@
 package com.oroarmor.netherite_plus.client;
 
-import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_BOW;
-import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_CROSSBOW;
-import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_ELYTRA;
-import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_FISHING_ROD;
-import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_SHIELD;
-import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_TRIDENT;
-
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 
-import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ElytraItem;
 import net.minecraft.world.item.FishingRodItem;
 import net.minecraft.world.item.Items;
+
+import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
+import static com.oroarmor.netherite_plus.item.NetheritePlusItems.*;
 
 public class NetheritePlusModelProvider {
 	private static void registerBowModels() {

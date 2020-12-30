@@ -1,6 +1,6 @@
 package com.oroarmor.netherite_plus.item;
 
-import java.util.function.Consumer;
+import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -15,8 +15,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
-
-import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 
 public class NetheriteBowItem extends BowItem {
     public NetheriteBowItem(Properties settings) {

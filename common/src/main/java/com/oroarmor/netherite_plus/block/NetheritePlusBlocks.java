@@ -1,19 +1,10 @@
 package com.oroarmor.netherite_plus.block;
 
-import java.util.function.Supplier;
-
-import static com.oroarmor.netherite_plus.NetheritePlusMod.MOD_ID;
-import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
-
 import com.oroarmor.netherite_plus.NetheritePlusMod;
-import com.oroarmor.netherite_plus.NetheritePlusModPlatform;
 import com.oroarmor.netherite_plus.block.entity.NetheriteBeaconBlockEntity;
 import com.oroarmor.netherite_plus.block.entity.NetheriteShulkerBoxBlockEntity;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
-import me.shedaniel.architectury.registry.BlockEntityRenderers;
-import me.shedaniel.architectury.registry.Registries;
 import me.shedaniel.architectury.registry.RegistrySupplier;
-import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.Registry;
 import net.minecraft.world.item.DyeColor;
@@ -24,6 +15,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
+
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 public class NetheritePlusBlocks {
     public static RegistrySupplier<Block> NETHERITE_WHITE_SHULKER_BOX;

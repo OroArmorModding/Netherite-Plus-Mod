@@ -1,20 +1,13 @@
 package com.oroarmor.netherite_plus.config;
 
-import java.io.File;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
-import com.oroarmor.netherite_plus.NetheritePlusMod;
 import com.oroarmor.config.Config;
 import com.oroarmor.config.ConfigItem;
 import com.oroarmor.config.ConfigItemGroup;
-
 import com.oroarmor.netherite_plus.NetheritePlusModPlatform;
-import io.netty.buffer.Unpooled;
 
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
-
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 
 public final class NetheritePlusConfig extends Config {
