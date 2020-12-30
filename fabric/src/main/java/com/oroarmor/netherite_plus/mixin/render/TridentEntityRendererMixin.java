@@ -16,6 +16,6 @@ public class TridentEntityRendererMixin {
 
 	@Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/ThrownTridentRenderer;getTextureLocation(Lnet/minecraft/world/entity/projectile/ThrownTrident;)Lnet/minecraft/resources/ResourceLocation;"))
 	public ResourceLocation getTextureMixin(ThrownTridentRenderer renderer, ThrownTrident entity) {
-		return entity.tridentItem.getItem() == NetheritePlusItems.NETHERITE_TRIDENT ? id("textures/entity/netherite_trident.png") : ThrownTridentRenderer.TRIDENT_LOCATION;
+		return entity.tridentItem.getItem() == NetheritePlusItems.NETHERITE_TRIDENT.get() ? id("textures/entity/netherite_trident.png") : ThrownTridentRenderer.TRIDENT_LOCATION;
 	}
 }

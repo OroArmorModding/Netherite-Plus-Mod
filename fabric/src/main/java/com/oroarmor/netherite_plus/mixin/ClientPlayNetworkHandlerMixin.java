@@ -49,7 +49,7 @@ public class ClientPlayNetworkHandlerMixin {
 				boolean hasNetheriteTrident = false;
 				Iterator<ItemStack> items = entity16.getHandSlots().iterator();
 				while (items.hasNext()) {
-					hasNetheriteTrident |= items.next().getItem() == NetheritePlusItems.NETHERITE_TRIDENT;
+					hasNetheriteTrident |= items.next().getItem() == NetheritePlusItems.NETHERITE_TRIDENT.get();
 				}
 				if (hasNetheriteTrident) {
 					entity15 = new NetheriteTridentEntity(level, d, e, f);

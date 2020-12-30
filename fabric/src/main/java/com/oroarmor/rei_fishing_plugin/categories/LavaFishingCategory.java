@@ -41,7 +41,7 @@ public class LavaFishingCategory implements RecipeCategory<LavaFishingDisplay> {
 
 	@Override
 	public EntryStack getLogo() {
-		return EntryStack.create(NetheritePlusItems.NETHERITE_FISHING_ROD);
+		return EntryStack.create(NetheritePlusItems.NETHERITE_FISHING_ROD.get());
 	}
 
 	@Override

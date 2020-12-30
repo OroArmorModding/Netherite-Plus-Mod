@@ -1,5 +1,7 @@
 {
-    "variants": {
-        "": { "model": "netherite_plus:block/netherite_orange_shulker_box" }
+  "variants": {
+    "": {
+      "model": "netherite_plus:block/netherite_orange_shulker_box"
     }
+  }
 }

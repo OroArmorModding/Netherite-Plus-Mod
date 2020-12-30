@@ -1,5 +1,5 @@
 {
-    "textures": {
-        "particle": "netherite_plus:block/netherite_black_shulker_box"
-    }
+  "textures": {
+    "particle": "netherite_plus:block/netherite_black_shulker_box"
+  }
 }

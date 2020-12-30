@@ -37,7 +37,7 @@ public abstract class CauldronBlockMixin {
 		Block block = ((BlockItem) itemStack.getItem()).getBlock();
 
 		if (block instanceof NetheriteShulkerBoxBlock && !world.isClientSide() && i > 0) {
-			ItemStack itemStack5 = new ItemStack(NetheritePlusBlocks.NETHERITE_SHULKER_BOX, 1);
+			ItemStack itemStack5 = new ItemStack(NetheritePlusBlocks.NETHERITE_SHULKER_BOX.get(), 1);
 			if (itemStack.hasTag()) {
 				itemStack5.setTag(itemStack.getTag().copy());
 			}

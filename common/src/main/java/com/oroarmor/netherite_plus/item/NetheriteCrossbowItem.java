@@ -4,13 +4,13 @@ import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 
 public class NetheriteCrossbowItem extends CrossbowItem {
-	public NetheriteCrossbowItem(Properties settings) {
-		super(settings);
-	}
+    public NetheriteCrossbowItem(Properties settings) {
+        super(settings);
+    }
 
-	@Override
-	public boolean useOnRelease(ItemStack stack) {
-		return stack.getItem() == NetheritePlusItems.NETHERITE_CROSSBOW;
-	}
+    @Override
+    public boolean useOnRelease(ItemStack stack) {
+        return stack.getItem() == NetheritePlusItems.NETHERITE_CROSSBOW;
+    }
 
 }

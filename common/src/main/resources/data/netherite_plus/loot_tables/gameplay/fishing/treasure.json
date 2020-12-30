@@ -33,7 +33,7 @@
             }
           ]
         },
-		{
+        {
           "type": "minecraft:item",
           "name": "minecraft:golden_chestplate",
           "weight": 10,
@@ -52,7 +52,7 @@
             }
           ]
         },
-		{
+        {
           "type": "minecraft:item",
           "name": "minecraft:golden_leggings",
           "weight": 10,
@@ -71,7 +71,7 @@
             }
           ]
         },
-		{
+        {
           "type": "minecraft:item",
           "name": "minecraft:golden_boots",
           "weight": 10,
@@ -90,7 +90,7 @@
             }
           ]
         },
-		{
+        {
           "type": "minecraft:item",
           "name": "minecraft:golden_sword",
           "weight": 10,

@@ -42,11 +42,11 @@ public class NetheritePlusModFabric implements ModInitializer {
     }
 
     private void registerItemsWithMultiItemLib() {
-        UniqueItemRegistry.SHIELD.addItemToRegistry(NETHERITE_SHIELD);
-        UniqueItemRegistry.FISHING_ROD.addItemToRegistry(NETHERITE_FISHING_ROD);
-        UniqueItemRegistry.ELYTRA.addItemToRegistry(NETHERITE_ELYTRA);
-        UniqueItemRegistry.BOW.addItemToRegistry(NETHERITE_BOW);
-        UniqueItemRegistry.CROSSBOW.addItemToRegistry(NETHERITE_CROSSBOW);
-        UniqueItemRegistry.TRIDENT.addItemToRegistry(NETHERITE_TRIDENT);
+        UniqueItemRegistry.SHIELD.addItemToRegistry(NETHERITE_SHIELD.get());
+        UniqueItemRegistry.FISHING_ROD.addItemToRegistry(NETHERITE_FISHING_ROD.get());
+        UniqueItemRegistry.ELYTRA.addItemToRegistry(NETHERITE_ELYTRA.get());
+        UniqueItemRegistry.BOW.addItemToRegistry(NETHERITE_BOW.get());
+        UniqueItemRegistry.CROSSBOW.addItemToRegistry(NETHERITE_CROSSBOW.get());
+        UniqueItemRegistry.TRIDENT.addItemToRegistry(NETHERITE_TRIDENT.get());
     }
 }

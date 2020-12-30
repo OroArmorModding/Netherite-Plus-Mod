@@ -1,6 +1,7 @@
 package com.oroarmor.netherite_plus.block;
 
 import com.oroarmor.netherite_plus.block.entity.NetheriteBeaconBlockEntity;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -17,38 +18,38 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 public class NetheriteBeaconBlock extends BeaconBlock {
-	public NetheriteBeaconBlock(BlockBehaviour.Properties settings) {
-		super(settings);
-	}
+    public NetheriteBeaconBlock(BlockBehaviour.Properties settings) {
+        super(settings);
+    }
 
-	@Override
-	public BlockEntity newBlockEntity(BlockGetter world) {
-		return new NetheriteBeaconBlockEntity();
-	}
+    @Override
+    public BlockEntity newBlockEntity(BlockGetter world) {
+        return new NetheriteBeaconBlockEntity();
+    }
 
-	@Override
-	public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
-		if (itemStack.hasCustomHoverName()) {
-			BlockEntity blockEntity = world.getBlockEntity(pos);
-			if (blockEntity instanceof NetheriteBeaconBlockEntity) {
-				((NetheriteBeaconBlockEntity) blockEntity).setCustomName(itemStack.getHoverName());
-			}
-		}
+    @Override
+    public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
+        if (itemStack.hasCustomHoverName()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof NetheriteBeaconBlockEntity) {
+                ((NetheriteBeaconBlockEntity) blockEntity).setCustomName(itemStack.getHoverName());
+            }
+        }
 
-	}
+    }
 
-	@Override
-	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-		if (world.isClientSide) {
-			return InteractionResult.SUCCESS;
-		} else {
-			BlockEntity blockEntity = world.getBlockEntity(pos);
-			if (blockEntity instanceof NetheriteBeaconBlockEntity) {
-				player.openMenu((NetheriteBeaconBlockEntity) blockEntity);
-				player.awardStat(Stats.INTERACT_WITH_BEACON);
-			}
+    @Override
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (world.isClientSide) {
+            return InteractionResult.SUCCESS;
+        } else {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof NetheriteBeaconBlockEntity) {
+                player.openMenu((NetheriteBeaconBlockEntity) blockEntity);
+                player.awardStat(Stats.INTERACT_WITH_BEACON);
+            }
 
-			return InteractionResult.CONSUME;
-		}
-	}
+            return InteractionResult.CONSUME;
+        }
+    }
 }

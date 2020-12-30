@@ -23,7 +23,7 @@ public class PlayerEntityRendererMixin {
 	@Inject(method = "getArmPose", at = @At("HEAD"), cancellable = true)
 	private static void getArmPose(AbstractClientPlayer abstractClientPlayerEntity, InteractionHand hand, CallbackInfoReturnable<HumanoidModel.ArmPose> cir) {
 		ItemStack itemStack = abstractClientPlayerEntity.getItemInHand(hand);
-		if (!abstractClientPlayerEntity.swinging && itemStack.getItem() == NetheritePlusItems.NETHERITE_CROSSBOW && CrossbowItem.isCharged(itemStack)) {
+		if (!abstractClientPlayerEntity.swinging && itemStack.getItem() == NetheritePlusItems.NETHERITE_CROSSBOW.get() && CrossbowItem.isCharged(itemStack)) {
 			cir.setReturnValue(HumanoidModel.ArmPose.CROSSBOW_HOLD);
 		}
 	}

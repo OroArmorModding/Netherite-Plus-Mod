@@ -4,8 +4,8 @@ import net.minecraft.world.level.block.Block;
 
 public class FakeNetheriteBlock extends Block {
 
-	public FakeNetheriteBlock(Properties settings) {
-		super(settings);
-	}
+    public FakeNetheriteBlock(Properties settings) {
+        super(settings);
+    }
 
 }
