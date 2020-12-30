@@ -1,19 +1,15 @@
 package com.oroarmor.netherite_plus.screen;
 
-import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
-
 import com.oroarmor.netherite_plus.NetheritePlusModPlatform;
 import com.oroarmor.netherite_plus.client.gui.screen.NetheriteAnvilScreen;
 import com.oroarmor.netherite_plus.client.gui.screen.NetheriteBeaconScreen;
 import com.oroarmor.util.init.Initable;
-import me.shedaniel.architectury.hooks.ScreenHooks;
+
+import net.minecraft.world.inventory.MenuType;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
-
-import net.minecraft.world.inventory.MenuType;
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 public class NetheritePlusScreenHandlers implements Initable {
 

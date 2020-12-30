@@ -1,17 +1,17 @@
 package com.oroarmor.netherite_plus.mixin;
 
+import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
-
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
+
+import net.fabricmc.loader.api.FabricLoader;
 
 @Mixin(ShulkerBoxBlockEntity.class)
 public class ShulkerBoxBlockEntityMixin {

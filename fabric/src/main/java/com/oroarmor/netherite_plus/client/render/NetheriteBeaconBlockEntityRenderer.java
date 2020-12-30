@@ -1,6 +1,7 @@
 package com.oroarmor.netherite_plus.client.render;
 
 import java.util.List;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix3f;
@@ -8,8 +9,6 @@ import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 import com.oroarmor.netherite_plus.block.entity.NetheriteBeaconBlockEntity;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
@@ -17,6 +16,9 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
 public class NetheriteBeaconBlockEntityRenderer extends BlockEntityRenderer<NetheriteBeaconBlockEntity> {

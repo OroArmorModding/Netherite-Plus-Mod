@@ -7,10 +7,10 @@ import java.util.stream.Collectors;
 import com.google.common.collect.ImmutableList;
 import com.oroarmor.rei_fishing_plugin.recipes.FishingOutcome;
 import com.oroarmor.rei_fishing_plugin.recipes.FishingOutcome.FishingOutcomeCategory;
-
 import me.shedaniel.rei.api.EntryStack;
 import me.shedaniel.rei.api.EntryStack.Settings;
 import me.shedaniel.rei.api.RecipeDisplay;
+
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 

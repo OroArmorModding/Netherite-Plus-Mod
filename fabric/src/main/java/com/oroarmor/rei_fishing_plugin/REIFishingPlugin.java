@@ -7,12 +7,12 @@ import com.oroarmor.rei_fishing_plugin.display.FishingDisplay;
 import com.oroarmor.rei_fishing_plugin.display.LavaFishingDisplay;
 import com.oroarmor.rei_fishing_plugin.recipes.FishingOutcome;
 import com.oroarmor.rei_fishing_plugin.recipes.LavaFishingOutcome;
-
 import me.shedaniel.rei.api.DisplayHelper;
 import me.shedaniel.rei.api.EntryRegistry;
 import me.shedaniel.rei.api.EntryStack;
 import me.shedaniel.rei.api.RecipeHelper;
 import me.shedaniel.rei.api.plugins.REIPluginV0;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 

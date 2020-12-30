@@ -1,12 +1,12 @@
 package com.oroarmor.netherite_plus.mixin;
 
+import com.oroarmor.netherite_plus.item.NetheritePlusItems;
+import com.oroarmor.netherite_plus.stat.NetheritePlusStats;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.oroarmor.netherite_plus.item.NetheritePlusItems;
-import com.oroarmor.netherite_plus.stat.NetheritePlusStats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

@@ -1,10 +1,12 @@
 package com.oroarmor.rei_fishing_plugin.recipes;
 
 import java.util.List;
+
+import com.google.common.collect.ImmutableList;
+
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import com.google.common.collect.ImmutableList;
 
 public class LavaFishingOutcome {
 	public enum LavaFishingType {

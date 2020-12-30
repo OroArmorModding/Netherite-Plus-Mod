@@ -1,13 +1,9 @@
 package com.oroarmor.netherite_plus.client.render;
 
-import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ElytraModel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -21,6 +17,10 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraft.world.item.ItemStack;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 @Environment(EnvType.CLIENT)
 public class NetheriteElytraFeatureRenderer<T extends LivingEntity, M extends EntityModel<T>> extends RenderLayer<T, M> {

@@ -3,13 +3,9 @@ package com.oroarmor.netherite_plus.screen;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.oroarmor.netherite_plus.block.NetheritePlusBlocks;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
-
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import org.apache.commons.lang3.StringUtils;
 
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Inventory;
@@ -23,6 +19,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.state.BlockState;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 public class NetheriteAnvilScreenHandler extends ItemCombinerMenu {
     public static int getNextCost(int cost) {

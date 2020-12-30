@@ -1,13 +1,13 @@
 package com.oroarmor.netherite_plus.mixin;
 
+import com.oroarmor.netherite_plus.block.NetheritePlusBlocks;
+import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.oroarmor.netherite_plus.block.NetheritePlusBlocks;
-import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;

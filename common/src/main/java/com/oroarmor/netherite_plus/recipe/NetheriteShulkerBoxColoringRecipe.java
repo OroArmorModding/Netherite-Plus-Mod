@@ -2,9 +2,6 @@ package com.oroarmor.netherite_plus.recipe;
 
 import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.DyeItem;
@@ -15,6 +12,9 @@ import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 public class NetheriteShulkerBoxColoringRecipe extends CustomRecipe {
     public NetheriteShulkerBoxColoringRecipe(ResourceLocation identifier) {

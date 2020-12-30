@@ -1,15 +1,15 @@
 package com.oroarmor.netherite_plus.client;
 
-import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
-
 import java.util.Arrays;
 import java.util.function.Consumer;
 
-import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
+
+import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 public class NetheritePlusTextures {
 

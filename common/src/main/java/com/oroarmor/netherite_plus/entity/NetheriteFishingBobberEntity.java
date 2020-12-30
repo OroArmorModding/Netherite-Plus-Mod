@@ -1,14 +1,9 @@
 package com.oroarmor.netherite_plus.entity;
 
-import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
-
 import java.util.Iterator;
 import java.util.List;
 
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
-
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -35,6 +30,10 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 public class NetheriteFishingBobberEntity extends FishingHook {
 

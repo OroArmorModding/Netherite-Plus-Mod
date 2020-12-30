@@ -12,7 +12,6 @@ import com.oroarmor.netherite_plus.loot.NetheritePlusLootManager;
 import com.oroarmor.netherite_plus.recipe.NetheritePlusRecipeSerializer;
 import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
 import com.oroarmor.netherite_plus.stat.NetheritePlusStats;
-import com.oroarmor.util.init.Initable;
 import me.shedaniel.architectury.registry.Registries;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;

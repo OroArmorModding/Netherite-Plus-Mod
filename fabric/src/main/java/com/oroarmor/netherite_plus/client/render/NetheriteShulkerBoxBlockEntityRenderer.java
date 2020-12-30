@@ -1,7 +1,5 @@
 package com.oroarmor.netherite_plus.client.render;
 
-import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
@@ -9,8 +7,6 @@ import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
 import com.oroarmor.netherite_plus.block.entity.NetheriteShulkerBoxBlockEntity;
 import com.oroarmor.netherite_plus.client.NetheritePlusTextures;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ShulkerModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -20,6 +16,10 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.state.BlockState;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 @Environment(EnvType.CLIENT)
 public class NetheriteShulkerBoxBlockEntityRenderer extends BlockEntityRenderer<NetheriteShulkerBoxBlockEntity> {

@@ -1,18 +1,13 @@
 package com.oroarmor.netherite_plus.advancement.criterion;
 
-import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
-
 import com.google.gson.JsonObject;
 import com.oroarmor.netherite_plus.block.entity.NetheriteBeaconBlockEntity;
 
-import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
-import net.minecraft.advancements.critereon.DeserializationContext;
-import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.MinMaxBounds;
-import net.minecraft.advancements.critereon.SerializationContext;
-import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
+import net.minecraft.advancements.critereon.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 public class ConstructNetheriteBeaconCriterion extends SimpleCriterionTrigger<ConstructNetheriteBeaconCriterion.Conditions> {
     private static final ResourceLocation ID = id("construct_netherite_beacon");

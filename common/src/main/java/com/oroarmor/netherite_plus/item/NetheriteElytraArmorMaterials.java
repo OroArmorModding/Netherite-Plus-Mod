@@ -2,9 +2,6 @@ package com.oroarmor.netherite_plus.item;
 
 import java.util.function.Supplier;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.LazyLoadedValue;
@@ -12,6 +9,9 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 public enum NetheriteElytraArmorMaterials implements ArmorMaterial {
     NETHERITE_ELYTRA_MATERIAL("netherite_elytra", 37, new int[]{3, 6, 4, 3}, 15, SoundEvents.ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F, () -> {

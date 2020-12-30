@@ -1,10 +1,10 @@
 package com.oroarmor.netherite_plus.compatibility;
 
 import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
-
 import net.kyrptonaught.quickshulker.api.ItemStackInventory;
 import net.kyrptonaught.quickshulker.api.QuickOpenableRegistry;
 import net.kyrptonaught.quickshulker.api.RegisterQuickShulker;
+
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.inventory.ShulkerBoxMenu;

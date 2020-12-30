@@ -1,12 +1,12 @@
 package com.oroarmor.netherite_plus.client.render.item;
 
 import java.util.List;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Pair;
 import com.oroarmor.netherite_plus.client.NetheritePlusTextures;
 
-import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry.DynamicItemRenderer;
 import net.minecraft.client.model.ShieldModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
@@ -18,6 +18,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
 import net.minecraft.world.level.block.entity.BannerPattern;
+
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry.DynamicItemRenderer;
 
 public class NetheriteShieldItemRenderer implements DynamicItemRenderer {
 

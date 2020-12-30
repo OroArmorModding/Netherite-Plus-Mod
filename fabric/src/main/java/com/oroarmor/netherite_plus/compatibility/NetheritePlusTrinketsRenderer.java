@@ -4,14 +4,15 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.oroarmor.netherite_plus.client.render.NetheriteElytraFeatureRenderer;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ElytraModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.item.Item;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
 public class NetheritePlusTrinketsRenderer {

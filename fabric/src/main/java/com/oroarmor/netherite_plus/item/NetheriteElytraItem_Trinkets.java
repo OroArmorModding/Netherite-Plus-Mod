@@ -1,14 +1,13 @@
 package com.oroarmor.netherite_plus.item;
 
 import java.util.List;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.oroarmor.netherite_plus.compatibility.NetheritePlusTrinketsRenderer;
-
 import dev.emi.trinkets.api.Slots;
 import dev.emi.trinkets.api.Trinket;
 import dev.emi.trinkets.api.TrinketItem;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -22,6 +21,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 public class NetheriteElytraItem_Trinkets extends NetheriteElytraItem implements Trinket {
 

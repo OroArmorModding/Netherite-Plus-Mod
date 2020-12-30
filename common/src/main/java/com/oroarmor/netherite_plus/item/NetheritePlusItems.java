@@ -2,13 +2,12 @@ package com.oroarmor.netherite_plus.item;
 
 import java.util.function.Supplier;
 
-import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
-
 import com.oroarmor.netherite_plus.NetheritePlusMod;
 import com.oroarmor.netherite_plus.NetheritePlusModPlatform;
 import com.oroarmor.netherite_plus.block.NetheritePlusBlocks;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.util.init.Initable;
+import me.shedaniel.architectury.registry.RegistrySupplier;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -18,7 +17,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
 
-import me.shedaniel.architectury.registry.RegistrySupplier;
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 public final class NetheritePlusItems implements Initable {
     public static RegistrySupplier<Item> NETHERITE_ELYTRA;

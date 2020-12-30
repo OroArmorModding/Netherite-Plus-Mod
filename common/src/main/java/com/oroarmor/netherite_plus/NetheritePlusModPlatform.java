@@ -2,6 +2,7 @@ package com.oroarmor.netherite_plus;
 
 import java.io.File;
 import java.util.function.BiFunction;
+
 import me.shedaniel.architectury.ExpectPlatform;
 
 import net.minecraft.advancements.CriterionTrigger;

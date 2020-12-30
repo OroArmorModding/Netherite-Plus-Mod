@@ -1,23 +1,18 @@
 package com.oroarmor.netherite_plus.screen;
 
-import org.jetbrains.annotations.Nullable;
-
 import com.oroarmor.netherite_plus.block.NetheritePlusBlocks;
-
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.SimpleContainerData;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 public class NetheriteBeaconScreenHandler extends AbstractContainerMenu {
     private final Container payment;

@@ -1,13 +1,13 @@
 package com.oroarmor.netherite_plus.mixin;
 
+import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
+import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
-import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ArrowItem;

@@ -1,7 +1,5 @@
 package com.oroarmor.netherite_plus.client.gui.screen;
 
-import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
-
 import java.io.IOException;
 import java.util.Iterator;
 
@@ -9,18 +7,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.oroarmor.netherite_plus.NetheritePlusModPlatform;
 import com.oroarmor.netherite_plus.block.entity.NetheriteBeaconBlockEntity;
-import com.oroarmor.netherite_plus.client.gui.screen.NetheriteBeaconScreen.BaseButtonWidget;
-import com.oroarmor.netherite_plus.client.gui.screen.NetheriteBeaconScreen.CancelButtonWidget;
-import com.oroarmor.netherite_plus.client.gui.screen.NetheriteBeaconScreen.DoneButtonWidget;
-import com.oroarmor.netherite_plus.client.gui.screen.NetheriteBeaconScreen.EffectButtonWidget;
 import com.oroarmor.netherite_plus.network.UpdateNetheriteBeaconC2SPacket;
 import com.oroarmor.netherite_plus.screen.NetheriteBeaconScreenHandler;
-
 import io.netty.buffer.Unpooled;
-
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractButton;
@@ -29,11 +18,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.*;
 import net.minecraft.network.protocol.game.ServerboundContainerClosePacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
@@ -43,6 +28,10 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 public class NetheriteBeaconScreen extends AbstractContainerScreen<NetheriteBeaconScreenHandler> {
     private static final ResourceLocation TEXTURE = id("textures/gui/container/netherite_beacon.png");
