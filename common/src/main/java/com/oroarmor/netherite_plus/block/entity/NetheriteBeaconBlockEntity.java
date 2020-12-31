@@ -177,7 +177,7 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements MenuProvi
                     List<ServerPlayer> var14 = level.getEntitiesOfClass(ServerPlayer.class, new AABB(i, j, k, i, j - 4, k).inflate(10.0D, 5.0D, 10.0D));
 
                     for (ServerPlayer serverPlayerEntity : var14) {
-                        NetheritePlusCriteria.FULL_NETHERITE_NETHERITE_BEACON.trigger(serverPlayerEntity, this);
+//                        NetheritePlusCriteria.FULL_NETHERITE_NETHERITE_BEACON.trigger(serverPlayerEntity, this);
                     }
 
                 }
@@ -186,7 +186,7 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements MenuProvi
                     List<ServerPlayer> var14 = level.getEntitiesOfClass(ServerPlayer.class, new AABB(i, j, k, i, j - 4, k).inflate(10.0D, 5.0D, 10.0D));
 
                     for (ServerPlayer serverPlayerEntity : var14) {
-                        NetheritePlusCriteria.CONSTRUCT_NETHERITE_BEACON.trigger(serverPlayerEntity, this);
+//                        NetheritePlusCriteria.CONSTRUCT_NETHERITE_BEACON.trigger(serverPlayerEntity, this);
                     }
                 }
             }
@@ -277,7 +277,7 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements MenuProvi
             for (Player player : list) {
                 player.addEffect(new MobEffectInstance(primary, effectLength, primaryEffectLevel, true, true));
                 player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, effectLength, 0, true, true));
-                player.addEffect(new MobEffectInstance(NetheritePlusStatusEffects.LAVA_VISION, effectLength, Math.min(netheriteLevel, 127), true, true));
+                player.addEffect(new MobEffectInstance(NetheritePlusStatusEffects.LAVA_VISION.get(), effectLength, Math.min(netheriteLevel, 127), true, true));
 
                 // regeneration case
                 if (beaconLevel >= 4 && primary != secondary && secondary != null) {

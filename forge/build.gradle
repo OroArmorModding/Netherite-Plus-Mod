@@ -16,6 +16,10 @@ repositories {
     }
 }
 
+//minecraft {
+//    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+//}
+
 dependencies {
     minecraft("com.mojang:minecraft:${rootProject.architect.minecraft}")
     mappings(minecraft.officialMojangMappings())
