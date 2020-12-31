@@ -56,7 +56,7 @@ public class NetheriteTridentItem extends TridentItem {
                                 playerEntity.inventory.removeItem(stack);
                             }
                         } else {
-                            NetheritePlusCriteria.RIPTIDE_NETHERITE_TRIDENT.trigger((ServerPlayer) playerEntity);
+//                            NetheritePlusCriteria.RIPTIDE_NETHERITE_TRIDENT.trigger((ServerPlayer) playerEntity);
                         }
                     }
 

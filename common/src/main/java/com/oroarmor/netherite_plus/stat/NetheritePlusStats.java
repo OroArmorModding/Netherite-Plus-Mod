@@ -13,8 +13,8 @@ public class NetheritePlusStats {
 
     private static ResourceLocation register(String string, StatFormatter statFormatter) {
         ResourceLocation identifier = id(string);
-        REGISTRIES.get().get(Registry.CUSTOM_STAT_REGISTRY).register(identifier, () -> identifier);
-        Stats.CUSTOM.get(identifier, statFormatter);
+//        REGISTRIES.get().get(Registry.CUSTOM_STAT_REGISTRY).registerSupplied(identifier, () -> identifier);
+//        Stats.CUSTOM.get(identifier, statFormatter);
         return identifier;
     }
 

@@ -22,11 +22,11 @@ import net.minecraft.world.item.Item;
 
 public class NetheritePlusModPlatformImpl {
     public static void sendBeaconUpdatePacket(FriendlyByteBuf buf) {
-        throw new AssertionError();
+
     }
 
     public static <T extends CriterionTrigger<?>> T registerCriteria(T object) {
-        throw new AssertionError();
+        return null;
     }
 
     public static Item getElytraItem(Item.Properties elytraSettings) {
