@@ -30,9 +30,9 @@ public class BackgroundRendererMixin {
 		if (fluidState.is(FluidTags.LAVA)) {
 			float s;
 			float v;
-			if (entity instanceof LivingEntity && ((LivingEntity) entity).hasEffect(NetheritePlusStatusEffects.LAVA_VISION)) {
+			if (entity instanceof LivingEntity && ((LivingEntity) entity).hasEffect(NetheritePlusStatusEffects.LAVA_VISION.get())) {
 				s = 0.0F;
-				v = (float) (3.0F + NetheritePlusClientMod.LAVA_VISION_DISTANCE * ((LivingEntity) entity).getEffect(NetheritePlusStatusEffects.LAVA_VISION).getAmplifier());
+				v = (float) (3.0F + NetheritePlusClientMod.LAVA_VISION_DISTANCE * ((LivingEntity) entity).getEffect(NetheritePlusStatusEffects.LAVA_VISION.get()).getAmplifier());
 			} else if (entity instanceof LivingEntity && ((LivingEntity) entity).hasEffect(MobEffects.FIRE_RESISTANCE)) {
 				s = 0.0F;
 				v = 3.0F;
