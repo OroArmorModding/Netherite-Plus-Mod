@@ -4,7 +4,7 @@
     # Forge for 1.15.2 is version 31
     loaderVersion="[35,)"
     # A URL to refer people to when problems occur with this mod
-    issueTrackerURL="https://github.com/OroArmor/Netherite-Plus-Mod/issues"
+    issueTrackerURL="https://github.com/OroArmor/Netherite-Plus-Mod/issues/"
     # If the mods defined in this file should show as seperate resource packs
     showAsResourcePack=false
     license="CCO-1.0"
@@ -13,13 +13,12 @@
       modId="netherite_plus"
       version="1.2.0"
       displayName="Netherite Plus"
-      displayURL="https://oroarmor.com"
-      logoFile="assets/netherite_plus/logo.png"
+      displayURL="https://www.oroarmor.com/"
+      logoFile="logo.png"
       credits="Ron for Textures"
       authors="OroArmor"
       description='''
-      This mod adds extra netherite features that aren't vanillia.
-      NOTE: Editing the config requires a game restart
+      This mod adds extra netherite features that aren't vanillia. NOTE: Editing the config requires a game restart
       '''
 
       [[dependencies.netherite_plus]]
