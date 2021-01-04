@@ -8,8 +8,8 @@ import net.minecraft.advancements.CriterionTrigger;
 
 @Mixin(CriteriaTriggers.class)
 public interface CriteriaAccessor {
-	@Invoker
+    @Invoker
     static <T extends CriterionTrigger<?>> T callRegister(T object) {
-		throw new AssertionError("Mixin dummy");
-	}
+        throw new AssertionError("Mixin dummy");
+    }
 }

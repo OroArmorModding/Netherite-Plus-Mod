@@ -23,30 +23,30 @@ import net.fabricmc.api.Environment;
 @Environment(EnvType.CLIENT)
 @Mixin(FogRenderer.class)
 public class BackgroundRendererMixin {
-	@Inject(at = @At("HEAD"), method = "setupFog", cancellable = true)
-	private static void applyFog(Camera camera, FogRenderer.FogMode fogType, float viewDistance, boolean thickFog, CallbackInfo info) {
-		FluidState fluidState = camera.getFluidInCamera();
-		Entity entity = camera.getEntity();
-		if (fluidState.is(FluidTags.LAVA)) {
-			float s;
-			float v;
-			if (entity instanceof LivingEntity && ((LivingEntity) entity).hasEffect(NetheritePlusStatusEffects.LAVA_VISION.get())) {
-				s = 0.0F;
-				v = (float) (3.0F + NetheritePlusClientMod.LAVA_VISION_DISTANCE * ((LivingEntity) entity).getEffect(NetheritePlusStatusEffects.LAVA_VISION.get()).getAmplifier());
-			} else if (entity instanceof LivingEntity && ((LivingEntity) entity).hasEffect(MobEffects.FIRE_RESISTANCE)) {
-				s = 0.0F;
-				v = 3.0F;
-			} else {
-				s = 0.25F;
-				v = 1.0F;
-			}
-			RenderSystem.fogStart(s);
-			RenderSystem.fogEnd(v);
-			RenderSystem.fogMode(GlStateManager.FogMode.LINEAR);
-			RenderSystem.setupNvFogDistance();
-			info.cancel();
-		}
+    @Inject(at = @At("HEAD"), method = "setupFog", cancellable = true)
+    private static void applyFog(Camera camera, FogRenderer.FogMode fogType, float viewDistance, boolean thickFog, CallbackInfo info) {
+        FluidState fluidState = camera.getFluidInCamera();
+        Entity entity = camera.getEntity();
+        if (fluidState.is(FluidTags.LAVA)) {
+            float s;
+            float v;
+            if (entity instanceof LivingEntity && ((LivingEntity) entity).hasEffect(NetheritePlusStatusEffects.LAVA_VISION.get())) {
+                s = 0.0F;
+                v = (float) (3.0F + NetheritePlusClientMod.LAVA_VISION_DISTANCE * ((LivingEntity) entity).getEffect(NetheritePlusStatusEffects.LAVA_VISION.get()).getAmplifier());
+            } else if (entity instanceof LivingEntity && ((LivingEntity) entity).hasEffect(MobEffects.FIRE_RESISTANCE)) {
+                s = 0.0F;
+                v = 3.0F;
+            } else {
+                s = 0.25F;
+                v = 1.0F;
+            }
+            RenderSystem.fogStart(s);
+            RenderSystem.fogEnd(v);
+            RenderSystem.fogMode(GlStateManager.FogMode.LINEAR);
+            RenderSystem.setupNvFogDistance();
+            info.cancel();
+        }
 
-	}
+    }
 
 }

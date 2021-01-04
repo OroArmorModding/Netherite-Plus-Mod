@@ -18,42 +18,42 @@ import net.minecraft.world.item.Items;
 
 public class REIFishingPlugin implements REIPluginV0 {
 
-	@Override
-	public ResourceLocation getPluginIdentifier() {
-		return new ResourceLocation("netherite_plus:fishing_plugin");
-	}
+    @Override
+    public ResourceLocation getPluginIdentifier() {
+        return new ResourceLocation("netherite_plus:fishing_plugin");
+    }
 
-	@Override
-	public void registerPluginCategories(RecipeHelper recipeHelper) {
-		recipeHelper.registerCategory(new FishingCategory());
-		recipeHelper.registerCategory(new LavaFishingCategory());
-	}
+    @Override
+    public void registerPluginCategories(RecipeHelper recipeHelper) {
+        recipeHelper.registerCategory(new FishingCategory());
+        recipeHelper.registerCategory(new LavaFishingCategory());
+    }
 
-	@Override
-	public void registerEntries(EntryRegistry entryRegistry) {
-	}
+    @Override
+    public void registerEntries(EntryRegistry entryRegistry) {
+    }
 
-	@Override
-	public void registerRecipeDisplays(RecipeHelper recipeHelper) {
-		recipeHelper.registerDisplay(new FishingDisplay(new FishingOutcome.Fish()));
-		recipeHelper.registerDisplay(new FishingDisplay(new FishingOutcome.Treasure()));
-		recipeHelper.registerDisplay(new FishingDisplay(new FishingOutcome.Junk()));
+    @Override
+    public void registerRecipeDisplays(RecipeHelper recipeHelper) {
+        recipeHelper.registerDisplay(new FishingDisplay(new FishingOutcome.Fish()));
+        recipeHelper.registerDisplay(new FishingDisplay(new FishingOutcome.Treasure()));
+        recipeHelper.registerDisplay(new FishingDisplay(new FishingOutcome.Junk()));
 
-		recipeHelper.registerDisplay(new LavaFishingDisplay(new LavaFishingOutcome.Treasure()));
-		recipeHelper.registerDisplay(new LavaFishingDisplay(new LavaFishingOutcome.Junk()));
-	}
+        recipeHelper.registerDisplay(new LavaFishingDisplay(new LavaFishingOutcome.Treasure()));
+        recipeHelper.registerDisplay(new LavaFishingDisplay(new LavaFishingOutcome.Junk()));
+    }
 
-	@Override
-	public void registerBounds(DisplayHelper displayHelper) {
-	}
+    @Override
+    public void registerBounds(DisplayHelper displayHelper) {
+    }
 
-	@Override
-	public void registerOthers(RecipeHelper recipeHelper) {
-		recipeHelper.registerWorkingStations(FishingDisplay.ID, EntryStack.create(Items.FISHING_ROD));
-		recipeHelper.removeAutoCraftButton(FishingDisplay.ID);
+    @Override
+    public void registerOthers(RecipeHelper recipeHelper) {
+        recipeHelper.registerWorkingStations(FishingDisplay.ID, EntryStack.create(Items.FISHING_ROD));
+        recipeHelper.removeAutoCraftButton(FishingDisplay.ID);
 
-		recipeHelper.registerWorkingStations(LavaFishingDisplay.ID, EntryStack.create(NetheritePlusItems.NETHERITE_FISHING_ROD.get().asItem()));
-		recipeHelper.removeAutoCraftButton(LavaFishingDisplay.ID);
-	}
+        recipeHelper.registerWorkingStations(LavaFishingDisplay.ID, EntryStack.create(NetheritePlusItems.NETHERITE_FISHING_ROD.get().asItem()));
+        recipeHelper.removeAutoCraftButton(LavaFishingDisplay.ID);
+    }
 
 }

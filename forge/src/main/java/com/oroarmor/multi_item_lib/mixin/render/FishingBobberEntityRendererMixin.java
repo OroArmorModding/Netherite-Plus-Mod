@@ -11,7 +11,6 @@ import net.minecraft.world.item.ItemStack;
 
 @Mixin(FishingHookRenderer.class)
 public class FishingBobberEntityRendererMixin {
-
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;"))
     private Item getItem(ItemStack stack) {
         return UniqueItemRegistry.FISHING_ROD.getDefaultItem(stack.getItem());

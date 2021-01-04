@@ -11,7 +11,6 @@ import net.minecraft.world.item.ItemStack;
 
 @Mixin(CrossbowItem.class)
 public class CrossbowItemMixin {
-
     @Redirect(method = "getShootingPower", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;"))
     private static Item tickMovement(ItemStack itemStack) {
         return UniqueItemRegistry.CROSSBOW.getDefaultItem(itemStack.getItem());

@@ -65,7 +65,7 @@ remapJar {
 jar {
     manifest {
         attributes([
-                "MixinConfigs" : "netherite_plus.mixins.json",
+                "MixinConfigs": "netherite_plus.mixins.json",
         ])
     }
 }

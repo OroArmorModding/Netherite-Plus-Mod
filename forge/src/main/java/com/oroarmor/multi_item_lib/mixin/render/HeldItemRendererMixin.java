@@ -13,7 +13,6 @@ import net.minecraft.world.item.Items;
 
 @Mixin(ItemInHandRenderer.class)
 public class HeldItemRendererMixin {
-
     @Redirect(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;"))
     private Item renderFirstPersonItem(ItemStack itemStack) {
         return UniqueItemRegistry.CROSSBOW.getDefaultItem(itemStack.getItem());

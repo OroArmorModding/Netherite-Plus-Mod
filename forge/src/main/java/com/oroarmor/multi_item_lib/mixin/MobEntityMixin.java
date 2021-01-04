@@ -11,7 +11,6 @@ import net.minecraft.world.item.ItemStack;
 
 @Mixin(Mob.class)
 public class MobEntityMixin {
-
     @Redirect(method = "getEquipmentSlotForItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;"))
     private static Item tickMovement(ItemStack stack) {
         return UniqueItemRegistry.ELYTRA.getDefaultItem(stack.getItem());

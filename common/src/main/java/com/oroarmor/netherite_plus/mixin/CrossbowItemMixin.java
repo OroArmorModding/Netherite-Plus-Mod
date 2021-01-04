@@ -17,16 +17,14 @@ import net.minecraft.world.level.Level;
 
 @Mixin(CrossbowItem.class)
 public class CrossbowItemMixin {
+    @Inject(method = "getArrow", at = @At("RETURN"), locals = LocalCapture.CAPTURE_FAILSOFT, cancellable = true)
+    private static void createArrow(Level world, LivingEntity entity, ItemStack crossbow, ItemStack arrow, CallbackInfoReturnable<AbstractArrow> cir, ArrowItem arrowItem, AbstractArrow persistentProjectileEntity) {
+        if (crossbow.getItem() != NetheritePlusItems.NETHERITE_CROSSBOW) {
+            return;
+        }
 
-	@Inject(method = "getArrow", at = @At("RETURN"), locals = LocalCapture.CAPTURE_FAILSOFT, cancellable = true)
-	private static void createArrow(Level world, LivingEntity entity, ItemStack crossbow, ItemStack arrow, CallbackInfoReturnable<AbstractArrow> cir, ArrowItem arrowItem, AbstractArrow persistentProjectileEntity) {
-
-		if (crossbow.getItem() != NetheritePlusItems.NETHERITE_CROSSBOW) {
-			return;
-		}
-
-		persistentProjectileEntity.setBaseDamage(persistentProjectileEntity.getBaseDamage() * NetheritePlusConfig.DAMAGE.CROSSBOW_DAMAGE_MULTIPLIER.getValue() + NetheritePlusConfig.DAMAGE.CROSSBOW_DAMAGE_ADDITION.getValue());
-		cir.setReturnValue(persistentProjectileEntity);
-	}
+        persistentProjectileEntity.setBaseDamage(persistentProjectileEntity.getBaseDamage() * NetheritePlusConfig.DAMAGE.CROSSBOW_DAMAGE_MULTIPLIER.getValue() + NetheritePlusConfig.DAMAGE.CROSSBOW_DAMAGE_ADDITION.getValue());
+        cir.setReturnValue(persistentProjectileEntity);
+    }
 
 }

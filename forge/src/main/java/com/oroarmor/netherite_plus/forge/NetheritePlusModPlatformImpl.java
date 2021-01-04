@@ -3,12 +3,15 @@ package com.oroarmor.netherite_plus.forge;
 import java.io.File;
 import java.util.function.BiFunction;
 
+import com.oroarmor.netherite_plus.ForgeNetheritePlusMod;
 import com.oroarmor.netherite_plus.NetheritePlusMod;
 import com.oroarmor.netherite_plus.NetheritePlusModPlatform;
-import com.oroarmor.netherite_plus.client.render.NetheritePlusBuiltinItemModelRenderer;
+import com.oroarmor.netherite_plus.client.ForgeNetheritePlusModClient;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.item.ForgeNetheriteElytra;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.extensions.IForgeContainerType;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 import net.minecraft.advancements.CriteriaTriggers;
@@ -26,8 +29,8 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 
 public class NetheritePlusModPlatformImpl {
-
     public static void sendBeaconUpdatePacket(FriendlyByteBuf buf) {
+        ForgeNetheritePlusMod.INSTANCE.sendToServer(buf);
     }
 
     public static <T extends CriterionTrigger<?>> T registerCriteria(T object) {
@@ -53,6 +56,7 @@ public class NetheritePlusModPlatformImpl {
     }
 
     public static Item.Properties setISTER(Item.Properties properties) {
-        return properties.setISTER(() -> () -> new NetheritePlusBuiltinItemModelRenderer());
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ForgeNetheritePlusModClient.addISTER(properties));
+        return properties;
     }
 }

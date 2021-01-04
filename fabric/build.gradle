@@ -1,6 +1,6 @@
 plugins {
     id 'maven-publish'
-	id "com.github.johnrengelman.shadow" version "5.0.0"
+    id "com.github.johnrengelman.shadow" version "5.0.0"
 }
 
 minecraft {
@@ -8,7 +8,7 @@ minecraft {
 }
 
 configurations {
-	shadow
+    shadow
 }
 
 architectury {
@@ -96,8 +96,8 @@ dependencies {
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-api:${project.rei}") {
         exclude(module: "fabric-api")
     }
-	
-	modCompile("me.shedaniel:architectury:${rootProject.architectury_version}:fabric") {
+
+    modCompile("me.shedaniel:architectury:${rootProject.architectury_version}:fabric") {
         exclude(module: "fabric-api")
     }
 

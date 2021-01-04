@@ -21,22 +21,22 @@ import net.minecraft.world.level.block.entity.BannerPattern;
 
 public class NetheriteShieldItemRenderer {
 
-	private static final ShieldModel modelShield = new ShieldModel();
+    private static final ShieldModel modelShield = new ShieldModel();
 
-	public static void render(ItemStack stack, TransformType mode, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
-		boolean bl = stack.getTagElement("BlockEntityTag") != null;
-		matrices.pushPose();
-		matrices.scale(1.0F, -1.0F, -1.0F);
-		Material spriteIdentifier = bl ? NetheritePlusTextures.NETHERITE_SHIELD_BASE : NetheritePlusTextures.NETHERITE_SHIELD_BASE_NO_PATTERN;
-		VertexConsumer vertexConsumer = spriteIdentifier.sprite().wrap(ItemRenderer.getFoilBufferDirect(vertexConsumers, modelShield.renderType(spriteIdentifier.atlasLocation()), true, stack.hasFoil()));
-		modelShield.handle().render(matrices, vertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
-		if (bl) {
-			List<Pair<BannerPattern, DyeColor>> list = BannerBlockEntity.createPatterns(ShieldItem.getColor(stack), BannerBlockEntity.getItemPatterns(stack));
-			BannerRenderer.renderPatterns(matrices, vertexConsumers, light, overlay, modelShield.plate(), spriteIdentifier, false, list, stack.hasFoil());
-		} else {
-			modelShield.plate().render(matrices, vertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
-		}
+    public static void render(ItemStack stack, TransformType mode, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
+        boolean bl = stack.getTagElement("BlockEntityTag") != null;
+        matrices.pushPose();
+        matrices.scale(1.0F, -1.0F, -1.0F);
+        Material spriteIdentifier = bl ? NetheritePlusTextures.NETHERITE_SHIELD_BASE : NetheritePlusTextures.NETHERITE_SHIELD_BASE_NO_PATTERN;
+        VertexConsumer vertexConsumer = spriteIdentifier.sprite().wrap(ItemRenderer.getFoilBufferDirect(vertexConsumers, modelShield.renderType(spriteIdentifier.atlasLocation()), true, stack.hasFoil()));
+        modelShield.handle().render(matrices, vertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+        if (bl) {
+            List<Pair<BannerPattern, DyeColor>> list = BannerBlockEntity.createPatterns(ShieldItem.getColor(stack), BannerBlockEntity.getItemPatterns(stack));
+            BannerRenderer.renderPatterns(matrices, vertexConsumers, light, overlay, modelShield.plate(), spriteIdentifier, false, list, stack.hasFoil());
+        } else {
+            modelShield.plate().render(matrices, vertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+        }
 
-		matrices.popPose();
-	}
+        matrices.popPose();
+    }
 }
