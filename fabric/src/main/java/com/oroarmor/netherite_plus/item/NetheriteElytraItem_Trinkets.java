@@ -27,42 +27,42 @@ import net.fabricmc.api.Environment;
 
 public class NetheriteElytraItem_Trinkets extends NetheriteElytraItem implements Trinket {
 
-	public NetheriteElytraItem_Trinkets(Properties settings) {
-		super(settings);
-		DispenserBlock.registerBehavior(this, TrinketItem.TRINKET_DISPENSER_BEHAVIOR);
-	}
+    public NetheriteElytraItem_Trinkets(Properties settings) {
+        super(settings);
+        DispenserBlock.registerBehavior(this, TrinketItem.TRINKET_DISPENSER_BEHAVIOR);
+    }
 
-	@Override
-	public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag context) {
-		tooltip.add(new TranslatableComponent("warning.netherite_elytra.trinkets"));
-		super.appendHoverText(stack, world, tooltip, context);
-	}
+    @Override
+    public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag context) {
+        tooltip.add(new TranslatableComponent("warning.netherite_elytra.trinkets"));
+        super.appendHoverText(stack, world, tooltip, context);
+    }
 
-	@Override
-	public boolean canWearInSlot(String group, String slot) {
-		return slot.equals(Slots.CAPE);
-	}
+    @Override
+    public boolean canWearInSlot(String group, String slot) {
+        return slot.equals(Slots.CAPE);
+    }
 
-	@Override
-	public void onEquip(Player player, ItemStack stack) {
-		player.getAttributes().getInstance(Attributes.ARMOR).setBaseValue(4 + player.getAttributes().getInstance(Attributes.ARMOR).getBaseValue());
-	}
+    @Override
+    public void onEquip(Player player, ItemStack stack) {
+        player.getAttributes().getInstance(Attributes.ARMOR).setBaseValue(4 + player.getAttributes().getInstance(Attributes.ARMOR).getBaseValue());
+    }
 
-	@Override
-	public void onUnequip(Player player, ItemStack stack) {
-		player.getAttributes().getInstance(Attributes.ARMOR).setBaseValue(-4 + player.getAttributes().getInstance(Attributes.ARMOR).getBaseValue());
-	}
+    @Override
+    public void onUnequip(Player player, ItemStack stack) {
+        player.getAttributes().getInstance(Attributes.ARMOR).setBaseValue(-4 + player.getAttributes().getInstance(Attributes.ARMOR).getBaseValue());
+    }
 
-	@Environment(EnvType.CLIENT)
-	@Override
-	public void render(String slot, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, PlayerModel<AbstractClientPlayer> model, AbstractClientPlayer livingEntity, float headYaw, float headPitch) {
+    @Environment(EnvType.CLIENT)
+    @Override
+    public void render(String slot, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, PlayerModel<AbstractClientPlayer> model, AbstractClientPlayer livingEntity, float headYaw, float headPitch) {
 
-		NetheritePlusTrinketsRenderer.renderTrinketsElytra(matrixStack, vertexConsumerProvider, light, livingEntity, this);
-	}
+        NetheritePlusTrinketsRenderer.renderTrinketsElytra(matrixStack, vertexConsumerProvider, light, livingEntity, this);
+    }
 
-	@Override
-	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-		return Trinket.equipTrinket(player, hand);
-	}
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+        return Trinket.equipTrinket(player, hand);
+    }
 
 }

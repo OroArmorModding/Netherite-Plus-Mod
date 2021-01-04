@@ -11,15 +11,15 @@ import net.minecraft.world.item.ItemStack;
 
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
-public class NetheriteTridentItemRenderer  {
-	private static final TridentModel modelTrident = new TridentModel();
+public class NetheriteTridentItemRenderer {
+    private static final TridentModel modelTrident = new TridentModel();
 
-	public static void render(ItemStack stack, TransformType mode, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
-		matrices.pushPose();
-		matrices.scale(1.0F, -1.0F, -1.0F);
-		VertexConsumer vertexConsumer2 = ItemRenderer.getFoilBufferDirect(vertexConsumers, modelTrident.renderType(id("textures/entity/netherite_trident.png")), false, stack.hasFoil());
-		modelTrident.renderToBuffer(matrices, vertexConsumer2, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
-		matrices.popPose();
-	}
+    public static void render(ItemStack stack, TransformType mode, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
+        matrices.pushPose();
+        matrices.scale(1.0F, -1.0F, -1.0F);
+        VertexConsumer vertexConsumer2 = ItemRenderer.getFoilBufferDirect(vertexConsumers, modelTrident.renderType(id("textures/entity/netherite_trident.png")), false, stack.hasFoil());
+        modelTrident.renderToBuffer(matrices, vertexConsumer2, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+        matrices.popPose();
+    }
 
 }

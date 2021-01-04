@@ -19,13 +19,11 @@ import net.fabricmc.api.Environment;
 @Environment(EnvType.CLIENT)
 @Mixin(PlayerRenderer.class)
 public class PlayerEntityRendererMixin {
-
-	@Inject(method = "getArmPose", at = @At("HEAD"), cancellable = true)
-	private static void getArmPose(AbstractClientPlayer abstractClientPlayerEntity, InteractionHand hand, CallbackInfoReturnable<HumanoidModel.ArmPose> cir) {
-		ItemStack itemStack = abstractClientPlayerEntity.getItemInHand(hand);
-		if (!abstractClientPlayerEntity.swinging && itemStack.getItem() == NetheritePlusItems.NETHERITE_CROSSBOW.get() && CrossbowItem.isCharged(itemStack)) {
-			cir.setReturnValue(HumanoidModel.ArmPose.CROSSBOW_HOLD);
-		}
-	}
-
+    @Inject(method = "getArmPose", at = @At("HEAD"), cancellable = true)
+    private static void getArmPose(AbstractClientPlayer abstractClientPlayerEntity, InteractionHand hand, CallbackInfoReturnable<HumanoidModel.ArmPose> cir) {
+        ItemStack itemStack = abstractClientPlayerEntity.getItemInHand(hand);
+        if (!abstractClientPlayerEntity.swinging && itemStack.getItem() == NetheritePlusItems.NETHERITE_CROSSBOW.get() && CrossbowItem.isCharged(itemStack)) {
+            cir.setReturnValue(HumanoidModel.ArmPose.CROSSBOW_HOLD);
+        }
+    }
 }

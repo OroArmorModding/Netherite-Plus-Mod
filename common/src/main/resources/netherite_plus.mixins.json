@@ -5,14 +5,15 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "CauldronBlockMixin",
-    "CriteriaAccessor",
     "CrossbowItemMixin",
     "PlayerEntityMixin",
     "ServerPlayNetworkHandlerMixin"
   ],
   "client": [
+    "ClientPlayNetworkHandlerAccessor",
     "ClientPlayNetworkHandlerMixin",
     "render.BackgroundRendererMixin",
+    "render.ItemRendererAccessor",
     "render.ItemRendererMixin",
     "render.PlayerEntityRendererMixin",
     "render.TexturedRenderLayersMixin",

@@ -17,8 +17,8 @@ import net.fabricmc.api.Environment;
 @Environment(EnvType.CLIENT)
 @Mixin(Sheets.class)
 public class TexturedRenderLayersMixin {
-	@Inject(at = @At("HEAD"), method = "getAllMaterials")
-	private static void onAddDefaultTextures(Consumer<Material> consumer, CallbackInfo info) {
-		NetheritePlusTextures.makeAtlases(consumer);
-	}
+    @Inject(at = @At("HEAD"), method = "getAllMaterials")
+    private static void onAddDefaultTextures(Consumer<Material> consumer, CallbackInfo info) {
+        NetheritePlusTextures.makeAtlases(consumer);
+    }
 }

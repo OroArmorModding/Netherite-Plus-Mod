@@ -17,18 +17,18 @@ import net.fabricmc.api.Environment;
 @Environment(EnvType.CLIENT)
 public class NetheritePlusTrinketsRenderer {
 
-	@Environment(EnvType.CLIENT)
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public final static ElytraModel<AbstractClientPlayer> elytra = new ElytraModel();
+    @Environment(EnvType.CLIENT)
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public final static ElytraModel<AbstractClientPlayer> elytra = new ElytraModel();
 
-	public static void renderTrinketsElytra(PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, AbstractClientPlayer livingEntity, Item item) {
-		matrixStack.pushPose();
-		matrixStack.scale(1.5f, 1.5f, 1.5f);
-		matrixStack.translate(0.0D, -0.775D, 0.125D);
-		elytra.setupAnim(livingEntity, 0f, 0f, 0f, 0f, 0f);
-		VertexConsumer vertexConsumer = ItemRenderer.getFoilBufferDirect(vertexConsumerProvider, elytra.renderType(NetheriteElytraFeatureRenderer.NETHERITE_ELYTRA_SKIN), false, item.getDefaultInstance().hasFoil());
-		elytra.renderToBuffer(matrixStack, vertexConsumer, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-		matrixStack.popPose();
-	}
+    public static void renderTrinketsElytra(PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, AbstractClientPlayer livingEntity, Item item) {
+        matrixStack.pushPose();
+        matrixStack.scale(1.5f, 1.5f, 1.5f);
+        matrixStack.translate(0.0D, -0.775D, 0.125D);
+        elytra.setupAnim(livingEntity, 0f, 0f, 0f, 0f, 0f);
+        VertexConsumer vertexConsumer = ItemRenderer.getFoilBufferDirect(vertexConsumerProvider, elytra.renderType(NetheriteElytraFeatureRenderer.NETHERITE_ELYTRA_SKIN), false, item.getDefaultInstance().hasFoil());
+        elytra.renderToBuffer(matrixStack, vertexConsumer, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        matrixStack.popPose();
+    }
 
 }

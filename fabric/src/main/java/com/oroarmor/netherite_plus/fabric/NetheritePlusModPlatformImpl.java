@@ -27,7 +27,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import static com.oroarmor.netherite_plus.config.NetheritePlusConfig.CONFIG_FILE_NAME;
 
 public class NetheritePlusModPlatformImpl {
-    public static void sendBeaconUpdatePacket(FriendlyByteBuf buf){
+    public static void sendBeaconUpdatePacket(FriendlyByteBuf buf) {
         ClientPlayNetworking.send(UpdateNetheriteBeaconC2SPacket.ID, buf);
     }
 
@@ -47,7 +47,7 @@ public class NetheritePlusModPlatformImpl {
         ScreenRegistry.register(menuType, (H h, Inventory i, Component t) -> screenSupplier.create(h, i, t));
     }
 
-    public static <T extends AbstractContainerMenu> MenuType<T> registerScreenHandler(ResourceLocation identifier, BiFunction<Integer, Inventory, T> menuTypeSupplier){
+    public static <T extends AbstractContainerMenu> MenuType<T> registerScreenHandler(ResourceLocation identifier, BiFunction<Integer, Inventory, T> menuTypeSupplier) {
         return ScreenHandlerRegistry.registerSimple(identifier, (integer, inventory) -> menuTypeSupplier.apply(integer, inventory));
     }
 

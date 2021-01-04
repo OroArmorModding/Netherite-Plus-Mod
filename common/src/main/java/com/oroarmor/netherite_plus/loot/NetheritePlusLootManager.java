@@ -2,11 +2,8 @@ package com.oroarmor.netherite_plus.loot;
 
 import com.oroarmor.util.init.Initable;
 
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.storage.loot.entries.LootPoolEntryType;
 
-import static com.oroarmor.netherite_plus.NetheritePlusMod.REGISTRIES;
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 public class NetheritePlusLootManager implements Initable {

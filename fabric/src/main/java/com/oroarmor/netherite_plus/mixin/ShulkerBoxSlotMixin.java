@@ -14,11 +14,10 @@ import net.fabricmc.loader.api.FabricLoader;
 
 @Mixin(ShulkerBoxSlot.class)
 public class ShulkerBoxSlotMixin {
-
-	@Inject(method = "mayPlace", at = @At("HEAD"), cancellable = true)
-	public void canInsert(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-		if (!FabricLoader.getInstance().isModLoaded("shulkularity") && Block.byItem(stack.getItem()) instanceof NetheriteShulkerBoxBlock) {
-			cir.setReturnValue(false);
-		}
-	}
+    @Inject(method = "mayPlace", at = @At("HEAD"), cancellable = true)
+    public void canInsert(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+        if (!FabricLoader.getInstance().isModLoaded("shulkularity") && Block.byItem(stack.getItem()) instanceof NetheriteShulkerBoxBlock) {
+            cir.setReturnValue(false);
+        }
+    }
 }

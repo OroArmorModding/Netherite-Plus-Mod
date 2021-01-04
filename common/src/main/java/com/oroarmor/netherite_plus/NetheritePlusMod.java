@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.oroarmor.config.ConfigItemGroup;
+import com.oroarmor.multi_item_lib.UniqueItemRegistry;
 import com.oroarmor.netherite_plus.advancement.criterion.NetheritePlusCriteria;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.entity.effect.NetheritePlusStatusEffects;
@@ -12,7 +13,6 @@ import com.oroarmor.netherite_plus.loot.NetheritePlusLootManager;
 import com.oroarmor.netherite_plus.recipe.NetheritePlusRecipeSerializer;
 import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
 import com.oroarmor.netherite_plus.stat.NetheritePlusStats;
-import com.oroarmor.multi_item_lib.UniqueItemRegistry;
 import me.shedaniel.architectury.registry.Registries;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -23,7 +23,6 @@ import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.entity.player.Player;
 
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.*;
-import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_TRIDENT;
 
 public class NetheritePlusMod {
     public static final NetheritePlusConfig CONFIG = new NetheritePlusConfig();

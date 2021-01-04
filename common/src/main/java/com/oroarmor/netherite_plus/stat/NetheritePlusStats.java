@@ -1,7 +1,5 @@
 package com.oroarmor.netherite_plus.stat;
 
-import com.oroarmor.netherite_plus.NetheritePlusMod;
-
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.StatFormatter;

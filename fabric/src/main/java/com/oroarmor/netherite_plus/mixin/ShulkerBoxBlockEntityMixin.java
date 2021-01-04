@@ -15,11 +15,10 @@ import net.fabricmc.loader.api.FabricLoader;
 
 @Mixin(ShulkerBoxBlockEntity.class)
 public class ShulkerBoxBlockEntityMixin {
-
-	@Inject(method = "canPlaceItemThroughFace", at = @At("HEAD"), cancellable = true)
-	public void canInsert(int slot, ItemStack stack, Direction dir, CallbackInfoReturnable<Boolean> cir) {
-		if (!FabricLoader.getInstance().isModLoaded("shulkularity") && Block.byItem(stack.getItem()) instanceof NetheriteShulkerBoxBlock) {
-			cir.setReturnValue(false);
-		}
-	}
+    @Inject(method = "canPlaceItemThroughFace", at = @At("HEAD"), cancellable = true)
+    public void canInsert(int slot, ItemStack stack, Direction dir, CallbackInfoReturnable<Boolean> cir) {
+        if (!FabricLoader.getInstance().isModLoaded("shulkularity") && Block.byItem(stack.getItem()) instanceof NetheriteShulkerBoxBlock) {
+            cir.setReturnValue(false);
+        }
+    }
 }
