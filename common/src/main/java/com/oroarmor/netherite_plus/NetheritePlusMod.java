@@ -12,6 +12,7 @@ import com.oroarmor.netherite_plus.loot.NetheritePlusLootManager;
 import com.oroarmor.netherite_plus.recipe.NetheritePlusRecipeSerializer;
 import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
 import com.oroarmor.netherite_plus.stat.NetheritePlusStats;
+import com.oroarmor.multi_item_lib.UniqueItemRegistry;
 import me.shedaniel.architectury.registry.Registries;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -20,6 +21,9 @@ import org.apache.logging.log4j.Logger;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.entity.player.Player;
+
+import static com.oroarmor.netherite_plus.item.NetheritePlusItems.*;
+import static com.oroarmor.netherite_plus.item.NetheritePlusItems.NETHERITE_TRIDENT;
 
 public class NetheritePlusMod {
     public static final NetheritePlusConfig CONFIG = new NetheritePlusConfig();
@@ -55,4 +59,12 @@ public class NetheritePlusMod {
         return new ResourceLocation(MOD_ID, id);
     }
 
+    public static void registerItemsWithMultiItemLib() {
+        UniqueItemRegistry.SHIELD.addItemToRegistry(NETHERITE_SHIELD.get());
+        UniqueItemRegistry.FISHING_ROD.addItemToRegistry(NETHERITE_FISHING_ROD.get());
+        UniqueItemRegistry.ELYTRA.addItemToRegistry(NETHERITE_ELYTRA.get());
+        UniqueItemRegistry.BOW.addItemToRegistry(NETHERITE_BOW.get());
+        UniqueItemRegistry.CROSSBOW.addItemToRegistry(NETHERITE_CROSSBOW.get());
+        UniqueItemRegistry.TRIDENT.addItemToRegistry(NETHERITE_TRIDENT.get());
+    }
 }

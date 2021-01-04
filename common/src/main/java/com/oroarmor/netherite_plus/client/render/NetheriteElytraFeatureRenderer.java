@@ -24,7 +24,6 @@ import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 @Environment(EnvType.CLIENT)
 public class NetheriteElytraFeatureRenderer<T extends LivingEntity, M extends EntityModel<T>> extends RenderLayer<T, M> {
-
 	public static final ResourceLocation NETHERITE_ELYTRA_SKIN = id("textures/entity/netherite_elytra.png");
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

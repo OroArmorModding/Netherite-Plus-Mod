@@ -32,7 +32,7 @@ public final class NetheritePlusItems implements Initable {
 
     public static RegistrySupplier<Item> NETHERITE_TRIDENT;
 
-    public static final Item.Properties NETHERITE_SHULKER_BOX_ITEM_SETTINGS = new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_DECORATIONS).fireResistant();
+    public static final Item.Properties NETHERITE_SHULKER_BOX_ITEM_SETTINGS = NetheritePlusModPlatform.setISTER(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_DECORATIONS).fireResistant());
 
     public static RegistrySupplier<Item> NETHERITE_SHULKER_BOX;
     public static RegistrySupplier<Item> NETHERITE_WHITE_SHULKER_BOX;
@@ -137,7 +137,7 @@ public final class NetheritePlusItems implements Initable {
     }
 
     private static void registerShield() {
-        NETHERITE_SHIELD = register(id("netherite_shield"), () -> new NetheriteShieldItem(new Item.Properties().durability(NetheritePlusConfig.DURABILITIES.SHIELD_DURABILITY.getValue()).tab(CreativeModeTab.TAB_COMBAT).fireResistant()));
+        NETHERITE_SHIELD = register(id("netherite_shield"), () -> new NetheriteShieldItem(NetheritePlusModPlatform.setISTER(new Item.Properties().durability(NetheritePlusConfig.DURABILITIES.SHIELD_DURABILITY.getValue()).tab(CreativeModeTab.TAB_COMBAT).fireResistant())));
     }
 
     private static void registerShulkerBoxes() {
@@ -161,7 +161,8 @@ public final class NetheritePlusItems implements Initable {
     }
 
     private static void registerTrident() {
-        NETHERITE_TRIDENT = register(id("netherite_trident"), () -> new NetheriteTridentItem(new Item.Properties().durability(NetheritePlusConfig.DURABILITIES.TRIDENT_DURABILITY.getValue()).tab(CreativeModeTab.TAB_COMBAT).fireResistant()));
+        Item.Properties properties = NetheritePlusModPlatform.setISTER(new Item.Properties().durability(NetheritePlusConfig.DURABILITIES.TRIDENT_DURABILITY.getValue()).tab(CreativeModeTab.TAB_COMBAT).fireResistant());
+        NETHERITE_TRIDENT = register(id("netherite_trident"), () -> new NetheriteTridentItem(properties));
     }
 
 }

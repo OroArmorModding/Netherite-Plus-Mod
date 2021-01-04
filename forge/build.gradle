@@ -16,6 +16,10 @@ repositories {
     }
 }
 
+loom {
+    mixinConfigs = ["netherite_plus.mixins.json", "multi-item-lib.mixins.json"]
+}
+
 //minecraft {
 //    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 //}
@@ -56,4 +60,12 @@ remapJar {
     dependsOn(shadowJar)
     input.set(shadowJar.archivePath)
     archiveClassifier = "forge"
+}
+
+jar {
+    manifest {
+        attributes([
+                "MixinConfigs" : "netherite_plus.mixins.json",
+        ])
+    }
 }

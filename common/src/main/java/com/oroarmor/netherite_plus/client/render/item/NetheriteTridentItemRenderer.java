@@ -9,14 +9,12 @@ import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.world.item.ItemStack;
 
-import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry.DynamicItemRenderer;
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
-public class NetheriteTridentItemRenderer implements DynamicItemRenderer {
-	private final TridentModel modelTrident = new TridentModel();
+public class NetheriteTridentItemRenderer  {
+	private static final TridentModel modelTrident = new TridentModel();
 
-	@Override
-	public void render(ItemStack stack, TransformType mode, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
+	public static void render(ItemStack stack, TransformType mode, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
 		matrices.pushPose();
 		matrices.scale(1.0F, -1.0F, -1.0F);
 		VertexConsumer vertexConsumer2 = ItemRenderer.getFoilBufferDirect(vertexConsumers, modelTrident.renderType(id("textures/entity/netherite_trident.png")), false, stack.hasFoil());

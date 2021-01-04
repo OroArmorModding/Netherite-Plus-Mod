@@ -1,11 +1,12 @@
 package com.oroarmor.netherite_plus.stat;
 
+import com.oroarmor.netherite_plus.NetheritePlusMod;
+
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.StatFormatter;
 import net.minecraft.stats.Stats;
 
-import static com.oroarmor.netherite_plus.NetheritePlusMod.REGISTRIES;
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 public class NetheritePlusStats {
@@ -13,8 +14,8 @@ public class NetheritePlusStats {
 
     private static ResourceLocation register(String string, StatFormatter statFormatter) {
         ResourceLocation identifier = id(string);
-//        REGISTRIES.get().get(Registry.CUSTOM_STAT_REGISTRY).registerSupplied(identifier, () -> identifier);
-//        Stats.CUSTOM.get(identifier, statFormatter);
+        Registry.register(Registry.CUSTOM_STAT, identifier, identifier);
+        Stats.CUSTOM.get(identifier, statFormatter);
         return identifier;
     }
 

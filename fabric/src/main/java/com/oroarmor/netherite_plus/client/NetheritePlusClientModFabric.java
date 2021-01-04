@@ -31,8 +31,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.*;
 
-public class NetheritePlusClientMod implements ClientModInitializer {
-    public static double LAVA_VISION_DISTANCE = NetheritePlusConfig.GRAPHICS.LAVA_VISION_DISTANCE.getValue();
+public class NetheritePlusClientModFabric implements ClientModInitializer {
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
@@ -40,7 +39,7 @@ public class NetheritePlusClientMod implements ClientModInitializer {
         BlockEntityRendererRegistry.INSTANCE.register((BlockEntityType<NetheriteShulkerBoxBlockEntity>) NetheritePlusBlocks.NETHERITE_SHULKER_BOX_ENTITY.get(), NetheriteShulkerBoxBlockEntityRenderer::new);
         BlockEntityRendererRegistry.INSTANCE.register((BlockEntityType<NetheriteBeaconBlockEntity>) NetheritePlusBlocks.NETHERITE_BEACON_BLOCK_ENTITY.get(), NetheriteBeaconBlockEntityRenderer::new);
 
-        NetheritePlusTextures.register();
+        NetheritePlusTexturesFabric.register();
         NetheritePlusModelProvider.registerItemsWithModelProvider();
         NetheritePlusScreenHandlers.initializeClient();
 
@@ -49,7 +48,7 @@ public class NetheritePlusClientMod implements ClientModInitializer {
         }
 
         if (NetheritePlusConfig.ENABLED.ENABLED_SHULKER_BOXES.getValue()) {
-            BuiltinItemRendererRegistry.DynamicItemRenderer shulkerRenderer = new NetheriteShulkerBoxItemRenderer();
+            BuiltinItemRendererRegistry.DynamicItemRenderer shulkerRenderer = NetheriteShulkerBoxItemRenderer::render;
 
             BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_SHULKER_BOX.get(), shulkerRenderer);
             BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_WHITE_SHULKER_BOX.get(), shulkerRenderer);
@@ -71,9 +70,9 @@ public class NetheritePlusClientMod implements ClientModInitializer {
         }
 
         if (NetheritePlusConfig.ENABLED.ENABLED_SHIELDS.getValue())
-            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_SHIELD.get(), new NetheriteShieldItemRenderer());
+            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_SHIELD.get(), NetheriteShieldItemRenderer::render);
         if (NetheritePlusConfig.ENABLED.ENABLED_TRIDENT.getValue())
-            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_TRIDENT.get(), new NetheriteTridentItemRenderer());
+            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_TRIDENT.get(), NetheriteTridentItemRenderer::render);
 
         LivingEntityFeatureRendererRegistrationCallback.EVENT.register((EntityType<? extends LivingEntity> entityType, LivingEntityRenderer<?, ?> entityRenderer, RegistrationHelper registrationHelper) -> {
             if (entityRenderer.getModel() instanceof PlayerModel || entityRenderer.getModel() instanceof HumanoidModel || entityRenderer.getModel() instanceof ArmorStandModel) {
@@ -82,7 +81,7 @@ public class NetheritePlusClientMod implements ClientModInitializer {
         });
 
         ClientPlayNetworking.registerGlobalReceiver(id("lava_vision_packet"), (minecraft, listener, buf, sender) -> {
-            LAVA_VISION_DISTANCE = buf.getDouble(0);
+            NetheritePlusClientMod.LAVA_VISION_DISTANCE = buf.getDouble(0);
         });
     }
 }

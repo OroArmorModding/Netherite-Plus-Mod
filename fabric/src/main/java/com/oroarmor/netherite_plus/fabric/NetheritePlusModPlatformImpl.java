@@ -50,4 +50,8 @@ public class NetheritePlusModPlatformImpl {
     public static <T extends AbstractContainerMenu> MenuType<T> registerScreenHandler(ResourceLocation identifier, BiFunction<Integer, Inventory, T> menuTypeSupplier){
         return ScreenHandlerRegistry.registerSimple(identifier, (integer, inventory) -> menuTypeSupplier.apply(integer, inventory));
     }
+
+    public static Item.Properties setISTER(Item.Properties properties) {
+        return properties;
+    }
 }

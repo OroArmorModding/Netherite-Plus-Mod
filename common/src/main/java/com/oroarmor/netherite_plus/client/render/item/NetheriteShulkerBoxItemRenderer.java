@@ -14,17 +14,14 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry.DynamicItemRenderer;
-
-public class NetheriteShulkerBoxItemRenderer implements DynamicItemRenderer {
+public class NetheriteShulkerBoxItemRenderer {
 
 	private static final NetheriteShulkerBoxBlockEntity[] RENDER_NETHERITE_SHULKER_BOX_DYED = Arrays.stream(DyeColor.values()).sorted(Comparator.comparingInt(DyeColor::getId)).map(NetheriteShulkerBoxBlockEntity::new).toArray((i) -> {
 		return new NetheriteShulkerBoxBlockEntity[i];
 	});
 	private static final NetheriteShulkerBoxBlockEntity RENDER_NETHERITE_SHULKER_BOX = new NetheriteShulkerBoxBlockEntity(null);
 
-	@Override
-	public void render(ItemStack stack, TransformType mode, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
+	public static void render(ItemStack stack, TransformType mode, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
 		BlockEntity blockEntity9;
 		DyeColor dyeColor = NetheriteShulkerBoxBlock.getColor(stack.getItem());
 		if (dyeColor == null) {

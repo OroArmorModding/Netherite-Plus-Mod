@@ -6,5 +6,4 @@ public class NetheriteShieldItem extends ShieldItem {
     public NetheriteShieldItem(Properties settings) {
         super(settings);
     }
-
 }
