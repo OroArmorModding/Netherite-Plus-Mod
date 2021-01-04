@@ -19,11 +19,20 @@ dependencies {
         exclude(module: "fabric-api")
     }
 
-    modCompile( 'com.github.OroArmor:oro-config:-SNAPSHOT') {
+    modCompile('com.github.OroArmor:oro-config:-SNAPSHOT') {
         exclude(module: "fabric-api")
         exclude(module: "fabric-loader")
     }
     include('com.github.OroArmor:oro-config:-SNAPSHOT') {
+        exclude(module: "fabric-api")
+        exclude(module: "fabric-loader")
+    }
+
+    modCompile('com.github.OroArmor:Multi-Item-Lib:-SNAPSHOT') {
+        exclude(module: "fabric-api")
+        exclude(module: "fabric-loader")
+    }
+    include('com.github.OroArmor:Multi-Item-Lib:-SNAPSHOT') {
         exclude(module: "fabric-api")
         exclude(module: "fabric-loader")
     }

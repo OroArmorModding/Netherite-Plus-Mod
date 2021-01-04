@@ -25,7 +25,7 @@
       "com.oroarmor.netherite_plus.NetheritePlusModFabric"
     ],
 	"client": [
-	  "com.oroarmor.netherite_plus.client.NetheritePlusClientMod"
+	  "com.oroarmor.netherite_plus.client.NetheritePlusClientModFabric"
 	],
 	"quickshulker": [
       "com.oroarmor.netherite_plus.compatibility.QuickShulkerHook"
@@ -41,7 +41,8 @@
 	]
   },
   "mixins": [
-    "netherite_plus.mixins.json"
+    "netherite_plus.mixins.json",
+    "netherite-plus-mod-fabric.mixins.json"
   ],
 
   "accessWidener" : "netherite_plus.accesswidener",

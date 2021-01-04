@@ -177,7 +177,7 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements MenuProvi
                     List<ServerPlayer> var14 = level.getEntitiesOfClass(ServerPlayer.class, new AABB(i, j, k, i, j - 4, k).inflate(10.0D, 5.0D, 10.0D));
 
                     for (ServerPlayer serverPlayerEntity : var14) {
-//                        NetheritePlusCriteria.FULL_NETHERITE_NETHERITE_BEACON.trigger(serverPlayerEntity, this);
+                        NetheritePlusCriteria.FULL_NETHERITE_NETHERITE_BEACON.trigger(serverPlayerEntity, this);
                     }
 
                 }
@@ -186,7 +186,7 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements MenuProvi
                     List<ServerPlayer> var14 = level.getEntitiesOfClass(ServerPlayer.class, new AABB(i, j, k, i, j - 4, k).inflate(10.0D, 5.0D, 10.0D));
 
                     for (ServerPlayer serverPlayerEntity : var14) {
-//                        NetheritePlusCriteria.CONSTRUCT_NETHERITE_BEACON.trigger(serverPlayerEntity, this);
+                        NetheritePlusCriteria.CONSTRUCT_NETHERITE_BEACON.trigger(serverPlayerEntity, this);
                     }
                 }
             }

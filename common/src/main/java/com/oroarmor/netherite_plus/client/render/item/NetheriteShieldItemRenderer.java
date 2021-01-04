@@ -19,14 +19,11 @@ import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
 import net.minecraft.world.level.block.entity.BannerPattern;
 
-import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry.DynamicItemRenderer;
+public class NetheriteShieldItemRenderer {
 
-public class NetheriteShieldItemRenderer implements DynamicItemRenderer {
+	private static final ShieldModel modelShield = new ShieldModel();
 
-	private final ShieldModel modelShield = new ShieldModel();
-
-	@Override
-	public void render(ItemStack stack, TransformType mode, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
+	public static void render(ItemStack stack, TransformType mode, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
 		boolean bl = stack.getTagElement("BlockEntityTag") != null;
 		matrices.pushPose();
 		matrices.scale(1.0F, -1.0F, -1.0F);
@@ -41,7 +38,5 @@ public class NetheriteShieldItemRenderer implements DynamicItemRenderer {
 		}
 
 		matrices.popPose();
-
 	}
-
 }

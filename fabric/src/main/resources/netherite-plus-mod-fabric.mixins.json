@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8.1",
+  "package": "com.oroarmor.netherite_plus.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "ShulkerBoxBlockEntityMixin",
+    "ShulkerBoxSlotMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

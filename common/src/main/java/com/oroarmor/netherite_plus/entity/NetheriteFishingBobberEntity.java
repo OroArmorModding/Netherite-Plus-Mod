@@ -110,8 +110,8 @@ public class NetheriteFishingBobberEntity extends FishingHook {
     private boolean shouldStopFishing(Player playerEntity) {
         ItemStack itemStack = playerEntity.getMainHandItem();
         ItemStack itemStack2 = playerEntity.getOffhandItem();
-        boolean bl = itemStack.getItem() == NetheritePlusItems.NETHERITE_FISHING_ROD;
-        boolean bl2 = itemStack2.getItem() == NetheritePlusItems.NETHERITE_FISHING_ROD;
+        boolean bl = itemStack.getItem() == NetheritePlusItems.NETHERITE_FISHING_ROD.get();
+        boolean bl2 = itemStack2.getItem() == NetheritePlusItems.NETHERITE_FISHING_ROD.get();
         if (!playerEntity.removed && playerEntity.isAlive() && (bl || bl2) && this.distanceToSqr(playerEntity) <= 1024.0D) {
             return false;
         } else {
