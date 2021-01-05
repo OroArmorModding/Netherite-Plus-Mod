@@ -22,7 +22,6 @@ import static net.devtech.arrp.json.tags.JTag.tag;
 import static net.minecraft.world.item.Items.*;
 
 public class NetheritePlusDynamicDataPack implements Initable {
-
     public static final RuntimeResourcePack DATA_PACK = RuntimeResourcePack.create(MOD_ID + ":dynamic_datapack");
 
     public static void init() {
@@ -67,6 +66,7 @@ public class NetheritePlusDynamicDataPack implements Initable {
         }
 
         RRPCallback.EVENT.register(a -> a.add(DATA_PACK));
+        DATA_PACK.dump();
     }
 
     public static void createShulkerRecipe(DyeColor color) {

@@ -40,7 +40,7 @@ public abstract class ItemRendererMixin {
                 VertexConsumer vertexConsumer4;
                 vertexConsumer4 = ItemRenderer.getFoilBufferDirect(vertexConsumers, renderLayer, true, stack.hasFoil());
 
-                ((ItemRendererAccessor) this).renderModelLists(model, stack, light, overlay, matrices, vertexConsumer4);
+                ((ItemRendererAccessor) this).callRenderModelLists(model, stack, light, overlay, matrices, vertexConsumer4);
             }
 
             matrices.popPose();

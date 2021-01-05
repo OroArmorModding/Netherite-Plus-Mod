@@ -17,5 +17,5 @@ public interface ItemRendererAccessor {
     public ItemModelShaper getItemModelShaper();
 
     @Invoker
-    public void renderModelLists(BakedModel model, ItemStack stack, int light, int overlay, PoseStack matrices, VertexConsumer vertexConsumer4);
+    public void callRenderModelLists(BakedModel model, ItemStack stack, int light, int overlay, PoseStack matrices, VertexConsumer vertexConsumer4);
 }
