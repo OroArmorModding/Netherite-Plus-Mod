@@ -13,7 +13,6 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
 public class NetheritePlusModFabric implements ModInitializer {
-
     public void onInitialize() {
         NetheritePlusMod.initialize();
 
