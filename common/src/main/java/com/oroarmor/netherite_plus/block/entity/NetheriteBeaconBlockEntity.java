@@ -42,6 +42,7 @@ import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.TickableBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 
@@ -211,6 +212,7 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements MenuProvi
             }
         }
 
+        this.getLevel().setBlock(this.worldPosition, this.getLevel().getBlockState(this.worldPosition).setValue(BlockStateProperties.POWERED, this.beaconLevel > 0), 2);
     }
 
     private void updateLevel(int x, int y, int z) {
@@ -270,7 +272,7 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements MenuProvi
 
             }
 
-            int effectLength = (9 + beaconLevel * 2) * 20;
+            int effectLength = (9 + beaconLevel * 3) * 20;
             AABB box = new AABB(worldPosition).inflate(effectBoundingBox).expandTowards(0.0D, level.getMaxBuildHeight(), 0.0D);
             List<Player> list = level.getEntitiesOfClass(Player.class, box);
 

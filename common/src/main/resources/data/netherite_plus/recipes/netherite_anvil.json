@@ -1,0 +1,19 @@
+{
+  "pattern": [
+    "###",
+    " I ",
+    "III"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:netherite_block"
+    },
+    "I": {
+      "item": "minecraft:netherite_ingot"
+    }
+  },
+  "result": {
+    "item": "netherite_plus:netherite_anvil"
+  },
+  "type": "minecraft:crafting_shaped"
+}
