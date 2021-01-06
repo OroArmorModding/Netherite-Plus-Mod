@@ -31,9 +31,6 @@ repositories {
         name = "NerdHubMC"
         url = "https://maven.abusedmaster.xyz/"
     }
-    maven {
-        url = 'https://raw.githubusercontent.com/Devan-Kerman/Devan-Repo/master/'
-    }
     maven { url = "https://dl.bintray.com/kyrptonaught/Quickshulker/" }
     maven { url = "https://dl.bintray.com/kyrptonaught/kyrptconfig/" }
     maven { url = "https://maven.misterpemodder.com/libs-release/" }
@@ -83,8 +80,7 @@ dependencies {
     modCompile "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_version}"
 
     //Libraries
-    includeLibraries(['net.devtech:arrp:0.2.6',
-                      'com.github.OroArmor:oro-config:-SNAPSHOT',
+    includeLibraries(['com.github.OroArmor:oro-config:-SNAPSHOT',
                       'com.github.OroArmor:Multi-Item-Lib:-SNAPSHOT'])
 
     runAndCompile(["net.kyrptonaught:quickshulker:${project.quickshulker}",

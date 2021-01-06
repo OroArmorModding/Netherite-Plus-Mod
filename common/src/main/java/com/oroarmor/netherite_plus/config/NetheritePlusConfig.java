@@ -6,8 +6,11 @@ import com.google.common.collect.ImmutableList;
 import com.oroarmor.config.Config;
 import com.oroarmor.config.ConfigItem;
 import com.oroarmor.config.ConfigItemGroup;
+import com.oroarmor.netherite_plus.NetheritePlusMod;
 import com.oroarmor.netherite_plus.NetheritePlusModPlatform;
+import io.netty.buffer.Unpooled;
 
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 
 public final class NetheritePlusConfig extends Config {
@@ -86,18 +89,17 @@ public final class NetheritePlusConfig extends Config {
 
     public NetheritePlusConfig() {
         super(CONFIGS, NetheritePlusModPlatform.getConfigDir(), "netherite_plus");
-        //new File(FabricLoader.getInstance().getConfigDir().toFile(), CONFIG_FILE_NAME)
     }
 
     public static void createLavaVisionUpdatePacket(ConfigItem<Double> configItem) {
-//		FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
-//		passedData.writeDouble(configItem.getValue());
-//		NetheritePlusMod.CONNECTED_CLIENTS.forEach(_player -> ServerSidePacketRegistry.INSTANCE.sendToPlayer(_player, NetheritePlusMod.id("lava_vision_packet"), passedData));
+		FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
+		passedData.writeDouble(configItem.getValue());
+		NetheritePlusMod.CONNECTED_CLIENTS.forEach(_player -> NetheritePlusModPlatform.sendLavaVisionUpdatePacket(_player, passedData));
     }
 
     public static void createLavaVisionUpdatePacket(Player player) {
-//		FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
-//		passedData.writeDouble(GRAPHICS.LAVA_VISION_DISTANCE.getValue());
-//		ServerSidePacketRegistry.INSTANCE.sendToPlayer(player, NetheritePlusMod.id("lava_vision_packet"), passedData);
+		FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
+		passedData.writeDouble(GRAPHICS.LAVA_VISION_DISTANCE.getValue());
+        NetheritePlusModPlatform.sendLavaVisionUpdatePacket(player, passedData);
     }
 }

@@ -3,7 +3,6 @@ package com.oroarmor.netherite_plus;
 import java.io.IOException;
 
 import com.oroarmor.config.command.ConfigCommand;
-import com.oroarmor.netherite_plus.config.NetheritePlusDynamicDataPack;
 import com.oroarmor.netherite_plus.network.UpdateNetheriteBeaconC2SPacket;
 import com.oroarmor.netherite_plus.screen.NetheriteBeaconScreenHandler;
 
@@ -34,7 +33,6 @@ public class NetheritePlusModFabric implements ModInitializer {
             });
         });
 
-        NetheritePlusDynamicDataPack.init();
         NetheritePlusMod.registerItemsWithMultiItemLib();
     }
 }
