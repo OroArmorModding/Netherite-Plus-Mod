@@ -80,7 +80,7 @@ public class NetheritePlusClientModFabric implements ClientModInitializer {
             }
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(id("lava_vision_packet"), (minecraft, listener, buf, sender) -> {
+        ClientPlayNetworking.registerGlobalReceiver(id("lava_vision_update"), (minecraft, listener, buf, sender) -> {
             NetheritePlusClientMod.LAVA_VISION_DISTANCE = buf.getDouble(0);
         });
     }

@@ -3,6 +3,7 @@ package com.oroarmor.netherite_plus.fabric;
 import java.io.File;
 import java.util.function.BiFunction;
 
+import com.oroarmor.netherite_plus.NetheritePlusMod;
 import com.oroarmor.netherite_plus.NetheritePlusModPlatform;
 import com.oroarmor.netherite_plus.compatibility.NetheritePlusTrinketsCompatibilty;
 import com.oroarmor.netherite_plus.item.NetheriteElytraItem;
@@ -14,13 +15,16 @@ import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.fabricmc.fabric.mixin.object.builder.CriteriaAccessor;
 import net.fabricmc.loader.api.FabricLoader;
@@ -49,6 +53,10 @@ public class NetheritePlusModPlatformImpl {
 
     public static <T extends AbstractContainerMenu> MenuType<T> registerScreenHandler(ResourceLocation identifier, BiFunction<Integer, Inventory, T> menuTypeSupplier) {
         return ScreenHandlerRegistry.registerSimple(identifier, (integer, inventory) -> menuTypeSupplier.apply(integer, inventory));
+    }
+
+    public static void sendLavaVisionUpdatePacket(Player player, FriendlyByteBuf lavaVision) {
+        ServerPlayNetworking.send((ServerPlayer) player, NetheritePlusMod.id("lava_vision_update"), lavaVision);
     }
 
     public static Item.Properties setISTER(Item.Properties properties) {

@@ -59,4 +59,8 @@ public class NetheritePlusModPlatformImpl {
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ForgeNetheritePlusModClient.addISTER(properties));
         return properties;
     }
+
+    public static void sendLavaVisionUpdatePacket(Player player, FriendlyByteBuf lavaVision) {
+        throw new AssertionError();
+    }
 }
