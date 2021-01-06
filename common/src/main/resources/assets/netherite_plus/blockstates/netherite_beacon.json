@@ -1,6 +1,9 @@
 {
   "variants": {
-    "": {
+    "powered=true": {
+      "model": "netherite_plus:block/netherite_beacon_powered"
+    },
+    "powered=false": {
       "model": "netherite_plus:block/netherite_beacon"
     }
   }

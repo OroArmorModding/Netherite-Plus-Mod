@@ -1,0 +1,19 @@
+{
+  "pattern": [
+    "###",
+    "#I#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:iron_block"
+    },
+    "I": {
+      "item": "minecraft:netherite_ingot"
+    }
+  },
+  "result": {
+    "item": "netherite_plus:fake_netherite_block"
+  },
+  "type": "minecraft:crafting_shaped"
+}
