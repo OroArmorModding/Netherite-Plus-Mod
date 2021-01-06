@@ -188,6 +188,59 @@ public class NetheriteBeaconScreen extends AbstractContainerScreen<NetheriteBeac
     }
 
     @Environment(EnvType.CLIENT)
+    abstract static class IconButtonWidget extends BaseButtonWidget {
+        private final int u;
+        private final int v;
+
+        protected IconButtonWidget(int x, int y, int u, int v) {
+            super(x, y);
+            this.u = u;
+            this.v = v;
+        }
+
+        @Override
+        protected void renderExtra(PoseStack matrixStack) {
+            this.blit(matrixStack, x + 2, y + 2, u, v, 18, 18);
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
+    abstract static class BaseButtonWidget extends AbstractButton {
+        private boolean disabled;
+
+        protected BaseButtonWidget(int x, int y) {
+            super(x, y, 22, 22, TextComponent.EMPTY);
+        }
+
+        @Override
+        public void renderButton(PoseStack matrices, int mouseX, int mouseY, float delta) {
+            Minecraft.getInstance().getTextureManager().bind(NetheriteBeaconScreen.TEXTURE);
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            int j = 0;
+            if (!active) {
+                j += width * 2;
+            } else if (disabled) {
+                j += width * 1;
+            } else if (isHovered()) {
+                j += width * 3;
+            }
+
+            this.blit(matrices, x, y, j, 219, width, height);
+            renderExtra(matrices);
+        }
+
+        protected abstract void renderExtra(PoseStack matrixStack);
+
+        public boolean isDisabled() {
+            return disabled;
+        }
+
+        public void setDisabled(boolean disabled) {
+            this.disabled = disabled;
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
     class CancelButtonWidget extends NetheriteBeaconScreen.IconButtonWidget {
         public CancelButtonWidget(int x, int y) {
             super(x, y, 112, 220);
@@ -227,23 +280,6 @@ public class NetheriteBeaconScreen extends AbstractContainerScreen<NetheriteBeac
         @Override
         public void renderToolTip(PoseStack matrices, int mouseX, int mouseY) {
             NetheriteBeaconScreen.this.renderTooltip(matrices, CommonComponents.GUI_DONE, mouseX, mouseY);
-        }
-    }
-
-    @Environment(EnvType.CLIENT)
-    abstract static class IconButtonWidget extends BaseButtonWidget {
-        private final int u;
-        private final int v;
-
-        protected IconButtonWidget(int x, int y, int u, int v) {
-            super(x, y);
-            this.u = u;
-            this.v = v;
-        }
-
-        @Override
-        protected void renderExtra(PoseStack matrixStack) {
-            this.blit(matrixStack, x + 2, y + 2, u, v, 18, 18);
         }
     }
 
@@ -309,42 +345,6 @@ public class NetheriteBeaconScreen extends AbstractContainerScreen<NetheriteBeac
         protected void renderExtra(PoseStack matrixStack) {
             Minecraft.getInstance().getTextureManager().bind(sprite.atlas().location());
             blit(matrixStack, x + 2, y + 2, getBlitOffset(), 18, 18, sprite);
-        }
-    }
-
-    @Environment(EnvType.CLIENT)
-    abstract static class BaseButtonWidget extends AbstractButton {
-        private boolean disabled;
-
-        protected BaseButtonWidget(int x, int y) {
-            super(x, y, 22, 22, TextComponent.EMPTY);
-        }
-
-        @Override
-        public void renderButton(PoseStack matrices, int mouseX, int mouseY, float delta) {
-            Minecraft.getInstance().getTextureManager().bind(NetheriteBeaconScreen.TEXTURE);
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            int j = 0;
-            if (!active) {
-                j += width * 2;
-            } else if (disabled) {
-                j += width * 1;
-            } else if (isHovered()) {
-                j += width * 3;
-            }
-
-            this.blit(matrices, x, y, j, 219, width, height);
-            renderExtra(matrices);
-        }
-
-        protected abstract void renderExtra(PoseStack matrixStack);
-
-        public boolean isDisabled() {
-            return disabled;
-        }
-
-        public void setDisabled(boolean disabled) {
-            this.disabled = disabled;
         }
     }
 }

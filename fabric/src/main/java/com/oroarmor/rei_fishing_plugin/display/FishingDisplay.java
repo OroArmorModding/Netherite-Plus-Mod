@@ -15,11 +15,8 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 
 public class FishingDisplay implements RecipeDisplay {
-
-    private static final DecimalFormat format = new DecimalFormat("#.##");
-
     public static final ResourceLocation ID = new ResourceLocation("netherite_plus:fishing_category");
-
+    private static final DecimalFormat format = new DecimalFormat("#.##");
     private final FishingOutcomeCategory outcomes;
 
     public FishingDisplay(FishingOutcomeCategory outcomes) {

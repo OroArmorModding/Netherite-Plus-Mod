@@ -11,7 +11,6 @@ import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -49,11 +48,6 @@ public class NetheritePlusModPlatform {
         throw new AssertionError();
     }
 
-    @FunctionalInterface
-    public interface Factory<H extends AbstractContainerMenu, S extends Screen & MenuAccess<H>> {
-        S create(H var1, Inventory var2, Component var3);
-    }
-
     @ExpectPlatform
     public static <T extends AbstractContainerMenu> MenuType<T> registerScreenHandler(ResourceLocation identifier, BiFunction<Integer, Inventory, T> menuTypeSupplier) {
         throw new AssertionError();
@@ -62,5 +56,10 @@ public class NetheritePlusModPlatform {
     @ExpectPlatform
     public static void sendLavaVisionUpdatePacket(Player player, FriendlyByteBuf lavaVision) {
         throw new AssertionError();
+    }
+
+    @FunctionalInterface
+    public interface Factory<H extends AbstractContainerMenu, S extends Screen & MenuAccess<H>> {
+        S create(H var1, Inventory var2, Component var3);
     }
 }

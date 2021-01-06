@@ -24,14 +24,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 public class NetheriteAnvilScreenHandler extends ItemCombinerMenu {
-    public static int getNextCost(int cost) {
-        return cost * 2 + 1;
-    }
-
+    private final DataSlot levelCost;
     private int repairItemUsage;
     private String newItemName;
-
-    private final DataSlot levelCost;
 
     public NetheriteAnvilScreenHandler(int syncId, Inventory inventory) {
         this(syncId, inventory, ContainerLevelAccess.NULL);
@@ -41,6 +36,10 @@ public class NetheriteAnvilScreenHandler extends ItemCombinerMenu {
         super(NetheritePlusScreenHandlers.NETHERITE_ANVIL, syncId, inventory, context);
         levelCost = DataSlot.standalone();
         addDataSlot(levelCost);
+    }
+
+    public static int getNextCost(int cost) {
+        return cost * 2 + 1;
     }
 
     @Override

@@ -38,19 +38,13 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 public class NetheriteShulkerBoxBlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer, TickableBlockEntity {
-    public enum AnimationStage {
-        CLOSED, OPENING, OPENED, CLOSING
-    }
-
     private static final int[] AVAILABLE_SLOTS = IntStream.range(0, 27).toArray();
     private NonNullList<ItemStack> inventory;
     private int viewerCount;
     private AnimationStage animationStage;
     private float animationProgress;
-
     private float prevAnimationProgress;
     private DyeColor cachedColor;
-
     private boolean cachedColorUpdateNeeded;
 
     public NetheriteShulkerBoxBlockEntity() {
@@ -140,6 +134,11 @@ public class NetheriteShulkerBoxBlockEntity extends RandomizableContainerBlockEn
     @Override
     protected NonNullList<ItemStack> getItems() {
         return inventory;
+    }
+
+    @Override
+    protected void setItems(NonNullList<ItemStack> list) {
+        inventory = list;
     }
 
     @Override
@@ -249,11 +248,6 @@ public class NetheriteShulkerBoxBlockEntity extends RandomizableContainerBlockEn
     }
 
     @Override
-    protected void setItems(NonNullList<ItemStack> list) {
-        inventory = list;
-    }
-
-    @Override
     public void setItem(int slot, ItemStack stack) {
         super.setItem(slot, stack);
     }
@@ -313,5 +307,9 @@ public class NetheriteShulkerBoxBlockEntity extends RandomizableContainerBlockEn
 
     private void updateNeighborStates() {
         getBlockState().updateNeighbourShapes(getLevel(), getBlockPos(), 3);
+    }
+
+    public enum AnimationStage {
+        CLOSED, OPENING, OPENED, CLOSING
     }
 }

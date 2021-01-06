@@ -12,13 +12,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 public class FishingOutcome {
-    public enum FishingType {
-        JUNK, FISH, TREASURE
-    }
-
     public int weight, loottableWeight;
     public ItemStack output;
-
     public FishingOutcome(ItemStack output, int weight, int loottableWeight) {
         this.weight = weight;
         this.loottableWeight = loottableWeight;
@@ -37,11 +32,23 @@ public class FishingOutcome {
         return output;
     }
 
-    public static class Junk extends FishingOutcomeCategory {
-        public Junk() {
-            super(FishingType.JUNK, recipes);
+    public float getOpenWaterChance() {
+        return loottableWeight * weight * 0.01f;
+    }
+
+    public float getNormalChance(FishingType type) {
+        if (type == FishingType.TREASURE) {
+            return 0;
         }
 
+        return loottableWeight * 1f / 0.95f * weight * 0.01f;
+    }
+
+    public enum FishingType {
+        JUNK, FISH, TREASURE
+    }
+
+    public static class Junk extends FishingOutcomeCategory {
         public static final FishingOutcome lily_pad = new FishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:lily_pad"))), 17, 10);
         public static final FishingOutcome leather_boots = new FishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:leather_boots"))), 10, 10);
         public static final FishingOutcome leather = new FishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:leather"))), 10, 10);
@@ -55,7 +62,6 @@ public class FishingOutcome {
         public static final FishingOutcome bamboo = new FishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:bamboo"))), 10, 10);
         public static final FishingOutcome ink_sac = new FishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:ink_sac")), 10), 1, 10);
         public static final FishingOutcome water_bottle;
-
         public static final List<FishingOutcome> recipes;
 
         static {
@@ -65,34 +71,36 @@ public class FishingOutcome {
 
             recipes = ImmutableList.of(lily_pad, leather_boots, leather, bone, string, fishing_rod, bowl, stick, tripwire_hook, rotten_flesh, bamboo, water_bottle, ink_sac);
         }
+
+        public Junk() {
+            super(FishingType.JUNK, recipes);
+        }
     }
 
     public static class Fish extends FishingOutcomeCategory {
-        public Fish() {
-            super(FishingType.FISH, recipes);
-        }
-
         public static final FishingOutcome cod = new FishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:cod"))), 60, 85);
         public static final FishingOutcome salmon = new FishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:salmon"))), 25, 85);
         public static final FishingOutcome tropical_fish = new FishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:tropical_fish"))), 2, 85);
         public static final FishingOutcome pufferfish = new FishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:pufferfish"))), 13, 85);
-
         public static final List<FishingOutcome> recipes = ImmutableList.of(cod, salmon, tropical_fish, pufferfish);
+
+        public Fish() {
+            super(FishingType.FISH, recipes);
+        }
     }
 
     public static class Treasure extends FishingOutcomeCategory {
-        public Treasure() {
-            super(FishingType.TREASURE, recipes);
-        }
-
         public static final FishingOutcome name_tag = new FishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:name_tag"))), 16, 5);
         public static final FishingOutcome saddle = new FishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:saddle"))), 16, 5);
         public static final FishingOutcome bow = new FishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:bow"))), 16, 5);
         public static final FishingOutcome fishing_rod = new FishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:fishing_rod"))), 16, 5);
         public static final FishingOutcome book = new FishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:book"))), 16, 5);
         public static final FishingOutcome nautilus_shell = new FishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:nautilus_shell"))), 16, 5);
-
         public static final List<FishingOutcome> recipes = ImmutableList.of(name_tag, saddle, bow, fishing_rod, book, nautilus_shell);
+
+        public Treasure() {
+            super(FishingType.TREASURE, recipes);
+        }
     }
 
     public static abstract class FishingOutcomeCategory {
@@ -113,17 +121,5 @@ public class FishingOutcome {
             return type;
         }
 
-    }
-
-    public float getOpenWaterChance() {
-        return loottableWeight * weight * 0.01f;
-    }
-
-    public float getNormalChance(FishingType type) {
-        if (type == FishingType.TREASURE) {
-            return 0;
-        }
-
-        return loottableWeight * 1f / 0.95f * weight * 0.01f;
     }
 }

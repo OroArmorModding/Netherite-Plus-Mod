@@ -14,6 +14,25 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 
 public final class NetheritePlusConfig extends Config {
+    public static final String CONFIG_FILE_NAME = "netherite_plus.json";
+    private static final List<ConfigItemGroup> CONFIGS = ImmutableList.of(new ENABLED(), new DURABILITIES(), new DAMAGE(), new ANVIL(), new GRAPHICS());
+
+    public NetheritePlusConfig() {
+        super(CONFIGS, NetheritePlusModPlatform.getConfigDir(), "netherite_plus");
+    }
+
+    public static void createLavaVisionUpdatePacket(ConfigItem<Double> configItem) {
+        FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
+        passedData.writeDouble(configItem.getValue());
+        NetheritePlusMod.CONNECTED_CLIENTS.forEach(_player -> NetheritePlusModPlatform.sendLavaVisionUpdatePacket(_player, passedData));
+    }
+
+    public static void createLavaVisionUpdatePacket(Player player) {
+        FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
+        passedData.writeDouble(GRAPHICS.LAVA_VISION_DISTANCE.getValue());
+        NetheritePlusModPlatform.sendLavaVisionUpdatePacket(player, passedData);
+    }
+
     public static class ANVIL extends ConfigItemGroup {
         public static final ConfigItem<Double> XP_REDUCTION = new ConfigItem<>("xp_reduction", 0.5, "config.netherite_plus.anvil.xp_redcution");
 
@@ -81,25 +100,5 @@ public final class NetheritePlusConfig extends Config {
         public GRAPHICS() {
             super(OPTIONS, "graphics");
         }
-    }
-
-    public static final String CONFIG_FILE_NAME = "netherite_plus.json";
-
-    private static final List<ConfigItemGroup> CONFIGS = ImmutableList.of(new ENABLED(), new DURABILITIES(), new DAMAGE(), new ANVIL(), new GRAPHICS());
-
-    public NetheritePlusConfig() {
-        super(CONFIGS, NetheritePlusModPlatform.getConfigDir(), "netherite_plus");
-    }
-
-    public static void createLavaVisionUpdatePacket(ConfigItem<Double> configItem) {
-		FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
-		passedData.writeDouble(configItem.getValue());
-		NetheritePlusMod.CONNECTED_CLIENTS.forEach(_player -> NetheritePlusModPlatform.sendLavaVisionUpdatePacket(_player, passedData));
-    }
-
-    public static void createLavaVisionUpdatePacket(Player player) {
-		FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
-		passedData.writeDouble(GRAPHICS.LAVA_VISION_DISTANCE.getValue());
-        NetheritePlusModPlatform.sendLavaVisionUpdatePacket(player, passedData);
     }
 }

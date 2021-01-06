@@ -10,8 +10,8 @@ import net.minecraft.client.multiplayer.ClientPacketListener;
 @Mixin(ClientPacketListener.class)
 public interface ClientPlayNetworkHandlerAccessor {
     @Accessor
-    public Minecraft getMinecraft();
+    Minecraft getMinecraft();
 
     @Accessor
-    public ClientLevel getLevel();
+    ClientLevel getLevel();
 }

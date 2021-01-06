@@ -10,8 +10,24 @@ import net.minecraft.server.level.ServerPlayer;
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 public class FullNetheriteNetheriteBeaconCriterion extends SimpleCriterionTrigger<FullNetheriteNetheriteBeaconCriterion.Conditions> {
-
     public static final ResourceLocation id = id("full_netherite_netherite_beacon");
+
+    @Override
+    public ResourceLocation getId() {
+        return id;
+    }
+
+    @Override
+    public FullNetheriteNetheriteBeaconCriterion.Conditions createInstance(JsonObject jsonObject, EntityPredicate.Composite extended, DeserializationContext advancementEntityPredicateDeserializer) {
+        MinMaxBounds.Ints intRange = MinMaxBounds.Ints.fromJson(jsonObject.get("netherite_level"));
+        return new FullNetheriteNetheriteBeaconCriterion.Conditions(extended, intRange);
+    }
+
+    public void trigger(ServerPlayer player, NetheriteBeaconBlockEntity beacon) {
+        trigger(player, (conditions) -> {
+            return conditions.matches(beacon);
+        });
+    }
 
     public static class Conditions extends AbstractCriterionTriggerInstance {
 
@@ -38,23 +54,6 @@ public class FullNetheriteNetheriteBeaconCriterion extends SimpleCriterionTrigge
             return jsonObject;
         }
 
-    }
-
-    @Override
-    public ResourceLocation getId() {
-        return id;
-    }
-
-    @Override
-    public FullNetheriteNetheriteBeaconCriterion.Conditions createInstance(JsonObject jsonObject, EntityPredicate.Composite extended, DeserializationContext advancementEntityPredicateDeserializer) {
-        MinMaxBounds.Ints intRange = MinMaxBounds.Ints.fromJson(jsonObject.get("netherite_level"));
-        return new FullNetheriteNetheriteBeaconCriterion.Conditions(extended, intRange);
-    }
-
-    public void trigger(ServerPlayer player, NetheriteBeaconBlockEntity beacon) {
-        trigger(player, (conditions) -> {
-            return conditions.matches(beacon);
-        });
     }
 
 }

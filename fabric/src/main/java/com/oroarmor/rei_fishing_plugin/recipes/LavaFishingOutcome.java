@@ -9,13 +9,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 public class LavaFishingOutcome {
-    public enum LavaFishingType {
-        JUNK, TREASURE
-    }
-
     public int weight, loottableWeight;
     public ItemStack output;
-
     public LavaFishingOutcome(ItemStack output, int weight, int loottableWeight) {
         this.weight = weight;
         this.loottableWeight = loottableWeight;
@@ -34,25 +29,36 @@ public class LavaFishingOutcome {
         return output;
     }
 
-    public static class Junk extends LavaFishingOutcomeCategory {
-        public Junk() {
-            super(LavaFishingType.JUNK, recipes);
+    public float getOpenWaterChance() {
+        return loottableWeight * weight * 0.01f;
+    }
+
+    public float getNormalChance(LavaFishingType type) {
+        if (type == LavaFishingType.TREASURE) {
+            return 0;
         }
 
+        return loottableWeight * 1f / 0.6f * weight * 0.01f;
+    }
+
+    public enum LavaFishingType {
+        JUNK, TREASURE
+    }
+
+    public static class Junk extends LavaFishingOutcomeCategory {
         public static final LavaFishingOutcome string = new LavaFishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:string"))), 25, 60);
         public static final LavaFishingOutcome gold_nugget = new LavaFishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:gold_nugget"))), 10, 60);
         public static final LavaFishingOutcome magma_cream = new LavaFishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:magma_cream"))), 15, 60);
         public static final LavaFishingOutcome bone = new LavaFishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:bone"))), 25, 60);
         public static final LavaFishingOutcome rotten_flesh = new LavaFishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:rotten_flesh"))), 25, 60);
-
         public static final List<LavaFishingOutcome> recipes = ImmutableList.of(string, gold_nugget, magma_cream, bone, rotten_flesh);
+
+        public Junk() {
+            super(LavaFishingType.JUNK, recipes);
+        }
     }
 
     public static class Treasure extends LavaFishingOutcomeCategory {
-        public Treasure() {
-            super(LavaFishingType.TREASURE, recipes);
-        }
-
         public static final LavaFishingOutcome gold_ingot = new LavaFishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:gold_ingot"))), 30, 60);
         public static final LavaFishingOutcome saddle = new LavaFishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:saddle"))), 15, 60);
         public static final LavaFishingOutcome golden_helmet = new LavaFishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:golden_helmet"))), 10, 60);
@@ -61,8 +67,11 @@ public class LavaFishingOutcome {
         public static final LavaFishingOutcome golden_boots = new LavaFishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:golden_boots"))), 10, 60);
         public static final LavaFishingOutcome golden_sword = new LavaFishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:golden_sword"))), 10, 60);
         public static final LavaFishingOutcome ancient_debris = new LavaFishingOutcome(new ItemStack(Registry.ITEM.get(new ResourceLocation("minecraft:ancient_debris"))), 5, 60);
-
         public static final List<LavaFishingOutcome> recipes = ImmutableList.of(gold_ingot, saddle, golden_helmet, golden_chestplate, golden_leggings, golden_boots, golden_sword, ancient_debris);
+
+        public Treasure() {
+            super(LavaFishingType.TREASURE, recipes);
+        }
     }
 
     public static class LavaFishingOutcomeCategory {
@@ -83,17 +92,5 @@ public class LavaFishingOutcome {
             return type;
         }
 
-    }
-
-    public float getOpenWaterChance() {
-        return loottableWeight * weight * 0.01f;
-    }
-
-    public float getNormalChance(LavaFishingType type) {
-        if (type == LavaFishingType.TREASURE) {
-            return 0;
-        }
-
-        return loottableWeight * 1f / 0.6f * weight * 0.01f;
     }
 }
