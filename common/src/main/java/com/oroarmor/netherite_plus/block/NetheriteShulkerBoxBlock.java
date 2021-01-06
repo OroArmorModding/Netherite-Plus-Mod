@@ -48,7 +48,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 public class NetheriteShulkerBoxBlock extends BaseEntityBlock {
-
     public static final EnumProperty<Direction> FACING;
     public static final ResourceLocation CONTENTS;
     public static int numberOfRows = 6;
@@ -58,6 +57,14 @@ public class NetheriteShulkerBoxBlock extends BaseEntityBlock {
     static {
         FACING = DirectionalBlock.FACING;
         CONTENTS = new ResourceLocation("contents");
+    }
+
+    private final DyeColor color;
+
+    public NetheriteShulkerBoxBlock(DyeColor color, BlockBehaviour.Properties settings) {
+        super(settings);
+        this.color = color;
+        registerDefaultState(stateDefinition.any().setValue(FACING, Direction.UP));
     }
 
     public static Block get(DyeColor dyeColor) {
@@ -113,14 +120,6 @@ public class NetheriteShulkerBoxBlock extends BaseEntityBlock {
 
     public static ItemStack getItemStack(DyeColor color) {
         return new ItemStack(get(color));
-    }
-
-    private final DyeColor color;
-
-    public NetheriteShulkerBoxBlock(DyeColor color, BlockBehaviour.Properties settings) {
-        super(settings);
-        this.color = color;
-        registerDefaultState(stateDefinition.any().setValue(FACING, Direction.UP));
     }
 
     @Override

@@ -12,15 +12,14 @@ import net.minecraft.world.level.block.AnvilBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class NetheriteAnvilBlock extends AnvilBlock {
-
     private static final TranslatableComponent TITLE = new TranslatableComponent("container.repair");
-
-    public static BlockState damage(BlockState fallingState) {
-        return fallingState;
-    }
 
     public NetheriteAnvilBlock(Properties settings) {
         super(settings);
+    }
+
+    public static BlockState damage(BlockState fallingState) {
+        return fallingState;
     }
 
     @Override

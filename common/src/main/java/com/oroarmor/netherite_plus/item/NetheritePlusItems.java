@@ -20,6 +20,8 @@ import net.minecraft.world.level.block.Block;
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 public final class NetheritePlusItems implements Initable {
+    public static final Item.Properties NETHERITE_SHULKER_BOX_ITEM_SETTINGS = NetheritePlusModPlatform.setISTER(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_DECORATIONS).fireResistant());
+
     public static RegistrySupplier<Item> NETHERITE_ELYTRA;
 
     public static RegistrySupplier<Item> NETHERITE_FISHING_ROD;
@@ -31,8 +33,6 @@ public final class NetheritePlusItems implements Initable {
     public static RegistrySupplier<Item> NETHERITE_CROSSBOW;
 
     public static RegistrySupplier<Item> NETHERITE_TRIDENT;
-
-    public static final Item.Properties NETHERITE_SHULKER_BOX_ITEM_SETTINGS = NetheritePlusModPlatform.setISTER(new Item.Properties().stacksTo(1).tab(CreativeModeTab.TAB_DECORATIONS).fireResistant());
 
     public static RegistrySupplier<Item> NETHERITE_SHULKER_BOX;
     public static RegistrySupplier<Item> NETHERITE_WHITE_SHULKER_BOX;

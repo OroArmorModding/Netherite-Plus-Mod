@@ -14,8 +14,8 @@ import net.minecraft.world.item.ItemStack;
 @Mixin(ItemRenderer.class)
 public interface ItemRendererAccessor {
     @Accessor
-    public ItemModelShaper getItemModelShaper();
+    ItemModelShaper getItemModelShaper();
 
     @Invoker
-    public void callRenderModelLists(BakedModel model, ItemStack stack, int light, int overlay, PoseStack matrices, VertexConsumer vertexConsumer4);
+    void callRenderModelLists(BakedModel model, ItemStack stack, int light, int overlay, PoseStack matrices, VertexConsumer vertexConsumer4);
 }

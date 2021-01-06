@@ -11,6 +11,22 @@ import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 public class RiptideNetheriteTridentCriterion extends SimpleCriterionTrigger<RiptideNetheriteTridentCriterion.Conditions> {
     public static final ResourceLocation id = id("riptide_netherite_trident");
 
+    @Override
+    public ResourceLocation getId() {
+        return id;
+    }
+
+    @Override
+    public RiptideNetheriteTridentCriterion.Conditions createInstance(JsonObject jsonObject, EntityPredicate.Composite extended, DeserializationContext advancementEntityPredicateDeserializer) {
+        return new RiptideNetheriteTridentCriterion.Conditions(extended);
+    }
+
+    public void trigger(ServerPlayer player) {
+        trigger(player, (conditions) -> {
+            return conditions.matches(player);
+        });
+    }
+
     public static class Conditions extends AbstractCriterionTriggerInstance {
 
         public Conditions(EntityPredicate.Composite player) {
@@ -27,21 +43,5 @@ public class RiptideNetheriteTridentCriterion extends SimpleCriterionTrigger<Rip
             return jsonObject;
         }
 
-    }
-
-    @Override
-    public ResourceLocation getId() {
-        return id;
-    }
-
-    @Override
-    public RiptideNetheriteTridentCriterion.Conditions createInstance(JsonObject jsonObject, EntityPredicate.Composite extended, DeserializationContext advancementEntityPredicateDeserializer) {
-        return new RiptideNetheriteTridentCriterion.Conditions(extended);
-    }
-
-    public void trigger(ServerPlayer player) {
-        trigger(player, (conditions) -> {
-            return conditions.matches(player);
-        });
     }
 }

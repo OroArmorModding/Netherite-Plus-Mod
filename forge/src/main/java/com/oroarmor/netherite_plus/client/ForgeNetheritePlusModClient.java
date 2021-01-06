@@ -29,6 +29,10 @@ import static com.oroarmor.netherite_plus.client.NetheritePlusTextures.makePath;
 
 @OnlyIn(Dist.CLIENT)
 public class ForgeNetheritePlusModClient {
+    public static void addISTER(Item.Properties properties) {
+        properties.setISTER(() -> () -> new NetheritePlusBuiltinItemModelRenderer());
+    }
+
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public void registerClient(FMLClientSetupEvent event) {
@@ -55,9 +59,5 @@ public class ForgeNetheritePlusModClient {
         event.addSprite(NetheritePlusTextures.NETHERITE_SHIELD_BASE_NO_PATTERN.texture());
         event.addSprite(id(makePath(null)));
         Arrays.stream(DyeColor.values()).forEach(c -> event.addSprite(id(makePath(c))));
-    }
-
-    public static void addISTER(Item.Properties properties) {
-        properties.setISTER(() -> () -> new NetheritePlusBuiltinItemModelRenderer());
     }
 }

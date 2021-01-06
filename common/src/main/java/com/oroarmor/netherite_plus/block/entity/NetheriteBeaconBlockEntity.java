@@ -50,18 +50,19 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 public class NetheriteBeaconBlockEntity extends BlockEntity implements MenuProvider, TickableBlockEntity {
-
     public static final MobEffect[][] EFFECTS_BY_LEVEL;
     private static final Set<MobEffect> EFFECTS;
+
+    static {
+        EFFECTS_BY_LEVEL = new MobEffect[][]{{MobEffects.MOVEMENT_SPEED, MobEffects.DIG_SPEED}, {MobEffects.DAMAGE_RESISTANCE, MobEffects.JUMP}, {MobEffects.DAMAGE_BOOST}, {MobEffects.REGENERATION}, {MobEffects.GLOWING}};
+        EFFECTS = Arrays.stream(EFFECTS_BY_LEVEL).flatMap(Arrays::stream).collect(Collectors.toSet());
+    }
+
+    private final ContainerData propertyDelegate;
     private List<NetheriteBeaconBlockEntity.BeamSegment> beamSegments = Lists.newArrayList();
     private List<NetheriteBeaconBlockEntity.BeamSegment> field_19178 = Lists.newArrayList();
     private int beaconLevel;
     private int netheriteLevel;
-
-    public int getNetheriteLevel() {
-        return netheriteLevel;
-    }
-
     private int field_19179 = -1;
     @Nullable
     private MobEffect primary;
@@ -72,7 +73,6 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements MenuProvi
     @Nullable
     private Component customName;
     private LockCode lock;
-    private final ContainerData propertyDelegate;
 
     public NetheriteBeaconBlockEntity() {
         super(NetheritePlusBlocks.NETHERITE_BEACON_BLOCK_ENTITY.get());
@@ -120,6 +120,16 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements MenuProvi
                 return 4;
             }
         };
+    }
+
+    @Nullable
+    private static MobEffect getPotionEffectById(int id) {
+        MobEffect statusEffect = MobEffect.byId(id);
+        return EFFECTS.contains(statusEffect) ? statusEffect : null;
+    }
+
+    public int getNetheriteLevel() {
+        return netheriteLevel;
     }
 
     @Override
@@ -327,12 +337,6 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements MenuProvi
         return 256.0D;
     }
 
-    @Nullable
-    private static MobEffect getPotionEffectById(int id) {
-        MobEffect statusEffect = MobEffect.byId(id);
-        return EFFECTS.contains(statusEffect) ? statusEffect : null;
-    }
-
     @Override
     public void load(BlockState state, CompoundTag tag) {
         super.load(state, tag);
@@ -376,11 +380,6 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements MenuProvi
     @Override
     public Component getDisplayName() {
         return customName != null ? customName : new TranslatableComponent("container.netherite_beacon");
-    }
-
-    static {
-        EFFECTS_BY_LEVEL = new MobEffect[][]{{MobEffects.MOVEMENT_SPEED, MobEffects.DIG_SPEED}, {MobEffects.DAMAGE_RESISTANCE, MobEffects.JUMP}, {MobEffects.DAMAGE_BOOST}, {MobEffects.REGENERATION}, {MobEffects.GLOWING}};
-        EFFECTS = Arrays.stream(EFFECTS_BY_LEVEL).flatMap(Arrays::stream).collect(Collectors.toSet());
     }
 
     public static class BeamSegment {

@@ -28,20 +28,6 @@ public class NetheriteBeaconBlockEntityRenderer extends BlockEntityRenderer<Neth
         super(blockEntityRenderDispatcher);
     }
 
-    @Override
-    public void render(NetheriteBeaconBlockEntity beaconBlockEntity, float f, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int i, int j) {
-        long l = beaconBlockEntity.getLevel().getGameTime();
-        List<NetheriteBeaconBlockEntity.BeamSegment> list = beaconBlockEntity.getBeamSegments();
-        int k = 0;
-
-        for (int m = 0; m < list.size(); ++m) {
-            NetheriteBeaconBlockEntity.BeamSegment beamSegment = list.get(m);
-            render(matrixStack, vertexConsumerProvider, f, l, k, m == list.size() - 1 ? 1024 : beamSegment.getHeight(), beamSegment.getColor());
-            k += beamSegment.getHeight();
-        }
-
-    }
-
     private static void render(PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, float f, long l, int i, int j, float[] fs) {
         renderLightBeam(matrixStack, vertexConsumerProvider, BEAM_TEXTURE, f, 1.0F, l, i, j, fs, 0.2F, 0.25F);
     }
@@ -95,6 +81,20 @@ public class NetheriteBeaconBlockEntityRenderer extends BlockEntityRenderer<Neth
 
     private static void method_23076(Matrix4f matrix4f, Matrix3f matrix3f, VertexConsumer vertexConsumer, float f, float g, float h, float i, int j, float k, float l, float m, float n) {
         vertexConsumer.vertex(matrix4f, k, j, l).color(f, g, h, i).uv(m, n).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(15728880).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+    }
+
+    @Override
+    public void render(NetheriteBeaconBlockEntity beaconBlockEntity, float f, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int i, int j) {
+        long l = beaconBlockEntity.getLevel().getGameTime();
+        List<NetheriteBeaconBlockEntity.BeamSegment> list = beaconBlockEntity.getBeamSegments();
+        int k = 0;
+
+        for (int m = 0; m < list.size(); ++m) {
+            NetheriteBeaconBlockEntity.BeamSegment beamSegment = list.get(m);
+            render(matrixStack, vertexConsumerProvider, f, l, k, m == list.size() - 1 ? 1024 : beamSegment.getHeight(), beamSegment.getColor());
+            k += beamSegment.getHeight();
+        }
+
     }
 
     @Override
