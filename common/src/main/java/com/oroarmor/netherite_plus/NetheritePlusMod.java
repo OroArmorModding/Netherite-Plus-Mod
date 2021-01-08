@@ -7,12 +7,10 @@ import java.util.List;
 import com.oroarmor.config.ConfigItemGroup;
 import com.oroarmor.multi_item_lib.UniqueItemRegistry;
 import com.oroarmor.netherite_plus.advancement.criterion.NetheritePlusCriteria;
-import com.oroarmor.netherite_plus.client.NetheritePlusClientMod;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.entity.effect.NetheritePlusStatusEffects;
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 import com.oroarmor.netherite_plus.loot.NetheritePlusLootManager;
-import com.oroarmor.netherite_plus.network.LavaVisionUpdatePacket;
 import com.oroarmor.netherite_plus.network.UpdateNetheriteBeaconC2SPacket;
 import com.oroarmor.netherite_plus.recipe.NetheritePlusRecipeSerializer;
 import com.oroarmor.netherite_plus.screen.NetheriteBeaconScreenHandler;
@@ -50,8 +48,6 @@ public class NetheritePlusMod {
         NetheritePlusStatusEffects.init();
         NetheritePlusCriteria.init();
         NetheritePlusStats.init();
-
-
 
 
         NetworkManager.registerReceiver(NetworkManager.Side.C2S, UpdateNetheriteBeaconC2SPacket.ID, (friendlyByteBuf, packetContext) -> {

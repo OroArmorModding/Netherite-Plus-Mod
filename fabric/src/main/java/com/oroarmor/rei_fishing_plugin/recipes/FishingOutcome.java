@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 public class FishingOutcome {
     public int weight, loottableWeight;
     public ItemStack output;
+
     public FishingOutcome(ItemStack output, int weight, int loottableWeight) {
         this.weight = weight;
         this.loottableWeight = loottableWeight;
