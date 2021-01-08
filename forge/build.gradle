@@ -29,13 +29,16 @@ dependencies {
     mappings(minecraft.officialMojangMappings())
     forge("net.minecraftforge:forge:${rootProject.architect.minecraft}-${rootProject.forge_version}")
     modCompile("me.shedaniel:architectury:${rootProject.architectury_version}:forge")
+
     compile('com.github.OroArmor:oro-config:-SNAPSHOT') {
         exclude(module: "fabric-api")
         exclude(module: "fabric-loader")
     }
-    include('com.github.OroArmor:oro-config:-SNAPSHOT') {
+    shadow('com.github.OroArmor:oro-config:-SNAPSHOT') {
         exclude(module: "fabric-api")
         exclude(module: "fabric-loader")
+        exclude(module: "modmenu")
+        exclude(module: "config-2")
     }
 
     compileOnly(project(path: ":common")) {

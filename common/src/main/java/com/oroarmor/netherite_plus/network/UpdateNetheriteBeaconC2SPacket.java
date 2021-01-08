@@ -25,6 +25,13 @@ public class UpdateNetheriteBeaconC2SPacket extends ServerboundSetBeaconPacket {
     public UpdateNetheriteBeaconC2SPacket() {
     }
 
+    public UpdateNetheriteBeaconC2SPacket(FriendlyByteBuf buf) {
+        try {
+            this.read(buf);
+        } catch (IOException e) {
+        }
+    }
+
     @Override
     public void read(FriendlyByteBuf buf) throws IOException {
         super.read(buf);

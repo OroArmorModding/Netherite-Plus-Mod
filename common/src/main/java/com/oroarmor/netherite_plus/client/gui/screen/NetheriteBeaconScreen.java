@@ -5,11 +5,11 @@ import java.util.Iterator;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.oroarmor.netherite_plus.NetheritePlusModPlatform;
 import com.oroarmor.netherite_plus.block.entity.NetheriteBeaconBlockEntity;
 import com.oroarmor.netherite_plus.network.UpdateNetheriteBeaconC2SPacket;
 import com.oroarmor.netherite_plus.screen.NetheriteBeaconScreenHandler;
 import io.netty.buffer.Unpooled;
+import me.shedaniel.architectury.networking.NetworkManager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractButton;
@@ -272,7 +272,7 @@ public class NetheriteBeaconScreen extends AbstractContainerScreen<NetheriteBeac
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            NetheritePlusModPlatform.sendBeaconUpdatePacket(buf);
+            NetworkManager.sendToServer(UpdateNetheriteBeaconC2SPacket.ID, buf);
             NetheriteBeaconScreen.this.minecraft.player.connection.send(new ServerboundContainerClosePacket(NetheriteBeaconScreen.this.minecraft.player.containerMenu.containerId));
             NetheriteBeaconScreen.this.minecraft.setScreen(null);
         }

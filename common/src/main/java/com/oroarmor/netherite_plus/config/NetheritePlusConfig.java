@@ -8,9 +8,12 @@ import com.oroarmor.config.ConfigItem;
 import com.oroarmor.config.ConfigItemGroup;
 import com.oroarmor.netherite_plus.NetheritePlusMod;
 import com.oroarmor.netherite_plus.NetheritePlusModPlatform;
+import com.oroarmor.netherite_plus.network.LavaVisionUpdatePacket;
 import io.netty.buffer.Unpooled;
+import me.shedaniel.architectury.networking.NetworkManager;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
 public final class NetheritePlusConfig extends Config {
@@ -24,13 +27,13 @@ public final class NetheritePlusConfig extends Config {
     public static void createLavaVisionUpdatePacket(ConfigItem<Double> configItem) {
         FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
         passedData.writeDouble(configItem.getValue());
-        NetheritePlusMod.CONNECTED_CLIENTS.forEach(_player -> NetheritePlusModPlatform.sendLavaVisionUpdatePacket(_player, passedData));
+        NetheritePlusMod.CONNECTED_CLIENTS.forEach(_player -> NetworkManager.sendToPlayer((ServerPlayer) _player, LavaVisionUpdatePacket.ID, passedData));
     }
 
     public static void createLavaVisionUpdatePacket(Player player) {
         FriendlyByteBuf passedData = new FriendlyByteBuf(Unpooled.buffer());
         passedData.writeDouble(GRAPHICS.LAVA_VISION_DISTANCE.getValue());
-        NetheritePlusModPlatform.sendLavaVisionUpdatePacket(player, passedData);
+        NetworkManager.sendToPlayer((ServerPlayer) player, LavaVisionUpdatePacket.ID, passedData);
     }
 
     public static class ANVIL extends ConfigItemGroup {
