@@ -36,7 +36,7 @@ public class NetheriteElytraFeatureRenderer<T extends LivingEntity, M extends En
     @Override
     public void render(PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int i, T livingEntity, float f, float g, float h, float j, float k, float l) {
         ItemStack itemStack = livingEntity.getItemBySlot(EquipmentSlot.CHEST);
-        if (itemStack.getItem() == NetheritePlusItems.NETHERITE_ELYTRA) {
+        if (itemStack.getItem() == NetheritePlusItems.NETHERITE_ELYTRA.get()) {
             ResourceLocation identifier4;
             if (livingEntity instanceof AbstractClientPlayer) {
                 AbstractClientPlayer abstractClientPlayerEntity = (AbstractClientPlayer) livingEntity;

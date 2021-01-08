@@ -4,6 +4,7 @@ import com.oroarmor.netherite_plus.advancement.criterion.NetheritePlusCriteria;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.entity.NetheriteTridentEntity;
 
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;

@@ -1,9 +1,15 @@
 package com.oroarmor.netherite_plus.entity;
 
+import com.oroarmor.netherite_plus.NetheritePlusMod;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
+import io.netty.buffer.Unpooled;
+import me.shedaniel.architectury.networking.NetworkManager;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -88,4 +94,8 @@ public class NetheriteTridentEntity extends ThrownTrident {
         playSound(soundEvent, g, 1.0F);
     }
 
+    @Override
+    public Packet<?> getAddEntityPacket() {
+        return super.getAddEntityPacket();
+    }
 }

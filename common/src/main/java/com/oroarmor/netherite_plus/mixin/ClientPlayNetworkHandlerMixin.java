@@ -1,18 +1,15 @@
 package com.oroarmor.netherite_plus.mixin;
 
-import java.util.Iterator;
-
+import com.oroarmor.netherite_plus.client.NetheritePlusClientMod;
 import com.oroarmor.netherite_plus.entity.NetheriteTridentEntity;
-import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.Registry;
 import net.minecraft.network.protocol.PacketUtils;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.world.entity.Entity;
@@ -23,9 +20,6 @@ import net.minecraft.world.item.ItemStack;
 
 @Mixin(ClientPacketListener.class)
 public abstract class ClientPlayNetworkHandlerMixin {
-    @Shadow
-    public abstract ClientLevel getLevel();
-
     @Inject(method = "handleAddEntity", at = @At("HEAD"), cancellable = true)
     public void onEntitySpawnMixin(ClientboundAddEntityPacket packet, CallbackInfo info) {
         PacketUtils.ensureRunningOnSameThread(packet, (ClientPacketListener) (Object) this, ((ClientPlayNetworkHandlerAccessor) this).getMinecraft());
@@ -42,17 +36,7 @@ public abstract class ClientPlayNetworkHandlerMixin {
             entity15 = new ThrownTrident(level, d, e, f);
             entity16 = level.getEntity(packet.getData());
 
-            if (entity16 instanceof LocalPlayer) {
-
-                boolean hasNetheriteTrident = false;
-                Iterator<ItemStack> items = entity16.getHandSlots().iterator();
-                while (items.hasNext()) {
-                    hasNetheriteTrident |= items.next().getItem() == NetheritePlusItems.NETHERITE_TRIDENT.get();
-                }
-                if (hasNetheriteTrident) {
-                    entity15 = new NetheriteTridentEntity(level, d, e, f);
-                }
-            }
+            ((ThrownTrident) entity15).tridentItem = new ItemStack(Registry.ITEM.byId(NetheritePlusClientMod.TRIDENT_QUEUE.remove()));
 
             if (entity16 != null) {
                 ((AbstractArrow) entity15).setOwner(entity16);
