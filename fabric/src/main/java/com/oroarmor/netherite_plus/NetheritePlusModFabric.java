@@ -19,20 +19,6 @@ public class NetheritePlusModFabric implements ModInitializer {
 
         CommandRegistrationCallback.EVENT.register(new ConfigCommand(NetheritePlusMod.CONFIG));
 
-        ServerPlayNetworking.registerGlobalReceiver(UpdateNetheriteBeaconC2SPacket.ID, (server, player, serverGamePacketListener, byteBuffer, packetSender) -> {
-            UpdateNetheriteBeaconC2SPacket packet = new UpdateNetheriteBeaconC2SPacket();
-            try {
-                packet.read(byteBuffer);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            server.execute(() -> {
-                if (player.containerMenu instanceof NetheriteBeaconScreenHandler) {
-                    ((NetheriteBeaconScreenHandler) player.containerMenu).setEffects(packet.getPrimary(), packet.getSecondary(), packet.getTertiaryEffectId());
-                }
-            });
-        });
-
         NetheritePlusMod.registerItemsWithMultiItemLib();
     }
 }

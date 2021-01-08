@@ -39,6 +39,7 @@ public class NetheritePlusClientModFabric implements ClientModInitializer {
         BlockEntityRendererRegistry.INSTANCE.register((BlockEntityType<NetheriteShulkerBoxBlockEntity>) NetheritePlusBlocks.NETHERITE_SHULKER_BOX_ENTITY.get(), NetheriteShulkerBoxBlockEntityRenderer::new);
         BlockEntityRendererRegistry.INSTANCE.register((BlockEntityType<NetheriteBeaconBlockEntity>) NetheritePlusBlocks.NETHERITE_BEACON_BLOCK_ENTITY.get(), NetheriteBeaconBlockEntityRenderer::new);
 
+        NetheritePlusClientMod.init();
         NetheritePlusTexturesFabric.register();
         NetheritePlusModelProvider.registerItemsWithModelProvider();
         NetheritePlusScreenHandlers.initializeClient();

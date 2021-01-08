@@ -1,18 +1,24 @@
 package com.oroarmor.netherite_plus;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.oroarmor.config.ConfigItemGroup;
 import com.oroarmor.multi_item_lib.UniqueItemRegistry;
 import com.oroarmor.netherite_plus.advancement.criterion.NetheritePlusCriteria;
+import com.oroarmor.netherite_plus.client.NetheritePlusClientMod;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.entity.effect.NetheritePlusStatusEffects;
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 import com.oroarmor.netherite_plus.loot.NetheritePlusLootManager;
+import com.oroarmor.netherite_plus.network.LavaVisionUpdatePacket;
+import com.oroarmor.netherite_plus.network.UpdateNetheriteBeaconC2SPacket;
 import com.oroarmor.netherite_plus.recipe.NetheritePlusRecipeSerializer;
+import com.oroarmor.netherite_plus.screen.NetheriteBeaconScreenHandler;
 import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
 import com.oroarmor.netherite_plus.stat.NetheritePlusStats;
+import me.shedaniel.architectury.networking.NetworkManager;
 import me.shedaniel.architectury.registry.Registries;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -44,6 +50,23 @@ public class NetheritePlusMod {
         NetheritePlusStatusEffects.init();
         NetheritePlusCriteria.init();
         NetheritePlusStats.init();
+
+
+
+
+        NetworkManager.registerReceiver(NetworkManager.Side.C2S, UpdateNetheriteBeaconC2SPacket.ID, (friendlyByteBuf, packetContext) -> {
+            UpdateNetheriteBeaconC2SPacket packet = new UpdateNetheriteBeaconC2SPacket();
+            try {
+                packet.read(friendlyByteBuf);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            packetContext.queue(() -> {
+                if (packetContext.getPlayer().containerMenu instanceof NetheriteBeaconScreenHandler) {
+                    ((NetheriteBeaconScreenHandler) packetContext.getPlayer().containerMenu).setEffects(packet.getPrimary(), packet.getSecondary(), packet.getTertiaryEffectId());
+                }
+            });
+        });
     }
 
     private static void processConfig() {

@@ -24,7 +24,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 public class NetheriteTridentEntity extends ThrownTrident {
-
     public NetheriteTridentEntity(EntityType<? extends ThrownTrident> entityType, Level world) {
         super(entityType, world);
         tridentItem = new ItemStack(NetheritePlusItems.NETHERITE_TRIDENT.get());

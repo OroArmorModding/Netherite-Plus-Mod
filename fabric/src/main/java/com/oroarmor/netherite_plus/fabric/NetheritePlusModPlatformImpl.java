@@ -31,10 +31,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import static com.oroarmor.netherite_plus.config.NetheritePlusConfig.CONFIG_FILE_NAME;
 
 public class NetheritePlusModPlatformImpl {
-    public static void sendBeaconUpdatePacket(FriendlyByteBuf buf) {
-        ClientPlayNetworking.send(UpdateNetheriteBeaconC2SPacket.ID, buf);
-    }
-
     public static <T extends CriterionTrigger<?>> T registerCriteria(T object) {
         return CriteriaAccessor.callRegister(object);
     }
@@ -53,10 +49,6 @@ public class NetheritePlusModPlatformImpl {
 
     public static <T extends AbstractContainerMenu> MenuType<T> registerScreenHandler(ResourceLocation identifier, BiFunction<Integer, Inventory, T> menuTypeSupplier) {
         return ScreenHandlerRegistry.registerSimple(identifier, (integer, inventory) -> menuTypeSupplier.apply(integer, inventory));
-    }
-
-    public static void sendLavaVisionUpdatePacket(Player player, FriendlyByteBuf lavaVision) {
-        ServerPlayNetworking.send((ServerPlayer) player, NetheritePlusMod.id("lava_vision_update"), lavaVision);
     }
 
     public static Item.Properties setISTER(Item.Properties properties) {

@@ -2,19 +2,30 @@ package com.oroarmor.netherite_plus;
 
 import java.io.IOException;
 
+import com.mojang.brigadier.Command;
+import com.oroarmor.config.command.ConfigCommand;
 import com.oroarmor.multi_item_lib.UniqueItemRegistry;
 import com.oroarmor.netherite_plus.client.ForgeNetheritePlusModClient;
+import com.oroarmor.netherite_plus.client.NetheritePlusClientMod;
+import com.oroarmor.netherite_plus.network.LavaVisionUpdatePacket;
 import com.oroarmor.netherite_plus.network.UpdateNetheriteBeaconC2SPacket;
 import com.oroarmor.netherite_plus.screen.NetheriteBeaconScreenHandler;
 import me.shedaniel.architectury.platform.forge.EventBuses;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
+
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.PacketListener;
+import net.minecraft.network.protocol.Packet;
 
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.*;
 
@@ -35,7 +46,7 @@ public class ForgeNetheritePlusMod {
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> FMLJavaModLoadingContext.get().getModEventBus().register(new ForgeNetheritePlusModClient()));
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
 
-        INSTANCE.registerMessage(1, UpdateNetheriteBeaconC2SPacket.class, (unb, fbb2) -> {
+        INSTANCE.registerMessage(0, UpdateNetheriteBeaconC2SPacket.class, (unb, fbb2) -> {
             try {
                 unb.write(fbb2);
             } catch (IOException e) {
@@ -54,6 +65,25 @@ public class ForgeNetheritePlusMod {
                 if (ctx.get().getSender().containerMenu instanceof NetheriteBeaconScreenHandler) {
                     ((NetheriteBeaconScreenHandler) ctx.get().getSender().containerMenu).setEffects(packet.getPrimary(), packet.getSecondary(), packet.getTertiaryEffectId());
                 }
+            });
+        });
+        INSTANCE.registerMessage(1, LavaVisionUpdatePacket.class, (unb, fbb2) -> {
+            try {
+                unb.write(fbb2);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }, (fbb) -> {
+            LavaVisionUpdatePacket packet = new LavaVisionUpdatePacket(0);
+            try {
+                packet.read(fbb);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return packet;
+        }, (packet, ctx) -> {
+            ctx.get().getSender().server.execute(() -> {
+                NetheritePlusClientMod.LAVA_VISION_DISTANCE = packet.getDistance();
             });
         });
     }

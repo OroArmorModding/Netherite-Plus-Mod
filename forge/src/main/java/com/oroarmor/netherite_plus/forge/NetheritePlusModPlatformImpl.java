@@ -9,10 +9,13 @@ import com.oroarmor.netherite_plus.NetheritePlusModPlatform;
 import com.oroarmor.netherite_plus.client.ForgeNetheritePlusModClient;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.item.ForgeNetheriteElytra;
+import com.oroarmor.netherite_plus.network.LavaVisionUpdatePacket;
+import com.oroarmor.netherite_plus.network.UpdateNetheriteBeaconC2SPacket;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.advancements.CriterionTrigger;
@@ -23,16 +26,14 @@ import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 
 public class NetheritePlusModPlatformImpl {
-    public static void sendBeaconUpdatePacket(FriendlyByteBuf buf) {
-        ForgeNetheritePlusMod.INSTANCE.sendToServer(buf);
-    }
-
     public static <T extends CriterionTrigger<?>> T registerCriteria(T object) {
         return CriteriaTriggers.register(object);
     }
@@ -58,9 +59,5 @@ public class NetheritePlusModPlatformImpl {
     public static Item.Properties setISTER(Item.Properties properties) {
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ForgeNetheritePlusModClient.addISTER(properties));
         return properties;
-    }
-
-    public static void sendLavaVisionUpdatePacket(Player player, FriendlyByteBuf lavaVision) {
-        throw new AssertionError();
     }
 }
