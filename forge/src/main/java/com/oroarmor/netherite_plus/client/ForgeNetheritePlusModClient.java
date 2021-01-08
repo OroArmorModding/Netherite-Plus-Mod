@@ -1,9 +1,7 @@
 package com.oroarmor.netherite_plus.client;
 
-import java.io.IOException;
 import java.util.Arrays;
 
-import com.oroarmor.netherite_plus.ForgeNetheritePlusMod;
 import com.oroarmor.netherite_plus.block.NetheritePlusBlocks;
 import com.oroarmor.netherite_plus.block.entity.NetheriteBeaconBlockEntity;
 import com.oroarmor.netherite_plus.block.entity.NetheriteShulkerBoxBlockEntity;
@@ -12,7 +10,6 @@ import com.oroarmor.netherite_plus.client.render.NetheriteElytraFeatureRenderer;
 import com.oroarmor.netherite_plus.client.render.NetheritePlusBuiltinItemModelRenderer;
 import com.oroarmor.netherite_plus.client.render.NetheriteShulkerBoxBlockEntityRenderer;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
-import com.oroarmor.netherite_plus.network.LavaVisionUpdatePacket;
 import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
 import me.shedaniel.architectury.registry.RenderTypes;
 import net.minecraftforge.api.distmarker.Dist;

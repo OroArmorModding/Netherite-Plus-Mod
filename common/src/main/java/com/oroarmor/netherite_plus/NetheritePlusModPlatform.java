@@ -3,21 +3,14 @@ package com.oroarmor.netherite_plus;
 import java.io.File;
 import java.util.function.BiFunction;
 
-import com.oroarmor.netherite_plus.client.NetheritePlusClientMod;
-import com.oroarmor.netherite_plus.network.LavaVisionUpdatePacket;
-import com.oroarmor.netherite_plus.network.UpdateNetheriteBeaconC2SPacket;
 import me.shedaniel.architectury.ExpectPlatform;
-import me.shedaniel.architectury.networking.NetworkManager;
 
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
