@@ -66,6 +66,8 @@ public class ForgeNetheritePlusModClient {
                     }
                 });
 
+        Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap().values()
+                .forEach(player -> player.addLayer(new NetheriteElytraFeatureRenderer(player)));
 
         if (NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue()) {
             RenderTypes.register(RenderType.cutout(), NetheritePlusBlocks.NETHERITE_BEACON.getOrNull());
