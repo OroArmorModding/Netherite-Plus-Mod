@@ -1,16 +1,16 @@
 package com.oroarmor.netherite_plus.item;
 
-import net.minecraft.world.item.CrossbowItem;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.item.CrossbowItem;
+import net.minecraft.item.ItemStack;
 
 public class NetheriteCrossbowItem extends CrossbowItem {
-    public NetheriteCrossbowItem(Properties settings) {
-        super(settings);
-    }
+	public NetheriteCrossbowItem(Settings settings) {
+		super(settings);
+	}
 
-    @Override
-    public boolean useOnRelease(ItemStack stack) {
-        return stack.getItem() == NetheritePlusItems.NETHERITE_CROSSBOW.get();
-    }
+	@Override
+	public boolean isUsedOnRelease(ItemStack stack) {
+		return stack.getItem() == NetheritePlusItems.NETHERITE_CROSSBOW.get();
+	}
 
 }

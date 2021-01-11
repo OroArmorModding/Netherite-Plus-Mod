@@ -5,8 +5,8 @@ import com.oroarmor.netherite_plus.NetheritePlusMod;
 
 public class ModMenuIntegration extends ModMenuConfigScreen {
 
-    public ModMenuIntegration() {
-        super(NetheritePlusMod.CONFIG);
-    }
+	public ModMenuIntegration() {
+		super(NetheritePlusMod.CONFIG);
+	}
 
 }

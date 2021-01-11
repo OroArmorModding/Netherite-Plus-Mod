@@ -7,13 +7,13 @@ import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 
 public class NetheritePlusModFabric implements ModInitializer {
-    public void onInitialize() {
-        NetheritePlusMod.initialize();
+	public void onInitialize() {
+		NetheritePlusMod.initialize();
 
-        ServerLifecycleEvents.SERVER_STOPPED.register(l -> NetheritePlusMod.CONFIG.saveConfigToFile());
+		ServerLifecycleEvents.SERVER_STOPPED.register(l -> NetheritePlusMod.CONFIG.saveConfigToFile());
 
-        CommandRegistrationCallback.EVENT.register(new ConfigCommand(NetheritePlusMod.CONFIG));
+		CommandRegistrationCallback.EVENT.register(new ConfigCommand(NetheritePlusMod.CONFIG));
 
-        NetheritePlusMod.registerItemsWithMultiItemLib();
-    }
+		NetheritePlusMod.registerItemsWithMultiItemLib();
+	}
 }

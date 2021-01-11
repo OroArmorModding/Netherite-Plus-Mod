@@ -1,17 +1,16 @@
 package com.oroarmor.netherite_plus.mixin;
 
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.client.world.ClientWorld;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.multiplayer.ClientPacketListener;
-
-@Mixin(ClientPacketListener.class)
+@Mixin(ClientPlayNetworkHandler.class)
 public interface ClientPlayNetworkHandlerAccessor {
-    @Accessor
-    Minecraft getMinecraft();
+	@Accessor
+	MinecraftClient getClient();
 
-    @Accessor
-    ClientLevel getLevel();
+	@Accessor
+	ClientWorld getWorld();
 }

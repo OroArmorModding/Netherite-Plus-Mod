@@ -7,18 +7,16 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import net.minecraft.client.renderer.Sheets;
-import net.minecraft.client.resources.model.Material;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.render.TexturedRenderLayers;
+import net.minecraft.client.util.SpriteIdentifier;
 
 @Environment(EnvType.CLIENT)
-@Mixin(Sheets.class)
+@Mixin(TexturedRenderLayers.class)
 public class TexturedRenderLayersMixin {
-    @Inject(at = @At("HEAD"), method = "getAllMaterials")
-    private static void onAddDefaultTextures(Consumer<Material> consumer, CallbackInfo info) {
-        NetheritePlusTextures.makeAtlases(consumer);
-    }
+	@Inject(at = @At("HEAD"), method = "addDefaultTextures")
+	private static void onAddDefaultTextures(Consumer<SpriteIdentifier> consumer, CallbackInfo info) {
+		NetheritePlusTextures.makeAtlases(consumer);
+	}
 }

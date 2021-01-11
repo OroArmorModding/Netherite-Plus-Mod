@@ -18,71 +18,69 @@ import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
 import com.oroarmor.netherite_plus.stat.NetheritePlusStats;
 import me.shedaniel.architectury.networking.NetworkManager;
 import me.shedaniel.architectury.registry.Registries;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.Lazy;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.LazyLoadedValue;
-import net.minecraft.world.entity.player.Player;
-
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.*;
 
 public class NetheritePlusMod {
-    public static final NetheritePlusConfig CONFIG = new NetheritePlusConfig();
+	public static final NetheritePlusConfig CONFIG = new NetheritePlusConfig();
 
-    public static final Logger LOGGER = LogManager.getLogger("Netherite Plus");
+	public static final Logger LOGGER = LogManager.getLogger("Netherite Plus");
 
-    public static final String MOD_ID = "netherite_plus";
+	public static final String MOD_ID = "netherite_plus";
 
-    public static final List<Player> CONNECTED_CLIENTS = new ArrayList<>();
+	public static final List<PlayerEntity> CONNECTED_CLIENTS = new ArrayList<>();
 
-    public static final LazyLoadedValue<Registries> REGISTRIES = new LazyLoadedValue<>(() -> Registries.get(MOD_ID));
+	public static final Lazy<Registries> REGISTRIES = new Lazy<>(() -> Registries.get(MOD_ID));
 
-    public static void initialize() {
-        processConfig();
-        NetheritePlusItems.init();
-        NetheritePlusScreenHandlers.init();
-        NetheritePlusLootManager.init();
-        NetheritePlusRecipeSerializer.init();
-        NetheritePlusStatusEffects.init();
-        NetheritePlusCriteria.init();
-        NetheritePlusStats.init();
+	public static void initialize() {
+		processConfig();
+		NetheritePlusItems.init();
+		NetheritePlusScreenHandlers.init();
+		NetheritePlusLootManager.init();
+		NetheritePlusRecipeSerializer.init();
+		NetheritePlusStatusEffects.init();
+		NetheritePlusCriteria.init();
+		NetheritePlusStats.init();
 
+		NetworkManager.registerReceiver(NetworkManager.Side.C2S, UpdateNetheriteBeaconC2SPacket.ID, (friendlyByteBuf, packetContext) -> {
+			UpdateNetheriteBeaconC2SPacket packet = new UpdateNetheriteBeaconC2SPacket();
+			try {
+				packet.read(friendlyByteBuf);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			packetContext.queue(() -> {
+				if (packetContext.getPlayer().currentScreenHandler instanceof NetheriteBeaconScreenHandler) {
+					((NetheriteBeaconScreenHandler) packetContext.getPlayer().currentScreenHandler).setEffects(packet.getPrimaryEffectId(), packet.getSecondaryEffectId(), packet.getTertiaryEffectId());
+				}
+			});
+		});
+	}
 
-        NetworkManager.registerReceiver(NetworkManager.Side.C2S, UpdateNetheriteBeaconC2SPacket.ID, (friendlyByteBuf, packetContext) -> {
-            UpdateNetheriteBeaconC2SPacket packet = new UpdateNetheriteBeaconC2SPacket();
-            try {
-                packet.read(friendlyByteBuf);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            packetContext.queue(() -> {
-                if (packetContext.getPlayer().containerMenu instanceof NetheriteBeaconScreenHandler) {
-                    ((NetheriteBeaconScreenHandler) packetContext.getPlayer().containerMenu).setEffects(packet.getPrimary(), packet.getSecondary(), packet.getTertiaryEffectId());
-                }
-            });
-        });
-    }
+	private static void processConfig() {
+		CONFIG.readConfigFromFile();
 
-    private static void processConfig() {
-        CONFIG.readConfigFromFile();
+		if (NetheritePlusConfig.ENABLED.ENABLED_CONFIG_PRINT.getValue()) {
+			CONFIG.getConfigs().stream().map(ConfigItemGroup::getConfigs).forEach(l -> l.forEach(ci -> LOGGER.log(Level.INFO, ci.toString())));
+		}
+	}
 
-        if (NetheritePlusConfig.ENABLED.ENABLED_CONFIG_PRINT.getValue()) {
-            CONFIG.getConfigs().stream().map(ConfigItemGroup::getConfigs).forEach(l -> l.forEach(ci -> LOGGER.log(Level.INFO, ci.toString())));
-        }
-    }
+	public static Identifier id(String id) {
+		return new Identifier(MOD_ID, id);
+	}
 
-    public static ResourceLocation id(String id) {
-        return new ResourceLocation(MOD_ID, id);
-    }
-
-    public static void registerItemsWithMultiItemLib() {
-        UniqueItemRegistry.SHIELD.addItemToRegistry(NETHERITE_SHIELD.get());
-        UniqueItemRegistry.FISHING_ROD.addItemToRegistry(NETHERITE_FISHING_ROD.get());
-        UniqueItemRegistry.ELYTRA.addItemToRegistry(NETHERITE_ELYTRA.get());
-        UniqueItemRegistry.BOW.addItemToRegistry(NETHERITE_BOW.get());
-        UniqueItemRegistry.CROSSBOW.addItemToRegistry(NETHERITE_CROSSBOW.get());
-        UniqueItemRegistry.TRIDENT.addItemToRegistry(NETHERITE_TRIDENT.get());
-    }
+	public static void registerItemsWithMultiItemLib() {
+		UniqueItemRegistry.SHIELD.addItemToRegistry(NETHERITE_SHIELD.get());
+		UniqueItemRegistry.FISHING_ROD.addItemToRegistry(NETHERITE_FISHING_ROD.get());
+		UniqueItemRegistry.ELYTRA.addItemToRegistry(NETHERITE_ELYTRA.get());
+		UniqueItemRegistry.BOW.addItemToRegistry(NETHERITE_BOW.get());
+		UniqueItemRegistry.CROSSBOW.addItemToRegistry(NETHERITE_CROSSBOW.get());
+		UniqueItemRegistry.TRIDENT.addItemToRegistry(NETHERITE_TRIDENT.get());
+	}
 }

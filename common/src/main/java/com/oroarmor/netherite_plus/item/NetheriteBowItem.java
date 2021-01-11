@@ -1,86 +1,85 @@
 package com.oroarmor.netherite_plus.item;
 
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
-
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.stats.Stats;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.ArrowItem;
-import net.minecraft.world.item.BowItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.level.Level;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.item.ArrowItem;
+import net.minecraft.item.BowItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.stat.Stats;
+import net.minecraft.world.World;
 
 public class NetheriteBowItem extends BowItem {
-    public NetheriteBowItem(Properties settings) {
-        super(settings);
-    }
+	public NetheriteBowItem(Settings settings) {
+		super(settings);
+	}
 
-    @Override
-    public void releaseUsing(ItemStack stack, Level world, LivingEntity user, int remainingUseTicks) {
-        if (user instanceof Player) {
-            Player playerEntity = (Player) user;
-            boolean bl = playerEntity.abilities.instabuild || EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, stack) > 0;
-            ItemStack itemStack = playerEntity.getProjectile(stack);
-            if (!itemStack.isEmpty() || bl) {
-                if (itemStack.isEmpty()) {
-                    itemStack = new ItemStack(Items.ARROW);
-                }
+	@Override
+	public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
+		if (user instanceof PlayerEntity) {
+			PlayerEntity playerEntity = (PlayerEntity) user;
+			boolean bl = playerEntity.abilities.creativeMode || EnchantmentHelper.getLevel(Enchantments.INFINITY, stack) > 0;
+			ItemStack itemStack = playerEntity.getArrowType(stack);
+			if (!itemStack.isEmpty() || bl) {
+				if (itemStack.isEmpty()) {
+					itemStack = new ItemStack(Items.ARROW);
+				}
 
-                int i = getUseDuration(stack) - remainingUseTicks;
-                float f = getPowerForTime(i);
-                if (f >= 0.1D) {
-                    boolean bl2 = bl && itemStack.getItem() == Items.ARROW;
-                    if (!world.isClientSide) {
-                        ArrowItem arrowItem = (ArrowItem) (itemStack.getItem() instanceof ArrowItem ? itemStack.getItem() : Items.ARROW);
-                        AbstractArrow persistentProjectileEntity = arrowItem.createArrow(world, itemStack, playerEntity);
-                        persistentProjectileEntity.shootFromRotation(playerEntity, playerEntity.xRot, playerEntity.yRot, 0.0F, f * 3.0F, 1.0F);
-                        if (f == 1.0F) {
-                            persistentProjectileEntity.setCritArrow(true);
-                        }
+				int i = getMaxUseTime(stack) - remainingUseTicks;
+				float f = getPullProgress(i);
+				if (f >= 0.1D) {
+					boolean bl2 = bl && itemStack.getItem() == Items.ARROW;
+					if (!world.isClient) {
+						ArrowItem arrowItem = (ArrowItem) (itemStack.getItem() instanceof ArrowItem ? itemStack.getItem() : Items.ARROW);
+						PersistentProjectileEntity persistentProjectileEntity = arrowItem.createArrow(world, itemStack, playerEntity);
+						persistentProjectileEntity.setProperties(playerEntity, playerEntity.pitch, playerEntity.yaw, 0.0F, f * 3.0F, 1.0F);
+						if (f == 1.0F) {
+							persistentProjectileEntity.setCritical(true);
+						}
 
-                        int j = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, stack);
-                        if (j > 0) {
-                            persistentProjectileEntity.setBaseDamage(persistentProjectileEntity.getBaseDamage() + j * 0.5D + 0.5D);
-                        }
+						int j = EnchantmentHelper.getLevel(Enchantments.POWER, stack);
+						if (j > 0) {
+							persistentProjectileEntity.setDamage(persistentProjectileEntity.getDamage() + j * 0.5D + 0.5D);
+						}
 
-                        persistentProjectileEntity.setBaseDamage(persistentProjectileEntity.getBaseDamage() * NetheritePlusConfig.DAMAGE.BOW_DAMAGE_MULTIPLIER.getValue() + NetheritePlusConfig.DAMAGE.BOW_DAMAGE_ADDITION.getValue());
+						persistentProjectileEntity.setDamage(persistentProjectileEntity.getDamage() * NetheritePlusConfig.DAMAGE.BOW_DAMAGE_MULTIPLIER.getValue() + NetheritePlusConfig.DAMAGE.BOW_DAMAGE_ADDITION.getValue());
 
-                        int k = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.PUNCH_ARROWS, stack);
-                        if (k > 0) {
-                            persistentProjectileEntity.setKnockback(k);
-                        }
+						int k = EnchantmentHelper.getLevel(Enchantments.PUNCH, stack);
+						if (k > 0) {
+							persistentProjectileEntity.setPunch(k);
+						}
 
-                        if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FLAMING_ARROWS, stack) > 0) {
-                            persistentProjectileEntity.setSecondsOnFire(100);
-                        }
+						if (EnchantmentHelper.getLevel(Enchantments.FLAME, stack) > 0) {
+							persistentProjectileEntity.setOnFireFor(100);
+						}
 
-                        stack.hurtAndBreak(1, playerEntity, (p) -> {
-                            p.broadcastBreakEvent(playerEntity.getUsedItemHand());
-                        });
-                        if (bl2 || playerEntity.abilities.instabuild && (itemStack.getItem() == Items.SPECTRAL_ARROW || itemStack.getItem() == Items.TIPPED_ARROW)) {
-                            persistentProjectileEntity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
-                        }
+						stack.damage(1, playerEntity, (p) -> {
+							p.sendToolBreakStatus(playerEntity.getActiveHand());
+						});
+						if (bl2 || playerEntity.abilities.creativeMode && (itemStack.getItem() == Items.SPECTRAL_ARROW || itemStack.getItem() == Items.TIPPED_ARROW)) {
+							persistentProjectileEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
+						}
 
-                        world.addFreshEntity(persistentProjectileEntity);
-                    }
+						world.spawnEntity(persistentProjectileEntity);
+					}
 
-                    world.playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
-                    if (!bl2 && !playerEntity.abilities.instabuild) {
-                        itemStack.shrink(1);
-                        if (itemStack.isEmpty()) {
-                            playerEntity.inventory.removeItem(itemStack);
-                        }
-                    }
+					world.playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+					if (!bl2 && !playerEntity.abilities.creativeMode) {
+						itemStack.decrement(1);
+						if (itemStack.isEmpty()) {
+							playerEntity.inventory.removeOne(itemStack);
+						}
+					}
 
-                    playerEntity.awardStat(Stats.ITEM_USED.get(this));
-                }
-            }
-        }
-    }
+					playerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
+				}
+			}
+		}
+	}
 }

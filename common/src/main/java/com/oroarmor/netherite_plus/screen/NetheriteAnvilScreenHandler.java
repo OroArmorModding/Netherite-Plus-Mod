@@ -6,279 +6,276 @@ import java.util.Map;
 import com.oroarmor.netherite_plus.block.NetheritePlusBlocks;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import org.apache.commons.lang3.StringUtils;
-
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.DataSlot;
-import net.minecraft.world.inventory.ItemCombinerMenu;
-import net.minecraft.world.item.EnchantedBookItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.level.block.state.BlockState;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.EnchantedBookItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.screen.ForgingScreenHandler;
+import net.minecraft.screen.Property;
+import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.text.LiteralText;
 
-public class NetheriteAnvilScreenHandler extends ItemCombinerMenu {
-    private final DataSlot levelCost;
-    private int repairItemUsage;
-    private String newItemName;
+public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
+	private final Property levelCost;
+	private int repairItemUsage;
+	private String newItemName;
 
-    public NetheriteAnvilScreenHandler(int syncId, Inventory inventory) {
-        this(syncId, inventory, ContainerLevelAccess.NULL);
-    }
+	public NetheriteAnvilScreenHandler(int syncId, PlayerInventory inventory) {
+		this(syncId, inventory, ScreenHandlerContext.EMPTY);
+	}
 
-    public NetheriteAnvilScreenHandler(int syncId, Inventory inventory, ContainerLevelAccess context) {
-        super(NetheritePlusScreenHandlers.NETHERITE_ANVIL, syncId, inventory, context);
-        levelCost = DataSlot.standalone();
-        addDataSlot(levelCost);
-    }
+	public NetheriteAnvilScreenHandler(int syncId, PlayerInventory inventory, ScreenHandlerContext context) {
+		super(NetheritePlusScreenHandlers.NETHERITE_ANVIL, syncId, inventory, context);
+		levelCost = Property.create();
+		addProperty(levelCost);
+	}
 
-    public static int getNextCost(int cost) {
-        return cost * 2 + 1;
-    }
+	public static int getNextCost(int cost) {
+		return cost * 2 + 1;
+	}
 
-    @Override
-    protected boolean mayPickup(Player player, boolean present) {
-        return (player.abilities.instabuild || player.experienceLevel >= levelCost.get()) && levelCost.get() > 0;
-    }
+	@Override
+	protected boolean canTakeOutput(PlayerEntity player, boolean present) {
+		return (player.abilities.creativeMode || player.experienceLevel >= levelCost.get()) && levelCost.get() > 0;
+	}
 
-    @Override
-    protected boolean isValidBlock(BlockState state) {
-        return state.is(NetheritePlusBlocks.NETHERITE_ANVIL_BLOCK.get());
-    }
+	@Override
+	protected boolean canUse(BlockState state) {
+		return state.isOf(NetheritePlusBlocks.NETHERITE_ANVIL_BLOCK.get());
+	}
 
-    @Environment(EnvType.CLIENT)
-    public int getLevelCost() {
-        return levelCost.get();
-    }
+	@Environment(EnvType.CLIENT)
+	public int getLevelCost() {
+		return levelCost.get();
+	}
 
-    @Override
-    protected ItemStack onTake(Player player, ItemStack stack) {
-        if (!player.abilities.instabuild) {
-            player.giveExperienceLevels(-levelCost.get());
-        }
+	@Override
+	protected ItemStack onTakeOutput(PlayerEntity player, ItemStack stack) {
+		if (!player.abilities.creativeMode) {
+			player.addExperienceLevels(-levelCost.get());
+		}
 
-        inputSlots.setItem(0, ItemStack.EMPTY);
-        if (repairItemUsage > 0) {
-            ItemStack itemStack = inputSlots.getItem(1);
-            if (!itemStack.isEmpty() && itemStack.getCount() > repairItemUsage) {
-                itemStack.shrink(repairItemUsage);
-                inputSlots.setItem(1, itemStack);
-            } else {
-                inputSlots.setItem(1, ItemStack.EMPTY);
-            }
-        } else {
-            inputSlots.setItem(1, ItemStack.EMPTY);
-        }
+		input.setStack(0, ItemStack.EMPTY);
+		if (repairItemUsage > 0) {
+			ItemStack itemStack = input.getStack(1);
+			if (!itemStack.isEmpty() && itemStack.getCount() > repairItemUsage) {
+				itemStack.decrement(repairItemUsage);
+				input.setStack(1, itemStack);
+			} else {
+				input.setStack(1, ItemStack.EMPTY);
+			}
+		} else {
+			input.setStack(1, ItemStack.EMPTY);
+		}
 
-        access.execute((world, blockPos) -> {
-            world.levelEvent(1030, blockPos, 0);
-        });
+		context.run((world, blockPos) -> {
+			world.syncWorldEvent(1030, blockPos, 0);
+		});
 
-        levelCost.set(0);
-        return stack;
+		levelCost.set(0);
+		return stack;
 
-    }
+	}
 
-    public void setNewItemName(String string) {
-        newItemName = string;
-        if (getSlot(2).hasItem()) {
-            ItemStack itemStack = getSlot(2).getItem();
-            if (StringUtils.isBlank(string)) {
-                itemStack.resetHoverName();
-            } else {
-                itemStack.setHoverName(new TextComponent(newItemName));
-            }
-        }
+	public void setNewItemName(String string) {
+		newItemName = string;
+		if (getSlot(2).hasStack()) {
+			ItemStack itemStack = getSlot(2).getStack();
+			if (StringUtils.isBlank(string)) {
+				itemStack.removeCustomName();
+			} else {
+				itemStack.setCustomName(new LiteralText(newItemName));
+			}
+		}
 
-        createResult();
-    }
+		updateResult();
+	}
 
-    @Override
-    public void createResult() {
-        ItemStack itemStack = inputSlots.getItem(0);
-        levelCost.set(1);
-        int i = 0;
-        int j = 0;
-        int k = 0;
-        if (itemStack.isEmpty()) {
-            resultSlots.setItem(0, ItemStack.EMPTY);
-            levelCost.set(0);
-        } else {
-            ItemStack itemStack2 = itemStack.copy();
-            ItemStack itemStack3 = inputSlots.getItem(1);
-            Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(itemStack2);
-            j = j + itemStack.getBaseRepairCost() + (itemStack3.isEmpty() ? 0 : itemStack3.getBaseRepairCost());
-            repairItemUsage = 0;
-            if (!itemStack3.isEmpty()) {
-                boolean bl = itemStack3.getItem() == Items.ENCHANTED_BOOK && !EnchantedBookItem.getEnchantments(itemStack3).isEmpty();
-                int o;
-                int p;
-                int q;
-                if (itemStack2.isDamageableItem() && itemStack2.getItem().isValidRepairItem(itemStack, itemStack3)) {
-                    o = Math.min(itemStack2.getDamageValue(), itemStack2.getMaxDamage() / 4);
-                    if (o <= 0) {
-                        resultSlots.setItem(0, ItemStack.EMPTY);
-                        levelCost.set(0);
-                        return;
-                    }
+	@Override
+	public void updateResult() {
+		ItemStack itemStack = input.getStack(0);
+		levelCost.set(1);
+		int i = 0;
+		int j = 0;
+		int k = 0;
+		if (itemStack.isEmpty()) {
+			output.setStack(0, ItemStack.EMPTY);
+			levelCost.set(0);
+		} else {
+			ItemStack itemStack2 = itemStack.copy();
+			ItemStack itemStack3 = input.getStack(1);
+			Map<Enchantment, Integer> map = EnchantmentHelper.get(itemStack2);
+			j = j + itemStack.getRepairCost() + (itemStack3.isEmpty() ? 0 : itemStack3.getRepairCost());
+			repairItemUsage = 0;
+			if (!itemStack3.isEmpty()) {
+				boolean bl = itemStack3.getItem() == Items.ENCHANTED_BOOK && !EnchantedBookItem.getEnchantmentTag(itemStack3).isEmpty();
+				int o;
+				int p;
+				int q;
+				if (itemStack2.isDamageable() && itemStack2.getItem().canRepair(itemStack, itemStack3)) {
+					o = Math.min(itemStack2.getDamage(), itemStack2.getMaxDamage() / 4);
+					if (o <= 0) {
+						output.setStack(0, ItemStack.EMPTY);
+						levelCost.set(0);
+						return;
+					}
 
-                    for (p = 0; o > 0 && p < itemStack3.getCount(); ++p) {
-                        q = itemStack2.getDamageValue() - o;
-                        itemStack2.setDamageValue(q);
-                        ++i;
-                        o = Math.min(itemStack2.getDamageValue(), itemStack2.getMaxDamage() / 4);
-                    }
+					for (p = 0; o > 0 && p < itemStack3.getCount(); ++p) {
+						q = itemStack2.getDamage() - o;
+						itemStack2.setDamage(q);
+						++i;
+						o = Math.min(itemStack2.getDamage(), itemStack2.getMaxDamage() / 4);
+					}
 
-                    repairItemUsage = p;
-                } else {
-                    if (!bl && (itemStack2.getItem() != itemStack3.getItem() || !itemStack2.isDamageableItem())) {
-                        resultSlots.setItem(0, ItemStack.EMPTY);
-                        levelCost.set(0);
-                        return;
-                    }
+					repairItemUsage = p;
+				} else {
+					if (!bl && (itemStack2.getItem() != itemStack3.getItem() || !itemStack2.isDamageable())) {
+						output.setStack(0, ItemStack.EMPTY);
+						levelCost.set(0);
+						return;
+					}
 
-                    if (itemStack2.isDamageableItem() && !bl) {
-                        o = itemStack.getMaxDamage() - itemStack.getDamageValue();
-                        p = itemStack3.getMaxDamage() - itemStack3.getDamageValue();
-                        q = p + itemStack2.getMaxDamage() * 12 / 100;
-                        int r = o + q;
-                        int s = itemStack2.getMaxDamage() - r;
-                        if (s < 0) {
-                            s = 0;
-                        }
+					if (itemStack2.isDamageable() && !bl) {
+						o = itemStack.getMaxDamage() - itemStack.getDamage();
+						p = itemStack3.getMaxDamage() - itemStack3.getDamage();
+						q = p + itemStack2.getMaxDamage() * 12 / 100;
+						int r = o + q;
+						int s = itemStack2.getMaxDamage() - r;
+						if (s < 0) {
+							s = 0;
+						}
 
-                        if (s < itemStack2.getDamageValue()) {
-                            itemStack2.setDamageValue(s);
-                            i += 2;
-                        }
-                    }
+						if (s < itemStack2.getDamage()) {
+							itemStack2.setDamage(s);
+							i += 2;
+						}
+					}
 
-                    Map<Enchantment, Integer> map2 = EnchantmentHelper.getEnchantments(itemStack3);
-                    boolean bl2 = false;
-                    boolean bl3 = false;
-                    Iterator<Enchantment> var24 = map2.keySet().iterator();
+					Map<Enchantment, Integer> map2 = EnchantmentHelper.get(itemStack3);
+					boolean bl2 = false;
+					boolean bl3 = false;
+					Iterator<Enchantment> var24 = map2.keySet().iterator();
 
-                    label155:
-                    while (true) {
-                        Enchantment enchantment;
-                        do {
-                            if (!var24.hasNext()) {
-                                if (bl3 && !bl2) {
-                                    resultSlots.setItem(0, ItemStack.EMPTY);
-                                    levelCost.set(0);
-                                    return;
-                                }
-                                break label155;
-                            }
+					label155: while (true) {
+						Enchantment enchantment;
+						do {
+							if (!var24.hasNext()) {
+								if (bl3 && !bl2) {
+									output.setStack(0, ItemStack.EMPTY);
+									levelCost.set(0);
+									return;
+								}
+								break label155;
+							}
 
-                            enchantment = var24.next();
-                        } while (enchantment == null);
+							enchantment = var24.next();
+						} while (enchantment == null);
 
-                        int t = map.getOrDefault(enchantment, 0);
-                        int u = map2.get(enchantment);
-                        u = t == u ? u + 1 : Math.max(u, t);
-                        boolean bl4 = enchantment.canEnchant(itemStack);
-                        if (player.abilities.instabuild || itemStack.getItem() == Items.ENCHANTED_BOOK) {
-                            bl4 = true;
-                        }
+						int t = map.getOrDefault(enchantment, 0);
+						int u = map2.get(enchantment);
+						u = t == u ? u + 1 : Math.max(u, t);
+						boolean bl4 = enchantment.isAcceptableItem(itemStack);
+						if (player.abilities.creativeMode || itemStack.getItem() == Items.ENCHANTED_BOOK) {
+							bl4 = true;
+						}
 
-                        Iterator<Enchantment> var17 = map.keySet().iterator();
+						Iterator<Enchantment> var17 = map.keySet().iterator();
 
-                        while (var17.hasNext()) {
-                            Enchantment enchantment2 = var17.next();
-                            if (enchantment2 != enchantment && !enchantment.isCompatibleWith(enchantment2)) {
-                                bl4 = false;
-                                ++i;
-                            }
-                        }
+						while (var17.hasNext()) {
+							Enchantment enchantment2 = var17.next();
+							if (enchantment2 != enchantment && !enchantment.canCombine(enchantment2)) {
+								bl4 = false;
+								++i;
+							}
+						}
 
-                        if (!bl4) {
-                            bl3 = true;
-                        } else {
-                            bl2 = true;
-                            if (u > enchantment.getMaxLevel()) {
-                                u = enchantment.getMaxLevel();
-                            }
+						if (!bl4) {
+							bl3 = true;
+						} else {
+							bl2 = true;
+							if (u > enchantment.getMaxLevel()) {
+								u = enchantment.getMaxLevel();
+							}
 
-                            map.put(enchantment, u);
-                            int v = 0;
-                            switch (enchantment.getRarity()) {
-                                case COMMON:
-                                    v = 1;
-                                    break;
-                                case UNCOMMON:
-                                    v = 2;
-                                    break;
-                                case RARE:
-                                    v = 4;
-                                    break;
-                                case VERY_RARE:
-                                    v = 8;
-                            }
+							map.put(enchantment, u);
+							int v = 0;
+							switch (enchantment.getRarity()) {
+							case COMMON:
+								v = 1;
+								break;
+							case UNCOMMON:
+								v = 2;
+								break;
+							case RARE:
+								v = 4;
+								break;
+							case VERY_RARE:
+								v = 8;
+							}
 
-                            if (bl) {
-                                v = Math.max(1, v / 2);
-                            }
+							if (bl) {
+								v = Math.max(1, v / 2);
+							}
 
-                            i += v * u;
-                            if (itemStack.getCount() > 1) {
-                                i = 40;
-                            }
-                        }
-                    }
-                }
-            }
+							i += v * u;
+							if (itemStack.getCount() > 1) {
+								i = 40;
+							}
+						}
+					}
+				}
+			}
 
-            if (StringUtils.isBlank(newItemName)) {
-                if (itemStack.hasCustomHoverName()) {
-                    k = 1;
-                    i += k;
-                    itemStack2.resetHoverName();
-                }
-            } else if (!newItemName.equals(itemStack.getHoverName().getString())) {
-                k = 1;
-                i += k;
-                itemStack2.setHoverName(new TextComponent(newItemName));
-            }
+			if (StringUtils.isBlank(newItemName)) {
+				if (itemStack.hasCustomName()) {
+					k = 1;
+					i += k;
+					itemStack2.removeCustomName();
+				}
+			} else if (!newItemName.equals(itemStack.getName().getString())) {
+				k = 1;
+				i += k;
+				itemStack2.setCustomName(new LiteralText(newItemName));
+			}
 
-            // this is the important line that changes things
-            double cost = (1d - NetheritePlusConfig.ANVIL.XP_REDUCTION.getValue()) * (j + i);
+			// this is the important line that changes things
+			double cost = (1d - NetheritePlusConfig.ANVIL.XP_REDUCTION.getValue()) * (j + i);
 
-            levelCost.set(cost < 1 ? 1 : (int) cost);
-            if (i <= 0) {
-                itemStack2 = ItemStack.EMPTY;
-            }
+			levelCost.set(cost < 1 ? 1 : (int) cost);
+			if (i <= 0) {
+				itemStack2 = ItemStack.EMPTY;
+			}
 
-            if (k == i && k > 0 && levelCost.get() >= 40) {
-                levelCost.set(39);
-            }
+			if (k == i && k > 0 && levelCost.get() >= 40) {
+				levelCost.set(39);
+			}
 
-            if (levelCost.get() >= 40 && !player.abilities.instabuild) {
-                itemStack2 = ItemStack.EMPTY;
-            }
+			if (levelCost.get() >= 40 && !player.abilities.creativeMode) {
+				itemStack2 = ItemStack.EMPTY;
+			}
 
-            if (!itemStack2.isEmpty()) {
-                int w = itemStack2.getBaseRepairCost();
-                if (!itemStack3.isEmpty() && w < itemStack3.getBaseRepairCost()) {
-                    w = itemStack3.getBaseRepairCost();
-                }
+			if (!itemStack2.isEmpty()) {
+				int w = itemStack2.getRepairCost();
+				if (!itemStack3.isEmpty() && w < itemStack3.getRepairCost()) {
+					w = itemStack3.getRepairCost();
+				}
 
-                if (k != i || k == 0) {
-                    w = getNextCost(w);
-                }
+				if (k != i || k == 0) {
+					w = getNextCost(w);
+				}
 
-                itemStack2.setRepairCost(w);
-                EnchantmentHelper.setEnchantments(map, itemStack2);
-            }
+				itemStack2.setRepairCost(w);
+				EnchantmentHelper.set(map, itemStack2);
+			}
 
-            resultSlots.setItem(0, itemStack2);
-            broadcastChanges();
-        }
-    }
+			output.setStack(0, itemStack2);
+			sendContentUpdates();
+		}
+	}
 }

@@ -5,14 +5,14 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-import net.minecraft.client.renderer.entity.FishingHookRenderer;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.client.render.entity.FishingBobberEntityRenderer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
-@Mixin(FishingHookRenderer.class)
+@Mixin(FishingBobberEntityRenderer.class)
 public class FishingBobberEntityRendererMixin {
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;"))
-    private Item getItem(ItemStack stack) {
-        return UniqueItemRegistry.FISHING_ROD.getDefaultItem(stack.getItem());
-    }
+	@Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
+	private Item getItem(ItemStack stack) {
+		return UniqueItemRegistry.FISHING_ROD.getDefaultItem(stack.getItem());
+	}
 }

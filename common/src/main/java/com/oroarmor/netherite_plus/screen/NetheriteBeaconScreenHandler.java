@@ -2,180 +2,182 @@ package com.oroarmor.netherite_plus.screen;
 
 import com.oroarmor.netherite_plus.block.NetheritePlusBlocks;
 import org.jetbrains.annotations.Nullable;
-
-import net.minecraft.world.Container;
-import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.*;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.screen.ArrayPropertyDelegate;
+import net.minecraft.screen.PropertyDelegate;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.screen.slot.Slot;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-public class NetheriteBeaconScreenHandler extends AbstractContainerMenu {
-    private final Container payment;
-    private final NetheriteBeaconScreenHandler.PaymentSlot paymentSlot;
-    private final ContainerLevelAccess context;
-    private final ContainerData propertyDelegate;
+public class NetheriteBeaconScreenHandler extends ScreenHandler {
+	private final Inventory payment;
+	private final NetheriteBeaconScreenHandler.PaymentSlot paymentSlot;
+	private final ScreenHandlerContext context;
+	private final PropertyDelegate propertyDelegate;
 
-    public NetheriteBeaconScreenHandler(int syncId, Container inventory) {
-        this(syncId, inventory, new SimpleContainerData(4), ContainerLevelAccess.NULL);
-    }
+	public NetheriteBeaconScreenHandler(int syncId, Inventory inventory) {
+		this(syncId, inventory, new ArrayPropertyDelegate(4), ScreenHandlerContext.EMPTY);
+	}
 
-    public NetheriteBeaconScreenHandler(int syncId, Container inventory, ContainerData propertyDelegate, ContainerLevelAccess context) {
-        super(NetheritePlusScreenHandlers.NETHERITE_BEACON, syncId);
-        payment = new SimpleContainer(1) {
-            @Override
-            public boolean canPlaceItem(int slot, ItemStack stack) {
-                return stack.getItem() == Items.NETHERITE_INGOT;
-            }
+	public NetheriteBeaconScreenHandler(int syncId, Inventory inventory, PropertyDelegate propertyDelegate, ScreenHandlerContext context) {
+		super(NetheritePlusScreenHandlers.NETHERITE_BEACON, syncId);
+		payment = new SimpleInventory(1) {
+			@Override
+			public boolean isValid(int slot, ItemStack stack) {
+				return stack.getItem() == Items.NETHERITE_INGOT;
+			}
 
-            @Override
-            public int getMaxStackSize() {
-                return 1;
-            }
-        };
-        checkContainerDataCount(propertyDelegate, 3);
-        this.propertyDelegate = propertyDelegate;
-        this.context = context;
-        paymentSlot = new NetheriteBeaconScreenHandler.PaymentSlot(payment, 0, 136, 110);
-        addSlot(paymentSlot);
-        addDataSlots(propertyDelegate);
+			@Override
+			public int getMaxCountPerStack() {
+				return 1;
+			}
+		};
+		checkDataCount(propertyDelegate, 3);
+		this.propertyDelegate = propertyDelegate;
+		this.context = context;
+		paymentSlot = new NetheriteBeaconScreenHandler.PaymentSlot(payment, 0, 136, 110);
+		addSlot(paymentSlot);
+		addProperties(propertyDelegate);
 
-        int m;
-        for (m = 0; m < 3; ++m) {
-            for (int l = 0; l < 9; ++l) {
-                addSlot(new Slot(inventory, l + m * 9 + 9, 36 + l * 18, 137 + m * 18));
-            }
-        }
+		int m;
+		for (m = 0; m < 3; ++m) {
+			for (int l = 0; l < 9; ++l) {
+				addSlot(new Slot(inventory, l + m * 9 + 9, 36 + l * 18, 137 + m * 18));
+			}
+		}
 
-        for (m = 0; m < 9; ++m) {
-            addSlot(new Slot(inventory, m, 36 + m * 18, 195));
-        }
+		for (m = 0; m < 9; ++m) {
+			addSlot(new Slot(inventory, m, 36 + m * 18, 195));
+		}
 
-    }
+	}
 
-    @Override
-    public void removed(Player player) {
-        super.removed(player);
-        if (!player.level.isClientSide) {
-            ItemStack itemStack = paymentSlot.remove(paymentSlot.getMaxStackSize());
-            if (!itemStack.isEmpty()) {
-                player.drop(itemStack, false);
-            }
+	@Override
+	public void close(PlayerEntity player) {
+		super.close(player);
+		if (!player.world.isClient) {
+			ItemStack itemStack = paymentSlot.takeStack(paymentSlot.getMaxItemCount());
+			if (!itemStack.isEmpty()) {
+				player.dropItem(itemStack, false);
+			}
 
-        }
-    }
+		}
+	}
 
-    @Override
-    public boolean stillValid(Player player) {
-        return stillValid(context, player, NetheritePlusBlocks.NETHERITE_BEACON.get());
-    }
+	@Override
+	public boolean canUse(PlayerEntity player) {
+		return canUse(context, player, NetheritePlusBlocks.NETHERITE_BEACON.get());
+	}
 
-    @Override
-    public void setData(int id, int value) {
-        super.setData(id, value);
-        broadcastChanges();
-    }
+	@Override
+	public void setProperty(int id, int value) {
+		super.setProperty(id, value);
+		sendContentUpdates();
+	}
 
-    @Override
-    public ItemStack quickMoveStack(Player player, int index) {
-        ItemStack itemStack = ItemStack.EMPTY;
-        Slot slot = slots.get(index);
-        if (slot != null && slot.hasItem()) {
-            ItemStack itemStack2 = slot.getItem();
-            itemStack = itemStack2.copy();
-            if (index == 0) {
-                if (!moveItemStackTo(itemStack2, 1, 37, true)) {
-                    return ItemStack.EMPTY;
-                }
+	@Override
+	public ItemStack transferSlot(PlayerEntity player, int index) {
+		ItemStack itemStack = ItemStack.EMPTY;
+		Slot slot = slots.get(index);
+		if (slot != null && slot.hasStack()) {
+			ItemStack itemStack2 = slot.getStack();
+			itemStack = itemStack2.copy();
+			if (index == 0) {
+				if (!insertItem(itemStack2, 1, 37, true)) {
+					return ItemStack.EMPTY;
+				}
 
-                slot.onQuickCraft(itemStack2, itemStack);
-            } else if (!paymentSlot.hasItem() && paymentSlot.mayPlace(itemStack2) && itemStack2.getCount() == 1) {
-                if (!moveItemStackTo(itemStack2, 0, 1, false)) {
-                    return ItemStack.EMPTY;
-                }
-            } else if (index >= 1 && index < 28) {
-                if (!moveItemStackTo(itemStack2, 28, 37, false)) {
-                    return ItemStack.EMPTY;
-                }
-            } else if (index >= 28 && index < 37) {
-                if (!moveItemStackTo(itemStack2, 1, 28, false)) {
-                    return ItemStack.EMPTY;
-                }
-            } else if (!moveItemStackTo(itemStack2, 1, 37, false)) {
-                return ItemStack.EMPTY;
-            }
+				slot.onStackChanged(itemStack2, itemStack);
+			} else if (!paymentSlot.hasStack() && paymentSlot.canInsert(itemStack2) && itemStack2.getCount() == 1) {
+				if (!insertItem(itemStack2, 0, 1, false)) {
+					return ItemStack.EMPTY;
+				}
+			} else if (index >= 1 && index < 28) {
+				if (!insertItem(itemStack2, 28, 37, false)) {
+					return ItemStack.EMPTY;
+				}
+			} else if (index >= 28 && index < 37) {
+				if (!insertItem(itemStack2, 1, 28, false)) {
+					return ItemStack.EMPTY;
+				}
+			} else if (!insertItem(itemStack2, 1, 37, false)) {
+				return ItemStack.EMPTY;
+			}
 
-            if (itemStack2.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
-            } else {
-                slot.setChanged();
-            }
+			if (itemStack2.isEmpty()) {
+				slot.setStack(ItemStack.EMPTY);
+			} else {
+				slot.markDirty();
+			}
 
-            if (itemStack2.getCount() == itemStack.getCount()) {
-                return ItemStack.EMPTY;
-            }
+			if (itemStack2.getCount() == itemStack.getCount()) {
+				return ItemStack.EMPTY;
+			}
 
-            slot.onTake(player, itemStack2);
-        }
+			slot.onTakeItem(player, itemStack2);
+		}
 
-        return itemStack;
-    }
+		return itemStack;
+	}
 
-    @Environment(EnvType.CLIENT)
-    public int getProperties() {
-        return propertyDelegate.get(0);
-    }
+	@Environment(EnvType.CLIENT)
+	public int getProperties() {
+		return propertyDelegate.get(0);
+	}
 
-    @Nullable
-    @Environment(EnvType.CLIENT)
-    public MobEffect getPrimaryEffect() {
-        return MobEffect.byId(propertyDelegate.get(1));
-    }
+	@Nullable
+	@Environment(EnvType.CLIENT)
+	public StatusEffect getPrimaryEffect() {
+		return StatusEffect.byRawId(propertyDelegate.get(1));
+	}
 
-    @Nullable
-    @Environment(EnvType.CLIENT)
-    public MobEffect getSecondaryEffect() {
-        return MobEffect.byId(propertyDelegate.get(2));
-    }
+	@Nullable
+	@Environment(EnvType.CLIENT)
+	public StatusEffect getSecondaryEffect() {
+		return StatusEffect.byRawId(propertyDelegate.get(2));
+	}
 
-    @Nullable
-    @Environment(EnvType.CLIENT)
-    public MobEffect getTertiaryEffect() {
-        return MobEffect.byId(propertyDelegate.get(3));
-    }
+	@Nullable
+	@Environment(EnvType.CLIENT)
+	public StatusEffect getTertiaryEffect() {
+		return StatusEffect.byRawId(propertyDelegate.get(3));
+	}
 
-    public void setEffects(int primaryEffectId, int secondaryEffectId, int tertiaryEffectId) {
-        if (paymentSlot.hasItem()) {
-            propertyDelegate.set(1, primaryEffectId);
-            propertyDelegate.set(2, secondaryEffectId);
-            propertyDelegate.set(3, tertiaryEffectId);
-            paymentSlot.remove(1);
-        }
-    }
+	public void setEffects(int primaryEffectId, int secondaryEffectId, int tertiaryEffectId) {
+		if (paymentSlot.hasStack()) {
+			propertyDelegate.set(1, primaryEffectId);
+			propertyDelegate.set(2, secondaryEffectId);
+			propertyDelegate.set(3, tertiaryEffectId);
+			paymentSlot.takeStack(1);
+		}
+	}
 
-    @Environment(EnvType.CLIENT)
-    public boolean hasPayment() {
-        return !payment.getItem(0).isEmpty();
-    }
+	@Environment(EnvType.CLIENT)
+	public boolean hasPayment() {
+		return !payment.getStack(0).isEmpty();
+	}
 
-    class PaymentSlot extends Slot {
-        public PaymentSlot(Container inventory, int index, int x, int y) {
-            super(inventory, index, x, y);
-        }
+	class PaymentSlot extends Slot {
+		public PaymentSlot(Inventory inventory, int index, int x, int y) {
+			super(inventory, index, x, y);
+		}
 
-        @Override
-        public boolean mayPlace(ItemStack stack) {
-            return stack.getItem() == Items.NETHERITE_INGOT;
-        }
+		@Override
+		public boolean canInsert(ItemStack stack) {
+			return stack.getItem() == Items.NETHERITE_INGOT;
+		}
 
-        @Override
-        public int getMaxStackSize() {
-            return 1;
-        }
-    }
+		@Override
+		public int getMaxItemCount() {
+			return 1;
+		}
+	}
 
 }

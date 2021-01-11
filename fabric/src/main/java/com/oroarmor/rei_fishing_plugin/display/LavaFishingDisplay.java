@@ -10,41 +10,40 @@ import com.oroarmor.rei_fishing_plugin.recipes.LavaFishingOutcome.LavaFishingOut
 import me.shedaniel.rei.api.EntryStack;
 import me.shedaniel.rei.api.EntryStack.Settings;
 import me.shedaniel.rei.api.RecipeDisplay;
-
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.text.LiteralText;
+import net.minecraft.util.Identifier;
 
 public class LavaFishingDisplay implements RecipeDisplay {
-    public static final ResourceLocation ID = new ResourceLocation("netherite_plus:lava_fishing_category");
-    private static final DecimalFormat format = new DecimalFormat("#.##");
-    private final LavaFishingOutcomeCategory outcomes;
+	public static final Identifier ID = new Identifier("netherite_plus:lava_fishing_category");
+	private static final DecimalFormat format = new DecimalFormat("#.##");
+	private final LavaFishingOutcomeCategory outcomes;
 
-    public LavaFishingDisplay(LavaFishingOutcomeCategory outcomes) {
-        this.outcomes = outcomes;
-    }
+	public LavaFishingDisplay(LavaFishingOutcomeCategory outcomes) {
+		this.outcomes = outcomes;
+	}
 
-    @Override
-    public List<List<EntryStack>> getInputEntries() {
-        return ImmutableList.of(outcomes.getOutcomes().stream().map(LavaFishingOutcome::getOutput).map(EntryStack::create).map(this::generateEntrySettings).collect(Collectors.toList()));
-    }
+	@Override
+	public List<List<EntryStack>> getInputEntries() {
+		return ImmutableList.of(outcomes.getOutcomes().stream().map(LavaFishingOutcome::getOutput).map(EntryStack::create).map(this::generateEntrySettings).collect(Collectors.toList()));
+	}
 
-    @Override
-    public ResourceLocation getRecipeCategory() {
-        return ID;
-    }
+	@Override
+	public Identifier getRecipeCategory() {
+		return ID;
+	}
 
-    private EntryStack generateEntrySettings(EntryStack stack) {
-        LavaFishingOutcome outcome = outcomes.getOutcomes().stream().filter(o -> o.getOutput() == stack.getItemStack()).findFirst().get();
+	private EntryStack generateEntrySettings(EntryStack stack) {
+		LavaFishingOutcome outcome = outcomes.getOutcomes().stream().filter(o -> o.getOutput() == stack.getItemStack()).findFirst().get();
 
-        return stack.addSetting(Settings.TOOLTIP_ENABLED, () -> true).addSetting(Settings.TOOLTIP_APPEND_EXTRA, (entry) -> ImmutableList.of(new TextComponent("Open lava: " + format.format(outcome.getOpenWaterChance()) + "%"), new TextComponent("Normal: " + format.format(outcome.getNormalChance(outcomes.getType())) + "%")));
+		return stack.addSetting(Settings.TOOLTIP_ENABLED, () -> true).addSetting(Settings.TOOLTIP_APPEND_EXTRA, (entry) -> ImmutableList.of(new LiteralText("Open lava: " + format.format(outcome.getOpenWaterChance()) + "%"), new LiteralText("Normal: " + format.format(outcome.getNormalChance(outcomes.getType())) + "%")));
 
-    }
+	}
 
-    public List<EntryStack> getEntries() {
-        return outcomes.getOutcomes().stream().map(LavaFishingOutcome::getOutput).map(EntryStack::create).map(this::generateEntrySettings).collect(Collectors.toList());
-    }
+	public List<EntryStack> getEntries() {
+		return outcomes.getOutcomes().stream().map(LavaFishingOutcome::getOutput).map(EntryStack::create).map(this::generateEntrySettings).collect(Collectors.toList());
+	}
 
-    public LavaFishingOutcomeCategory getOutcomes() {
-        return outcomes;
-    }
+	public LavaFishingOutcomeCategory getOutcomes() {
+		return outcomes;
+	}
 }

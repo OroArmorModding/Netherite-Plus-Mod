@@ -5,21 +5,20 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-import net.minecraft.client.renderer.ItemInHandRenderer;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.client.render.item.HeldItemRenderer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 
-
-@Mixin(ItemInHandRenderer.class)
+@Mixin(HeldItemRenderer.class)
 public class HeldItemRendererMixin {
-    @Redirect(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;"))
-    private Item renderFirstPersonItem(ItemStack itemStack) {
-        return UniqueItemRegistry.CROSSBOW.getDefaultItem(itemStack.getItem());
-    }
+	@Redirect(method = "renderFirstPersonItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
+	private Item renderFirstPersonItem(ItemStack itemStack) {
+		return UniqueItemRegistry.CROSSBOW.getDefaultItem(itemStack.getItem());
+	}
 
-    @Redirect(method = "renderHandsWithItems", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getItem()Lnet/minecraft/world/item/Item;"))
-    private Item renderItem(ItemStack itemStack) {
-        return UniqueItemRegistry.BOW.isItemInRegistry(itemStack.getItem()) ? Items.BOW : UniqueItemRegistry.CROSSBOW.getDefaultItem(itemStack.getItem());
-    }
+	@Redirect(method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;Lnet/minecraft/client/network/ClientPlayerEntity;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
+	private Item renderItem(ItemStack itemStack) {
+		return UniqueItemRegistry.BOW.isItemInRegistry(itemStack.getItem()) ? Items.BOW : UniqueItemRegistry.CROSSBOW.getDefaultItem(itemStack.getItem());
+	}
 }
