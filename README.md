@@ -46,8 +46,8 @@ Discord: https://discord.gg/dGCvj56
   - Don't burn in lava
 
 * Lava Vision
- - A new effect that grants 0.25 blocks of vision in lava for each level of the effect
- - The only way to get is currently with Netherite Beacons
+  - A new effect that grants 0.25 blocks of vision in lava for each level of the effect
+  - The only way to get is currently with Netherite Beacons
 
 * Netherite Beacons
   - Three tiers
