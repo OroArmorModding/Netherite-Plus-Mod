@@ -1,47 +1,50 @@
 package com.oroarmor.netherite_plus.advancement.criterion;
 
 import com.google.gson.JsonObject;
-
-import net.minecraft.advancements.critereon.*;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.advancement.criterion.AbstractCriterion;
+import net.minecraft.advancement.criterion.AbstractCriterionConditions;
+import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
+import net.minecraft.predicate.entity.AdvancementEntityPredicateSerializer;
+import net.minecraft.predicate.entity.EntityPredicate;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
 
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
-public class RiptideNetheriteTridentCriterion extends SimpleCriterionTrigger<RiptideNetheriteTridentCriterion.Conditions> {
-    public static final ResourceLocation id = id("riptide_netherite_trident");
+public class RiptideNetheriteTridentCriterion extends AbstractCriterion<RiptideNetheriteTridentCriterion.Conditions> {
+	public static final Identifier id = id("riptide_netherite_trident");
 
-    @Override
-    public ResourceLocation getId() {
-        return id;
-    }
+	@Override
+	public Identifier getId() {
+		return id;
+	}
 
-    @Override
-    public RiptideNetheriteTridentCriterion.Conditions createInstance(JsonObject jsonObject, EntityPredicate.Composite extended, DeserializationContext advancementEntityPredicateDeserializer) {
-        return new RiptideNetheriteTridentCriterion.Conditions(extended);
-    }
+	@Override
+	public RiptideNetheriteTridentCriterion.Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended extended, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
+		return new RiptideNetheriteTridentCriterion.Conditions(extended);
+	}
 
-    public void trigger(ServerPlayer player) {
-        trigger(player, (conditions) -> {
-            return conditions.matches(player);
-        });
-    }
+	public void trigger(ServerPlayerEntity player) {
+		test(player, (conditions) -> {
+			return conditions.matches(player);
+		});
+	}
 
-    public static class Conditions extends AbstractCriterionTriggerInstance {
+	public static class Conditions extends AbstractCriterionConditions {
 
-        public Conditions(EntityPredicate.Composite player) {
-            super(id, player);
-        }
+		public Conditions(EntityPredicate.Extended player) {
+			super(id, player);
+		}
 
-        public boolean matches(ServerPlayer player) {
-            return true;
-        }
+		public boolean matches(ServerPlayerEntity player) {
+			return true;
+		}
 
-        @Override
-        public JsonObject serializeToJson(SerializationContext predicateSerializer) {
-            JsonObject jsonObject = super.serializeToJson(predicateSerializer);
-            return jsonObject;
-        }
+		@Override
+		public JsonObject toJson(AdvancementEntityPredicateSerializer predicateSerializer) {
+			JsonObject jsonObject = super.toJson(predicateSerializer);
+			return jsonObject;
+		}
 
-    }
+	}
 }

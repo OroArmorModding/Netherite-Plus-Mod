@@ -11,16 +11,6 @@ import com.oroarmor.netherite_plus.client.render.item.NetheriteShulkerBoxItemRen
 import com.oroarmor.netherite_plus.client.render.item.NetheriteTridentItemRenderer;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
-
-import net.minecraft.client.model.ArmorStandModel;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -28,61 +18,70 @@ import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegi
 import net.fabricmc.fabric.api.client.rendereregistry.v1.LivingEntityFeatureRendererRegistrationCallback;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.LivingEntityFeatureRendererRegistrationCallback.RegistrationHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.entity.LivingEntityRenderer;
+import net.minecraft.client.render.entity.model.ArmorStandEntityModel;
+import net.minecraft.client.render.entity.model.BipedEntityModel;
+import net.minecraft.client.render.entity.model.PlayerEntityModel;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.*;
 
 public class NetheritePlusClientModFabric implements ClientModInitializer {
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    @Override
-    public void onInitializeClient() {
-        BlockEntityRendererRegistry.INSTANCE.register((BlockEntityType<NetheriteShulkerBoxBlockEntity>) NetheritePlusBlocks.NETHERITE_SHULKER_BOX_ENTITY.get(), NetheriteShulkerBoxBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.INSTANCE.register((BlockEntityType<NetheriteBeaconBlockEntity>) NetheritePlusBlocks.NETHERITE_BEACON_BLOCK_ENTITY.get(), NetheriteBeaconBlockEntityRenderer::new);
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public void onInitializeClient() {
+		BlockEntityRendererRegistry.INSTANCE.register((BlockEntityType<NetheriteShulkerBoxBlockEntity>) NetheritePlusBlocks.NETHERITE_SHULKER_BOX_ENTITY.get(), NetheriteShulkerBoxBlockEntityRenderer::new);
+		BlockEntityRendererRegistry.INSTANCE.register((BlockEntityType<NetheriteBeaconBlockEntity>) NetheritePlusBlocks.NETHERITE_BEACON_BLOCK_ENTITY.get(), NetheriteBeaconBlockEntityRenderer::new);
 
-        NetheritePlusClientMod.init();
-        NetheritePlusTexturesFabric.register();
-        NetheritePlusModelProvider.registerItemsWithModelProvider();
-        NetheritePlusScreenHandlers.initializeClient();
+		NetheritePlusClientMod.init();
+		NetheritePlusTexturesFabric.register();
+		NetheritePlusModelProvider.registerItemsWithModelProvider();
+		NetheritePlusScreenHandlers.initializeClient();
 
-        if (NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue()) {
-            BlockRenderLayerMap.INSTANCE.putBlock(NetheritePlusBlocks.NETHERITE_BEACON.get(), RenderType.cutout());
-        }
+		if (NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue()) {
+			BlockRenderLayerMap.INSTANCE.putBlock(NetheritePlusBlocks.NETHERITE_BEACON.get(), RenderLayer.getCutout());
+		}
 
-        if (NetheritePlusConfig.ENABLED.ENABLED_SHULKER_BOXES.getValue()) {
-            BuiltinItemRendererRegistry.DynamicItemRenderer shulkerRenderer = NetheriteShulkerBoxItemRenderer::render;
+		if (NetheritePlusConfig.ENABLED.ENABLED_SHULKER_BOXES.getValue()) {
+			BuiltinItemRendererRegistry.DynamicItemRenderer shulkerRenderer = NetheriteShulkerBoxItemRenderer::render;
 
-            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_SHULKER_BOX.get(), shulkerRenderer);
-            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_WHITE_SHULKER_BOX.get(), shulkerRenderer);
-            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_ORANGE_SHULKER_BOX.get(), shulkerRenderer);
-            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_MAGENTA_SHULKER_BOX.get(), shulkerRenderer);
-            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_LIGHT_BLUE_SHULKER_BOX.get(), shulkerRenderer);
-            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_YELLOW_SHULKER_BOX.get(), shulkerRenderer);
-            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_LIME_SHULKER_BOX.get(), shulkerRenderer);
-            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_PINK_SHULKER_BOX.get(), shulkerRenderer);
-            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_GRAY_SHULKER_BOX.get(), shulkerRenderer);
-            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_LIGHT_GRAY_SHULKER_BOX.get(), shulkerRenderer);
-            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_CYAN_SHULKER_BOX.get(), shulkerRenderer);
-            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_PURPLE_SHULKER_BOX.get(), shulkerRenderer);
-            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_BLUE_SHULKER_BOX.get(), shulkerRenderer);
-            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_BROWN_SHULKER_BOX.get(), shulkerRenderer);
-            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_GREEN_SHULKER_BOX.get(), shulkerRenderer);
-            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_RED_SHULKER_BOX.get(), shulkerRenderer);
-            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_BLACK_SHULKER_BOX.get(), shulkerRenderer);
-        }
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_SHULKER_BOX.get(), shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_WHITE_SHULKER_BOX.get(), shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_ORANGE_SHULKER_BOX.get(), shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_MAGENTA_SHULKER_BOX.get(), shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_LIGHT_BLUE_SHULKER_BOX.get(), shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_YELLOW_SHULKER_BOX.get(), shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_LIME_SHULKER_BOX.get(), shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_PINK_SHULKER_BOX.get(), shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_GRAY_SHULKER_BOX.get(), shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_LIGHT_GRAY_SHULKER_BOX.get(), shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_CYAN_SHULKER_BOX.get(), shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_PURPLE_SHULKER_BOX.get(), shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_BLUE_SHULKER_BOX.get(), shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_BROWN_SHULKER_BOX.get(), shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_GREEN_SHULKER_BOX.get(), shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_RED_SHULKER_BOX.get(), shulkerRenderer);
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_BLACK_SHULKER_BOX.get(), shulkerRenderer);
+		}
 
-        if (NetheritePlusConfig.ENABLED.ENABLED_SHIELDS.getValue())
-            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_SHIELD.get(), NetheriteShieldItemRenderer::render);
-        if (NetheritePlusConfig.ENABLED.ENABLED_TRIDENT.getValue())
-            BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_TRIDENT.get(), NetheriteTridentItemRenderer::render);
+		if (NetheritePlusConfig.ENABLED.ENABLED_SHIELDS.getValue())
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_SHIELD.get(), NetheriteShieldItemRenderer::render);
+		if (NetheritePlusConfig.ENABLED.ENABLED_TRIDENT.getValue())
+			BuiltinItemRendererRegistry.INSTANCE.register(NETHERITE_TRIDENT.get(), NetheriteTridentItemRenderer::render);
 
-        LivingEntityFeatureRendererRegistrationCallback.EVENT.register((EntityType<? extends LivingEntity> entityType, LivingEntityRenderer<?, ?> entityRenderer, RegistrationHelper registrationHelper) -> {
-            if (entityRenderer.getModel() instanceof PlayerModel || entityRenderer.getModel() instanceof HumanoidModel || entityRenderer.getModel() instanceof ArmorStandModel) {
-                registrationHelper.register(new NetheriteElytraFeatureRenderer(entityRenderer));
-            }
-        });
+		LivingEntityFeatureRendererRegistrationCallback.EVENT.register((EntityType<? extends LivingEntity> entityType, LivingEntityRenderer<?, ?> entityRenderer, RegistrationHelper registrationHelper) -> {
+			if (entityRenderer.getModel() instanceof PlayerEntityModel || entityRenderer.getModel() instanceof BipedEntityModel || entityRenderer.getModel() instanceof ArmorStandEntityModel) {
+				registrationHelper.register(new NetheriteElytraFeatureRenderer(entityRenderer));
+			}
+		});
 
-        ClientPlayNetworking.registerGlobalReceiver(id("lava_vision_update"), (minecraft, listener, buf, sender) -> {
-            NetheritePlusClientMod.LAVA_VISION_DISTANCE = buf.getDouble(0);
-        });
-    }
+		ClientPlayNetworking.registerGlobalReceiver(id("lava_vision_update"), (minecraft, listener, buf, sender) -> {
+			NetheritePlusClientMod.LAVA_VISION_DISTANCE = buf.getDouble(0);
+		});
+	}
 }

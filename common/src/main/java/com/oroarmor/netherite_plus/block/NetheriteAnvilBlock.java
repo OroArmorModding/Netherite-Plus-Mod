@@ -1,31 +1,30 @@
 package com.oroarmor.netherite_plus.block;
 
 import com.oroarmor.netherite_plus.screen.NetheriteAnvilScreenHandler;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleMenuProvider;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.AnvilBlock;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.AnvilBlock;
+import net.minecraft.block.BlockState;
+import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class NetheriteAnvilBlock extends AnvilBlock {
-    private static final TranslatableComponent TITLE = new TranslatableComponent("container.repair");
+	private static final TranslatableText TITLE = new TranslatableText("container.repair");
 
-    public NetheriteAnvilBlock(Properties settings) {
-        super(settings);
-    }
+	public NetheriteAnvilBlock(Settings settings) {
+		super(settings);
+	}
 
-    public static BlockState damage(BlockState fallingState) {
-        return fallingState;
-    }
+	public static BlockState getLandingState(BlockState fallingState) {
+		return fallingState;
+	}
 
-    @Override
-    public MenuProvider getMenuProvider(BlockState state, Level world, BlockPos pos) {
-        return new SimpleMenuProvider((i, playerInventory, playerEntity) -> {
-            return new NetheriteAnvilScreenHandler(i, playerInventory, ContainerLevelAccess.create(world, pos));
-        }, TITLE);
-    }
+	@Override
+	public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
+		return new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) -> {
+			return new NetheriteAnvilScreenHandler(i, playerInventory, ScreenHandlerContext.create(world, pos));
+		}, TITLE);
+	}
 }
