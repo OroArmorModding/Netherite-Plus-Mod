@@ -1,0 +1,12 @@
+{
+  "base": {
+    "item": "minecraft:cyan_shulker_box"
+  },
+  "addition": {
+    "item": "minecraft:netherite_ingot"
+  },
+  "result": {
+    "item": "netherite_plus:netherite_cyan_shulker_box"
+  },
+  "type": "smithing"
+}
