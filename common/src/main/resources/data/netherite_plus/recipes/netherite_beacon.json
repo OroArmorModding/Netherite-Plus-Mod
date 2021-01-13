@@ -1,0 +1,22 @@
+{
+  "pattern": [
+    "III",
+    "IBI",
+    "NNN"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:beacon"
+    },
+    "I": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "N": {
+      "item": "minecraft:netherite_block"
+    }
+  },
+  "result": {
+    "item": "netherite_plus:netherite_beacon"
+  },
+  "type": "minecraft:crafting_shaped"
+}

@@ -1,0 +1,12 @@
+{
+  "base": {
+    "item": "minecraft:crossbow"
+  },
+  "addition": {
+    "item": "minecraft:netherite_ingot"
+  },
+  "result": {
+    "item": "netherite_plus:netherite_crossbow"
+  },
+  "type": "smithing"
+}

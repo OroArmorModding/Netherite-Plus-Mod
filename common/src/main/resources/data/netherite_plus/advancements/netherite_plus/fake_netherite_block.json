@@ -1,0 +1,35 @@
+{
+  "parent": "netherite_plus:netherite_plus/root",
+  "display": {
+    "icon": {
+      "item": "netherite_plus:fake_netherite_block"
+    },
+    "title": {
+      "translate": "advancements.netherite_plus.fake_netherite_block.title"
+    },
+    "description": {
+      "translate": "advancements.netherite_plus.fake_netherite_block.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "fake_netherite_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "netherite_plus:fake_netherite_block"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "fake_netherite_block"
+    ]
+  ]
+}

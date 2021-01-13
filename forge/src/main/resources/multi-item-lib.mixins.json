@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.oroarmor.multi_item_lib.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "CrossbowItemMixin",
+    "MobEntityMixin",
+    "PlayerEntityMixin",
+    "UnbreakingEnchantmentMixin"
+  ],
+  "client": [
+    "render.FishingBobberEntityRendererMixin",
+    "render.HeldItemRendererMixin",
+    "render.ItemRendererMixin",
+    "render.PlayerEntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

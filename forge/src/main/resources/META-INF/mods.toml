@@ -1,0 +1,36 @@
+# The name of the mod loader type to load - for regular FML @Mod mods it should be javafml
+    modLoader="javafml"
+    # A version range to match for said mod loader - for regular FML @Mod it will be the forge version
+    # Forge for 1.15.2 is version 31
+    loaderVersion="[35,)"
+    # A URL to refer people to when problems occur with this mod
+    issueTrackerURL="https://github.com/OroArmor/Netherite-Plus-Mod/issues/"
+    # If the mods defined in this file should show as seperate resource packs
+    showAsResourcePack=false
+    license="CCO-1.0"
+
+    [[mods]]
+      modId="netherite_plus"
+      version="${version}"
+      displayName="Netherite Plus"
+      displayURL="https://www.oroarmor.com/"
+      logoFile="logo.png"
+      credits="Ron for Textures"
+      authors="OroArmor"
+      description='''
+      This mod adds extra netherite features that aren't vanillia. NOTE: Editing the config requires a game restart
+      '''
+
+      [[dependencies.netherite_plus]]
+        modId="forge"
+        mandatory=true
+        versionRange="[35,)"
+        ordering="NONE"
+        side="BOTH"
+
+      [[dependencies.netherite_plus]]
+        modId="minecraft"
+        mandatory=true
+        versionRange="[1.16.4]"
+        ordering="NONE"
+        side="BOTH"
