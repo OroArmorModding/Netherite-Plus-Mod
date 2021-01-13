@@ -11,7 +11,7 @@
 
     [[mods]]
       modId="netherite_plus"
-      version="1.2.0"
+      version="${version}"
       displayName="Netherite Plus"
       displayURL="https://www.oroarmor.com/"
       logoFile="logo.png"
