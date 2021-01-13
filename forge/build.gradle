@@ -18,6 +18,7 @@ repositories {
 
 loom {
     mixinConfigs = ["netherite_plus.mixins.json", "multi-item-lib.mixins.json"]
+    useFabricMixin = true
 }
 
 //minecraft {
@@ -51,6 +52,20 @@ dependencies {
         transitive = false
     }
 }
+
+processResources {
+    inputs.property "version", rootProject.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include "META-INF/mods.toml"
+        expand "version": rootProject.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude "META-INF/mods.toml"
+    }
+}
+
 
 shadowJar {
     exclude "fabric.mod.json"

@@ -1,6 +1,6 @@
 {
   "required": true,
-  "minVersion": "0.8.1",
+  "minVersion": "0.8",
   "package": "com.oroarmor.netherite_plus.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
