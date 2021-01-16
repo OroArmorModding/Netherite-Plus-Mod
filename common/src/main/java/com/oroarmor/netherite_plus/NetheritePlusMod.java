@@ -1,5 +1,6 @@
 package com.oroarmor.netherite_plus;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import com.oroarmor.netherite_plus.screen.NetheriteBeaconScreenHandler;
 import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
 import com.oroarmor.netherite_plus.stat.NetheritePlusStats;
 import me.shedaniel.architectury.networking.NetworkManager;
+import me.shedaniel.architectury.platform.Platform;
 import me.shedaniel.architectury.registry.Registries;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
