@@ -1,5 +1,6 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "5.0.0"
+    id 'maven-publish'
 }
 
 configurations {
@@ -85,5 +86,37 @@ jar {
         attributes([
                 "MixinConfigs": "netherite_plus.mixins.json",
         ])
+    }
+}
+
+publishing {
+    publications {
+        mavenForge(MavenPublication) {
+            artifact(remapJar.archivePath) {
+                builtBy build
+                classifier "forge"
+            }
+
+            groupId project.group
+            artifactId project.archivesBaseName
+            version project.version
+        }
+    }
+}
+
+bintray {
+    user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
+    key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_KEY')
+    publications = ["mavenForge"]
+    publish = true
+    pkg {
+        repo = 'oroarmor'
+        name = rootProject.archives_base_name
+        userOrg = "oroarmor"
+        licenses = ['CC0-1.0']
+        vcsUrl = 'https://github.com/OroArmor/Netherite-Plus-Mod.git'
+        version {
+            name = rootProject.mod_version + "-" + rootProject.minecraft_version
+        }
     }
 }

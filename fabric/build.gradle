@@ -1,5 +1,4 @@
 plugins {
-    id 'maven-publish'
     id "com.github.johnrengelman.shadow" version "5.0.0"
 }
 
@@ -85,7 +84,7 @@ dependencies {
 
     runAndCompile(["net.kyrptonaught:quickshulker:${project.quickshulker}",
                    "com.github.emilyploszaj:trinkets:${project.trinkets}",
-                   "com.misterpemodder:shulkerboxtooltip:${project.shulkerboxtooltip}+${project.minecraft_version}"], false)
+                   "com.misterpemodder:shulkerboxtooltip:${project.shulkerboxtooltip}+"+/*${project.minecraft_version}*/"1.16.4"], false)
 
     runAlways(["io.github.prospector:modmenu:${project.modmenu}", "me.shedaniel:RoughlyEnoughItems:${project.rei}"])
 
@@ -164,20 +163,32 @@ jar {
 // configure the maven publication
 publishing {
     publications {
-        mavenJava(MavenPublication) {
-            // add all the jars that should be included when publishing to maven
-            artifact(remapJar) {
-                builtBy remapJar
+        mavenFabric(MavenPublication) {
+            artifact(remapJar.archivePath) {
+                builtBy build
+                classifier "fabric"
             }
-            artifact(sourcesJar) {
-                builtBy remapSourcesJar
-            }
+
+            groupId project.group
+            artifactId project.archivesBaseName
+            version project.version
         }
     }
+}
 
-    // select the repositories you want to publish to
-    repositories {
-        // uncomment to publish to the local maven
-        // mavenLocal()
+bintray {
+    user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
+    key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_KEY')
+    publications = ["mavenFabric"]
+    publish = true
+    pkg {
+        repo = 'oroarmor'
+        name = rootProject.archives_base_name
+        userOrg = "oroarmor"
+        licenses = ['CC0-1.0']
+        vcsUrl = 'https://github.com/OroArmor/Netherite-Plus-Mod.git'
+        version {
+            name = rootProject.mod_version + "-" + rootProject.minecraft_version
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.oroarmor.netherite_plus.config;
 
+import java.io.File;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
@@ -21,7 +22,7 @@ public final class NetheritePlusConfig extends Config {
 	private static final List<ConfigItemGroup> CONFIGS = ImmutableList.of(new ENABLED(), new DURABILITIES(), new DAMAGE(), new ANVIL(), new GRAPHICS());
 
 	public NetheritePlusConfig() {
-		super(CONFIGS, Platform.getConfigFolder().toFile(), "netherite_plus");
+		super(CONFIGS, new File(Platform.getConfigFolder().toFile(), CONFIG_FILE_NAME), "netherite_plus");
 	}
 
 	public static void createLavaVisionUpdatePacket(ConfigItem<Double> configItem) {
