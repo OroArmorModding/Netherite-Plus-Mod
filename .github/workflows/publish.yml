@@ -2,7 +2,7 @@ name: Publish to Bintray
 
 on:
   release:
-    branches: [ master ]
+    types: [published]
 
 jobs:
   build:
@@ -19,3 +19,6 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew bintrayUpload
+      env:
+          BINTRAY_USER: oroarmor
+          BINTRAY_KEY: ${{ secrets.BINTRAY_KEY }}
