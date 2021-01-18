@@ -1,6 +1,6 @@
 package com.oroarmor.netherite_plus;
 
-import me.shedaniel.architectury.ExpectPlatform;
+import me.shedaniel.architectury.annotations.ExpectPlatform;
 import net.minecraft.item.Item;
 
 public class NetheritePlusModPlatform {
