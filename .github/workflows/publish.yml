@@ -18,7 +18,7 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew bintrayUpload
+      run: ./gradlew uploadSubProjects
       env:
           BINTRAY_USER: oroarmor
           BINTRAY_KEY: ${{ secrets.BINTRAY_KEY }}
