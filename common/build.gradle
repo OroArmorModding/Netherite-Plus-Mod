@@ -77,10 +77,8 @@ publishing {
 
 bintray {
     user = System.getenv('BINTRAY_USER')
-    System.out.println(System.getenv('BINTRAY_KEY'))
-    System.out.println("HELLO????")
+    System.out.println(user)
     key = System.getenv('BINTRAY_KEY')
-    System.out.println(key)
     publications = ["mavenCommon"]
     publish = true
     pkg {
