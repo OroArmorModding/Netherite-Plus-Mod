@@ -2,7 +2,6 @@ package com.oroarmor.netherite_plus;
 
 import java.io.IOException;
 
-import com.oroarmor.multi_item_lib.UniqueItemRegistry;
 import com.oroarmor.netherite_plus.client.ForgeNetheritePlusModClient;
 import com.oroarmor.netherite_plus.client.NetheritePlusClientMod;
 import com.oroarmor.netherite_plus.network.LavaVisionUpdatePacket;
@@ -17,8 +16,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
-
-import static com.oroarmor.netherite_plus.item.NetheritePlusItems.*;
 
 @Mod(NetheritePlusMod.MOD_ID)
 public class ForgeNetheritePlusMod {
@@ -76,11 +73,6 @@ public class ForgeNetheritePlusMod {
 
 	@SubscribeEvent
 	public void registerItemsWithMultiItemLib(FMLLoadCompleteEvent event) {
-		UniqueItemRegistry.SHIELD.addItemToRegistry(NETHERITE_SHIELD.getOrNull());
-		UniqueItemRegistry.FISHING_ROD.addItemToRegistry(NETHERITE_FISHING_ROD.getOrNull());
-		UniqueItemRegistry.ELYTRA.addItemToRegistry(NETHERITE_ELYTRA.getOrNull());
-		UniqueItemRegistry.BOW.addItemToRegistry(NETHERITE_BOW.getOrNull());
-		UniqueItemRegistry.CROSSBOW.addItemToRegistry(NETHERITE_CROSSBOW.getOrNull());
-		UniqueItemRegistry.TRIDENT.addItemToRegistry(NETHERITE_TRIDENT.getOrNull());
+		NetheritePlusMod.registerItemsWithMultiItemLib();
 	}
 }

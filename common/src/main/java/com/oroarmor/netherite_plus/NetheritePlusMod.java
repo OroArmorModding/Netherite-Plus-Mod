@@ -10,7 +10,6 @@ import com.oroarmor.netherite_plus.advancement.criterion.NetheritePlusCriteria;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.entity.effect.NetheritePlusStatusEffects;
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
-import com.oroarmor.netherite_plus.loot.NetheritePlusLootManager;
 import com.oroarmor.netherite_plus.network.UpdateNetheriteBeaconC2SPacket;
 import com.oroarmor.netherite_plus.recipe.NetheritePlusRecipeSerializer;
 import com.oroarmor.netherite_plus.screen.NetheriteBeaconScreenHandler;
@@ -43,7 +42,6 @@ public class NetheritePlusMod {
         processConfig();
         NetheritePlusItems.init();
         NetheritePlusScreenHandlers.init();
-        NetheritePlusLootManager.init();
         NetheritePlusRecipeSerializer.init();
         NetheritePlusStatusEffects.init();
         NetheritePlusCriteria.init();
@@ -84,9 +82,9 @@ public class NetheritePlusMod {
         if (NetheritePlusConfig.ENABLED.ENABLED_ELYTRA.getValue())
             UniqueItemRegistry.ELYTRA.addItemToRegistry(NETHERITE_ELYTRA.get());
         if (NetheritePlusConfig.ENABLED.ENABLED_BOWS_AND_CROSSBOWS.getValue()) {
-			UniqueItemRegistry.BOW.addItemToRegistry(NETHERITE_BOW.get());
-			UniqueItemRegistry.CROSSBOW.addItemToRegistry(NETHERITE_CROSSBOW.get());
-		}
+            UniqueItemRegistry.BOW.addItemToRegistry(NETHERITE_BOW.get());
+            UniqueItemRegistry.CROSSBOW.addItemToRegistry(NETHERITE_CROSSBOW.get());
+        }
         if (NetheritePlusConfig.ENABLED.ENABLED_TRIDENT.getValue())
             UniqueItemRegistry.TRIDENT.addItemToRegistry(NETHERITE_TRIDENT.get());
     }

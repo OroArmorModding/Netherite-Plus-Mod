@@ -18,25 +18,25 @@ import net.minecraft.text.Text;
 
 @Mixin(ServerPlayNetworkHandler.class)
 public class ServerPlayNetworkHandlerMixin {
-	@Inject(method = "<init>", at = @At("RETURN"))
-	public void init(MinecraftServer server, ClientConnection connection, ServerPlayerEntity player, CallbackInfo info) {
-		NetheritePlusMod.CONNECTED_CLIENTS.add(player);
-		NetheritePlusConfig.createLavaVisionUpdatePacket(player);
-	}
+    @Inject(method = "<init>", at = @At("RETURN"))
+    public void init(MinecraftServer server, ClientConnection connection, ServerPlayerEntity player, CallbackInfo info) {
+        NetheritePlusMod.CONNECTED_CLIENTS.add(player);
+        NetheritePlusConfig.createLavaVisionUpdatePacket(player);
+    }
 
-	@Inject(method = "disconnect", at = @At("RETURN"))
-	public void disconnect(Text reason, CallbackInfo info) {
-		NetheritePlusMod.CONNECTED_CLIENTS.remove(((ServerPlayNetworkHandler) (Object) this).player);
-	}
+    @Inject(method = "disconnect", at = @At("RETURN"))
+    public void disconnect(Text reason, CallbackInfo info) {
+        NetheritePlusMod.CONNECTED_CLIENTS.remove(((ServerPlayNetworkHandler) (Object) this).player);
+    }
 
-	@Inject(method = "onRenameItem", at = @At("RETURN"))
-	public void onRenameItem(RenameItemC2SPacket packet, CallbackInfo info) {
-		if (((ServerPlayNetworkHandler) (Object) this).player.currentScreenHandler instanceof NetheriteAnvilScreenHandler) {
-			NetheriteAnvilScreenHandler anvilScreenHandler = (NetheriteAnvilScreenHandler) ((ServerPlayNetworkHandler) (Object) this).player.currentScreenHandler;
-			String string = SharedConstants.stripInvalidChars(packet.getName());
-			if (string.length() <= 35) {
-				anvilScreenHandler.setNewItemName(string);
-			}
-		}
-	}
+    @Inject(method = "onRenameItem", at = @At("RETURN"))
+    public void onRenameItem(RenameItemC2SPacket packet, CallbackInfo info) {
+        if (((ServerPlayNetworkHandler) (Object) this).player.currentScreenHandler instanceof NetheriteAnvilScreenHandler) {
+            NetheriteAnvilScreenHandler anvilScreenHandler = (NetheriteAnvilScreenHandler) ((ServerPlayNetworkHandler) (Object) this).player.currentScreenHandler;
+            String string = SharedConstants.stripInvalidChars(packet.getName());
+            if (string.length() <= 35) {
+                anvilScreenHandler.setNewItemName(string);
+            }
+        }
+    }
 }
