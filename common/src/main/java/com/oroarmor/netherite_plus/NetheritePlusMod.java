@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.oroarmor.config.ConfigItemGroup;
+import com.oroarmor.config.command.ConfigCommand;
 import com.oroarmor.multi_item_lib.UniqueItemRegistry;
 import com.oroarmor.netherite_plus.advancement.criterion.NetheritePlusCriteria;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
@@ -15,6 +16,7 @@ import com.oroarmor.netherite_plus.recipe.NetheritePlusRecipeSerializer;
 import com.oroarmor.netherite_plus.screen.NetheriteBeaconScreenHandler;
 import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
 import com.oroarmor.netherite_plus.stat.NetheritePlusStats;
+import me.shedaniel.architectury.event.events.CommandRegistrationEvent;
 import me.shedaniel.architectury.networking.NetworkManager;
 import me.shedaniel.architectury.registry.Registries;
 import org.apache.logging.log4j.Level;
@@ -22,6 +24,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.command.CommandManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Lazy;
 
@@ -60,6 +63,8 @@ public class NetheritePlusMod {
                 }
             });
         });
+
+         CommandRegistrationEvent.EVENT.register((commandSourceCommandDispatcher, registrationEnvironment) -> new ConfigCommand(CONFIG).register(commandSourceCommandDispatcher, registrationEnvironment == CommandManager.RegistrationEnvironment.DEDICATED));
     }
 
     private static void processConfig() {
