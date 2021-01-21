@@ -34,7 +34,7 @@
         side="BOTH"
 
       [[dependencies.netherite_plus]]
-          modId="architectury-forge"
+          modId="architectury"
           mandatory=true
           ordering="NONE"
           side="BOTH"
