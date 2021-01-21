@@ -64,7 +64,7 @@ public class NetheritePlusMod {
             });
         });
 
-         CommandRegistrationEvent.EVENT.register((commandSourceCommandDispatcher, registrationEnvironment) -> new ConfigCommand(CONFIG).register(commandSourceCommandDispatcher, registrationEnvironment == CommandManager.RegistrationEnvironment.DEDICATED));
+//         CommandRegistrationEvent.EVENT.register((commandSourceCommandDispatcher, registrationEnvironment) -> new ConfigCommand(CONFIG).register(commandSourceCommandDispatcher, registrationEnvironment == CommandManager.RegistrationEnvironment.DEDICATED));
     }
 
     private static void processConfig() {

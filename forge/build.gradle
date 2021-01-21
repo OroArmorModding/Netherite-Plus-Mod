@@ -31,18 +31,29 @@ dependencies {
     minecraft("com.mojang:minecraft:${rootProject.architectury.minecraft}")
     mappings("net.fabricmc:yarn:${rootProject.mappings}:v2")
     forge("net.minecraftforge:forge:${rootProject.architectury.minecraft}-${rootProject.forge_version}")
-    modCompile("me.shedaniel:architectury:${rootProject.architectury_version}:forge")
+    modCompile("me.shedaniel:architectury:${rootProject.architectury_version}:forge") {
+        exclude(module: "fabric-loader")
+    }
 
-    compile('com.oroarmor:oro-config:1.1.0')
-    shadow('com.oroarmor:oro-config:1.1.0')
+    compile('com.oroarmor:oro-config:1.1.0') {
+        exclude(module: "fabric-loader")
+    }
+    shadow('com.oroarmor:oro-config:1.1.0') {
+        exclude(module: "fabric-loader")
+        exclude(module: "modmenu")
+        exclude(module: "config-2")
+    }
 
     compileOnly(project(path: ":common")) {
+        exclude(module: "fabric-loader")
         transitive = false
     }
     runtimeOnly(project(path: ":common", configuration: "transformDevelopmentForge")) {
+        exclude(module: "fabric-loader")
         transitive = false
     }
     shadow(project(path: ":common", configuration: "transformProductionForge")) {
+        exclude(module: "fabric-loader")
         transitive = false
     }
 }
@@ -140,4 +151,16 @@ curseforge {
         forgeGradleIntegration = false
         javaVersionAutoDetect = false
     }
+}
+
+import com.modrinth.minotaur.TaskModrinthUpload
+
+task modrinthForge (type: TaskModrinthUpload){
+    token = System.getenv("MODRINTH_TOKEN") // Use an environment property!
+    projectId = 'MlaM22M4'
+    versionNumber = project.version + " - Forge"
+    uploadFile = remapJar.archivePath // This is the java jar task
+    addGameVersion('1.16.4')
+    addGameVersion('1.16.5')
+    addLoader('forge')
 }

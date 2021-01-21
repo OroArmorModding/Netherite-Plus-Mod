@@ -22,8 +22,13 @@ dependencies {
         exclude(module: "fabric-api")
     }
 
-    modCompile('com.oroarmor:oro-config:1.1.0')
-    include('com.oroarmor:oro-config:1.1.0')
+    modCompile('com.oroarmor:oro-config:1.1.0') {
+        exclude(module: "fabric-loader")
+    }
+
+    include('com.oroarmor:oro-config:1.1.0') {
+        exclude(module: "fabric-loader")
+    }
 
 
     modCompile('com.github.OroArmor:Multi-Item-Lib:-SNAPSHOT') {
