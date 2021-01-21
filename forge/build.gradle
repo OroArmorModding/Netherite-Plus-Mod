@@ -14,7 +14,7 @@ architectury {
 
 repositories {
     maven {
-        url = "https://jitpack.io"
+        url = "https://dl.bintray.com/oroarmor/oroarmor"
     }
 }
 
@@ -28,29 +28,21 @@ loom {
 //}
 
 dependencies {
-    minecraft("com.mojang:minecraft:${rootProject.architect.minecraft}")
+    minecraft("com.mojang:minecraft:${rootProject.architectury.minecraft}")
     mappings("net.fabricmc:yarn:${rootProject.mappings}:v2")
-    forge("net.minecraftforge:forge:${rootProject.architect.minecraft}-${rootProject.forge_version}")
+    forge("net.minecraftforge:forge:${rootProject.architectury.minecraft}-${rootProject.forge_version}")
     modCompile("me.shedaniel:architectury:${rootProject.architectury_version}:forge")
 
-    compile('com.github.OroArmor:oro-config:-SNAPSHOT') {
-        exclude(module: "fabric-api")
-        exclude(module: "fabric-loader")
-    }
-    shadow('com.github.OroArmor:oro-config:-SNAPSHOT') {
-        exclude(module: "fabric-api")
-        exclude(module: "fabric-loader")
-        exclude(module: "modmenu")
-        exclude(module: "config-2")
-    }
+    compile('com.oroarmor:oro-config:1.1.0')
+    shadow('com.oroarmor:oro-config:1.1.0')
 
     compileOnly(project(path: ":common")) {
         transitive = false
     }
-    runtimeOnly(project(path: ":common", configuration: "transformForgeFakeMod")) {
+    runtimeOnly(project(path: ":common", configuration: "transformDevelopmentForge")) {
         transitive = false
     }
-    shadow(project(path: ":common", configuration: "transformForge")) {
+    shadow(project(path: ":common", configuration: "transformProductionForge")) {
         transitive = false
     }
 }

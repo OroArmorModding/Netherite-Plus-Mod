@@ -17,9 +17,7 @@
       logoFile="logo.png"
       credits="Ron for Textures"
       authors="OroArmor"
-      description='''
-      This mod adds extra netherite features that aren't vanillia. NOTE: Editing the config requires a game restart
-      '''
+      description='''This mod adds extra netherite features that aren't vanillia. NOTE: Editing the config requires a game restart'''
 
       [[dependencies.netherite_plus]]
         modId="forge"
@@ -34,3 +32,9 @@
         versionRange="[1.16.4,1.17)"
         ordering="NONE"
         side="BOTH"
+
+      [[dependencies.netherite_plus]]
+          modId="architectury-forge"
+          mandatory=true
+          ordering="NONE"
+          side="BOTH"

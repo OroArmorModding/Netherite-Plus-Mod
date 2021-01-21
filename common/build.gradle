@@ -1,5 +1,8 @@
 repositories {
     maven {
+        url = "https://dl.bintray.com/oroarmor/oroarmor"
+    }
+    maven {
         url = "https://jitpack.io"
     }
 }
@@ -9,7 +12,7 @@ minecraft {
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${rootProject.architect.minecraft}"
+    minecraft "com.mojang:minecraft:${rootProject.architectury.minecraft}"
     mappings("net.fabricmc:yarn:${rootProject.mappings}:v2")
     // We depend on fabric loader here to use the fabric @Environment annotations
     // Do NOT use other classes from fabric loader
@@ -19,14 +22,9 @@ dependencies {
         exclude(module: "fabric-api")
     }
 
-    modCompile('com.github.OroArmor:oro-config:-SNAPSHOT') {
-        exclude(module: "fabric-api")
-        exclude(module: "fabric-loader")
-    }
-    include('com.github.OroArmor:oro-config:-SNAPSHOT') {
-        exclude(module: "fabric-api")
-        exclude(module: "fabric-loader")
-    }
+    modCompile('com.oroarmor:oro-config:1.1.0')
+    include('com.oroarmor:oro-config:1.1.0')
+
 
     modCompile('com.github.OroArmor:Multi-Item-Lib:-SNAPSHOT') {
         exclude(module: "fabric-api")
@@ -38,7 +36,7 @@ dependencies {
     }
 }
 
-architect {
+architectury {
     common()
 }
 
@@ -77,7 +75,6 @@ publishing {
 
 bintray {
     user = System.getenv('BINTRAY_USER')
-    System.out.println(user)
     key = System.getenv('BINTRAY_KEY')
     publications = ["mavenCommon"]
     publish = true

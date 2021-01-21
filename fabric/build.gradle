@@ -34,6 +34,9 @@ repositories {
     maven { url = "https://dl.bintray.com/kyrptonaught/Quickshulker/" }
     maven { url = "https://dl.bintray.com/kyrptonaught/kyrptconfig/" }
     maven { url = "https://maven.misterpemodder.com/libs-release/" }
+    maven {
+        url = "https://dl.bintray.com/oroarmor/oroarmor"
+    }
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -80,7 +83,7 @@ dependencies {
     modCompile "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_version}"
 
     //Libraries
-    includeLibraries(['com.github.OroArmor:oro-config:-SNAPSHOT',
+    includeLibraries(['com.oroarmor:oro-config:1.1.0',
                       'com.github.OroArmor:Multi-Item-Lib:-SNAPSHOT'])
 
     runAndCompile(["net.kyrptonaught:quickshulker:${project.quickshulker}",
@@ -105,11 +108,11 @@ dependencies {
         transitive = false
         exclude(module: "fabric-api")
     }
-    runtimeOnly(project(path: ":common", configuration: "transformedRuntime")) {
+    runtimeOnly(project(path: ":common", configuration: "transformDevelopmentFabric")) {
         transitive = false
         exclude(module: "fabric-api")
     }
-    shadow(project(path: ":common", configuration: "transformed")) {
+    shadow(project(path: ":common", configuration: "transformProductionFabric")) {
         transitive = false
         exclude(module: "fabric-api")
     }
