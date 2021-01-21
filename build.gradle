@@ -1,3 +1,14 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath group: 'gradle.plugin.com.modrinth.minotaur', name: 'Minotaur', version: '1.1.0'
+    }
+}
+
 plugins {
     id "architectury-plugin" version "2.0.56"
     id "forgified-fabric-loom" version "0.6.45" apply false
@@ -5,6 +16,7 @@ plugins {
     id "com.matthewprenger.cursegradle" version "1.4.0" apply false
     id 'maven-publish'
     id "maven"
+    id "com.modrinth.minotaur" version "1.1.0"
 }
 
 architectury {
@@ -33,4 +45,8 @@ allprojects {
 
 task uploadSubProjects {
     dependsOn = [":common:bintrayUpload", ":fabric:bintrayUpload", ":forge:bintrayUpload"]
+}
+
+task publishToModrinth {
+    dependsOn = [":fabric:modrinthFabric", ":forge:modrinthForge"]
 }

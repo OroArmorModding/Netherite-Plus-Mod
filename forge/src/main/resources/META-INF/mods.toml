@@ -35,6 +35,7 @@
 
       [[dependencies.netherite_plus]]
           modId="architectury"
+          versionRange="[1.3.83,)"
           mandatory=true
           ordering="NONE"
           side="BOTH"

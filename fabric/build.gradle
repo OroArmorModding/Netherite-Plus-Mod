@@ -228,3 +228,15 @@ curseforge {
         javaVersionAutoDetect = false
     }
 }
+
+import com.modrinth.minotaur.TaskModrinthUpload
+
+task modrinthFabric (type: TaskModrinthUpload){
+    token = System.getenv("MODRINTH_TOKEN") // Use an environment property!
+    projectId = 'MlaM22M4'
+    versionNumber = project.version + " - Fabric"
+    uploadFile = remapJar.archivePath // This is the java jar task
+    addGameVersion('1.16.4')
+    addGameVersion('1.16.5')
+    addLoader('fabric')
+}
