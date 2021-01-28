@@ -44,7 +44,7 @@
   "accessWidener": "netherite_plus.accesswidener",
   "depends": {
     "fabricloader": ">=0.7.4",
-    "fabric": "*",
+    "fabric": ">=0.30.0",
     "minecraft": ">=1.16.4"
   },
   "suggests": {
