@@ -1,4 +1,4 @@
-package com.oroarmor.netherite_plus.mixin.render;
+package com.oroarmor.multi_item_lib.mixin.render;
 
 import com.oroarmor.multi_item_lib.UniqueItemRegistry;
 import org.spongepowered.asm.mixin.Mixin;

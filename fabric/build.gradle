@@ -96,7 +96,7 @@ dependencies {
 
     //Libraries
     includeLibraries(['com.oroarmor:oro-config:1.1.0',
-                      'com.github.OroArmor:Multi-Item-Lib:-SNAPSHOT'])
+                      'com.oroarmor:Multi-Item-Lib:1.1.1'])
 
     runAndCompile(["net.kyrptonaught:quickshulker:${project.quickshulker}",
                    "com.github.emilyploszaj:trinkets:${project.trinkets}",
