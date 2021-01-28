@@ -25,12 +25,12 @@ public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
         ItemStack itemStack2 = ItemStack.EMPTY;
 
         for (int i = 0; i < craftingInventory.size(); ++i) {
-            ItemStack itemStack3 = craftingInventory.getStack(i);
-            if (!itemStack3.isEmpty()) {
-                if (itemStack3.getItem() instanceof BannerItem) {
-                    itemStack = itemStack3;
-                } else if (itemStack3.getItem() == NetheritePlusItems.NETHERITE_SHIELD) {
-                    itemStack2 = itemStack3.copy();
+            ItemStack craftingStack = craftingInventory.getStack(i);
+            if (!craftingStack.isEmpty()) {
+                if (craftingStack.getItem() instanceof BannerItem) {
+                    itemStack = craftingStack;
+                } else if (craftingStack.getItem() == NetheritePlusItems.NETHERITE_SHIELD.get()) {
+                    itemStack2 = craftingStack.copy();
                 }
             }
         }
@@ -71,7 +71,7 @@ public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
 
                     itemStack2 = itemStack3;
                 } else {
-                    if (itemStack3.getItem() != NetheritePlusItems.NETHERITE_SHIELD) {
+                    if (itemStack3.getItem() != NetheritePlusItems.NETHERITE_SHIELD.get()) {
                         return false;
                     }
 
