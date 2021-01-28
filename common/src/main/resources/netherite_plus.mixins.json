@@ -14,7 +14,6 @@
     "ClientPlayNetworkHandlerAccessor",
     "ClientPlayNetworkHandlerMixin",
     "render.BackgroundRendererMixin",
-    "render.CapeFeatureRendererMixin",
     "render.ItemRendererAccessor",
     "render.ItemRendererMixin",
     "render.PlayerEntityRendererMixin",
