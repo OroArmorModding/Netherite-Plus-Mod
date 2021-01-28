@@ -19,12 +19,11 @@ import net.minecraft.world.World;
 public class CrossbowItemMixin {
     @Inject(method = "createArrow", at = @At("RETURN"), locals = LocalCapture.CAPTURE_FAILSOFT, cancellable = true)
     private static void createArrow(World world, LivingEntity entity, ItemStack crossbow, ItemStack arrow, CallbackInfoReturnable<PersistentProjectileEntity> cir, ArrowItem arrowItem, PersistentProjectileEntity persistentProjectileEntity) {
-        if (crossbow.getItem() != NetheritePlusItems.NETHERITE_CROSSBOW) {
+        if (crossbow.getItem() != NetheritePlusItems.NETHERITE_CROSSBOW.get()) {
             return;
         }
 
         persistentProjectileEntity.setDamage(persistentProjectileEntity.getDamage() * NetheritePlusConfig.DAMAGE.CROSSBOW_DAMAGE_MULTIPLIER.getValue() + NetheritePlusConfig.DAMAGE.CROSSBOW_DAMAGE_ADDITION.getValue());
         cir.setReturnValue(persistentProjectileEntity);
     }
-
 }

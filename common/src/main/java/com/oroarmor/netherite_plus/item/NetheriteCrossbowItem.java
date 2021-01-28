@@ -1,5 +1,6 @@
 package com.oroarmor.netherite_plus.item;
 
+import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.ItemStack;
 
@@ -12,5 +13,7 @@ public class NetheriteCrossbowItem extends CrossbowItem {
     public boolean isUsedOnRelease(ItemStack stack) {
         return stack.getItem() == NetheritePlusItems.NETHERITE_CROSSBOW.get();
     }
+
+
 
 }
