@@ -37,6 +37,9 @@ repositories {
     maven {
         url = "https://dl.bintray.com/oroarmor/oroarmor"
     }
+    maven {
+        url = "http://maven.terraformersmc.com/releases/"
+    }
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -47,9 +50,12 @@ def runAndCompile(List<String> mods, boolean run) {
         mods.each {
             modCompileOnly(it) {
                 exclude(module: "fabric-api")
+                exclude(module: "modmenu")
             }
             if (run) {
-                modRuntime it
+                modRuntime (it) {
+                    exclude(module: "modmenu")
+                }
             }
         }
     }
@@ -58,8 +64,12 @@ def runAndCompile(List<String> mods, boolean run) {
 def includeLibraries(List<String> libraries) {
     dependencies {
         libraries.each {
-            modImplementation it
-            include it
+            modImplementation (it) {
+                exclude(module: "modmenu")
+            }
+            include (it) {
+                exclude(module: "modmenu")
+            }
         }
     }
 }
@@ -67,7 +77,9 @@ def includeLibraries(List<String> libraries) {
 def runAlways(List<String> mods) {
     dependencies {
         mods.each {
-            modRuntime it
+            modRuntime (it) {
+                exclude(module: "modmenu")
+            }
         }
     }
 }
@@ -90,18 +102,23 @@ dependencies {
                    "com.github.emilyploszaj:trinkets:${project.trinkets}",
                    "com.misterpemodder:shulkerboxtooltip:${project.shulkerboxtooltip}+"+/*${project.minecraft_version}*/"1.16.4"], false)
 
-    runAlways(["io.github.prospector:modmenu:${project.modmenu}", "me.shedaniel:RoughlyEnoughItems:${project.rei}"])
+    modCompile "io.github.prospector:modmenu:${project.modmenu}"
+
+    runAlways(["me.shedaniel:RoughlyEnoughItems:${project.rei}"])
 
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-api:${project.rei}") {
         exclude(module: "fabric-api")
+        exclude(module: "modmenu")
     }
 
     modCompile("me.shedaniel:architectury:${rootProject.architectury_version}:fabric") {
         exclude(module: "fabric-api")
+        exclude(module: "modmenu")
     }
 
     include("me.shedaniel:architectury:${rootProject.architectury_version}:fabric") {
         exclude(module: "fabric-api")
+        exclude(module: "modmenu")
     }
 
     compileOnly(project(path: ":common")) {
