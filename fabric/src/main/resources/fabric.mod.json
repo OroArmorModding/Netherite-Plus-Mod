@@ -45,7 +45,10 @@
   "depends": {
     "fabricloader": ">=0.7.4",
     "fabric": ">=0.30.0",
-    "minecraft": ">=1.16.4"
+    "minecraft": ">=1.16.4",
+    "oro_config": "*",
+    "multi_item_lib": ">=1.1.1",
+    "architectury": ">=1.3.83"
   },
   "suggests": {
     "flamingo": "*"
