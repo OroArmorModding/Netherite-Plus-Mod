@@ -2,9 +2,6 @@ repositories {
     maven {
         url = "https://dl.bintray.com/oroarmor/oroarmor"
     }
-    maven {
-        url = "https://jitpack.io"
-    }
 }
 
 minecraft {
@@ -31,11 +28,7 @@ dependencies {
     }
 
 
-    modCompile('com.github.OroArmor:Multi-Item-Lib:-SNAPSHOT') {
-        exclude(module: "fabric-api")
-        exclude(module: "fabric-loader")
-    }
-    include('com.github.OroArmor:Multi-Item-Lib:-SNAPSHOT') {
+    modCompile('com.oroarmor:Multi-Item-Lib:1.1.1') {
         exclude(module: "fabric-api")
         exclude(module: "fabric-loader")
     }
