@@ -16,7 +16,6 @@
     "render.BackgroundRendererMixin",
     "render.ItemRendererAccessor",
     "render.ItemRendererMixin",
-    "render.PlayerEntityRendererMixin",
     "render.TexturedRenderLayersMixin",
     "render.TridentEntityRendererMixin"
   ],

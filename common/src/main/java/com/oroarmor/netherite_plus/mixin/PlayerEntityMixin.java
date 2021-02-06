@@ -1,5 +1,6 @@
 package com.oroarmor.netherite_plus.mixin;
 
+import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 import com.oroarmor.netherite_plus.stat.NetheritePlusStats;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,11 +16,11 @@ import net.minecraft.util.math.MathHelper;
 public class PlayerEntityMixin {
     @Inject(method = "increaseTravelMotionStats", at = @At("RETURN"))
     private void increaseTravelMotionStats(double dx, double dy, double dz, CallbackInfo info) {
-        if (!((PlayerEntity) (Object) this).hasVehicle()) {
+        if (NetheritePlusConfig.ENABLED.ENABLED_ELYTRA.getValue() && !((PlayerEntity) (Object) this).hasVehicle()) {
             if (((PlayerEntity) (Object) this).isFallFlying()) {
                 boolean hasNetheriteElytra = false;
                 for (ItemStack item : ((PlayerEntity) (Object) this).getArmorItems()) {
-                    hasNetheriteElytra |= item.getItem() == NetheritePlusItems.NETHERITE_ELYTRA;
+                    hasNetheriteElytra |= item.getItem() == NetheritePlusItems.NETHERITE_ELYTRA.get();
                 }
                 if (!hasNetheriteElytra) {
                     return;

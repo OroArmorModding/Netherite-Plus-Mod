@@ -3,6 +3,7 @@ package com.oroarmor.netherite_plus.mixin.render;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.oroarmor.netherite_plus.client.NetheritePlusClientMod;
+import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.entity.effect.NetheritePlusStatusEffects;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -30,7 +31,7 @@ public class BackgroundRendererMixin {
         if (fluidState.isIn(FluidTags.LAVA)) {
             float s;
             float v;
-            if (entity instanceof LivingEntity && ((LivingEntity) entity).hasStatusEffect(NetheritePlusStatusEffects.LAVA_VISION.get())) {
+            if (entity instanceof LivingEntity && NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue() && ((LivingEntity) entity).hasStatusEffect(NetheritePlusStatusEffects.LAVA_VISION.get())) {
                 s = 0.0F;
                 v = (float) (3.0F + NetheritePlusClientMod.LAVA_VISION_DISTANCE * ((LivingEntity) entity).getStatusEffect(NetheritePlusStatusEffects.LAVA_VISION.get()).getAmplifier());
             } else if (entity instanceof LivingEntity && ((LivingEntity) entity).hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) {

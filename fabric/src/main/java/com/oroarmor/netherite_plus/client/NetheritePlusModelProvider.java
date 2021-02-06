@@ -78,7 +78,6 @@ public class NetheritePlusModelProvider {
 	}
 
 	public static void registerItemsWithModelProvider() {
-
 		if (NetheritePlusConfig.ENABLED.ENABLED_ELYTRA.getValue()) {
 			registerElytraModels();
 		}

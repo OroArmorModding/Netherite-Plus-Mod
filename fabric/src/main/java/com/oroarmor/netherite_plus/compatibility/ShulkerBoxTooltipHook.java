@@ -8,6 +8,7 @@ import net.minecraft.util.Util;
 import com.misterpemodder.shulkerboxtooltip.api.ShulkerBoxTooltipApi;
 import com.misterpemodder.shulkerboxtooltip.api.provider.PreviewProvider;
 import com.oroarmor.netherite_plus.compatibility.shulkerboxtooltip.NetheriteShulkerBoxPreviewProvider;
+import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 
 public class ShulkerBoxTooltipHook implements ShulkerBoxTooltipApi {
@@ -19,7 +20,11 @@ public class ShulkerBoxTooltipHook implements ShulkerBoxTooltipApi {
 
 	@Override
 	public void registerProviders(Map<PreviewProvider, List<Item>> previewProviders) {
-		previewProviders.put(new NetheriteShulkerBoxPreviewProvider(), Util.make(new ArrayList<Item>(), items -> {
+		if(!NetheritePlusConfig.ENABLED.ENABLED_SHULKER_BOXES.getValue()) {
+			return;
+		}
+
+		previewProviders.put(new NetheriteShulkerBoxPreviewProvider(), Util.make(new ArrayList<>(), items -> {
 			items.add(NetheritePlusItems.NETHERITE_SHULKER_BOX.get());
 			items.add(NetheritePlusItems.NETHERITE_WHITE_SHULKER_BOX.get());
 			items.add(NetheritePlusItems.NETHERITE_ORANGE_SHULKER_BOX.get());

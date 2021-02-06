@@ -2,6 +2,7 @@ package com.oroarmor.netherite_plus.mixin;
 
 import com.oroarmor.netherite_plus.block.NetheritePlusBlocks;
 import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
+import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -33,7 +34,7 @@ public class CauldronBlockMixin {
         int i = state.get(CauldronBlock.LEVEL);
         Block block = ((BlockItem) itemStack.getItem()).getBlock();
 
-        if (block instanceof NetheriteShulkerBoxBlock && !world.isClient() && i > 0) {
+        if (NetheritePlusConfig.ENABLED.ENABLED_SHULKER_BOXES.getValue() && block instanceof NetheriteShulkerBoxBlock && !world.isClient() && i > 0) {
             ItemStack itemStack5 = new ItemStack(NetheritePlusBlocks.NETHERITE_SHULKER_BOX.get(), 1);
             if (itemStack.hasTag()) {
                 itemStack5.setTag(itemStack.getTag().copy());
