@@ -1,6 +1,7 @@
 package com.oroarmor.netherite_plus.mixin.render;
 
 import com.oroarmor.netherite_plus.client.render.item.NetheriteTridentItemRenderer;
+import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,7 +25,7 @@ import static com.oroarmor.netherite_plus.NetheritePlusMod.MOD_ID;
 public abstract class ItemRendererMixin {
     @Inject(method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/render/model/BakedModel;)V", at = @At(value = "HEAD"), cancellable = true)
     public void renderItem(ItemStack stack, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel model, CallbackInfo info) {
-        if (!stack.isEmpty() && stack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT.get()) {
+        if (!stack.isEmpty() && NetheritePlusConfig.ENABLED.ENABLED_TRIDENT.getValue() && stack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT.get()) {
             matrices.push();
             boolean bl = renderMode == ModelTransformation.Mode.GUI || renderMode == ModelTransformation.Mode.GROUND || renderMode == ModelTransformation.Mode.FIXED;
             if (stack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT.get() && bl) {

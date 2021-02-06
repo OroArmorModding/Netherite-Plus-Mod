@@ -1,5 +1,6 @@
 package com.oroarmor.netherite_plus.mixin.render;
 
+import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,6 +16,6 @@ import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 public class TridentEntityRendererMixin {
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/TridentEntityRenderer;getTexture(Lnet/minecraft/entity/projectile/TridentEntity;)Lnet/minecraft/util/Identifier;"))
     public Identifier getTextureMixin(TridentEntityRenderer renderer, TridentEntity entity) {
-        return entity.tridentStack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT.get() ? id("textures/entity/netherite_trident.png") : TridentEntityRenderer.TEXTURE;
+        return NetheritePlusConfig.ENABLED.ENABLED_TRIDENT.getValue() && entity.tridentStack.getItem() == NetheritePlusItems.NETHERITE_TRIDENT.get() ? id("textures/entity/netherite_trident.png") : TridentEntityRenderer.TEXTURE;
     }
 }
