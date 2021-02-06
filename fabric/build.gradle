@@ -230,7 +230,7 @@ curseforge {
             addGameVersion "Java 8"
             addGameVersion "Fabric"
             changelogType = "html"
-            changelog = System.getenv("RELEASE_LOG")
+            changelog = rootProject.ext.releaseChangelog
             relations {
                 requiredDependency "fabric-api"
             }
@@ -255,8 +255,15 @@ task modrinthFabric (type: TaskModrinthUpload){
     projectId = 'MlaM22M4'
     versionNumber = project.version + " - Fabric"
     uploadFile = remapJar.archivePath // This is the java jar task
-    changelog = System.getenv("RELEASE_LOG")
+    changelog = rootProject.ext.releaseChangelog
     addGameVersion('1.16.4')
     addGameVersion('1.16.5')
     addLoader('fabric')
+
+    doLast {
+        if (wasUploadSuccessful()) {
+            rootProject.ext.fabricModrinthDownloadLink = "https://modrinth.com/mod/netherite-plus-mod/version/$uploadInfo.id"
+            sendDiscordWebhook()
+        }
+    }
 }
