@@ -1,5 +1,5 @@
 {
-  "parent": "item/crossbow",
+  "parent": "netherite_plus:item/crossbow",
   "textures": {
     "layer0": "netherite_plus:item/netherite_crossbow_pulling_1"
   }
