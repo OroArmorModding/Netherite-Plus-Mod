@@ -2,6 +2,7 @@ package com.oroarmor.netherite_plus.item;
 
 import java.util.List;
 import com.oroarmor.netherite_plus.compatibility.NetheritePlusTrinketsRenderer;
+import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import dev.emi.trinkets.api.Slots;
 import dev.emi.trinkets.api.Trinket;
 import dev.emi.trinkets.api.TrinketItem;
@@ -42,12 +43,12 @@ public class NetheriteElytraItem_Trinkets extends NetheriteElytraItem implements
 
 	@Override
 	public void onEquip(PlayerEntity player, ItemStack stack) {
-		player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).setBaseValue(4 + player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).getBaseValue());
+		player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).setBaseValue(NetheritePlusConfig.DAMAGE.ELYTRA_ARMOR_POINTS.getValue() + player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).getBaseValue());
 	}
 
 	@Override
 	public void onUnequip(PlayerEntity player, ItemStack stack) {
-		player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).setBaseValue(-4 + player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).getBaseValue());
+		player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).setBaseValue(-NetheritePlusConfig.DAMAGE.ELYTRA_ARMOR_POINTS.getValue() + player.getAttributes().getCustomInstance(EntityAttributes.GENERIC_ARMOR).getBaseValue());
 	}
 
 	@Environment(EnvType.CLIENT)

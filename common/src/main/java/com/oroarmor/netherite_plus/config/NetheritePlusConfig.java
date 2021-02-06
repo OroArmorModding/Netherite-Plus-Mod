@@ -54,8 +54,9 @@ public final class NetheritePlusConfig extends Config {
         public static final ConfigItem<Double> CROSSBOW_DAMAGE_MULTIPLIER = new ConfigItem<>("crossbow_damage_multiplier", 1d, "config.netherite_plus.damage.crossbow_damage_multiplier");
         public static final ConfigItem<Double> TRIDENT_DAMAGE_ADDITION = new ConfigItem<>("trident_damage_addition", 0d, "config.netherite_plus.damage.trident_damage_addition");
         public static final ConfigItem<Double> TRIDENT_DAMAGE_MULTIPLIER = new ConfigItem<>("trident_damage_multiplier", 1d, "config.netherite_plus.damage.trident_damage_multiplier");
+        public static final ConfigItem<Integer> ELYTRA_ARMOR_POINTS = new ConfigItem("elytra_armor_points", 4, "config.netherite_plus.damage.elytra_armor_points");
 
-        public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(BOW_DAMAGE_ADDITION, BOW_DAMAGE_MULTIPLIER, CROSSBOW_DAMAGE_ADDITION, CROSSBOW_DAMAGE_MULTIPLIER, TRIDENT_DAMAGE_ADDITION, TRIDENT_DAMAGE_MULTIPLIER);
+        public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(BOW_DAMAGE_ADDITION, BOW_DAMAGE_MULTIPLIER, CROSSBOW_DAMAGE_ADDITION, CROSSBOW_DAMAGE_MULTIPLIER, TRIDENT_DAMAGE_ADDITION, TRIDENT_DAMAGE_MULTIPLIER, ELYTRA_ARMOR_POINTS);
 
         public DAMAGE() {
             super(OPTIONS, "damage");

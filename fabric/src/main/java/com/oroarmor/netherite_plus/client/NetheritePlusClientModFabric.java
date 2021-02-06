@@ -35,8 +35,8 @@ public class NetheritePlusClientModFabric implements ClientModInitializer {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void onInitializeClient() {
-		BlockEntityRendererRegistry.INSTANCE.register((BlockEntityType<NetheriteShulkerBoxBlockEntity>) NetheritePlusBlocks.NETHERITE_SHULKER_BOX_ENTITY.get(), NetheriteShulkerBoxBlockEntityRenderer::new);
-		BlockEntityRendererRegistry.INSTANCE.register((BlockEntityType<NetheriteBeaconBlockEntity>) NetheritePlusBlocks.NETHERITE_BEACON_BLOCK_ENTITY.get(), NetheriteBeaconBlockEntityRenderer::new);
+		if(NetheritePlusConfig.ENABLED.ENABLED_SHULKER_BOXES.getValue()) BlockEntityRendererRegistry.INSTANCE.register((BlockEntityType<NetheriteShulkerBoxBlockEntity>) NetheritePlusBlocks.NETHERITE_SHULKER_BOX_ENTITY.get(), NetheriteShulkerBoxBlockEntityRenderer::new);
+		if(NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue()) BlockEntityRendererRegistry.INSTANCE.register((BlockEntityType<NetheriteBeaconBlockEntity>) NetheritePlusBlocks.NETHERITE_BEACON_BLOCK_ENTITY.get(), NetheriteBeaconBlockEntityRenderer::new);
 
 		NetheritePlusClientMod.init();
 		NetheritePlusTexturesFabric.register();

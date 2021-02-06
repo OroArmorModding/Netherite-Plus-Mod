@@ -95,7 +95,7 @@ dependencies {
     modCompile "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_version}"
 
     //Libraries
-    includeLibraries(['com.oroarmor:oro-config:1.1.0',
+    includeLibraries(['com.oroarmor:oro-config:1.2.0',
                       'com.oroarmor:Multi-Item-Lib:1.1.1'])
 
     runAndCompile(["net.kyrptonaught:quickshulker:${project.quickshulker}",
