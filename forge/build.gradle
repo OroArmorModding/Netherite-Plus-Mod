@@ -137,7 +137,7 @@ curseforge {
             addGameVersion "Java 8"
             addGameVersion "Forge"
             changelogType = "html"
-            changelog = System.getenv("RELEASE_LOG")
+            changelog = rootProject.ext.releaseChangelog
             relations {
                 requiredDependency "architectury-forge"
             }
@@ -162,8 +162,14 @@ task modrinthForge (type: TaskModrinthUpload){
     projectId = 'MlaM22M4'
     versionNumber = project.version + " - Forge"
     uploadFile = remapJar.archivePath // This is the java jar task
-    changelog = System.getenv("RELEASE_LOG")
+    changelog = rootProject.ext.releaseChangelog
     addGameVersion('1.16.4')
     addGameVersion('1.16.5')
     addLoader('forge')
+    doLast {
+        if (wasUploadSuccessful()) {
+            rootProject.ext.forgeModrinthDownloadLink = "https://modrinth.com/mod/netherite-plus-mod/version/$uploadInfo.id"
+            sendDiscordWebhook()
+        }
+    }
 }
