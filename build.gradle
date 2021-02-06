@@ -120,6 +120,8 @@ task generateChangelog {
         releaseChangelog = "No Changelog Available"
     }
     println releaseChangelog
+
+    outputs.upToDateWhen { false }
 }
 
 ext.createDiscordChangelog = { fullChangelogUrl ->

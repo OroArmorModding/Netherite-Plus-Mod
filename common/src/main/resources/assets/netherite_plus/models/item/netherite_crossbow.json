@@ -1,5 +1,5 @@
 {
-  "parent": "item/generated",
+  "parent": "minecraft:item/crossbow",
   "textures": {
     "layer0": "netherite_plus:item/netherite_crossbow_standby"
   },
