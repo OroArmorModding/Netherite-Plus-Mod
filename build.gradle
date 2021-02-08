@@ -71,7 +71,7 @@ task publishToModrinth {
 }
 
 def getLastVersion() {
-    def versions = Arrays.stream((project.mod_version + "").split("\\.")).map({s -> Integer.parseInt(s)}).collect(Collectors.toList())
+    def versions = Arrays.stream((project.mod_version + "").split("\\.")).map({ s -> Integer.parseInt(s) }).collect(Collectors.toList())
     if (versions.get(2) != 0) {
         return versions.get(0) + "." + versions.get(1) + "." + (versions.get(2) - 1)
     }
@@ -88,7 +88,7 @@ task generateChangelog {
 
     def lastTag = getLastVersion()
     def currentTag = project.mod_version
-    def commits = "git log --max-count=100 --pretty=format:\"- %s\" $lastTag..$currentTag".execute()
+    def commits = "git log --max-count=100 --pretty=format:%s $lastTag..$currentTag".execute()
     println "Last version: $lastTag"
     println "Current version: $currentTag"
 
@@ -102,14 +102,12 @@ task generateChangelog {
         }
         println "Reading line: $processedLine"
 
-        if (processedLine.startsWith("- ")) {
-            println "Adding changelog line:"
-            println "  $processedLine"
-            if (changes.length() == 0) {
-                changes << processedLine
-            } else {
-                changes << "\n$processedLine"
-            }
+        println "Adding changelog line:"
+        println "  $processedLine"
+        if (changes.length() == 0) {
+            changes << processedLine
+        } else {
+            changes << "\n$processedLine"
         }
     }
     commits.err.eachLine { line -> println line }
@@ -159,8 +157,8 @@ void sendDiscordWebhook() {
         def discordChangelog = createDiscordChangelog(release_url)
 
         def result = DiscordBuilder.createForm {
-                avatar_url = "https://raw.githubusercontent.com/OroArmor/Netherite-Plus-Mod/fcc51b4f3bad7004dcf7a8d00ffccfe4e34bf612/common/src/main/resources/assets/netherite_plus/icon.png"
-                username = project.project_name
+            avatar_url = "https://raw.githubusercontent.com/OroArmor/Netherite-Plus-Mod/fcc51b4f3bad7004dcf7a8d00ffccfe4e34bf612/common/src/main/resources/assets/netherite_plus/icon.png"
+            username = project.project_name
             embed {
                 author {
                     name = project.project_name
