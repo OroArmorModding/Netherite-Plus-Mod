@@ -40,6 +40,12 @@ repositories {
     maven {
         url = "http://maven.terraformersmc.com/releases/"
     }
+    maven {
+        url "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -55,6 +61,7 @@ def runAndCompile(List<String> mods, boolean run) {
             if (run) {
                 modRuntime (it) {
                     exclude(module: "modmenu")
+                    exclude(module: "fabric-api")
                 }
             }
         }
@@ -66,9 +73,11 @@ def includeLibraries(List<String> libraries) {
         libraries.each {
             modImplementation (it) {
                 exclude(module: "modmenu")
+                exclude(module: "fabric-api")
             }
             include (it) {
                 exclude(module: "modmenu")
+                exclude(module: "fabric-api")
             }
         }
     }
@@ -79,6 +88,7 @@ def runAlways(List<String> mods) {
         mods.each {
             modRuntime (it) {
                 exclude(module: "modmenu")
+                exclude(module: "fabric-api")
             }
         }
     }
@@ -100,9 +110,13 @@ dependencies {
 
     runAndCompile(["net.kyrptonaught:quickshulker:${project.quickshulker}",
                    "com.github.emilyploszaj:trinkets:${project.trinkets}",
-                   "com.misterpemodder:shulkerboxtooltip:${project.shulkerboxtooltip}+"+/*${project.minecraft_version}*/"1.16.4"], false)
+                   "com.misterpemodder:shulkerboxtooltip:${project.shulkerboxtooltip}+"+/*${project.minecraft_version}*/"1.16.4",
+                    "curse.maven:betterend-413596:3168267"
+    ], true)
 
-    modCompile "io.github.prospector:modmenu:${project.modmenu}"
+    modCompile("io.github.prospector:modmenu:${project.modmenu}") {
+        exclude(module: "fabric-api")
+    }
 
     runAlways(["me.shedaniel:RoughlyEnoughItems:${project.rei}"])
 

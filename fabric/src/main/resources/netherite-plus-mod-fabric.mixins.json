@@ -10,6 +10,7 @@
   ],
   "client": [
   ],
+  "plugin": "com.oroarmor.netherite_plus.mixin.better_end.BetterEndMixinCompatibility",
   "injectors": {
     "defaultRequire": 1
   }
