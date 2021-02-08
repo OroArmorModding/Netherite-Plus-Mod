@@ -67,9 +67,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
     }
 
     private FishingBobberEntity.PositionType getPositionType(BlockPos start, BlockPos end) {
-        return BlockPos.stream(start, end).map(this::getPositionType).reduce((positionType, positionType2) -> {
-            return positionType == positionType2 ? positionType : FishingBobberEntity.PositionType.INVALID;
-        }).orElse(FishingBobberEntity.PositionType.INVALID);
+        return BlockPos.stream(start, end).map(this::getPositionType).reduce((positionType, positionType2) -> positionType == positionType2 ? positionType : PositionType.INVALID).orElse(FishingBobberEntity.PositionType.INVALID);
     }
 
     @Override
@@ -122,6 +120,15 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 
     @Override
     public void tick() {
+        BlockPos blockPos = getBlockPos();
+        FluidState fluidState = world.getFluidState(blockPos);
+        if (fluidState.isIn(FluidTags.WATER)) {
+            System.out.println("super tick");
+            super.tick();
+            return;
+        }
+
+
         velocityRandom.setSeed(getUuid().getLeastSignificantBits() ^ world.getTime());
 
         if (!leftOwner) {
@@ -149,8 +156,6 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
             }
 
             float fluidHeight = 0.0F;
-            BlockPos blockPos = getBlockPos();
-            FluidState fluidState = world.getFluidState(blockPos);
             if (fluidState.isIn(FluidTags.LAVA)) {
                 fluidHeight = fluidState.getHeight(world, blockPos);
             }
@@ -316,6 +321,12 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 
     @Override
     public int use(ItemStack usedItem) {
+        BlockPos blockPos = getBlockPos();
+        FluidState fluidState = world.getFluidState(blockPos);
+        if (fluidState.isIn(FluidTags.WATER)) {
+            return super.use(usedItem);
+        }
+
         PlayerEntity playerEntity = getPlayerOwner();
         if (!world.isClient && playerEntity != null) {
             int i = 0;
@@ -328,10 +339,8 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
                 LootTable lootTable = world.getServer().getLootManager().getTable(LAVA_FISHING_LOOT_TABLE);
                 List<ItemStack> list = lootTable.generateLoot(builder.build(LootContextTypes.FISHING));
                 Criteria.FISHING_ROD_HOOKED.trigger((ServerPlayerEntity) playerEntity, usedItem, this, list);
-                Iterator<ItemStack> var7 = list.iterator();
 
-                while (var7.hasNext()) {
-                    ItemStack itemStack = var7.next();
+                for (ItemStack itemStack : list) {
                     ItemEntity itemEntity = new ItemEntity(world, getX(), getY(), getZ(), itemStack);
                     double d = playerEntity.getX() - getX();
                     double e = playerEntity.getY() - getY();
@@ -356,5 +365,4 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
             return 0;
         }
     }
-
 }
