@@ -4,6 +4,7 @@
   "package": "com.oroarmor.netherite_plus.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "FishingBobberEntityMixin",
     "ShulkerBoxBlockEntityMixin",
     "ShulkerBoxSlotMixin"
   ],
