@@ -3,9 +3,8 @@ package com.oroarmor.netherite_plus.item;
 import java.util.List;
 import com.oroarmor.netherite_plus.compatibility.NetheritePlusTrinketsRenderer;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
-import dev.emi.trinkets.api.Slots;
-import dev.emi.trinkets.api.Trinket;
-import dev.emi.trinkets.api.TrinketItem;
+import dev.emi.trinkets.api.*;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.DispenserBlock;
@@ -54,13 +53,11 @@ public class NetheriteElytraItem_Trinkets extends NetheriteElytraItem implements
 	@Environment(EnvType.CLIENT)
 	@Override
 	public void render(String slot, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, PlayerEntityModel<AbstractClientPlayerEntity> model, AbstractClientPlayerEntity livingEntity, float headYaw, float headPitch) {
-
-		NetheritePlusTrinketsRenderer.renderTrinketsElytra(matrixStack, vertexConsumerProvider, light, livingEntity, this);
+		NetheritePlusTrinketsRenderer.renderTrinketsElytra(matrixStack, vertexConsumerProvider, light, livingEntity, TrinketsApi.getTrinketComponent(livingEntity).getStack(slot));
 	}
 
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
 		return Trinket.equipTrinket(player, hand);
 	}
-
 }
