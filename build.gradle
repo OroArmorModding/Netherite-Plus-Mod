@@ -88,7 +88,7 @@ task generateChangelog {
 
     def lastTag = getLastVersion()
     def currentTag = project.mod_version
-    def commits = "git log --max-count=100 --pretty=format:%s $lastTag..$currentTag".execute()
+    def commits = "git log --max-count=100 --pretty=format:\"%B\" $lastTag..$currentTag".execute()
     println "Last version: $lastTag"
     println "Current version: $currentTag"
 
@@ -104,10 +104,11 @@ task generateChangelog {
 
         println "Adding changelog line:"
         println "  $processedLine"
-        if (changes.length() == 0) {
+        if (changes.length() == 1) {
             changes << processedLine
         } else {
-            changes << "\n$processedLine"
+            if(processedLine.trim() != "")
+                changes << "\n - $processedLine"
         }
     }
     commits.err.eachLine { line -> println line }
