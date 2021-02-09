@@ -23,10 +23,15 @@ public class BetterEndMixinCompatibility implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
+        if(!FabricLoader.getInstance().isModLoaded("betterend")) {
+            return false;
+        }
+
         if (mixinClassName.equals("com.oroarmor.netherite_plus.mixin.better_end.NetheriteAnvilScreenMixin")) {
             return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
         }
-        return false;
+
+        return true;
     }
 
     @Override
