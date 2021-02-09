@@ -112,7 +112,7 @@ dependencies {
                    "com.github.emilyploszaj:trinkets:${project.trinkets}",
                    "com.misterpemodder:shulkerboxtooltip:${project.shulkerboxtooltip}+"+/*${project.minecraft_version}*/"1.16.4",
                     "curse.maven:betterend-413596:3168267"
-    ], true)
+    ], false)
 
     modCompile("io.github.prospector:modmenu:${project.modmenu}") {
         exclude(module: "fabric-api")

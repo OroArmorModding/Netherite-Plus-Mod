@@ -107,8 +107,8 @@ task generateChangelog {
         if (changes.length() == 1) {
             changes << processedLine
         } else {
-            if(processedLine.trim() != "")
-                changes << "\n - $processedLine"
+            if(processedLine.trim() != "" && processedLine.startsWith("-"))
+                changes << "\n$processedLine"
         }
     }
     commits.err.eachLine { line -> println line }
