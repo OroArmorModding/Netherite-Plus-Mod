@@ -41,8 +41,12 @@ public class BetterEndMixinCompatibility implements IMixinConfigPlugin {
     @Override
     public List<String> getMixins() {
         return new ArrayList<String>() {{
-            this.add("better_end.NetheriteAnvilScreenHandlerMixin");
-            this.add("better_end.NetheriteAnvilScreenMixin");
+            if(FabricLoader.getInstance().isModLoaded("betterend")) {
+                this.add("better_end.NetheriteAnvilScreenHandlerMixin");
+                if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+                    this.add("better_end.NetheriteAnvilScreenMixin");
+                }
+            }
         }};
     }
 
