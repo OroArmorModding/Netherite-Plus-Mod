@@ -19,18 +19,15 @@ repositories {
 }
 
 loom {
-    mixinConfigs = ["netherite_plus.mixins.json", "multi-item-lib.mixins.json"]
+    mixinConfigs = ["netherite_plus.mixins.json", "multi-item-lib.mixins.json", "netherite-plus-forge.mixins.json"]
     useFabricMixin = true
 }
-
-//minecraft {
-//    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-//}
 
 dependencies {
     minecraft("com.mojang:minecraft:${rootProject.architectury.minecraft}")
     mappings("net.fabricmc:yarn:${rootProject.mappings}:v2")
     forge("net.minecraftforge:forge:${rootProject.architectury.minecraft}-${rootProject.forge_version}")
+
     modCompile("me.shedaniel:architectury:${rootProject.architectury_version}:forge") {
         exclude(module: "fabric-loader")
     }

@@ -24,8 +24,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
-    private final Property levelCost;
-    private int repairItemUsage;
+    public final Property levelCost;
+    public int repairItemUsage;
     private String newItemName;
 
     public NetheriteAnvilScreenHandler(int syncId, PlayerInventory inventory) {
@@ -188,10 +188,7 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
                             bl4 = true;
                         }
 
-                        Iterator<Enchantment> var17 = map.keySet().iterator();
-
-                        while (var17.hasNext()) {
-                            Enchantment enchantment2 = var17.next();
+                        for (Enchantment enchantment2 : map.keySet()) {
                             if (enchantment2 != enchantment && !enchantment.canCombine(enchantment2)) {
                                 bl4 = false;
                                 ++i;
