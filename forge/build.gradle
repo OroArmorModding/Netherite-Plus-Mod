@@ -13,6 +13,7 @@ architectury {
 }
 
 repositories {
+    mavenCentral()
     maven {
         url = "https://dl.bintray.com/oroarmor/oroarmor"
     }
@@ -32,10 +33,10 @@ dependencies {
         exclude(module: "fabric-loader")
     }
 
-    compile('com.oroarmor:oro-config:1.2.0') {
+    modCompile('com.oroarmor:oro-config-fabric:2.0.0') {
         exclude(module: "fabric-loader")
     }
-    shadow('com.oroarmor:oro-config:1.2.0') {
+    shadow('com.oroarmor:oro-config-forge:2.0.0') {
         exclude(module: "fabric-loader")
         exclude(module: "modmenu")
         exclude(module: "config-2")
