@@ -5,7 +5,9 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "NetheriteAnvilScreenHandlerMixin",
-    "NetheriteElytraMixin"
+    "NetheriteElytraMixin",
+    "ShulkerBoxBlockEntityMixin",
+    "ShulkerBoxSlotMixin"
   ],
   "client": [
   ],
