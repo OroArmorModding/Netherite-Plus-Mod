@@ -2,11 +2,9 @@ package com.oroarmor.netherite_plus.mixin;
 
 import java.util.Map;
 
-import com.oroarmor.netherite_plus.client.gui.screen.NetheriteAnvilScreen;
 import com.oroarmor.netherite_plus.screen.NetheriteAnvilScreenHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import org.spongepowered.asm.mixin.Mixin;
