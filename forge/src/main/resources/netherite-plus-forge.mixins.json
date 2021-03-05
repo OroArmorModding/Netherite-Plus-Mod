@@ -4,7 +4,8 @@
   "package": "com.oroarmor.netherite_plus.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "NetheriteAnvilScreenHandlerMixin"
+    "NetheriteAnvilScreenHandlerMixin",
+    "NetheriteElytraMixin"
   ],
   "client": [
   ],

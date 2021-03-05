@@ -1,4 +1,4 @@
-package com.oroarmor.netherite_plus.mixin.better_end;
+package com.oroarmor.netherite_plus.mixin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 
-public class BetterEndMixinCompatibility implements IMixinConfigPlugin {
+public class NetheritePlusMixinPlugin implements IMixinConfigPlugin {
     @Override
     public void onLoad(String mixinPackage) {
     }
@@ -23,14 +23,6 @@ public class BetterEndMixinCompatibility implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        if(!FabricLoader.getInstance().isModLoaded("betterend")) {
-            return false;
-        }
-
-        if (mixinClassName.equals("com.oroarmor.netherite_plus.mixin.better_end.NetheriteAnvilScreenMixin")) {
-            return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
-        }
-
         return true;
     }
 
@@ -46,6 +38,9 @@ public class BetterEndMixinCompatibility implements IMixinConfigPlugin {
                 if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
                     this.add("better_end.NetheriteAnvilScreenMixin");
                 }
+            }
+            if(FabricLoader.getInstance().isModLoaded("trinkets")) {
+                this.add("trinkets.NetheriteElytraMixin");
             }
         }};
     }

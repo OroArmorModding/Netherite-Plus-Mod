@@ -4,13 +4,12 @@
   "package": "com.oroarmor.netherite_plus.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "FishingBobberEntityMixin",
     "ShulkerBoxBlockEntityMixin",
     "ShulkerBoxSlotMixin"
   ],
   "client": [
   ],
-  "plugin": "com.oroarmor.netherite_plus.mixin.better_end.BetterEndMixinCompatibility",
+  "plugin": "com.oroarmor.netherite_plus.mixin.NetheritePlusMixinPlugin",
   "injectors": {
     "defaultRequire": 1
   }

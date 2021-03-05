@@ -82,7 +82,7 @@ public final class NetheritePlusItems {
     private static void registerElytra() {
         Item.Settings elytraSettings = new Item.Settings().maxDamage(NetheritePlusConfig.DURABILITIES.ELYTRA_DURABILITY.getValue()).group(ItemGroup.TRANSPORTATION).rarity(Rarity.UNCOMMON).fireproof();
 
-        NETHERITE_ELYTRA = register(id("netherite_elytra"), () -> NetheritePlusModPlatform.getElytraItem(elytraSettings));
+        NETHERITE_ELYTRA = register(id("netherite_elytra"), () -> new NetheriteElytraItem(elytraSettings));
     }
 
     private static void registerFishingRod() {
