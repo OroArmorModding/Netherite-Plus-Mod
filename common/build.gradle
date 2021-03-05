@@ -1,4 +1,5 @@
 repositories {
+    mavenCentral()
     maven {
         url = "https://dl.bintray.com/oroarmor/oroarmor"
     }
@@ -19,16 +20,11 @@ dependencies {
         exclude(module: "fabric-api")
     }
 
-    modCompile('com.oroarmor:oro-config:1.1.0') {
+    modCompile('com.oroarmor:oro-config-common:2.0.0') {
         exclude(module: "fabric-loader")
     }
 
-    include('com.oroarmor:oro-config:1.1.0') {
-        exclude(module: "fabric-loader")
-    }
-
-
-    modCompile('com.oroarmor:Multi-Item-Lib:1.1.1') {
+    modCompile('com.oroarmor:Multi-Item-Lib:1.2.0') {
         exclude(module: "fabric-api")
         exclude(module: "fabric-loader")
     }

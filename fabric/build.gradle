@@ -16,7 +16,7 @@ architectury {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
     maven {
         name = "Fabric"
         url = "https://maven.fabricmc.net/"
@@ -105,16 +105,17 @@ dependencies {
     modCompile "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_version}"
 
     //Libraries
-    includeLibraries(['com.oroarmor:oro-config:1.2.0',
-                      'com.oroarmor:Multi-Item-Lib:1.1.1'])
+    includeLibraries(['com.oroarmor:oro-config-fabric:2.0.0',
+                      'com.oroarmor:Multi-Item-Lib:1.2.0'])
 
     runAndCompile(["net.kyrptonaught:quickshulker:${project.quickshulker}",
                    "com.github.emilyploszaj:trinkets:${project.trinkets}",
                    "com.misterpemodder:shulkerboxtooltip:${project.shulkerboxtooltip}+"+/*${project.minecraft_version}*/"1.16.4",
-                    "curse.maven:betterend-413596:3168267"
-    ], false)
+    ], true)
 
-    modCompile("io.github.prospector:modmenu:${project.modmenu}") {
+    modCompileOnly "curse.maven:betterend-413596:3203464"
+
+    modCompile("com.terraformersmc:modmenu:${project.modmenu}") {
         exclude(module: "fabric-api")
     }
 
