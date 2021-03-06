@@ -38,6 +38,8 @@ ext.fabricModrinthDownloadLink = null
 ext.forgeModrinthDownloadLink = null
 ext.githubDownloadLink = null
 
+ext.releaseType = "patch"
+
 architectury {
     minecraft = rootProject.minecraft_version
 }
@@ -77,9 +79,11 @@ def getLastVersion() {
     }
 
     if (versions.get(1) != 0) {
+        releaseType = "minor"
         return versions.get(0) + "." + (versions.get(1) - 1) + "." + versions.get(2)
     }
 
+    releaseType = "major"
     return (versions.get(0) - 1) + "." + versions.get(1) + "." + versions.get(2)
 }
 
@@ -88,9 +92,17 @@ task generateChangelog {
 
     def lastTag = getLastVersion()
     def currentTag = project.mod_version
-    def commits = "git log --max-count=100 --pretty=format:\"%B\" $lastTag..$currentTag".execute()
+    def commits = "git log --max-count=100 --pretty=format:\"- %B\" $lastTag..$currentTag".execute()
     println "Last version: $lastTag"
     println "Current version: $currentTag"
+
+    if(releaseType == "minor") {
+        changes << "Minor Release of Netherite Plus:\n"
+        changes << "Changes Since ${lastTag}"
+    } else if(releaseType == "major") {
+        changes << "Major Release of Netherite Plus:\n"
+        changes << "Changes Since ${lastTag}"
+    }
 
     commits.in.eachLine { line -> // Loops over the lines the git log command returns
         def processedLine = line.toString()
@@ -100,6 +112,9 @@ task generateChangelog {
         if (processedLine.endsWith("\"")) {
             processedLine = processedLine.substring(0, processedLine.length() - 1)
         }
+        if(processedLine.startsWith("- -"))
+            processedLine = processedLine.substring(2).trim()
+
         println "Reading line: $processedLine"
 
         println "Adding changelog line:"
