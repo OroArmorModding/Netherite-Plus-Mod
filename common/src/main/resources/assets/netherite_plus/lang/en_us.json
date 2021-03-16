@@ -78,7 +78,7 @@
   "config.netherite_plus.anvil.xp_redcution": "XP Reduction in Netherite anvil",
   "config.netherite_plus.graphics": "Graphics Settings",
   "config.netherite_plus.graphics.lava_vision": "How far each level of lava vision gives",
-  "effect.minecraft.lava_vision": "Lava Vision",
+  "effect.netherite_plus.lava_vision": "Lava Vision",
   "command.netherite_plus.might_require_restart": "Changing some of these features might require a game restart, like enabling or disabling features",
   "advancements.netherite_plus.root.title": "Netherite Plus",
   "advancements.netherite_plus.root.description": "Get a Netherite Ingot",
