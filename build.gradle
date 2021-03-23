@@ -96,7 +96,7 @@ task generateChangelog {
     println "Last version: $lastTag"
     println "Current version: $currentTag"
 
-    if(releaseType == "minor") {
+    if (releaseType == "minor") {
         changes << "Minor Release of Netherite Plus:\n"
         changes << "Changes Since ${lastTag}"
     } else if(releaseType == "major") {
