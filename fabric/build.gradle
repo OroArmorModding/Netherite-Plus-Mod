@@ -93,6 +93,13 @@ def runAlways(List<String> mods) {
         }
     }
 }
+sourceSets {
+    main {
+        java {
+            exclude "com/oroarmor/netherite_plus/mixin/better_end"
+        }
+    }
+}
 
 dependencies {
 
@@ -113,7 +120,7 @@ dependencies {
                    "com.misterpemodder:shulkerboxtooltip:${project.shulkerboxtooltip}+"+/*${project.minecraft_version}*/"1.16.4",
     ], true)
 
-    modCompileOnly "curse.maven:betterend-413596:3203464"
+//    modCompileOnly "curse.maven:betterend-413596:3168267"
 
     modCompile("com.terraformersmc:modmenu:${project.modmenu}") {
         exclude(module: "fabric-api")
