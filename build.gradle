@@ -122,7 +122,7 @@ task generateChangelog {
         if (changes.length() == 1) {
             changes << processedLine
         } else {
-            if(processedLine.trim() != "" && processedLine.startsWith("-"))
+            if(processedLine.trim() != "" && processedLine.startsWith("-") && !processedLine.startsWith("- !"))
                 changes << "\n$processedLine"
         }
     }

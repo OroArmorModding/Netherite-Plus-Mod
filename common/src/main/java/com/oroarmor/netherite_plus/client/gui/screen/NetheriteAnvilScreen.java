@@ -116,7 +116,7 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
         nameField.setFocusUnlocked(false);
         nameField.setEditableColor(-1);
         nameField.setUneditableColor(-1);
-        nameField.setHasBorder(false);
+        nameField.setDrawsBackground(false);
         nameField.setMaxLength(35);
         nameField.setChangedListener(this::onRenamed);
         children.add(nameField);

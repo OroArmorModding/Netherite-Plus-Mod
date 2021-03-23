@@ -34,10 +34,10 @@ public class NetheritePlusMixinPlugin implements IMixinConfigPlugin {
     public List<String> getMixins() {
         return new ArrayList<String>() {{
             if(FabricLoader.getInstance().isModLoaded("betterend")) {
-                this.add("better_end.NetheriteAnvilScreenHandlerMixin");
-                if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
-                    this.add("better_end.NetheriteAnvilScreenMixin");
-                }
+//                this.add("better_end.NetheriteAnvilScreenHandlerMixin");
+//                if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+//                    this.add("better_end.NetheriteAnvilScreenMixin");
+//                }
             }
             if(FabricLoader.getInstance().isModLoaded("trinkets")) {
                 this.add("trinkets.NetheriteElytraMixin");
