@@ -13,7 +13,8 @@
     }
   },
   "result": {
-    "item": "netherite_plus:fake_netherite_block"
+    "item": "netherite_plus:fake_netherite_block",
+    "count" : 8
   },
   "type": "minecraft:crafting_shaped"
 }
