@@ -10,14 +10,18 @@ import com.oroarmor.netherite_plus.client.render.item.NetheriteShieldItemRendere
 import com.oroarmor.netherite_plus.client.render.item.NetheriteShulkerBoxItemRenderer;
 import com.oroarmor.netherite_plus.client.render.item.NetheriteTridentItemRenderer;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
+import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.LivingEntityFeatureRendererRegistrationCallback;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.LivingEntityFeatureRendererRegistrationCallback.RegistrationHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
+import net.fabricmc.loader.api.FabricLoader;
+
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
@@ -26,6 +30,7 @@ import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.text.TranslatableText;
 
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 import static com.oroarmor.netherite_plus.item.NetheritePlusItems.*;
@@ -83,5 +88,13 @@ public class NetheritePlusClientModFabric implements ClientModInitializer {
 		ClientPlayNetworking.registerGlobalReceiver(id("lava_vision_update"), (minecraft, listener, buf, sender) -> {
 			NetheritePlusClientMod.LAVA_VISION_DISTANCE = buf.getDouble(0);
 		});
+
+		if (FabricLoader.getInstance().isModLoaded("trinkets") && NetheritePlusConfig.ENABLED.ENABLED_ELYTRA.getValue()) {
+			ItemTooltipCallback.EVENT.register((stack, context, lines) -> {
+				if (stack.getItem() == NETHERITE_ELYTRA.get()) {
+					lines.add(new TranslatableText("warning.netherite_elytra.trinkets"));
+				}
+			});
+		}
 	}
 }
