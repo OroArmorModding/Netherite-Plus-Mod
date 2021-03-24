@@ -7,7 +7,7 @@
     issueTrackerURL="https://github.com/OroArmor/Netherite-Plus-Mod/issues/"
     # If the mods defined in this file should show as seperate resource packs
     showAsResourcePack=false
-    license="CCO-1.0"
+    license="MIT"
 
     [[mods]]
       modId="netherite_plus"
@@ -16,7 +16,7 @@
       displayURL="https://www.oroarmor.com/"
       logoFile="logo.png"
       credits="Ron for Textures"
-      authors="OroArmor"
+      authors="OroArmor, 1198159"
       description='''This mod adds extra netherite features that aren't vanillia. NOTE: Editing the config requires a game restart'''
 
       [[dependencies.netherite_plus]]
