@@ -98,7 +98,10 @@ task generateChangelog {
 
     def lastTag = getLastVersion()
     def currentTag = project.mod_version
-    def commits = "git log --max-count=100 --pretty=format:\"- %B\" $lastTag..$currentTag".execute()
+
+    def commitLog = System.getProperty("os.name").toLowerCase(Locale.ENGLISH).startsWith("windows") ? "B" : "b"
+
+    def commits = "git log --max-count=100 --pretty=format:%$commitLog $lastTag..$currentTag".execute()
     println "Last version: $lastTag"
     println "Current version: $currentTag"
 
@@ -128,7 +131,7 @@ task generateChangelog {
         if (changes.length() == 1) {
             changes << processedLine
         } else {
-            if(processedLine.trim() != "" && processedLine.startsWith("-") && !processedLine.startsWith("- !"))
+            if(processedLine.trim() != "")
                 changes << "\n$processedLine"
         }
     }
