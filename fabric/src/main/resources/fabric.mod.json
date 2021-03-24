@@ -3,7 +3,7 @@
   "id": "netherite_plus",
   "version": "${version}",
   "name": "Netherite Plus Mod",
-  "description": "This mod adds extra netherite features that aren't vanillia. \n\nNOTE: Editing the config requires a game restart",
+  "description": "This mod adds extra netherite features that aren't vanillia.\n\nNOTE: Editing the config requires a game restart",
   "authors": [
     "OroArmor",
     "1198159",
@@ -14,7 +14,7 @@
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/netherite-plus-mod",
     "issues": "https://github.com/OroArmor/Netherite-Plus-Mod/issues"
   },
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/netherite_plus/icon.png",
   "environment": "*",
   "entrypoints": {

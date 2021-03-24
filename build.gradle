@@ -26,6 +26,7 @@ plugins {
     id 'maven-publish'
     id "maven"
     id "com.modrinth.minotaur" version "1.1.0"
+    id 'org.cadixdev.licenser' version '0.5.0' apply false
 }
 
 apply plugin: GradleWebhookPlugin
@@ -48,6 +49,11 @@ subprojects {
     apply plugin: "forgified-fabric-loom"
     apply plugin: "architectury-plugin"
     apply plugin: 'maven-publish'
+    apply plugin: 'org.cadixdev.licenser'
+
+    license {
+        header = rootProject.file("LICENSE")
+    }
 }
 
 allprojects {
