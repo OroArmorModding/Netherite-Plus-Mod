@@ -21,14 +21,12 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 
 @Mixin(NetheriteElytraItem.class)
 public class NetheriteElytraMixin extends Item implements Trinket {
@@ -39,12 +37,6 @@ public class NetheriteElytraMixin extends Item implements Trinket {
     @Inject(method = "<init>", at = @At("TAIL"))
     public void init(Item.Settings settings, CallbackInfo info) {
         DispenserBlock.registerBehavior(this, TrinketItem.TRINKET_DISPENSER_BEHAVIOR);
-
-        ItemTooltipCallback.EVENT.register((stack, context, lines) -> {
-            if (stack.getItem() == this) {
-                lines.add(new TranslatableText("warning.netherite_elytra.trinkets"));
-            }
-        });
     }
 
     @Override
