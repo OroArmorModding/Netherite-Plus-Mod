@@ -77,7 +77,7 @@ public class ForgeNetheritePlusModClient {
         if (NetheritePlusConfig.ENABLED.ENABLED_SHULKER_BOXES.getValue())
             ClientRegistry.bindTileEntityRenderer((BlockEntityType<NetheriteShulkerBoxBlockEntity>) NetheritePlusBlocks.NETHERITE_SHULKER_BOX_ENTITY.get(), NetheriteShulkerBoxBlockEntityRenderer::new);
 
-        NetheritePlusModelProvider.registerItemsWithModelProvider();
+        NetheritePlusModelProviderForge.registerItemsWithModelProvider();
 
         if (NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue())
             BlockEntityRenderDispatcher.INSTANCE.setSpecialRendererInternal((BlockEntityType<NetheriteBeaconBlockEntity>) NetheritePlusBlocks.NETHERITE_BEACON_BLOCK_ENTITY.get(), new NetheriteBeaconBlockEntityRenderer(BlockEntityRenderDispatcher.INSTANCE));

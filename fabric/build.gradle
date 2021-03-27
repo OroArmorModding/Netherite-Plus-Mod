@@ -96,7 +96,7 @@ def runAlways(List<String> mods) {
 sourceSets {
     main {
         java {
-            exclude "com/oroarmor/netherite_plus/mixin/better_end"
+//            exclude "com/oroarmor/netherite_plus/mixin/better_end"
         }
     }
 }
@@ -120,7 +120,7 @@ dependencies {
                    "com.misterpemodder:shulkerboxtooltip:${project.shulkerboxtooltip}+"+/*${project.minecraft_version}*/"1.16.4",
     ], true)
 
-//    modCompileOnly "curse.maven:betterend-413596:3168267"
+    modCompileOnly "curse.maven:betterend-413596:3168267"
 
     modCompile("com.terraformersmc:modmenu:${project.modmenu}") {
         exclude(module: "fabric-api")
@@ -165,6 +165,8 @@ processResources {
 }
 
 shadowJar {
+    relocate "com.oroarmor.netherite_plus", "com.oroarmor.netherite_plus.fabric"
+
     configurations = [project.configurations.shadow]
     classifier "shadow"
 }

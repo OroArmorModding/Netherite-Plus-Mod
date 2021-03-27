@@ -5,6 +5,12 @@ repositories {
     }
 }
 
+jar {
+    exclude "netherite_plus.mixins.json"
+    exclude "netherite-plus-mod-common-refmap.json"
+    exclude "netherite_plus.accesswidener"
+}
+
 minecraft {
     accessWidener = file("src/main/resources/netherite_plus.accesswidener")
 }

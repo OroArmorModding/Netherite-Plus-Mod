@@ -34,7 +34,6 @@ import com.oroarmor.netherite_plus.client.render.item.NetheriteShieldItemRendere
 import com.oroarmor.netherite_plus.client.render.item.NetheriteShulkerBoxItemRenderer;
 import com.oroarmor.netherite_plus.client.render.item.NetheriteTridentItemRenderer;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
-import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -69,7 +68,7 @@ public class NetheritePlusClientModFabric implements ClientModInitializer {
 
 		NetheritePlusClientMod.init();
 		NetheritePlusTexturesFabric.register();
-		NetheritePlusModelProvider.registerItemsWithModelProvider();
+		NetheritePlusModelProviderFabric.registerItemsWithModelProvider();
 		NetheritePlusScreenHandlers.initializeClient();
 
 		if (NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue()) {

@@ -20,7 +20,7 @@ repositories {
 }
 
 loom {
-    mixinConfigs = ["netherite_plus.mixins.json", "multi-item-lib.mixins.json", "netherite-plus-forge.mixins.json"]
+    mixinConfigs = ["netherite-plus-common-forge.mixins.json", "multi-item-lib.mixins.json", "netherite-plus-forge.mixins.json"]
     useFabricMixin = true
 }
 
@@ -33,9 +33,10 @@ dependencies {
         exclude(module: "fabric-loader")
     }
 
-    modCompile('com.oroarmor:oro-config-fabric:2.0.0') {
+    modCompile('com.oroarmor:oro-config-forge:2.0.0') {
         exclude(module: "fabric-loader")
     }
+
     shadow('com.oroarmor:oro-config-forge:2.0.0') {
         exclude(module: "fabric-loader")
         exclude(module: "modmenu")
@@ -72,6 +73,9 @@ processResources {
 
 
 shadowJar {
+    relocate "com.oroarmor.netherite_plus", "com.oroarmor.netherite_plus.forge"
+    relocate "com.oroarmor.config", "com.oroarmor.config.forge"
+
     exclude "fabric.mod.json"
 
     configurations = [project.configurations.shadow]
@@ -82,14 +86,6 @@ remapJar {
     dependsOn(shadowJar)
     input.set(shadowJar.archivePath)
     archiveClassifier = "forge"
-}
-
-jar {
-    manifest {
-        attributes([
-                "MixinConfigs": "netherite_plus.mixins.json",
-        ])
-    }
 }
 
 publishing {

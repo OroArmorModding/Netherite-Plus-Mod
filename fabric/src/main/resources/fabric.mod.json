@@ -38,7 +38,7 @@
     ]
   },
   "mixins": [
-    "netherite_plus.mixins.json",
+    "netherite-plus-common-fabric.mixins.json",
     "netherite-plus-mod-fabric.mixins.json"
   ],
   "accessWidener": "netherite_plus.accesswidener",

@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.oroarmor.netherite_plus.mixin",
+  "package": "com.oroarmor.netherite_plus.mixin.forge",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "NetheriteAnvilScreenHandlerMixin",
