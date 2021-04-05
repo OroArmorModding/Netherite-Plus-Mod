@@ -45,7 +45,7 @@
   "item.netherite_plus.netherite_bow": "Netherytowy łuk",
   "item.netherite_plus.netherite_crossbow": "Netherytowa kusza",
   "item.netherite_plus.netherite_horse_armor": "Netherytowa końska zbroja",
-  "warning.netherite_elytra.trinkets": "Does not work in chestplate slot",
+  "warning.netherite_elytra.trinkets": "Nie działa w slocie na napierśnik",
   "config.netherite_plus": "Netherite Plus Konfiguracja",
   "config.netherite_plus.enabled": "Włączone funkcje",
   "config.netherite_plus.enabled.config_debug_print": "Drukuje konfigurację przy starcie gry",
@@ -115,6 +115,6 @@
   "advancements.netherite_plus.netherite_fishing_rod_special.title": "Czekaj, co? Nieważne",
   "advancements.netherite_plus.netherite_fishing_rod_special.description": "Zacznij łowić w lawie za pomocą netherytowej wędki i złów pradawne zgliszcza",
   "advancements.netherite_plus.netherite_horse_armor_special.title": "Niezłe Lambo",
-  "advancements.netherite_plus.netherite_horse_armor_special.description": "Wsiądź na konia z załóżoną netherytową końską zbroją",
-  "stat.netherite_plus.netherite_elytra_flight_distance": "Dystant przebyty przy użyciu netherytowej elytry"
+  "advancements.netherite_plus.netherite_horse_armor_special.description": "Wsiądź na konia z założoną netherytową końską zbroją",
+  "stat.netherite_plus.netherite_elytra_flight_distance": "Dystans przebyty przy użyciu netherytowej elytry"
 }
