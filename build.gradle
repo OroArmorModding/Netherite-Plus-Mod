@@ -99,7 +99,7 @@ task generateChangelog {
     def lastTag = getLastVersion()
     def currentTag = project.mod_version
 
-    def commitLog = System.getProperty("os.name").toLowerCase(Locale.ENGLISH).startsWith("windows") ? "B" : "b"
+    def commitLog = "B"
 
     def commits = "git log --max-count=100 --pretty=format:%$commitLog $lastTag..$currentTag".execute()
     println "Last version: $lastTag"
