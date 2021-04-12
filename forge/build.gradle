@@ -55,6 +55,8 @@ dependencies {
         exclude(module: "fabric-loader")
         transitive = false
     }
+
+    shadow(rootProject.files("/forge-on-fabric-warning/build/libs/netherite-plus-mod-${rootProject.mod_version}-${rootProject.architectury.minecraft}.jar"))
 }
 
 processResources {
@@ -72,8 +74,6 @@ processResources {
 
 
 shadowJar {
-    exclude "fabric.mod.json"
-
     configurations = [project.configurations.shadow]
     classifier "shadow"
 }
