@@ -76,7 +76,7 @@ Discord: https://discord.gg/dGCvj56
      - SPECIAL: There's Three, Actually: Get a Full Level Netherite Beacon
      - ULTRA: Get a Life: Create a Full Netherite Block Beacon Base
 
-     - Made in China: Get a Fake Netherite Block
+     - Cheap Knock-off: Get a Fake Netherite Block
 
      - Weird Flex but Ok: Get some Netherite Horse Armor
      - SPECIAL: Nice Lambo: Ride a Horse with Netherite Horse Armor
