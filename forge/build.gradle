@@ -15,6 +15,7 @@ architectury {
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven {
         url = "https://maven.shedaniel.me/"
     }
@@ -36,12 +37,8 @@ dependencies {
         exclude(module: "fabric-loader")
     }
 
-    modCompile(shadow('com.oroarmor:oro-config-forge:3.0.0')) {
-        exclude(module: "fabric-loader")
-        exclude(module: "modmenu")
-        exclude(module: "config-2")
-        exclude(module: "fabric-command-api-v1")
-    }
+    modImplementation('com.oroarmor:oro-config-forge:3.1.0')
+    modRuntime('com.oroarmor:oro-config-forge:3.1.0')
 
     implementation(project(path: ":common")) {
         exclude(module: "fabric-loader")

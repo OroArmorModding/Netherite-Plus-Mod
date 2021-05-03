@@ -45,6 +45,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
+import net.minecraft.server.network.ServerPlayerEntity;
+
 @Mod(NetheritePlusMod.MOD_ID)
 public class ForgeNetheritePlusMod {
 
@@ -56,7 +58,7 @@ public class ForgeNetheritePlusMod {
 		NetheritePlusMod.initialize();
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> FMLJavaModLoadingContext.get().getModEventBus().register(new ForgeNetheritePlusModClient()));
 		MinecraftForge.EVENT_BUS.register(this);
-		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, ()-> new ForgeConfigScreen(NetheritePlusMod.CONFIG));
+		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> new ForgeConfigScreen(NetheritePlusMod.CONFIG));
 
 		INSTANCE.registerMessage(0, UpdateNetheriteBeaconC2SPacket.class, (unb, fbb2) -> {
 			try {
@@ -73,9 +75,10 @@ public class ForgeNetheritePlusMod {
 			}
 			return packet;
 		}, (packet, ctx) -> {
-			ctx.get().getSender().server.execute(() -> {
-				if (ctx.get().getSender().currentScreenHandler instanceof NetheriteBeaconScreenHandler) {
-					((NetheriteBeaconScreenHandler) ctx.get().getSender().currentScreenHandler).setEffects(packet.getPrimaryEffectId(), packet.getSecondaryEffectId(), packet.getTertiaryEffectId());
+			ServerPlayerEntity sender = ctx.get().getSender();
+			sender.server.execute(() -> {
+				if (sender.currentScreenHandler instanceof NetheriteBeaconScreenHandler) {
+					((NetheriteBeaconScreenHandler) sender.currentScreenHandler).setEffects(packet.getPrimaryEffectId(), packet.getSecondaryEffectId(), packet.getTertiaryEffectId());
 				}
 			});
 		});
