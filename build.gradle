@@ -19,9 +19,8 @@ buildscript {
 }
 
 plugins {
-    id "architectury-plugin" version "2.0.66"
-    id "forgified-fabric-loom" version "0.6.64" apply false
-    id 'com.jfrog.bintray' version "1.8.4"
+    id "architectury-plugin" version "3.1-SNAPSHOT"
+    id "forgified-fabric-loom" version "0.6.96" apply false
     id "com.matthewprenger.cursegradle" version "1.4.0" apply false
     id 'maven-publish'
     id "maven"
@@ -59,7 +58,6 @@ subprojects {
 allprojects {
     apply plugin: "java"
     apply plugin: "architectury-plugin"
-    apply plugin: "com.jfrog.bintray"
 
     archivesBaseName = rootProject.archives_base_name
     version = rootProject.mod_version + "-" + rootProject.minecraft_version

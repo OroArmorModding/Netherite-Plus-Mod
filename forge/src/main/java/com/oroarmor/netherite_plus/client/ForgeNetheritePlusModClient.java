@@ -61,7 +61,7 @@ import static com.oroarmor.netherite_plus.client.NetheritePlusTextures.makePath;
 @OnlyIn(Dist.CLIENT)
 public class ForgeNetheritePlusModClient {
     public static void addISTER(Item.Settings properties) {
-        properties.setISTER(() -> () -> new NetheritePlusBuiltinItemModelRenderer());
+        properties.setISTER(() -> NetheritePlusBuiltinItemModelRenderer::new);
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
