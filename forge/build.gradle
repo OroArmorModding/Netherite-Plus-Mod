@@ -10,12 +10,13 @@ configurations {
 
 architectury {
     platformSetupLoomIde()
+    forge()
 }
 
 repositories {
     mavenCentral()
     maven {
-        url = "https://dl.bintray.com/oroarmor/oroarmor"
+        url = "https://maven.shedaniel.me/"
     }
 }
 
@@ -29,25 +30,24 @@ dependencies {
     mappings("net.fabricmc:yarn:${rootProject.mappings}:v2")
     forge("net.minecraftforge:forge:${rootProject.architectury.minecraft}-${rootProject.forge_version}")
 
-    modCompile("me.shedaniel:architectury:${rootProject.architectury_version}:forge") {
+    modRuntime("me.shedaniel.cloth:cloth-config-forge:4.11.19")
+
+    modCompile("me.shedaniel:architectury-forge:${rootProject.architectury_version}") {
         exclude(module: "fabric-loader")
     }
 
-    modCompile('com.oroarmor:oro-config-fabric:2.0.0') {
-        exclude(module: "fabric-loader")
-    }
-    shadow('com.oroarmor:oro-config-forge:2.0.0') {
+    modCompile(shadow('com.oroarmor:oro-config-forge:3.0.0')) {
         exclude(module: "fabric-loader")
         exclude(module: "modmenu")
         exclude(module: "config-2")
         exclude(module: "fabric-command-api-v1")
     }
 
-    compileOnly(project(path: ":common")) {
+    implementation(project(path: ":common")) {
         exclude(module: "fabric-loader")
         transitive = false
     }
-    runtimeOnly(project(path: ":common", configuration: "transformDevelopmentForge")) {
+    developmentForge(project(path: ":common")) {
         exclude(module: "fabric-loader")
         transitive = false
     }
@@ -103,23 +103,6 @@ publishing {
             groupId project.group
             artifactId project.archivesBaseName
             version project.version
-        }
-    }
-}
-
-bintray {
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
-    publications = ["mavenForge"]
-    publish = true
-    pkg {
-        repo = 'oroarmor'
-        name = rootProject.archives_base_name
-        userOrg = "oroarmor"
-        licenses = ['CC0-1.0']
-        vcsUrl = 'https://github.com/OroArmor/Netherite-Plus-Mod.git'
-        version {
-            name = rootProject.mod_version + "-" + rootProject.minecraft_version
         }
     }
 }

@@ -37,9 +37,9 @@ import net.minecraft.item.ItemStack;
 
 @Mixin(ItemRenderer.class)
 public interface ItemRendererAccessor {
-    @Accessor
-    ItemModels getModels();
+    @Accessor("models")
+    ItemModels netherite_plus$getModels();
 
-    @Invoker
-    void callRenderBakedItemModel(BakedModel model, ItemStack stack, int light, int overlay, MatrixStack matrices, VertexConsumer vertexConsumer4);
+    @Invoker("renderBakedItemModel")
+    void netherite_plus$renderBakedItemModel(BakedModel model, ItemStack stack, int light, int overlay, MatrixStack matrices, VertexConsumer vertexConsumer4);
 }

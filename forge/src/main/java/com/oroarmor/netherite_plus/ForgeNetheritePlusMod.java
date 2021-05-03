@@ -26,6 +26,7 @@ package com.oroarmor.netherite_plus;
 
 import java.io.IOException;
 
+import com.oroarmor.config.screen.ForgeConfigScreen;
 import com.oroarmor.netherite_plus.client.ForgeNetheritePlusModClient;
 import com.oroarmor.netherite_plus.client.NetheritePlusClientMod;
 import com.oroarmor.netherite_plus.network.LavaVisionUpdatePacket;
@@ -36,6 +37,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ExtensionPoint;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -53,7 +56,7 @@ public class ForgeNetheritePlusMod {
 		NetheritePlusMod.initialize();
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> FMLJavaModLoadingContext.get().getModEventBus().register(new ForgeNetheritePlusModClient()));
 		MinecraftForge.EVENT_BUS.register(this);
-//		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, ()->new ForgeConfigScreen(NetheritePlusMod.CONFIG)::apply);
+		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, ()-> new ForgeConfigScreen(NetheritePlusMod.CONFIG));
 
 		INSTANCE.registerMessage(0, UpdateNetheriteBeaconC2SPacket.class, (unb, fbb2) -> {
 			try {

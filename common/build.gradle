@@ -1,8 +1,5 @@
 repositories {
     mavenCentral()
-    maven {
-        url = "https://dl.bintray.com/oroarmor/oroarmor"
-    }
 }
 
 minecraft {
@@ -20,11 +17,11 @@ dependencies {
         exclude(module: "fabric-api")
     }
 
-    modCompile('com.oroarmor:oro-config-common:2.0.0') {
+    modCompile('com.oroarmor:oro-config-common:3.0.0') {
         exclude(module: "fabric-loader")
     }
 
-    modCompile('com.oroarmor:Multi-Item-Lib:1.2.0') {
+    modCompile('com.oroarmor:multi-item-lib:1.3.0') {
         exclude(module: "fabric-api")
         exclude(module: "fabric-loader")
     }
@@ -63,23 +60,6 @@ publishing {
             groupId project.group
             artifactId project.archivesBaseName
             version project.version
-        }
-    }
-}
-
-bintray {
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
-    publications = ["mavenCommon"]
-    publish = true
-    pkg {
-        repo = 'oroarmor'
-        name = rootProject.archives_base_name
-        userOrg = "oroarmor"
-        licenses = ['CC0-1.0']
-        vcsUrl = 'https://github.com/OroArmor/Netherite-Plus-Mod.git'
-        version {
-            name = rootProject.mod_version + "-" + rootProject.minecraft_version
         }
     }
 }
