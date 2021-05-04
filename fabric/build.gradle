@@ -44,6 +44,10 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    maven {
+        name = 'Ladysnake Mods'
+        url = 'https://ladysnake.jfrog.io/artifactory/mods'
+    }
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -58,8 +62,8 @@ def runAndCompile(List<String> mods, boolean run) {
             }
             if (run) {
                 modRuntime (it) {
-                    exclude(module: "modmenu")
                     exclude(module: "fabric-api")
+                    exclude(module: "modmenu")
                 }
             }
         }
@@ -116,7 +120,9 @@ dependencies {
     runAndCompile([/*"net.kyrptonaught:quickshulker:${project.quickshulker}",*/
                    "com.github.emilyploszaj:trinkets:${project.trinkets}",
                    "com.misterpemodder:shulkerboxtooltip:${project.shulkerboxtooltip}+"+/*${project.minecraft_version}*/"1.16.4",
-    ], true)
+    ], false)
+
+    modRuntime "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:2.8.1"
 
 //    modCompileOnly "curse.maven:betterend-413596:3168267"
 

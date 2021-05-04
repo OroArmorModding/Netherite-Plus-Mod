@@ -32,19 +32,23 @@ import com.oroarmor.netherite_plus.client.NetheritePlusClientMod;
 import com.oroarmor.netherite_plus.network.LavaVisionUpdatePacket;
 import com.oroarmor.netherite_plus.network.UpdateNetheriteBeaconC2SPacket;
 import com.oroarmor.netherite_plus.screen.NetheriteBeaconScreenHandler;
+import me.shedaniel.architectury.event.EventHandler;
 import me.shedaniel.architectury.platform.forge.EventBuses;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
+import net.minecraft.item.ShearsItem;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 @Mod(NetheritePlusMod.MOD_ID)
@@ -57,7 +61,7 @@ public class ForgeNetheritePlusMod {
 		EventBuses.registerModEventBus(NetheritePlusMod.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
 		NetheritePlusMod.initialize();
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> FMLJavaModLoadingContext.get().getModEventBus().register(new ForgeNetheritePlusModClient()));
-		MinecraftForge.EVENT_BUS.register(this);
+		FMLJavaModLoadingContext.get().getModEventBus().register(this);
 		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> new ForgeConfigScreen(NetheritePlusMod.CONFIG));
 
 		INSTANCE.registerMessage(0, UpdateNetheriteBeaconC2SPacket.class, (unb, fbb2) -> {
@@ -104,7 +108,8 @@ public class ForgeNetheritePlusMod {
 	}
 
 	@SubscribeEvent
-	public void registerItemsWithMultiItemLib(FMLLoadCompleteEvent event) {
+	public void registerItemsWithMultiItemLib(FMLCommonSetupEvent event) {
+		System.out.println("ASDFASDFA");
 		NetheritePlusMod.registerItemsWithMultiItemLib();
 	}
 }

@@ -36,6 +36,7 @@ public final class UniqueItemRegistry {
 	public static UniqueItemRegistry BOW = new UniqueItemRegistry(Items.BOW);
 	public static UniqueItemRegistry CROSSBOW = new UniqueItemRegistry(Items.CROSSBOW);
 	public static UniqueItemRegistry TRIDENT = new UniqueItemRegistry(Items.TRIDENT);
+	public static UniqueItemRegistry SHEARS = new UniqueItemRegistry(Items.SHEARS);
 
 	private final List<Item> itemList;
 

@@ -35,8 +35,8 @@ import net.minecraft.item.ItemStack;
 
 @Mixin(PlayerEntity.class)
 public class PlayerEntityMixin {
-	@Redirect(method = "damageShield(F)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
-	private Item shields(ItemStack stack) {
-		return UniqueItemRegistry.SHIELD.getDefaultItem(stack.getItem());
-	}
+    @Redirect(method = "damageShield(F)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
+    private Item shields(ItemStack stack) {
+        return UniqueItemRegistry.SHIELD.getDefaultItem(stack.getItem());
+    }
 }
