@@ -35,8 +35,8 @@ import net.minecraft.item.ItemStack;
 
 @Mixin(ItemRenderer.class)
 public abstract class ItemRendererMixin {
-	@Redirect(method = "getHeldItemModel", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
-	public Item getHeldItemModel(ItemStack stack) {
-		return UniqueItemRegistry.TRIDENT.getDefaultItem(stack.getItem());
-	}
+    @Redirect(method = "getHeldItemModel", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
+    public Item getHeldItemModel(ItemStack stack) {
+        return UniqueItemRegistry.TRIDENT.getDefaultItem(stack.getItem());
+    }
 }

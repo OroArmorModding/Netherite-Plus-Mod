@@ -92,7 +92,8 @@ public final class NetheritePlusConfig extends Config {
         public static final ConfigItem<Integer> FISHING_ROD_DURABILITY = new IntegerConfigItem("fishing_rod", 128, "config.netherite_plus.durabilities.fishing_rod");
         public static final ConfigItem<Integer> SHIELD_DURABILITY = new IntegerConfigItem("shield", 672, "config.netherite_plus.durabilities.shield");
         public static final ConfigItem<Integer> TRIDENT_DURABILITY = new IntegerConfigItem("trident", 500, "config.netherite_plus.durabilities.trident");
-        public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(ELYTRA_DURABILITY, FISHING_ROD_DURABILITY, SHIELD_DURABILITY, BOW_DURABILITY, CROSSBOW_DURABILITY, TRIDENT_DURABILITY);
+        public static final ConfigItem<Integer> SHEARS_DURABILITY = new IntegerConfigItem("shears", 476, "config.netherite_plus.durabilities.shears");
+        public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(ELYTRA_DURABILITY, FISHING_ROD_DURABILITY, SHIELD_DURABILITY, BOW_DURABILITY, CROSSBOW_DURABILITY, TRIDENT_DURABILITY, SHEARS_DURABILITY);
 
         public DURABILITIES() {
             super(OPTIONS, "durabilities");
@@ -111,8 +112,9 @@ public final class NetheritePlusConfig extends Config {
         public static final ConfigItem<Boolean> ENABLED_SHULKER_BOXES = new BooleanConfigItem("shulker_boxes", true, "config.netherite_plus.enabled.shulker_boxes");
         public static final ConfigItem<Boolean> ENABLED_TRIDENT = new BooleanConfigItem("trident", true, "config.netherite_plus.enabled.trident");
         public static final ConfigItem<Boolean> ENABLED_BEACON = new BooleanConfigItem("beacon", true, "config.netherite_plus.enabled.beacon");
+        public static final ConfigItem<Boolean> ENABLED_SHEARS = new BooleanConfigItem("shears", true, "config.netherite_plus.enabled.shears");
 
-        public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(ENABLED_SHULKER_BOXES, ENABLED_ELYTRA, ENABLED_SHIELDS, ENABLED_BOWS_AND_CROSSBOWS, ENABLED_FISHING_ROD, ENABLED_HORSE_ARMOR, ENABLED_FAKE_NETHERITE_BLOCKS, ENABLED_ANVIL, ENABLED_CONFIG_PRINT, ENABLED_TRIDENT, ENABLED_BEACON);
+        public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(ENABLED_SHULKER_BOXES, ENABLED_ELYTRA, ENABLED_SHIELDS, ENABLED_BOWS_AND_CROSSBOWS, ENABLED_FISHING_ROD, ENABLED_HORSE_ARMOR, ENABLED_FAKE_NETHERITE_BLOCKS, ENABLED_ANVIL, ENABLED_CONFIG_PRINT, ENABLED_TRIDENT, ENABLED_BEACON, ENABLED_SHEARS);
 
         public ENABLED() {
             super(OPTIONS, "enabled");

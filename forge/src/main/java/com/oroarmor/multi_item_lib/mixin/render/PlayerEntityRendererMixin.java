@@ -39,12 +39,13 @@ import net.minecraft.util.Hand;
 
 @Mixin(PlayerEntityRenderer.class)
 public class PlayerEntityRendererMixin {
-	@Inject(method = "getArmPose", at = @At("HEAD"), cancellable = true)
-	private static void getArmPose(AbstractClientPlayerEntity abstractClientPlayerEntity, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> cir) {
-		ItemStack itemStack = abstractClientPlayerEntity.getStackInHand(hand);
-		if (!abstractClientPlayerEntity.handSwinging && UniqueItemRegistry.CROSSBOW.isItemInRegistry(itemStack.getItem()) && CrossbowItem.isCharged(itemStack)) {
-			cir.setReturnValue(BipedEntityModel.ArmPose.CROSSBOW_HOLD);
-		}
-	}
+
+    @Inject(method = "getArmPose", at = @At("HEAD"), cancellable = true)
+    private static void getArmPose(AbstractClientPlayerEntity abstractClientPlayerEntity, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> cir) {
+        ItemStack itemStack = abstractClientPlayerEntity.getStackInHand(hand);
+        if (!abstractClientPlayerEntity.handSwinging && UniqueItemRegistry.CROSSBOW.isItemInRegistry(itemStack.getItem()) && CrossbowItem.isCharged(itemStack)) {
+            cir.setReturnValue(BipedEntityModel.ArmPose.CROSSBOW_HOLD);
+        }
+    }
 
 }

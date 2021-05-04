@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.oroarmor.config.ConfigItemGroup;
-import com.oroarmor.config.command.ConfigCommand;
 import com.oroarmor.multi_item_lib.UniqueItemRegistry;
 import com.oroarmor.netherite_plus.advancement.criterion.NetheritePlusCriteria;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
@@ -40,7 +39,6 @@ import com.oroarmor.netherite_plus.recipe.NetheritePlusRecipeSerializer;
 import com.oroarmor.netherite_plus.screen.NetheriteBeaconScreenHandler;
 import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
 import com.oroarmor.netherite_plus.stat.NetheritePlusStats;
-import me.shedaniel.architectury.event.events.CommandRegistrationEvent;
 import me.shedaniel.architectury.networking.NetworkManager;
 import me.shedaniel.architectury.registry.Registries;
 import org.apache.logging.log4j.Level;
@@ -48,7 +46,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.command.CommandManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Lazy;
 
@@ -104,17 +101,26 @@ public class NetheritePlusMod {
     }
 
     public static void registerItemsWithMultiItemLib() {
-        if (NetheritePlusConfig.ENABLED.ENABLED_SHIELDS.getValue())
+        if (NetheritePlusConfig.ENABLED.ENABLED_SHIELDS.getValue()) {
             UniqueItemRegistry.SHIELD.addItemToRegistry(NETHERITE_SHIELD.get());
-        if (NetheritePlusConfig.ENABLED.ENABLED_FISHING_ROD.getValue())
+        }
+        if (NetheritePlusConfig.ENABLED.ENABLED_FISHING_ROD.getValue()) {
             UniqueItemRegistry.FISHING_ROD.addItemToRegistry(NETHERITE_FISHING_ROD.get());
-        if (NetheritePlusConfig.ENABLED.ENABLED_ELYTRA.getValue())
+        }
+        if (NetheritePlusConfig.ENABLED.ENABLED_ELYTRA.getValue()) {
             UniqueItemRegistry.ELYTRA.addItemToRegistry(NETHERITE_ELYTRA.get());
+        }
         if (NetheritePlusConfig.ENABLED.ENABLED_BOWS_AND_CROSSBOWS.getValue()) {
             UniqueItemRegistry.BOW.addItemToRegistry(NETHERITE_BOW.get());
             UniqueItemRegistry.CROSSBOW.addItemToRegistry(NETHERITE_CROSSBOW.get());
         }
-        if (NetheritePlusConfig.ENABLED.ENABLED_TRIDENT.getValue())
+        if (NetheritePlusConfig.ENABLED.ENABLED_TRIDENT.getValue()) {
             UniqueItemRegistry.TRIDENT.addItemToRegistry(NETHERITE_TRIDENT.get());
+        }
+        if (NetheritePlusConfig.ENABLED.ENABLED_SHEARS.getValue()) {
+            System.out.println(NETHERITE_SHEARS.get());
+            UniqueItemRegistry.SHEARS.addItemToRegistry(NETHERITE_SHEARS.get());
+            System.out.println(UniqueItemRegistry.SHEARS.isItemInRegistry(NETHERITE_SHEARS.get()));
+        }
     }
 }

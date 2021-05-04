@@ -35,8 +35,9 @@ import net.minecraft.item.ItemStack;
 
 @Mixin(CrossbowItem.class)
 public class CrossbowItemMixin {
-	@Redirect(method = "getSpeed", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
-	private static Item tickMovement(ItemStack itemStack) {
-		return UniqueItemRegistry.CROSSBOW.getDefaultItem(itemStack.getItem());
-	}
+
+    @Redirect(method = "getSpeed", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
+    private static Item tickMovement(ItemStack itemStack) {
+        return UniqueItemRegistry.CROSSBOW.getDefaultItem(itemStack.getItem());
+    }
 }

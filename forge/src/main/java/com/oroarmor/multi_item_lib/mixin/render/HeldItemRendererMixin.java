@@ -36,13 +36,14 @@ import net.minecraft.item.Items;
 
 @Mixin(HeldItemRenderer.class)
 public class HeldItemRendererMixin {
-	@Redirect(method = "renderFirstPersonItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
-	private Item renderFirstPersonItem(ItemStack itemStack) {
-		return UniqueItemRegistry.CROSSBOW.getDefaultItem(itemStack.getItem());
-	}
 
-	@Redirect(method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;Lnet/minecraft/client/network/ClientPlayerEntity;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
-	private Item renderItem(ItemStack itemStack) {
-		return UniqueItemRegistry.BOW.isItemInRegistry(itemStack.getItem()) ? Items.BOW : UniqueItemRegistry.CROSSBOW.getDefaultItem(itemStack.getItem());
-	}
+    @Redirect(method = "renderFirstPersonItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
+    private Item renderFirstPersonItem(ItemStack itemStack) {
+        return UniqueItemRegistry.CROSSBOW.getDefaultItem(itemStack.getItem());
+    }
+
+    @Redirect(method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;Lnet/minecraft/client/network/ClientPlayerEntity;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
+    private Item renderItem(ItemStack itemStack) {
+        return UniqueItemRegistry.BOW.isItemInRegistry(itemStack.getItem()) ? Items.BOW : UniqueItemRegistry.CROSSBOW.getDefaultItem(itemStack.getItem());
+    }
 }

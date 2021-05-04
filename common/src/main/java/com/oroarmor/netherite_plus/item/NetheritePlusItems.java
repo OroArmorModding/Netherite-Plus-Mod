@@ -36,6 +36,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ShearsItem;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
@@ -82,6 +83,8 @@ public final class NetheritePlusItems {
     public static RegistrySupplier<Item> FAKE_NETHERITE_BLOCK;
 
     public static RegistrySupplier<Item> NETHERITE_ANVIL_ITEM;
+
+    public static RegistrySupplier<Item> NETHERITE_SHEARS;
 
     private static RegistrySupplier<Item> register(RegistrySupplier<Block> block, Supplier<BlockItem> item) {
         return register(block.getId(), item::get);
@@ -156,6 +159,9 @@ public final class NetheritePlusItems {
 
         if (NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue()) {
             NETHERITE_BEACON = register(NetheritePlusBlocks.NETHERITE_BEACON, () -> new BlockItem(NetheritePlusBlocks.NETHERITE_BEACON.get(), new Item.Settings().maxCount(64).group(ItemGroup.MISC).fireproof()));
+        }
+        if(NetheritePlusConfig.ENABLED.ENABLED_SHEARS.getValue()) {
+            NETHERITE_SHEARS = register(id("netherite_shears"), () -> new ShearsItem(new Item.Settings().group(ItemGroup.TOOLS).fireproof().maxDamage(NetheritePlusConfig.DURABILITIES.SHEARS_DURABILITY.getValue())));
         }
     }
 
