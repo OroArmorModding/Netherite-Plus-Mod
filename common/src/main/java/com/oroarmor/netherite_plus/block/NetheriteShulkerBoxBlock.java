@@ -134,7 +134,6 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
         return block instanceof NetheriteShulkerBoxBlock ? ((NetheriteShulkerBoxBlock) block).getColor() : null;
     }
 
-    @Environment(EnvType.CLIENT)
     public static DyeColor getColor(Item item) {
         return getColor(Block.getBlockFromItem(item));
     }
@@ -149,7 +148,6 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
     }
 
     @Override
-    @Environment(EnvType.CLIENT)
     public void appendTooltip(ItemStack stack, BlockView world, List<Text> tooltip, TooltipContext options) {
         super.appendTooltip(stack, world, tooltip, options);
         CompoundTag compoundTag = stack.getSubTag("BlockEntityTag");
@@ -223,7 +221,6 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
     }
 
     @Override
-    @Environment(EnvType.CLIENT)
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
         ItemStack itemStack = super.getPickStack(world, pos, state);
         NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity = (NetheriteShulkerBoxBlockEntity) world.getBlockEntity(pos);

@@ -40,7 +40,6 @@ public class UpdateNetheriteBeaconC2SPacket extends UpdateBeaconC2SPacket {
 
     private int tertiaryEffectId;
 
-    @Environment(EnvType.CLIENT)
     public UpdateNetheriteBeaconC2SPacket(int primaryEffectId, int secondaryEffectId, int tertiaryEffectId) {
         super(primaryEffectId, secondaryEffectId);
         this.tertiaryEffectId = tertiaryEffectId;

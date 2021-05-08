@@ -38,7 +38,6 @@ public class NetheriteHorseArmorItem extends HorseArmorItem {
     }
 
     @Override
-    @Environment(EnvType.CLIENT)
     public Identifier getEntityTexture() {
         return id("textures/entity/netherite_horse_armor.png");
     }

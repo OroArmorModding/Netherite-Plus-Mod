@@ -21,7 +21,7 @@ dependencies {
         exclude(module: "fabric-loader")
     }
 
-    modCompile('com.oroarmor:multi-item-lib:1.2.0') {
+    modCompile('com.oroarmor:multi-item-lib:1.3.0') {
         exclude(module: "fabric-api")
         exclude(module: "fabric-loader")
     }

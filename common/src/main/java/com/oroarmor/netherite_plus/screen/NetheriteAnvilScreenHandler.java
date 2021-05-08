@@ -76,7 +76,6 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
         return state.isOf(NetheritePlusBlocks.NETHERITE_ANVIL_BLOCK.get());
     }
 
-    @Environment(EnvType.CLIENT)
     public int getLevelCost() {
         return levelCost.get();
     }
