@@ -117,10 +117,8 @@ public class NetheritePlusMod {
         if (NetheritePlusConfig.ENABLED.ENABLED_TRIDENT.getValue()) {
             UniqueItemRegistry.TRIDENT.addItemToRegistry(NETHERITE_TRIDENT.get());
         }
-        if (NetheritePlusConfig.ENABLED.ENABLED_SHEARS.getValue()) {
-            System.out.println(NETHERITE_SHEARS.get());
-            UniqueItemRegistry.SHEARS.addItemToRegistry(NETHERITE_SHEARS.get());
-            System.out.println(UniqueItemRegistry.SHEARS.isItemInRegistry(NETHERITE_SHEARS.get()));
-        }
+//        if (NetheritePlusConfig.ENABLED.ENABLED_SHEARS.getValue()) {
+//            UniqueItemRegistry.SHEARS.addItemToRegistry(NETHERITE_SHEARS.get());
+//        }
     }
 }
