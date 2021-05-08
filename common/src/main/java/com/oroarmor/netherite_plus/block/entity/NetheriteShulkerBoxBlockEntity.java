@@ -140,7 +140,6 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
         return this.getBoundingBox(facing).shrink(direction.getOffsetX(), direction.getOffsetY(), direction.getOffsetZ());
     }
 
-    @Environment(EnvType.CLIENT)
     public DyeColor getColor() {
         if (cachedColorUpdateNeeded) {
             cachedColor = NetheriteShulkerBoxBlock.getColor(getCachedState().getBlock());

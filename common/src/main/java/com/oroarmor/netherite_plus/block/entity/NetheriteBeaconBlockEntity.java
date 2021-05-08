@@ -335,7 +335,6 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
         world.playSound(null, pos, soundEvent, SoundCategory.BLOCKS, 1.0F, 1.0F);
     }
 
-    @Environment(EnvType.CLIENT)
     public List<NetheriteBeaconBlockEntity.BeamSegment> getBeamSegments() {
         return beaconLevel == 0 ? ImmutableList.of() : beamSegments;
     }
@@ -419,12 +418,10 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
             ++height;
         }
 
-        @Environment(EnvType.CLIENT)
         public float[] getColor() {
             return color;
         }
 
-        @Environment(EnvType.CLIENT)
         public int getHeight() {
             return height;
         }

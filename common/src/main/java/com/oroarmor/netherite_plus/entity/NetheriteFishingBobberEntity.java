@@ -65,7 +65,6 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
         super(thrower, world, lureLevel, luckOfTheSeaLevel);
     }
 
-    @Environment(EnvType.CLIENT)
     public NetheriteFishingBobberEntity(World world, PlayerEntity thrower, double x, double y, double z) {
         super(world, thrower, x, y, z);
     }

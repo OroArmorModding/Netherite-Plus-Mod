@@ -57,7 +57,6 @@ public class NetheritePlusScreenHandlers {
     public static void init() {
     }
 
-    @Environment(EnvType.CLIENT)
     public static void initializeClient() {
         MenuRegistry.registerScreenFactory(NetheritePlusScreenHandlers.NETHERITE_ANVIL, NetheriteAnvilScreen::new);
         MenuRegistry.registerScreenFactory(NetheritePlusScreenHandlers.NETHERITE_BEACON, NetheriteBeaconScreen::new);

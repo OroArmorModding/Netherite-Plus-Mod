@@ -70,7 +70,6 @@ public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    @Environment(EnvType.CLIENT)
     public boolean fits(int width, int height) {
         return width * height >= 2;
     }

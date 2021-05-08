@@ -86,7 +86,6 @@ public enum NetheriteElytraArmorMaterials implements ArmorMaterial {
     }
 
     @Override
-    @Environment(EnvType.CLIENT)
     public String getName() {
         return name;
     }

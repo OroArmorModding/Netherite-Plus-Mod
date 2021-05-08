@@ -54,7 +54,6 @@ public class NetheriteTridentEntity extends TridentEntity {
         tridentStack = new ItemStack(NetheritePlusItems.NETHERITE_TRIDENT.get());
     }
 
-    @Environment(EnvType.CLIENT)
     public NetheriteTridentEntity(World world, double x, double y, double z) {
         super(world, x, y, z);
         tridentStack = new ItemStack(NetheritePlusItems.NETHERITE_TRIDENT.get());
