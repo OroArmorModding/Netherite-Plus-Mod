@@ -60,7 +60,7 @@ public final class NetheritePlusConfig extends Config {
     }
 
     public static class ANVIL extends ConfigItemGroup {
-        public static final ConfigItem<Double> XP_REDUCTION = new DoubleConfigItem("xp_reduction", 0.5, "config.netherite_plus.anvil.xp_redcution");
+        public static final ConfigItem<Double> XP_REDUCTION = new DoubleConfigItem("xp_reduction", 0.5, "config.netherite_plus.anvil.xp_redcution", null, Double.MAX_VALUE, 0);
 
         public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(XP_REDUCTION);
 
@@ -70,12 +70,12 @@ public final class NetheritePlusConfig extends Config {
     }
 
     public static class DAMAGE extends ConfigItemGroup {
-        public static final ConfigItem<Double> BOW_DAMAGE_ADDITION = new DoubleConfigItem("bow_damage_addition", 0d, "config.netherite_plus.damage.bow_damage_addition");
-        public static final ConfigItem<Double> BOW_DAMAGE_MULTIPLIER = new DoubleConfigItem("bow_damage_multiplier", 1d, "config.netherite_plus.damage.bow_damage_multiplier");
-        public static final ConfigItem<Double> CROSSBOW_DAMAGE_ADDITION = new DoubleConfigItem("crossbow_damage_addition", 0d, "config.netherite_plus.damage.crossbow_damage_addition");
-        public static final ConfigItem<Double> CROSSBOW_DAMAGE_MULTIPLIER = new DoubleConfigItem("crossbow_damage_multiplier", 1d, "config.netherite_plus.damage.crossbow_damage_multiplier");
-        public static final ConfigItem<Double> TRIDENT_DAMAGE_ADDITION = new DoubleConfigItem("trident_damage_addition", 0d, "config.netherite_plus.damage.trident_damage_addition");
-        public static final ConfigItem<Double> TRIDENT_DAMAGE_MULTIPLIER = new DoubleConfigItem("trident_damage_multiplier", 1d, "config.netherite_plus.damage.trident_damage_multiplier");
+        public static final ConfigItem<Double> BOW_DAMAGE_ADDITION = new DoubleConfigItem("bow_damage_addition", 0d, "config.netherite_plus.damage.bow_damage_addition", null, Double.MAX_VALUE, 0);
+        public static final ConfigItem<Double> BOW_DAMAGE_MULTIPLIER = new DoubleConfigItem("bow_damage_multiplier", 1d, "config.netherite_plus.damage.bow_damage_multiplier", null, Double.MAX_VALUE, 0);
+        public static final ConfigItem<Double> CROSSBOW_DAMAGE_ADDITION = new DoubleConfigItem("crossbow_damage_addition", 0d, "config.netherite_plus.damage.crossbow_damage_addition", null, Double.MAX_VALUE, 0);
+        public static final ConfigItem<Double> CROSSBOW_DAMAGE_MULTIPLIER = new DoubleConfigItem("crossbow_damage_multiplier", 1d, "config.netherite_plus.damage.crossbow_damage_multiplier", null, Double.MAX_VALUE, 0);
+        public static final ConfigItem<Double> TRIDENT_DAMAGE_ADDITION = new DoubleConfigItem("trident_damage_addition", 0d, "config.netherite_plus.damage.trident_damage_addition", null, Double.MAX_VALUE, 0);
+        public static final ConfigItem<Double> TRIDENT_DAMAGE_MULTIPLIER = new DoubleConfigItem("trident_damage_multiplier", 1d, "config.netherite_plus.damage.trident_damage_multiplier", null, Double.MAX_VALUE, 0);
         public static final ConfigItem<Integer> ELYTRA_ARMOR_POINTS = new IntegerConfigItem("elytra_armor_points", 4, "config.netherite_plus.damage.elytra_armor_points");
 
         public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(BOW_DAMAGE_ADDITION, BOW_DAMAGE_MULTIPLIER, CROSSBOW_DAMAGE_ADDITION, CROSSBOW_DAMAGE_MULTIPLIER, TRIDENT_DAMAGE_ADDITION, TRIDENT_DAMAGE_MULTIPLIER, ELYTRA_ARMOR_POINTS);
@@ -93,7 +93,7 @@ public final class NetheritePlusConfig extends Config {
         public static final ConfigItem<Integer> SHIELD_DURABILITY = new IntegerConfigItem("shield", 672, "config.netherite_plus.durabilities.shield");
         public static final ConfigItem<Integer> TRIDENT_DURABILITY = new IntegerConfigItem("trident", 500, "config.netherite_plus.durabilities.trident");
         public static final ConfigItem<Integer> SHEARS_DURABILITY = new IntegerConfigItem("shears", 476, "config.netherite_plus.durabilities.shears");
-        public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(ELYTRA_DURABILITY, FISHING_ROD_DURABILITY, SHIELD_DURABILITY, BOW_DURABILITY, CROSSBOW_DURABILITY, TRIDENT_DURABILITY, SHEARS_DURABILITY);
+        public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(ELYTRA_DURABILITY, FISHING_ROD_DURABILITY, SHIELD_DURABILITY, BOW_DURABILITY, CROSSBOW_DURABILITY, TRIDENT_DURABILITY/*, SHEARS_DURABILITY*/);
 
         public DURABILITIES() {
             super(OPTIONS, "durabilities");
@@ -112,9 +112,9 @@ public final class NetheritePlusConfig extends Config {
         public static final ConfigItem<Boolean> ENABLED_SHULKER_BOXES = new BooleanConfigItem("shulker_boxes", true, "config.netherite_plus.enabled.shulker_boxes");
         public static final ConfigItem<Boolean> ENABLED_TRIDENT = new BooleanConfigItem("trident", true, "config.netherite_plus.enabled.trident");
         public static final ConfigItem<Boolean> ENABLED_BEACON = new BooleanConfigItem("beacon", true, "config.netherite_plus.enabled.beacon");
-        public static final ConfigItem<Boolean> ENABLED_SHEARS = new BooleanConfigItem("shears", true, "config.netherite_plus.enabled.shears");
+        public static final ConfigItem<Boolean> ENABLED_SHEARS = new BooleanConfigItem("shears", false, "config.netherite_plus.enabled.shears");
 
-        public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(ENABLED_SHULKER_BOXES, ENABLED_ELYTRA, ENABLED_SHIELDS, ENABLED_BOWS_AND_CROSSBOWS, ENABLED_FISHING_ROD, ENABLED_HORSE_ARMOR, ENABLED_FAKE_NETHERITE_BLOCKS, ENABLED_ANVIL, ENABLED_CONFIG_PRINT, ENABLED_TRIDENT, ENABLED_BEACON, ENABLED_SHEARS);
+        public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(ENABLED_SHULKER_BOXES, ENABLED_ELYTRA, ENABLED_SHIELDS, ENABLED_BOWS_AND_CROSSBOWS, ENABLED_FISHING_ROD, ENABLED_HORSE_ARMOR, ENABLED_FAKE_NETHERITE_BLOCKS, ENABLED_ANVIL, ENABLED_CONFIG_PRINT, ENABLED_TRIDENT, ENABLED_BEACON/*, ENABLED_SHEARS*/);
 
         public ENABLED() {
             super(OPTIONS, "enabled");
@@ -122,7 +122,7 @@ public final class NetheritePlusConfig extends Config {
     }
 
     public static class GRAPHICS extends ConfigItemGroup {
-        public static final ConfigItem<Double> LAVA_VISION_DISTANCE = new DoubleConfigItem("lava_vision_distance", 0.25, "config.netherite_plus.graphics.lava_vision", NetheritePlusConfig::createLavaVisionUpdatePacket);
+        public static final ConfigItem<Double> LAVA_VISION_DISTANCE = new DoubleConfigItem("lava_vision_distance", 0.25, "config.netherite_plus.graphics.lava_vision", NetheritePlusConfig::createLavaVisionUpdatePacket, Double.MAX_VALUE, 0);
 
         public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(LAVA_VISION_DISTANCE);
 

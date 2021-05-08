@@ -35,8 +35,8 @@ import net.minecraft.item.ItemStack;
 
 @Mixin(EfficiencyEnchantment.class)
 public class EfficiencyEnchantmentMixin {
-    @Redirect(method = "isAcceptableItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
-    private Item isAcceptableItem(ItemStack stack) {
-        return UniqueItemRegistry.SHEARS.getDefaultItem(stack.getItem());
-    }
+//    @Redirect(method = "isAcceptableItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
+//    private Item isAcceptableItem(ItemStack stack) {
+//        return UniqueItemRegistry.SHEARS.getDefaultItem(stack.getItem());
+//    }
 }

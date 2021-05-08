@@ -35,8 +35,8 @@ import net.minecraft.item.ItemStack;
 
 @Mixin(BeehiveBlock.class)
 public class BeehiveBlockMixin {
-    @Redirect(method = "onUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;", ordinal = 0))
-    private Item onUse(ItemStack stack) {
-        return UniqueItemRegistry.SHEARS.getDefaultItem(stack.getItem());
-    }
+//    @Redirect(method = "onUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;", ordinal = 0))
+//    private Item onUse(ItemStack stack) {
+//        return UniqueItemRegistry.SHEARS.getDefaultItem(stack.getItem());
+//    }
 }

@@ -35,8 +35,8 @@ import net.minecraft.item.ItemStack;
 
 @Mixin(TripwireBlock.class)
 public class TripwireBlockMixin {
-    @Redirect(method = "onBreak", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
-    private Item onUse(ItemStack stack) {
-        return UniqueItemRegistry.SHEARS.getDefaultItem(stack.getItem());
-    }
+//    @Redirect(method = "onBreak", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;"))
+//    private Item onUse(ItemStack stack) {
+//        return UniqueItemRegistry.SHEARS.getDefaultItem(stack.getItem());
+//    }
 }
