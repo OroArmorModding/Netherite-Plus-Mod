@@ -64,6 +64,8 @@ public class NetheriteTridentEntity extends TridentEntity {
         tridentStack = stack;
     }
 
+
+
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
         Entity entity = entityHitResult.getEntity();
@@ -97,7 +99,7 @@ public class NetheriteTridentEntity extends TridentEntity {
 
         this.setVelocity(getVelocity().multiply(-0.01D, -0.1D, -0.01D));
         float g = 1.0F;
-        if (world instanceof ServerWorld && world.isThundering() && EnchantmentHelper.hasChanneling(tridentStack)) {
+        if (world instanceof ServerWorld && EnchantmentHelper.hasChanneling(tridentStack)) {
             BlockPos blockPos = entity.getBlockPos();
             if (world.isSkyVisible(blockPos)) {
                 LightningEntity lightningEntity = EntityType.LIGHTNING_BOLT.create(world);

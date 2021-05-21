@@ -146,7 +146,6 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
         BlockPos blockPos = getBlockPos();
         FluidState fluidState = world.getFluidState(blockPos);
         if (fluidState.isIn(FluidTags.WATER)) {
-            System.out.println("super tick");
             super.tick();
             return;
         }

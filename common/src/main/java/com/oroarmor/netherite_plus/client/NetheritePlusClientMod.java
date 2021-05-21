@@ -42,7 +42,6 @@ public class NetheritePlusClientMod {
         });
 
         NetworkManager.registerReceiver(NetworkManager.Side.S2C, NetheritePlusMod.id("netherite_trident"), (friendlyByteBuf, packetContext) -> {
-            System.out.println("received");
             TRIDENT_QUEUE.add(friendlyByteBuf.readInt());
         });
     }

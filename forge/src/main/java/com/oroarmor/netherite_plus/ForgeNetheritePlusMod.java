@@ -109,7 +109,6 @@ public class ForgeNetheritePlusMod {
 
 	@SubscribeEvent
 	public void registerItemsWithMultiItemLib(FMLCommonSetupEvent event) {
-		System.out.println("ASDFASDFA");
 		NetheritePlusMod.registerItemsWithMultiItemLib();
 	}
 }
