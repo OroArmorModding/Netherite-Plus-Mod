@@ -6,6 +6,7 @@
   "mixins": [
     "CauldronBlockMixin",
     "CrossbowItemMixin",
+    "ItemPredicateMixin",
     "NetheriteShieldMixin",
     "PlayerEntityMixin",
     "ServerPlayNetworkHandlerMixin",

@@ -112,9 +112,9 @@ public final class NetheritePlusConfig extends Config {
         public static final ConfigItem<Boolean> ENABLED_SHULKER_BOXES = new BooleanConfigItem("shulker_boxes", true, "config.netherite_plus.enabled.shulker_boxes");
         public static final ConfigItem<Boolean> ENABLED_TRIDENT = new BooleanConfigItem("trident", true, "config.netherite_plus.enabled.trident");
         public static final ConfigItem<Boolean> ENABLED_BEACON = new BooleanConfigItem("beacon", true, "config.netherite_plus.enabled.beacon");
-        public static final ConfigItem<Boolean> ENABLED_SHEARS = new BooleanConfigItem("shears", false, "config.netherite_plus.enabled.shears");
+        public static final ConfigItem<Boolean> ENABLED_SHEARS = new BooleanConfigItem("shears", true, "config.netherite_plus.enabled.shears");
 
-        public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(ENABLED_SHULKER_BOXES, ENABLED_ELYTRA, ENABLED_SHIELDS, ENABLED_BOWS_AND_CROSSBOWS, ENABLED_FISHING_ROD, ENABLED_HORSE_ARMOR, ENABLED_FAKE_NETHERITE_BLOCKS, ENABLED_ANVIL, ENABLED_CONFIG_PRINT, ENABLED_TRIDENT, ENABLED_BEACON/*, ENABLED_SHEARS*/);
+        public static final List<ConfigItem<?>> OPTIONS = ImmutableList.of(ENABLED_SHULKER_BOXES, ENABLED_ELYTRA, ENABLED_SHIELDS, ENABLED_BOWS_AND_CROSSBOWS, ENABLED_FISHING_ROD, ENABLED_HORSE_ARMOR, ENABLED_FAKE_NETHERITE_BLOCKS, ENABLED_ANVIL, ENABLED_CONFIG_PRINT, ENABLED_TRIDENT, ENABLED_BEACON, ENABLED_SHEARS);
 
         public ENABLED() {
             super(OPTIONS, "enabled");
