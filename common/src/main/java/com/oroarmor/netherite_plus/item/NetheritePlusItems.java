@@ -33,10 +33,9 @@ import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import me.shedaniel.architectury.registry.RegistrySupplier;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ShearsItem;
+import net.minecraft.block.DispenserBlock;
+import net.minecraft.block.dispenser.ShearsDispenserBehavior;
+import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
@@ -160,8 +159,13 @@ public final class NetheritePlusItems {
         if (NetheritePlusConfig.ENABLED.ENABLED_BEACON.getValue()) {
             NETHERITE_BEACON = register(NetheritePlusBlocks.NETHERITE_BEACON, () -> new BlockItem(NetheritePlusBlocks.NETHERITE_BEACON.get(), new Item.Settings().maxCount(64).group(ItemGroup.MISC).fireproof()));
         }
-        if(NetheritePlusConfig.ENABLED.ENABLED_SHEARS.getValue()) {
-            NETHERITE_SHEARS = register(id("netherite_shears"), () -> new ShearsItem(new Item.Settings().group(ItemGroup.TOOLS).fireproof().maxDamage(NetheritePlusConfig.DURABILITIES.SHEARS_DURABILITY.getValue())));
+
+        if (NetheritePlusConfig.ENABLED.ENABLED_SHEARS.getValue()) {
+            NETHERITE_SHEARS = register(id("netherite_shears"), () -> {
+                ShearsItem shearsItem = new ShearsItem(new Item.Settings().group(ItemGroup.TOOLS).fireproof().maxDamage(NetheritePlusConfig.DURABILITIES.SHEARS_DURABILITY.getValue()));
+                DispenserBlock.registerBehavior(shearsItem, new ShearsDispenserBehavior());
+                return shearsItem;
+            });
         }
     }
 
