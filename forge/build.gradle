@@ -37,7 +37,9 @@ dependencies {
         exclude(module: "fabric-loader")
     }
 
-    shadow(modImplementation('com.oroarmor:oro-config-forge:3.1.0'))
+    shadow(modImplementation('com.oroarmor:oro-config-forge:3.1.0')) {
+        transitive = false
+    }
     modRuntime('com.oroarmor:oro-config-forge:3.1.0')
 
     implementation(project(path: ":common")) {
@@ -55,6 +57,8 @@ dependencies {
 
     shadow(rootProject.files("/forge-on-fabric-warning/build/libs/netherite-plus-mod-${rootProject.mod_version}-${rootProject.architectury.minecraft}.jar"))
 }
+
+tasks.getByName("build").mustRunAfter(rootProject.subprojects.find {it -> it.name == "forge-on-fabric-warning"}.tasks.getByName("build"))
 
 processResources {
     inputs.property "version", rootProject.version
