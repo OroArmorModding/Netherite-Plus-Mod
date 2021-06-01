@@ -1,0 +1,35 @@
+{
+  "parent": "netherite_plus:netherite_plus/root",
+  "display": {
+    "icon": {
+      "item": "netherite_plus:netherite_shears"
+    },
+    "title": {
+      "translate": "advancements.netherite_plus.netherite_shears.title"
+    },
+    "description": {
+      "translate": "advancements.netherite_plus.netherite_shears.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "netherite_shears": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "netherite_plus:netherite_shears"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "netherite_shears"
+    ]
+  ]
+}
