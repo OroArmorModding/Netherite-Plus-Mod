@@ -102,21 +102,6 @@ Discord: https://discord.gg/dGCvj56
   - Durabilities
   - Damage for Bows, Crossbows, and Tridents
   - Distance settings for Lava Vision
-   
-* Configuration commands (Beta)
-  - Edit the config files in game with commands!
-  - NOTE: You must restart your game for most effects to take place
-
-* REI Fishing plugin (Beta)
-  - Shows the stats of fishing in different environments
-
-* Mod compatibility
-  - Trinkets
-  - Quick Shulker
-  - Shulkerbox Tolltip
-  - Shulkularity
-  - Mod Menu
-  - REI
 
 ## Potential Features
 * Netherite Food Items

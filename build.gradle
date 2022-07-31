@@ -1,228 +1,72 @@
-import net.dumbcode.gradlehook.GradleWebhookPlugin
-import org.ajoberstar.grgit.gradle.GrgitPlugin
-
-import java.util.stream.Collectors
-
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath "net.dumbcode.gradlehook:GradleHook:1.3.1"
-        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
-        classpath "org.kohsuke:github-api:1.114"
-        classpath "org.ajoberstar.grgit:grgit-gradle:4.1.0"
-        classpath "gradle.plugin.com.modrinth.minotaur:Minotaur:1.1.0"
-    }
-}
-
 plugins {
-    id "architectury-plugin" version "3.1-SNAPSHOT"
-    id "forgified-fabric-loom" version "0.6.96" apply false
-    id "com.matthewprenger.cursegradle" version "1.4.0" apply false
     id 'maven-publish'
-    id "maven"
-    id "com.modrinth.minotaur" version "1.1.0"
-    id 'org.cadixdev.licenser' version '0.5.0' apply false
+    id 'org.quiltmc.loom' version "0.12.+"
 }
 
-apply plugin: GradleWebhookPlugin
-apply plugin: GrgitPlugin
+archivesBaseName = project.archives_base_name
+version = project.version
+group = project.maven_group
 
-
-ext.curseReleaseType = "release"
-ext.releaseChangelog = "No Changelog Available"
-ext.fabricModrinthDownloadLink = null
-ext.forgeModrinthDownloadLink = null
-ext.githubDownloadLink = null
-
-ext.releaseType = "patch"
-
-architectury {
-    minecraft = rootProject.minecraft_version
-}
-
-subprojects {
-    apply plugin: "forgified-fabric-loom"
-    apply plugin: "architectury-plugin"
-    apply plugin: 'maven-publish'
-    apply plugin: 'org.cadixdev.licenser'
-
-    license {
-        header = rootProject.file("LICENSE")
+repositories {
+    maven {
+        name = "OroArmor"
+        url = "https://maven.oroarmor.com"
+    }
+    maven {
+        name = "Jitpack"
+        url = 'https://jitpack.io'
+    }
+    maven {
+        name = "Shedaniel"
+        url = 'https://maven.shedaniel.me'
+    }
+    maven {
+        name = "Terraformers"
+        url = "https://maven.terraformersmc.com/releases/"
     }
 }
 
-allprojects {
-    apply plugin: "java"
-    apply plugin: "architectury-plugin"
+loom {
+    accessWidenerPath = file("src/main/resources/netherite_plus.accesswidener")
+}
 
-    archivesBaseName = rootProject.archives_base_name
-    version = rootProject.mod_version + "-" + rootProject.minecraft_version
-    group = rootProject.maven_group
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.layered {
+        addLayer quiltMappings.mappings("org.quiltmc:quilt-mappings:${project.mappings}:v2")
+    }
+    modImplementation "org.quiltmc:quilt-loader:${project.quilt_loader_version}"
 
-    tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
+    modImplementation "org.quiltmc:qsl:${project.qsl_version}"
+    modImplementation "org.quiltmc.quilted-fabric-api:quilted-fabric-api:${project.qfapi_version}"
+
+    modImplementation "com.oroarmor:multi-item-lib:1.5.3"
+    include(modImplementation('com.github.CrimsonDawn45:Fabric-Shield-Lib:7ecdb8d780'))
+    modRuntimeOnly("com.terraformersmc:modmenu:4.0.5")
+}
+
+processResources {
+    inputs.property "version", version
+
+    filesMatching('quilt.mod.json') {
+        expand "version": version
     }
 }
 
-task uploadSubProjects {
-    dependsOn = [":common:bintrayUpload", ":fabric:bintrayUpload", ":forge:bintrayUpload"]
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    it.options.release = 17
 }
 
-task publishToModrinth {
-    dependsOn = [":fabric:modrinthFabric", ":forge:modrinthForge"]
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+
+    withSourcesJar()
 }
 
-def getLastVersion() {
-    def versions = Arrays.stream((project.mod_version + "").split("\\.")).map({ s -> Integer.parseInt(s) }).collect(Collectors.toList())
-    if (versions.get(2) != 0) {
-        return versions.get(0) + "." + versions.get(1) + "." + (versions.get(2) - 1)
-    }
-
-    if (versions.get(1) != 0) {
-        releaseType = "minor"
-        return versions.get(0) + "." + (versions.get(1) - 1) + "." + versions.get(2)
-    }
-
-    releaseType = "major"
-    return (versions.get(0) - 1) + "." + versions.get(1) + "." + versions.get(2)
-}
-
-task generateChangelog {
-    def changes = StringBuilder.newInstance()
-
-    def lastTag = getLastVersion()
-    def currentTag = project.mod_version
-
-    def commitLog = "B"
-
-    def commits = "git log --max-count=100 --pretty=format:%$commitLog $lastTag..$currentTag".execute()
-    println "Last version: $lastTag"
-    println "Current version: $currentTag"
-
-    if (releaseType == "minor") {
-        changes << "Minor Release of Netherite Plus:\n"
-        changes << "Changes Since ${lastTag}"
-    } else if(releaseType == "major") {
-        changes << "Major Release of Netherite Plus:\n"
-        changes << "Changes Since ${lastTag}"
-    }
-
-    commits.in.eachLine { line -> // Loops over the lines the git log command returns
-        def processedLine = line.toString()
-        if (processedLine.startsWith("\"")) {
-            processedLine = processedLine.substring(1)
-        }
-        if (processedLine.endsWith("\"")) {
-            processedLine = processedLine.substring(0, processedLine.length() - 1)
-        }
-        if(processedLine.startsWith("- -"))
-            processedLine = processedLine.substring(2).trim()
-
-        println "Reading line: $processedLine"
-
-        println "Adding changelog line:"
-        println "  $processedLine"
-        if (changes.length() == 1) {
-            changes << processedLine
-        } else {
-            if(processedLine.trim() != "")
-                changes << "\n$processedLine"
-        }
-    }
-    commits.err.eachLine { line -> println line }
-    commits.waitFor()
-    println "Changelog:"
-    releaseChangelog = changes.toString()
-    if (releaseChangelog.isEmpty()) {
-        releaseChangelog = "No Changelog Available"
-    }
-    println releaseChangelog
-
-    outputs.upToDateWhen { false }
-}
-
-ext.createDiscordChangelog = { fullChangelogUrl ->
-    def webhookChangelog = StringBuilder.newInstance()
-    def changelogLines = releaseChangelog.split("\n")
-    def maxLines = 100
-    if (changelogLines.length <= maxLines) {
-        return releaseChangelog
-    } else {
-        def lines = 0
-        changelogLines.find { line ->
-            if (webhookChangelog.length() == 0) {
-                webhookChangelog << line
-            } else {
-                webhookChangelog << "\n$line"
-            }
-            lines++
-            if (lines >= maxLines) {
-                webhookChangelog << "\n(+ " + (changelogLines.length - lines) + " more) See [Full Changelog]($fullChangelogUrl)"
-                return true;
-            }
-        }
-    }
-    return webhookChangelog.toString()
-}
-
-void sendDiscordWebhook() {
-    println "Modrinth Fabric download: $fabricModrinthDownloadLink"
-    println "Modrinth Forge download: $forgeModrinthDownloadLink"
-    println "GitHub download: $githubDownloadLink"
-    if (fabricModrinthDownloadLink != null && forgeModrinthDownloadLink != null && githubDownloadLink != null && System.getenv().DISCORD_ANNOUNCEMENT_WEBHOOK) {
-        println System.getenv().DISCORD_ANNOUNCEMENT_WEBHOOK
-        println "Preparing webhook"
-        def release_url = fabricModrinthDownloadLink
-        def discordChangelog = createDiscordChangelog(release_url)
-
-        def result = DiscordBuilder.createForm {
-            avatar_url = "https://raw.githubusercontent.com/OroArmor/Netherite-Plus-Mod/fcc51b4f3bad7004dcf7a8d00ffccfe4e34bf612/common/src/main/resources/assets/netherite_plus/icon.png"
-            username = project.project_name
-            embed {
-                author {
-                    name = project.project_name
-                    url = "https://www.github.com/OroArmor/Netherite-Plus-Mod"
-                }
-                thumbnail { url = "https://raw.githubusercontent.com/OroArmor/Netherite-Plus-Mod/fcc51b4f3bad7004dcf7a8d00ffccfe4e34bf612/common/src/main/resources/assets/netherite_plus/icon.png" }
-                title = "$project.project_name v$version for $project.minecraft_version Released"
-                url = release_url
-                field {
-                    name = "Changes:"
-                    value = discordChangelog
-                }
-                field {
-                    name = "Downloads:"
-                    value = "[CurseForge](https://www.curseforge.com/minecraft/mc-mods/netherite-plus-mod/files)\n[Modrinth Fabric]($fabricModrinthDownloadLink)\n[Modrinth Forge]($forgeModrinthDownloadLink)\n[GitHub]($githubDownloadLink)"
-                }
-            }
-        }.send(System.getenv().DISCORD_ANNOUNCEMENT_WEBHOOK)
-
-        println "Discord Webhook Response: " + result.responseCode
-    }
-}
-
-task github {
-    onlyIf {
-        System.getenv().GITHUB_TOKEN
-    }
-
-    doLast {
-        def github = org.kohsuke.github.GitHub.connectUsingOAuth(System.getenv().GITHUB_TOKEN as String)
-        def repository = github.getRepository("OroArmor/Netherite-Plus-Mod")
-
-        def releaseBuilder = new org.kohsuke.github.GHReleaseBuilder(repository, project.mod_version)
-        releaseBuilder.name("$project.project_name $project.mod_version for $project.minecraft_version")
-        releaseBuilder.body(releaseChangelog)
-        releaseBuilder.commitish("master")
-
-        def ghRelease = releaseBuilder.create()
-        ghRelease.uploadAsset(file("${project.rootDir}/fabric/build/libs/${archivesBaseName}-${version}-fabric.jar"), "application/java-archive");
-        ghRelease.uploadAsset(file("${project.rootDir}/forge/build/libs/${archivesBaseName}-${version}-forge.jar"), "application/java-archive");
-        githubDownloadLink = ghRelease.getHtmlUrl()
-        sendDiscordWebhook()
+jar {
+    from("LICENSE") {
+        rename { "${it}_${archivesBaseName}" }
     }
 }

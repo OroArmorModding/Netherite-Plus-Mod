@@ -1,0 +1,12 @@
+{
+  "base": {
+    "item": "minecraft:shears"
+  },
+  "addition": {
+    "item": "minecraft:netherite_ingot"
+  },
+  "result": {
+    "item": "netherite_plus:netherite_shears"
+  },
+  "type": "minecraft:smithing"
+}

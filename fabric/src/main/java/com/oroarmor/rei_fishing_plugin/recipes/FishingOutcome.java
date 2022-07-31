@@ -29,7 +29,7 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -90,7 +90,7 @@ public class FishingOutcome {
 
 		static {
 			ItemStack water_bottle_item = new ItemStack(Registry.ITEM.get(new Identifier("minecraft:potion")));
-			water_bottle_item.setTag(new CompoundTag(ImmutableMap.of("Potion", StringTag.of("minecraft:water"))));
+			water_bottle_item.setTag(new NbtCompound(ImmutableMap.of("Potion", StringTag.of("minecraft:water"))));
 			water_bottle = new FishingOutcome(water_bottle_item, 10, 10);
 
 			recipes = ImmutableList.of(lily_pad, leather_boots, leather, bone, string, fishing_rod, bowl, stick, tripwire_hook, rotten_flesh, bamboo, water_bottle, ink_sac);
