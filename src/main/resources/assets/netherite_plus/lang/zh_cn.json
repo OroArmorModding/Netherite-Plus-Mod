@@ -40,5 +40,12 @@
   "item.netherite_plus.netherite_bow": "下界合金弓",
   "item.netherite_plus.netherite_crossbow": "下界合金弩",
   "item.netherite_plus.netherite_horse_armor": "下界合金马铠",
-  "warning.netherite_elytra.trinkets": "无法装备在胸甲栏"
+  "warning.netherite_elytra.trinkets": "无法装备在胸甲栏",
+  "stat.netherite_plus.netherite_elytra_flight_distance": "使用下界合金鞘翅飞行时间",
+  "block.netherite_plus.netherite_beacon": "下界合金信标",
+  "item.netherite_plus.netherite_trident": "下界合金三叉戟",
+  "block.netherite_plus.netherite_anvil": "下界合金铁砧",
+  "item.netherite_plus.netherite_shears": "下界合金剪刀",
+  "block.netherite_plus.netherite_beacon.tertiary": "副效果",
+  "effect.netherite_plus.lava_vision": "岩浆夜视"
 }
