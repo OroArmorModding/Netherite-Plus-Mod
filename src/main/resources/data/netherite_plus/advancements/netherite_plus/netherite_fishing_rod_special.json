@@ -1,0 +1,35 @@
+{
+  "parent": "netherite_plus:netherite_plus/netherite_fishing_rod",
+  "display": {
+    "icon": {
+      "item": "netherite_plus:netherite_fishing_rod"
+    },
+    "title": {
+      "translate": "advancements.netherite_plus.netherite_fishing_rod_special.title"
+    },
+    "description": {
+      "translate": "advancements.netherite_plus.netherite_fishing_rod_special.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "netherite_fishing_rod": {
+      "trigger": "minecraft:fishing_rod_hooked",
+      "conditions": {
+        "items": [
+          {
+            "items": ["minecraft:ancient_debris"]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "netherite_fishing_rod"
+    ]
+  ]
+}

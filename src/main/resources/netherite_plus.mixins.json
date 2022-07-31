@@ -1,0 +1,29 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.oroarmor.netherite_plus.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "BlockItemMixin",
+    "CrossbowItemMixin",
+    "ItemPredicateMixin",
+    "PlayerEntityMixin",
+    "ServerPlayNetworkHandlerMixin",
+    "ShulkerBoxBlockEntityMixin",
+    "TridentEntityMixin"
+  ],
+  "client": [
+    "ClientPlayNetworkHandlerAccessor",
+    "ClientPlayNetworkHandlerMixin",
+    "render.BackgroundRendererMixin",
+    "render.ItemRendererAccessor",
+    "render.ItemRendererMixin",
+    "render.MinecraftClientMixin",
+    "render.ModelLoaderMixin",
+    "render.TexturedRenderLayersMixin",
+    "render.TridentEntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

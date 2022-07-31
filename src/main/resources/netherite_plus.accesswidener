@@ -1,0 +1,36 @@
+accessWidener	v1	named
+
+extendable class net/minecraft/entity/projectile/FishingBobberEntity$State
+extendable class net/minecraft/entity/projectile/FishingBobberEntity$PositionType
+extendable method net/minecraft/entity/projectile/ProjectileEntity <init> (Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;)V
+
+accessible field net/minecraft/entity/projectile/FishingBobberEntity velocityRandom Lnet/minecraft/util/random/RandomGenerator;
+accessible field net/minecraft/entity/projectile/FishingBobberEntity caughtFish Z
+accessible field net/minecraft/entity/projectile/FishingBobberEntity outOfOpenWaterTicks I
+accessible field net/minecraft/entity/projectile/FishingBobberEntity removalTimer I
+accessible field net/minecraft/entity/projectile/FishingBobberEntity hookCountdown I
+accessible field net/minecraft/entity/projectile/FishingBobberEntity waitCountdown I
+accessible field net/minecraft/entity/projectile/FishingBobberEntity fishTravelCountdown I
+accessible field net/minecraft/entity/projectile/FishingBobberEntity fishAngle F
+accessible field net/minecraft/entity/projectile/FishingBobberEntity inOpenWater Z
+accessible field net/minecraft/entity/projectile/FishingBobberEntity hookedEntity Lnet/minecraft/entity/Entity;
+accessible field net/minecraft/entity/projectile/FishingBobberEntity state Lnet/minecraft/entity/projectile/FishingBobberEntity$State;
+accessible field net/minecraft/entity/projectile/FishingBobberEntity luckOfTheSeaLevel I
+accessible field net/minecraft/entity/projectile/FishingBobberEntity lureLevel I
+
+accessible field net/minecraft/entity/projectile/FishingBobberEntity HOOK_ENTITY_ID Lnet/minecraft/entity/data/TrackedData;
+accessible field net/minecraft/entity/projectile/FishingBobberEntity CAUGHT_FISH Lnet/minecraft/entity/data/TrackedData;
+
+accessible field net/minecraft/entity/projectile/ProjectileEntity leftOwner Z
+
+accessible field net/minecraft/entity/projectile/TridentEntity tridentStack Lnet/minecraft/item/ItemStack;
+accessible field net/minecraft/entity/projectile/TridentEntity dealtDamage Z
+
+accessible method net/minecraft/nbt/NbtCompound <init> (Ljava/util/Map;)V
+accessible method net/minecraft/entity/effect/StatusEffect <init> (Lnet/minecraft/entity/effect/StatusEffectType;I)V
+
+accessible    field    net/minecraft/item/TridentItem                            attributeModifiers         Lcom/google/common/collect/Multimap;
+mutable       field    net/minecraft/entity/attribute/EntityAttributeModifier    value                      D
+accessible    field    net/minecraft/entity/attribute/EntityAttributeModifier    value                      D
+
+accessible class net/minecraft/client/render/BackgroundRenderer$FogParameters

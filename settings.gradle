@@ -4,13 +4,9 @@ pluginManagement {
         maven { url "https://maven.fabricmc.net/" }
         maven { url "https://files.minecraftforge.net/maven/" }
         maven { url "https://maven.shedaniel.me/" }
+        maven { url "https://maven.quiltmc.org/repository/release/" }
         gradlePluginPortal()
     }
 }
-
-include("common")
-include("fabric")
-include("forge")
-include("forge-on-fabric-warning")
 
 rootProject.name = "netherite-plus-mod"

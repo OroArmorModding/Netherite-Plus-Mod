@@ -1,0 +1,12 @@
+{
+  "base": {
+    "item": "minecraft:trident"
+  },
+  "addition": {
+    "item": "minecraft:netherite_ingot"
+  },
+  "result": {
+    "item": "netherite_plus:netherite_trident"
+  },
+  "type": "minecraft:smithing"
+}

@@ -1,9 +1,0 @@
-{
-  "replace": false,
-  "values" : [
-    {
-      "id": "netherite_plus:netherite_shears",
-      "required": false
-    }
-  ]
-}

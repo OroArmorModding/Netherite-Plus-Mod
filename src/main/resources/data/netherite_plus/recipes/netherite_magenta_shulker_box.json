@@ -1,0 +1,12 @@
+{
+  "base": {
+    "item": "minecraft:magenta_shulker_box"
+  },
+  "addition": {
+    "item": "minecraft:netherite_ingot"
+  },
+  "result": {
+    "item": "netherite_plus:netherite_magenta_shulker_box"
+  },
+  "type": "minecraft:smithing"
+}
