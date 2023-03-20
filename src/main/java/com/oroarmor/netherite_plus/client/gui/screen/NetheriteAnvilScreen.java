@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,19 +24,16 @@
 
 package com.oroarmor.netherite_plus.client.gui.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.oroarmor.netherite_plus.screen.NetheriteAnvilScreenHandler;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.ForgingScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.packet.c2s.play.RenameItemC2SPacket;
-import net.minecraft.screen.AnvilScreenHandler;
+import net.minecraft.network.packet.c2s.play.ItemRenameC2SPacket;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
@@ -48,13 +45,14 @@ import net.fabricmc.api.Environment;
 @Environment(EnvType.CLIENT)
 public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHandler> {
     private static final Identifier TEXTURE = new Identifier("textures/gui/container/anvil.png");
+    private static final Text TOO_EXPENSIVE_TEXT = Text.translatable("container.repair.expensive");
     private final PlayerEntity player;
     private TextFieldWidget nameField;
 
     public NetheriteAnvilScreen(NetheriteAnvilScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title, TEXTURE);
         this.player = inventory.player;
-        titleX = 60;
+        this.titleX = 60;
     }
 
     public void handledScreenTick() {
@@ -64,29 +62,35 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
 
     @Override
     protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-        RenderSystem.disableBlend();
         super.drawForeground(matrices, mouseX, mouseY);
         int level = handler.getLevelCost();
         if (level > 0) {
-            int color = 8453920;
-            boolean bl = true;
-            String string = I18n.translate("container.repair.cost", level);
+            int color = 0x80ff20;
+            Text text;
             if (level >= 40 && !player.getAbilities().creativeMode) {
-                string = I18n.translate("container.repair.expensive");
-                color = 16736352;
+                text = TOO_EXPENSIVE_TEXT;
+                color = 0xff6060;
             } else if (!handler.getSlot(2).hasStack()) {
-                bl = false;
-            } else if (!handler.getSlot(2).canTakeItems(player)) {
-                color = 16736352;
+                text = null;
+            } else {
+                text = Text.translatable("container.repair.cost", level);
+                if (!handler.getSlot(2).canTakeItems(player)) {
+                    color = 0xff6060;
+                }
             }
 
-            if (bl) {
-                int k = backgroundWidth - 8 - textRenderer.getWidth(string) - 2;
-                fill(matrices, k - 2, 67, backgroundWidth - 8, 79, 1325400064);
-                textRenderer.drawWithShadow(matrices, string, k, 69.0F, color);
+            if (text != null) {
+                int k = backgroundWidth - 8 - textRenderer.getWidth(text) - 2;
+                fill(matrices, k - 2, 67, backgroundWidth - 8, 79, 0x4f000000);
+                textRenderer.drawWithShadow(matrices, text, k, 69.0F, color);
             }
         }
 
+    }
+
+    protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+        super.drawBackground(matrices, delta, mouseX, mouseY);
+        drawTexture(matrices, this.x + 59, this.y + 20, 0, this.backgroundHeight + (this.handler.getSlot(0).hasStack() ? 0 : 16), 110, 16);
     }
 
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
@@ -106,7 +110,7 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
             }
 
             this.handler.setNewItemName(s);
-            this.client.player.networkHandler.sendPacket(new RenameItemC2SPacket(s));
+            this.client.player.networkHandler.sendPacket(new ItemRenameC2SPacket(s));
         }
     }
 
@@ -115,32 +119,32 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
         if (slotId == 0) {
             nameField.setText(stack.isEmpty() ? "" : stack.getName().getString());
             nameField.setEditable(!stack.isEmpty());
-            setFocused(nameField);
+            setFocusedChild(nameField);
         }
 
     }
 
     @Override
-    public void removed() {
-        super.removed();
-        client.keyboard.setRepeatEvents(false);
-    }
-
-    @Override
-    public void renderForeground(MatrixStack matrixStack, int mouseY, int i, float f) {
-        nameField.render(matrixStack, mouseY, i, f);
+    public void renderForeground(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        this.nameField.render(matrices, mouseX, mouseY, delta);
     }
 
     @Override
     public void resize(MinecraftClient client, int width, int height) {
-        String string = nameField.getText();
+        String string = this.nameField.getText();
         this.init(client, width, height);
-        nameField.setText(string);
+        this.nameField.setText(string);
+    }
+
+    protected void method_48467(MatrixStack matrices, int i, int j) {
+        if ((this.handler.getSlot(0).hasStack() || this.handler.getSlot(1).hasStack())
+            && !this.handler.getSlot(this.handler.method_48360()).hasStack()) {
+            drawTexture(matrices, i + 99, j + 45, this.backgroundWidth, 0, 28, 21);
+        }
     }
 
     @Override
     protected void setup() {
-        this.client.keyboard.setRepeatEvents(true);
         int i = (this.width - this.backgroundWidth) / 2;
         int j = (this.height - this.backgroundHeight) / 2;
         this.nameField = new TextFieldWidget(this.textRenderer, i + 62, j + 24, 103, 12, Text.translatable("container.repair"));
@@ -152,7 +156,7 @@ public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHand
         this.nameField.setChangedListener(this::onRenamed);
         this.nameField.setText("");
         this.addSelectableChild(this.nameField);
-        this.setInitialFocus(this.nameField);
+        this.focusCurrentPath(this.nameField);
         this.nameField.setEditable(false);
     }
 }

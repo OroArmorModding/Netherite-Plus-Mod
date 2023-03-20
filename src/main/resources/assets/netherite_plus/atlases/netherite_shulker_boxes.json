@@ -1,0 +1,9 @@
+{
+  "sources": [
+    {
+      "type": "directory",
+      "source": "entity/netherite_shulker",
+      "prefix": "entity/netherite_shulker/"
+    }
+  ]
+}

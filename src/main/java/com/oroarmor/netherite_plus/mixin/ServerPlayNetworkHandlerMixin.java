@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,6 @@
 package com.oroarmor.netherite_plus.mixin;
 
 import com.oroarmor.netherite_plus.NetheritePlusMod;
-import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.network.LavaVisionUpdatePacket;
 import com.oroarmor.netherite_plus.screen.NetheriteAnvilScreenHandler;
 import org.quiltmc.qsl.networking.api.PacketByteBufs;
@@ -39,7 +38,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.SharedConstants;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.c2s.play.RenameItemC2SPacket;
+import net.minecraft.network.packet.c2s.play.ItemRenameC2SPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -62,10 +61,10 @@ public class ServerPlayNetworkHandlerMixin {
         NetheritePlusMod.CONNECTED_CLIENTS.remove(((ServerPlayNetworkHandler) (Object) this).player);
     }
 
-    @Inject(method = "onRenameItem", at = @At("RETURN"))
-    public void onRenameItem(RenameItemC2SPacket packet, CallbackInfo info) {
+    @Inject(method = "onItemRename", at = @At("RETURN"))
+    public void onRenameItem(ItemRenameC2SPacket packet, CallbackInfo info) {
         if (((ServerPlayNetworkHandler) (Object) this).player.currentScreenHandler instanceof NetheriteAnvilScreenHandler anvilScreenHandler) {
-            String string = SharedConstants.method_644(packet.getName());
+            String string = SharedConstants.stripInvalidCharacters(packet.getName());
             if (string.length() <= 35) {
                 anvilScreenHandler.setNewItemName(string);
             }

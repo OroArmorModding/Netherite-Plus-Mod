@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,13 +28,13 @@ import java.util.Optional;
 
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.c2s.play.UpdateBeaconC2SPacket;
+import net.minecraft.network.packet.c2s.play.BeaconUpdateC2SPacket;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
-public class UpdateNetheriteBeaconC2SPacket extends UpdateBeaconC2SPacket {
+public class UpdateNetheriteBeaconC2SPacket extends BeaconUpdateC2SPacket {
 
     public static final Identifier ID = id("netherite_beacon_update_packet");
 
@@ -47,13 +47,13 @@ public class UpdateNetheriteBeaconC2SPacket extends UpdateBeaconC2SPacket {
 
     public UpdateNetheriteBeaconC2SPacket(PacketByteBuf packetByteBuf) {
         super(packetByteBuf);
-        this.tertiaryEffect = packetByteBuf.readOptional(byteBuf -> byteBuf.readById(Registry.STATUS_EFFECT));
+        this.tertiaryEffect = packetByteBuf.readOptional(byteBuf -> byteBuf.readFromIterable(Registries.STATUS_EFFECT));
     }
 
     @Override
     public void write(PacketByteBuf buf) {
         super.write(buf);
-        buf.writeOptional(this.tertiaryEffect, (packetByteBuf, statusEffect) -> packetByteBuf.writeId(Registry.STATUS_EFFECT, statusEffect));
+        buf.writeOptional(this.tertiaryEffect, (packetByteBuf, statusEffect) -> packetByteBuf.writeFromIterable(Registries.STATUS_EFFECT, statusEffect));
     }
 
     public Optional<StatusEffect> getTertiaryEffect() {

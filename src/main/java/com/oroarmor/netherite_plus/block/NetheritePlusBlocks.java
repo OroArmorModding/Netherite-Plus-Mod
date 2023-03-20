@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,9 +34,10 @@ import net.minecraft.block.MapColor;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.DyeColor;
-import net.minecraft.util.registry.Registry;
 
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
@@ -84,7 +85,7 @@ public class NetheritePlusBlocks {
         if (NetheritePlusMod.CONFIG.enabled.beacon) {
             NETHERITE_BEACON = register("netherite_beacon", new NetheriteBeaconBlock(AbstractBlock.Settings.of(Material.GLASS, MapColor.DIAMOND_BLUE).strength(3.0F).luminance((state) -> 15).nonOpaque()));
 
-            NETHERITE_BEACON_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, id("netherite_beacon"),
+            NETHERITE_BEACON_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, id("netherite_beacon"),
                     BlockEntityType.Builder.create(NetheriteBeaconBlockEntity::new, NETHERITE_BEACON).build(null));
         }
     }
@@ -101,7 +102,7 @@ public class NetheritePlusBlocks {
     }
 
     private static Block register(String id, Block block) {
-        return Registry.register(Registry.BLOCK, id(id), block);
+        return Registry.register(Registries.BLOCK, id(id), block);
     }
 
     private static void registerShulkerBoxBlocks() {
@@ -123,7 +124,7 @@ public class NetheritePlusBlocks {
         NETHERITE_RED_SHULKER_BOX = register("netherite_red_shulker_box", createShulkerBoxBlock(DyeColor.RED, AbstractBlock.Settings.of(Material.SHULKER_BOX, MapColor.RED)));
         NETHERITE_BLACK_SHULKER_BOX = register("netherite_black_shulker_box", createShulkerBoxBlock(DyeColor.BLACK, AbstractBlock.Settings.of(Material.SHULKER_BOX, MapColor.BLACK)));
 
-        NETHERITE_SHULKER_BOX_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, id("netherite_shulker_box"),
+        NETHERITE_SHULKER_BOX_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, id("netherite_shulker_box"),
                 BlockEntityType.Builder.create(NetheriteShulkerBoxBlockEntity::new,
                         NETHERITE_SHULKER_BOX, NETHERITE_BLACK_SHULKER_BOX, NETHERITE_BLUE_SHULKER_BOX, NETHERITE_BROWN_SHULKER_BOX, NETHERITE_CYAN_SHULKER_BOX, NETHERITE_GRAY_SHULKER_BOX, NETHERITE_GREEN_SHULKER_BOX, NETHERITE_LIGHT_BLUE_SHULKER_BOX, NETHERITE_LIGHT_GRAY_SHULKER_BOX, NETHERITE_LIME_SHULKER_BOX, NETHERITE_MAGENTA_SHULKER_BOX, NETHERITE_ORANGE_SHULKER_BOX, NETHERITE_PINK_SHULKER_BOX, NETHERITE_PURPLE_SHULKER_BOX, NETHERITE_RED_SHULKER_BOX, NETHERITE_WHITE_SHULKER_BOX, NETHERITE_YELLOW_SHULKER_BOX)
                         .build(null));

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,12 @@ import com.oroarmor.netherite_plus.client.gui.screen.NetheriteAnvilScreen;
 import com.oroarmor.netherite_plus.client.gui.screen.NetheriteBeaconScreen;
 
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
+import net.minecraft.feature_flags.FeatureFlagBitSet;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
@@ -46,7 +48,7 @@ public class NetheritePlusScreenHandlers {
     }
 
     public static <T extends ScreenHandler> ScreenHandlerType<T> register(Identifier id, ScreenHandlerType.Factory<T> factory) {
-        return Registry.register(Registry.SCREEN_HANDLER, id, new ScreenHandlerType<>(factory));
+        return Registry.register(Registries.SCREEN_HANDLER_TYPE, id, new ScreenHandlerType<>(factory, FeatureFlagBitSet.empty()));
     }
 
     public static void init() {

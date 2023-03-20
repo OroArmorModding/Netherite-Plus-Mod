@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,8 +31,10 @@ import net.minecraft.item.BannerItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.recipe.CraftingCategory;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -40,12 +42,12 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
-    public NetheriteShieldDecorationRecipe(Identifier identifier) {
-        super(identifier);
+    public NetheriteShieldDecorationRecipe(Identifier identifier, CraftingCategory category) {
+        super(identifier, category);
     }
 
     @Override
-    public ItemStack craft(CraftingInventory craftingInventory) {
+    public ItemStack craft(CraftingInventory craftingInventory, DynamicRegistryManager registryManager) {
         ItemStack itemStack = ItemStack.EMPTY;
         ItemStack itemStack2 = ItemStack.EMPTY;
 

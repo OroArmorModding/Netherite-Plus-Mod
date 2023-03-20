@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -44,10 +44,10 @@ import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.tag.FluidTags;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -270,7 +270,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
                     q = getX() + o * fishTravelCountdown * 0.1F;
                     r = MathHelper.floor(getY()) + 1.0F;
                     s = getZ() + p * fishTravelCountdown * 0.1F;
-                    blockState2 = serverWorld.getBlockState(new BlockPos(q, r - 1.0D, s));
+                    blockState2 = serverWorld.getBlockState(BlockPos.create(q, r - 1.0D, s));
                     if (blockState2.isOf(Blocks.LAVA)) {
                         if (random.nextFloat() < 0.15F) {
                             serverWorld.spawnParticles(ParticleTypes.LAVA_SPLASH, q, r - 0.10000000149011612D, s, 1, o, 0.1D, p, 0.0D);
@@ -306,7 +306,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
                     q = getX() + MathHelper.sin(o) * p * 0.1F;
                     r = MathHelper.floor(getY()) + 1.0F;
                     s = getZ() + MathHelper.cos(o) * p * 0.1F;
-                    blockState2 = serverWorld.getBlockState(new BlockPos(q, r - 1.0D, s));
+                    blockState2 = serverWorld.getBlockState(BlockPos.create(q, r - 1.0D, s));
                     if (blockState2.isOf(Blocks.LAVA)) {
                         serverWorld.spawnParticles(ParticleTypes.SMOKE, q, r, s, 2 + random.nextInt(2), 0.10000000149011612D, 0.0D, 0.10000000149011612D, 0.0D);
                     }

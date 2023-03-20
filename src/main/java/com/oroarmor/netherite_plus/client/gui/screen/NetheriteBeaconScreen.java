@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -158,13 +158,6 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
         drawCenteredText(matrices, textRenderer, PRIMARY_TEXT, 62, 10, 14737632);
         drawCenteredText(matrices, textRenderer, SECONDARY_TEXT, 169, 10, 14737632);
         drawCenteredText(matrices, textRenderer, TERTIARY_TEXT, 169, 58, 14737632);
-
-        for (BeaconButtonWidget button : this.buttons) {
-            if (button.shouldRenderTooltip()) {
-                button.renderTooltip(matrices, mouseX - x, mouseY - y);
-                break;
-            }
-        }
     }
 
     @Override
@@ -174,30 +167,27 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
         RenderSystem.setShaderTexture(0, TEXTURE);
         int i = (width - backgroundWidth) / 2;
         int j = (height - backgroundHeight) / 2;
-        this.drawTexture(matrices, i, j, 0, 0, backgroundWidth, backgroundHeight);
-        itemRenderer.zOffset = 100.0F;
-        itemRenderer.renderInGuiWithOverrides(new ItemStack(Items.NETHERITE_INGOT), i + 42 + 66, j + 109);
-        itemRenderer.zOffset = 0.0F;
+        drawTexture(matrices, i, j, 0, 0, backgroundWidth, backgroundHeight);
+        matrices.push();
+        matrices.translate(0.0F, 0.0F, 100.0F);
+        this.itemRenderer.method_4023(matrices, new ItemStack(Items.NETHERITE_INGOT), i + 42 + 66, j + 109);
+        matrices.pop();
     }
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
         super.render(matrices, mouseX, mouseY, delta);
-        drawMouseoverTooltip(matrices, mouseX, mouseY);
+        this.drawMouseoverTooltip(matrices, mouseX, mouseY);
     }
 
     @Environment(EnvType.CLIENT)
     interface BeaconButtonWidget {
-        boolean shouldRenderTooltip();
-
-        void renderTooltip(MatrixStack matrices, int mouseX, int mouseY);
-
         void tick(int level);
     }
 
     @Environment(EnvType.CLIENT)
-    abstract class IconButtonWidget extends BaseButtonWidget {
+    abstract static class IconButtonWidget extends BaseButtonWidget {
         private final int u;
         private final int v;
 
@@ -209,12 +199,7 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
 
         @Override
         protected void renderExtra(MatrixStack matrixStack) {
-            this.drawTexture(matrixStack, x + 2, y + 2, u, v, 18, 18);
-        }
-
-        @Override
-        public void renderTooltip(MatrixStack matrices, int mouseX, int mouseY) {
-            NetheriteBeaconScreen.this.renderTooltip(matrices, NetheriteBeaconScreen.this.title, mouseX, mouseY);
+            drawTexture(matrixStack, getX() + 2, getY() + 2, u, v, 18, 18);
         }
     }
 
@@ -226,25 +211,23 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
             super(x, y, 22, 22, ScreenTexts.EMPTY);
         }
 
-        protected BaseButtonWidget(int i, int j, Text text) {
-            super(i, j, 22, 22, text);
+        protected BaseButtonWidget(int x, int y, Text text) {
+            super(x, y, 22, 22, text);
         }
 
         @Override
-        public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
             RenderSystem.setShaderTexture(0, NetheriteBeaconScreen.TEXTURE);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            int j = 0;
+            int uStart = 0;
             if (!active) {
-                j += width * 2;
+                uStart += width * 2;
             } else if (disabled) {
-                j += width;
+                uStart += width;
             } else if (isHoveredOrFocused()) {
-                j += width * 3;
+                uStart += width * 3;
             }
 
-            this.drawTexture(matrices, x, y, j, 219, width, height);
+            drawTexture(matrices, this.getX(), this.getY(), uStart, 219, width, height);
             renderExtra(matrices);
         }
 
@@ -259,11 +242,7 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
         }
 
         @Override
-        public boolean shouldRenderTooltip() {
-            return this.hovered;
-        }
-
-        public void appendNarrations(NarrationMessageBuilder builder) {
+        protected void updateNarration(NarrationMessageBuilder builder) {
             this.appendDefaultNarrations(builder);
         }
     }
@@ -313,7 +292,6 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
         private final int level;
         private StatusEffect effect;
         private Sprite sprite;
-        private Text tooltip;
 
         public EffectButtonWidget(int x, int y, StatusEffect statusEffect, int effectIndex, int level) {
             super(x, y);
@@ -325,7 +303,6 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
         protected void init(StatusEffect statusEffect) {
             this.effect = statusEffect;
             this.sprite = MinecraftClient.getInstance().getStatusEffectSpriteManager().getSprite(statusEffect);
-            this.tooltip = this.getEffectName(statusEffect);
         }
 
         protected MutableText getEffectName(StatusEffect statusEffect) {
@@ -346,14 +323,9 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
         }
 
         @Override
-        public void renderTooltip(MatrixStack matrices, int mouseX, int mouseY) {
-            NetheriteBeaconScreen.this.renderTooltip(matrices, tooltip, mouseX, mouseY);
-        }
-
-        @Override
         protected void renderExtra(MatrixStack matrixStack) {
-            RenderSystem.setShaderTexture(0, this.sprite.getAtlas().getId());
-            drawSprite(matrixStack, x + 2, y + 2, getZOffset(), 18, 18, sprite);
+            RenderSystem.setShaderTexture(0, this.sprite.getId());
+            drawSprite(matrixStack, getX() + 2, getY() + 2, 0, 18, 18, sprite);
         }
 
         @Override

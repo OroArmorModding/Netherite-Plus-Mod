@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,10 +24,11 @@
 
 package com.oroarmor.netherite_plus.stat;
 
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.stat.StatFormatter;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
@@ -36,7 +37,7 @@ public class NetheritePlusStats {
 
     private static Identifier register(String name, StatFormatter formatter) {
         Identifier identifier = id(name);
-        Registry.register(Registry.CUSTOM_STAT, identifier, identifier);
+        Registry.register(Registries.CUSTOM_STAT, identifier, identifier);
         Stats.CUSTOM.getOrCreateStat(identifier, formatter);
         return identifier;
     }

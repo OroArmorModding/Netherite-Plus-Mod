@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,24 +24,34 @@
 
 package com.oroarmor.netherite_plus.mixin.render;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
+import com.oroarmor.netherite_plus.NetheritePlusMod;
 import com.oroarmor.netherite_plus.client.NetheritePlusTextures;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.render.TexturedRenderLayers;
+import net.minecraft.client.texture.SpriteAtlasManager;
+import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.SpriteIdentifier;
+import net.minecraft.util.Identifier;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-@Mixin(TexturedRenderLayers.class)
+@Mixin(SpriteAtlasManager.class)
 public class TexturedRenderLayersMixin {
-    @Inject(at = @At("HEAD"), method = "addDefaultTextures")
-    private static void onAddDefaultTextures(Consumer<SpriteIdentifier> consumer, CallbackInfo info) {
-        NetheritePlusTextures.makeAtlases(consumer);
+    @ModifyVariable(at = @At("HEAD"), method = "<init>", argsOnly = true)
+    private static Map<Identifier, Identifier> onAddDefaultTextures(Map<Identifier, Identifier> atlasIds) {
+        atlasIds = new HashMap<>(atlasIds);
+        atlasIds.put(NetheritePlusTextures.NETHERITE_SHULKER_BOXES_ATLAS_TEXTURE, NetheritePlusMod.id("netherite_shulker_boxes"));
+        atlasIds.put(NetheritePlusTextures.NETHERITE_SHIELD_PATTERNS_ATLAS_TEXTURE, NetheritePlusMod.id("netherite_shield_patterns"));
+        return atlasIds;
     }
 }

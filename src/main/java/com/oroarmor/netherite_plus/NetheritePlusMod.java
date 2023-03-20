@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -99,10 +99,6 @@ public class NetheritePlusMod implements ModInitializer {
         }
         if (CONFIG.enabled.fishing_rod) {
             UniqueItemRegistry.FISHING_ROD.addItemToRegistry(NETHERITE_FISHING_ROD);
-        }
-        if (CONFIG.enabled.bows_and_crossbows) {
-            UniqueItemRegistry.BOW.addItemToRegistry(NETHERITE_BOW);
-            UniqueItemRegistry.CROSSBOW.addItemToRegistry(NETHERITE_CROSSBOW);
         }
         if (CONFIG.enabled.trident) {
             UniqueItemRegistry.TRIDENT.addItemToRegistry(NETHERITE_TRIDENT);

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -68,9 +68,9 @@ public class NetheriteShulkerBoxBlockEntityRenderer implements BlockEntityRender
         DyeColor dyeColor = shulkerBoxBlockEntity.getColor();
         SpriteIdentifier spriteIdentifier;
         if (dyeColor == null) {
-            spriteIdentifier = new SpriteIdentifier(NetheritePlusTextures.SHULKER_BOXES_ATLAS_TEXTURE, id("entity/netherite_shulker/netherite_shulker"));
+            spriteIdentifier = new SpriteIdentifier(NetheritePlusTextures.NETHERITE_SHULKER_BOXES_ATLAS_TEXTURE, id("entity/netherite_shulker/netherite_shulker"));
         } else {
-            spriteIdentifier = new SpriteIdentifier(NetheritePlusTextures.SHULKER_BOXES_ATLAS_TEXTURE, id("entity/netherite_shulker/netherite_shulker_" + dyeColor.getName()));
+            spriteIdentifier = new SpriteIdentifier(NetheritePlusTextures.NETHERITE_SHULKER_BOXES_ATLAS_TEXTURE, id("entity/netherite_shulker/netherite_shulker_" + dyeColor.getName()));
         }
 
         matrixStack.push();

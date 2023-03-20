@@ -13,7 +13,7 @@
     "version": "${version}",
     "metadata": {
       "name": "Netherite Plus Mod",
-      "description": "This mod adds extra netherite features that aren't vanillia.\n\nNOTE: Editing the config requires a game restart",
+      "description": "This mod adds extra netherite features that aren't vanilla.\n\nNOTE: Editing the config requires a game restart.",
       "contributors": {
         "OroArmor": "Owner",
         "1198159": "Contributor",
@@ -28,28 +28,33 @@
       "icon": "assets/netherite_plus/icon.png"
     },
     "intermediate_mappings": "net.fabricmc:intermediary",
-    "accessWidener": "netherite_plus.accesswidener",
     "depends": [
       {
         "id": "quilt_loader",
-        "versions": ">=0.17.1"
+        "versions": ">=0.18.5"
       },
       {
         "id": "quilted_fabric_api",
-        "versions": ">=4.0.0-beta.1+0.58.5-1.19.1"
+        "versions": ">=5.0.0-beta.1+1.19.4"
       },
       {
         "id": "minecraft",
-        "versions": ">=1.19.1"
-      }, {
+        "versions": "1.19.4"
+      },
+      {
         "id": "multi_item_lib",
-        "versions": ">=1.5.3"
+        "versions": ">=1.6.2"
+      },
+      {
+        "id": "fabricshieldlib",
+        "version": ">=1.7-pre2-1.19.4"
       }
     ]
   },
   "mixin": [
     "netherite_plus.mixins.json"
   ],
+  "access_widener": "netherite_plus.accesswidener",
   "minecraft": {
     "environment": "*"
   },
