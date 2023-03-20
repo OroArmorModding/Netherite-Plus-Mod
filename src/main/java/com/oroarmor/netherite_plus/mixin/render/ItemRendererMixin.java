@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -50,42 +50,12 @@ import static com.oroarmor.netherite_plus.NetheritePlusMod.MOD_ID;
 
 @Mixin(ItemRenderer.class)
 public abstract class ItemRendererMixin {
-    @Shadow @Final private BuiltinModelItemRenderer builtinModelItemRenderer;
-
-//    @Inject(method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/render/model/BakedModel;)V", at = @At(value = "HEAD"), cancellable = true)
-//    public void renderItem(ItemStack stack, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel model, CallbackInfo info) {
-//        if (stack.isOf(NetheritePlusItems.NETHERITE_TRIDENT)) {
-//            if (!stack.isEmpty()) {
-//                matrices.push();
-//                boolean bl = renderMode == ModelTransformation.Mode.GUI || renderMode == ModelTransformation.Mode.GROUND || renderMode == ModelTransformation.Mode.FIXED;
-//                if (bl) {
-//                    model = ((ItemRendererAccessor) this).netherite_plus$getModels().getModelManager().getModel(new ModelIdentifier(MOD_ID + ":netherite_trident#inventory"));
-//                }
-//
-//                model.getTransformation().getTransformation(renderMode).apply(leftHanded, matrices);
-//                matrices.translate(-0.5, -0.5, -0.5);
-//                if (!model.isBuiltin() && bl) {
-//                    boolean direct = true;
-//                    RenderLayer renderLayer = RenderLayers.getItemLayer(stack, direct);
-//                    VertexConsumer vertexConsumer = ItemRenderer.getDirectItemGlintConsumer(vertexConsumers, renderLayer, true, stack.hasGlint());
-//
-//                    ((ItemRendererAccessor) this).netherite_plus$renderBakedItemModel(model, stack, light, overlay, matrices, vertexConsumer);
-//                } else {
-//                    this.builtinModelItemRenderer.render(stack, renderMode, matrices, vertexConsumers, light, overlay);
-//                }
-//
-//                matrices.pop();
-//            }
-//            info.cancel();
-//        }
-//    }
-
-    @ModifyVariable(method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/render/model/BakedModel;)V",
+    @ModifyVariable(method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformationMode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/render/model/BakedModel;)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/model/BakedModelManager;getModel(Lnet/minecraft/client/util/ModelIdentifier;)Lnet/minecraft/client/render/model/BakedModel;", shift = At.Shift.BY, by = 2, ordinal = 0),
             index = 8)
     public BakedModel useNetheriteTridentModel(BakedModel value, ItemStack stack) {
         if (stack.isOf(NetheritePlusItems.NETHERITE_TRIDENT)) {
-            return ((ItemRendererAccessor) this).netherite_plus$getModels().getModelManager().getModel(new ModelIdentifier(MOD_ID + ":netherite_trident#inventory"));
+            return ((ItemRendererAccessor) this).netherite_plus$getModels().getModelManager().getModel(new ModelIdentifier(MOD_ID, "netherite_trident", "inventory"));
         }
         return value;
     }
@@ -93,7 +63,7 @@ public abstract class ItemRendererMixin {
     @ModifyVariable(method = "getHeldItemModel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemModels;getModel(Lnet/minecraft/item/ItemStack;)Lnet/minecraft/client/render/model/BakedModel;", shift = At.Shift.BY, by = 2), index = 5)
     public BakedModel getHeldNetheriteTridentModel(BakedModel value, ItemStack stack) {
         if (stack.isOf(NetheritePlusItems.NETHERITE_TRIDENT)) {
-            return ((ItemRendererAccessor) this).netherite_plus$getModels().getModelManager().getModel(new ModelIdentifier(MOD_ID + ":netherite_trident_in_hand#inventory"));
+            return ((ItemRendererAccessor) this).netherite_plus$getModels().getModelManager().getModel(new ModelIdentifier(MOD_ID, "netherite_trident_in_hand", "inventory"));
         }
         return value;
     }

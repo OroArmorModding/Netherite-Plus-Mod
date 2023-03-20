@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -48,8 +48,8 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         super(entityType, world);
     }
 
-    @Inject(method = "increaseTravelMotionStats", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;increaseStat(Lnet/minecraft/util/Identifier;I)V", ordinal = 7), locals = LocalCapture.CAPTURE_FAILHARD)
-    private void increaseTravelMotionStats(double dx, double dy, double dz, CallbackInfo ci, int i) {
+    @Inject(method = "increaseTravelMotionStats", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;increaseStat(Lnet/minecraft/util/Identifier;I)V", ordinal = 7))
+    private void increaseTravelMotionStats(double dx, double dy, double dz, CallbackInfo ci) {
         boolean hasNetheriteElytra = false;
         for (ItemStack item : this.getArmorItems()) {
             hasNetheriteElytra |= item.isOf(NetheritePlusItems.NETHERITE_ELYTRA);
@@ -58,6 +58,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             return;
         }
 
-        this.increaseStat(NetheritePlusStats.FLY_NETHERITE_ELYTRA_ONE_CM, i);
+        this.increaseStat(NetheritePlusStats.FLY_NETHERITE_ELYTRA_ONE_CM, Math.round((float)Math.sqrt(dx * dx + dy * dy + dz * dz) * 100.0F));
     }
 }

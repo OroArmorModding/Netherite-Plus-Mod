@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,6 @@
 
 package com.oroarmor.netherite_plus.item;
 
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -34,17 +33,11 @@ import net.fabricmc.fabric.api.entity.event.v1.FabricElytraItem;
 public class NetheriteElytraItem extends ArmorItem implements FabricElytraItem {
 
     public NetheriteElytraItem(Settings settings) {
-        super(NetheriteElytraArmorMaterials.NETHERITE_ELYTRA_MATERIAL, EquipmentSlot.CHEST, settings);
+        super(NetheriteElytraArmorMaterials.NETHERITE_ELYTRA_MATERIAL, ArmorSlot.CHESTPLATE, settings);
     }
 
     @Override
     public boolean canRepair(ItemStack stack, ItemStack ingredient) {
         return ingredient.getItem() == Items.PHANTOM_MEMBRANE;
     }
-
-    @Override
-    public EquipmentSlot getSlotType() {
-        return EquipmentSlot.CHEST;
-    }
-
 }

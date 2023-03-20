@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -67,7 +68,7 @@ public class NetheriteTridentEntity extends TridentEntity {
         f = (float) (f * NetheritePlusMod.CONFIG.damage.trident_damage_multiplier + NetheritePlusMod.CONFIG.damage.trident_damage_addition);
 
         Entity entity2 = getOwner();
-        DamageSource damageSource = DamageSource.trident(this, entity2 == null ? this : entity2);
+        DamageSource damageSource = this.getDamageSources().trident(this, entity2 == null ? this : entity2);
         dealtDamage = true;
         SoundEvent soundEvent = SoundEvents.ITEM_TRIDENT_HIT;
         if (entity.damage(damageSource, f)) {
@@ -103,7 +104,7 @@ public class NetheriteTridentEntity extends TridentEntity {
     }
 
     @Override
-    public Packet<?> createSpawnPacket() {
+    public Packet<ClientPlayPacketListener> createSpawnPacket() {
         return super.createSpawnPacket();
     }
 }

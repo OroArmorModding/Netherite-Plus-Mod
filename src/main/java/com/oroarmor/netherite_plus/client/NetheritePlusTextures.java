@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,49 +24,20 @@
 
 package com.oroarmor.netherite_plus.client;
 
-import java.util.Arrays;
-import java.util.function.Consumer;
 
-import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.screen.PlayerScreenHandler;
-import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 
-import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 public class NetheritePlusTextures {
-    public static final SpriteIdentifier NETHERITE_SHIELD_BASE = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, id("entity/netherite_shield_base"));
+    public static final Identifier NETHERITE_SHULKER_BOXES_ATLAS_TEXTURE = id("textures/atlas/netherite_shulker_boxes.png");
+    public static final Identifier NETHERITE_SHIELD_PATTERNS_ATLAS_TEXTURE = id("textures/atlas/netherite_shield_patterns.png");
 
-    public static final SpriteIdentifier NETHERITE_SHIELD_BASE_NO_PATTERN = new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, id("entity/netherite_shield_base_nopattern"));
-    public static final Identifier SHULKER_BOXES_ATLAS_TEXTURE = id("textures/atlas/shulker_boxes.png");
-
-    public static void makeAtlases(Consumer<SpriteIdentifier> consumer) {
-        consumer.accept(new SpriteIdentifier(SHULKER_BOXES_ATLAS_TEXTURE, id(makePath(null))));
-        Arrays.stream(DyeColor.values()).forEach(c -> consumer.accept(new SpriteIdentifier(SHULKER_BOXES_ATLAS_TEXTURE, id(makePath(c)))));
-    }
-
-    public static String makePath(DyeColor color) {
-        if (color != null) {
-            return "entity/netherite_shulker/netherite_shulker_" + color.getName();
-        }
-
-        return "entity/netherite_shulker/netherite_shulker";
-    }
-
-    public static void register() {
-        ClientSpriteRegistryCallback.event(SHULKER_BOXES_ATLAS_TEXTURE).register(NetheritePlusTextures::registerShulkerBoxTextures);
-        ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register(NetheritePlusTextures::registerShieldTextures);
-    }
-
-    public static void registerShieldTextures(SpriteAtlasTexture atlas, ClientSpriteRegistryCallback.Registry registry) {
-        registry.register(NETHERITE_SHIELD_BASE.getTextureId());
-        registry.register(NETHERITE_SHIELD_BASE_NO_PATTERN.getTextureId());
-    }
-
-    public static void registerShulkerBoxTextures(SpriteAtlasTexture atlas, ClientSpriteRegistryCallback.Registry registry) {
-        registry.register(id(makePath(null)));
-        Arrays.stream(DyeColor.values()).forEach(c -> registry.register(id(makePath(c))));
-    }
+    public static final SpriteIdentifier NETHERITE_SHIELD_BASE = new SpriteIdentifier(
+            NETHERITE_SHIELD_PATTERNS_ATLAS_TEXTURE, id("entity/netherite_shield_base")
+    );
+    public static final SpriteIdentifier NETHERITE_SHIELD_BASE_NO_PATTERN = new SpriteIdentifier(
+            NETHERITE_SHIELD_PATTERNS_ATLAS_TEXTURE, id("entity/netherite_shield_base_nopattern")
+    );
 }

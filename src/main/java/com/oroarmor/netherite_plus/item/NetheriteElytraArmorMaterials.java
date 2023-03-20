@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@ import com.oroarmor.netherite_plus.NetheritePlusMod;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
@@ -64,8 +65,8 @@ public enum NetheriteElytraArmorMaterials implements ArmorMaterial {
     }
 
     @Override
-    public int getDurability(EquipmentSlot slot) {
-        return BASE_DURABILITY[slot.getEntitySlotId()] * durabilityMultiplier;
+    public int getDurability(ArmorItem.ArmorSlot slot) {
+        return BASE_DURABILITY[slot.ordinal()] * durabilityMultiplier;
     }
 
     @Override
@@ -89,8 +90,8 @@ public enum NetheriteElytraArmorMaterials implements ArmorMaterial {
     }
 
     @Override
-    public int getProtectionAmount(EquipmentSlot slot) {
-        return protectionAmounts[slot.getEntitySlotId()];
+    public int getProtection(ArmorItem.ArmorSlot slot) {
+        return protectionAmounts[slot.ordinal()];
     }
 
     @Override

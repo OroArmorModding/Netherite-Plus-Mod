@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,9 +36,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.TridentEntity;
-import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.registry.Registries;
 import net.minecraft.world.World;
 
 @Mixin(ProjectileEntity.class)
@@ -51,7 +51,7 @@ public abstract class TridentEntityMixin extends Entity {
     public void sendTridentStackOnSpawn(CallbackInfoReturnable<Packet<?>> info) {
         if ((Object) this instanceof TridentEntity tridentEntity) {
             PacketByteBuf passedData = PacketByteBufs.create();
-            passedData.writeInt(Registry.ITEM.getRawId(tridentEntity.tridentStack.getItem()));
+            passedData.writeInt(Registries.ITEM.getRawId(tridentEntity.tridentStack.getItem()));
             ServerPlayNetworking.send(this.world.getServer().getPlayerManager().getPlayerList(), NetheritePlusMod.id("netherite_trident"), passedData);
         }
     }

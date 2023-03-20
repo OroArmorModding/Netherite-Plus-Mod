@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -41,7 +41,7 @@ public class NetheriteShieldItem extends ShieldItem implements FabricShield {
     }
 
     @Override
-    public int getCooldownTicks() {
+    public int getCoolDownTicks() {
         return 50;
     }
 

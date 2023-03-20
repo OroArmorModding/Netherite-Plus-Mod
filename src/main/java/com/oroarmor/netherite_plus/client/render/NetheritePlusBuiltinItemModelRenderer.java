@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,7 +39,6 @@ import org.quiltmc.qsl.resource.loader.api.reloader.SimpleSynchronousResourceRel
 
 import net.minecraft.block.entity.BannerBlockEntity;
 import net.minecraft.block.entity.BannerPattern;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BannerBlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
@@ -48,15 +47,15 @@ import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.render.entity.model.ShieldEntityModel;
 import net.minecraft.client.render.entity.model.TridentEntityModel;
 import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
+import net.minecraft.registry.Holder;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.DyeColor;
-import net.minecraft.util.Holder;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
@@ -83,7 +82,7 @@ public class NetheritePlusBuiltinItemModelRenderer implements SimpleSynchronousR
         this.modelTrident = new TridentEntityModel(this.entityModelLoader.getModelPart(EntityModelLayers.TRIDENT));
     }
 
-    public void render(ItemStack itemStack, ModelTransformation.Mode transformType, MatrixStack matrices, VertexConsumerProvider vertices, int light, int overlay) {
+    public void render(ItemStack itemStack, ModelTransformationMode transformType, MatrixStack matrices, VertexConsumerProvider vertices, int light, int overlay) {
         if (itemStack.isOf(NetheritePlusItems.NETHERITE_TRIDENT)) {
             renderTrident(modelTrident, itemStack, transformType, matrices, vertices, light, overlay);
         } else if (itemStack.isOf(NetheritePlusItems.NETHERITE_SHIELD)) {
@@ -100,7 +99,7 @@ public class NetheritePlusBuiltinItemModelRenderer implements SimpleSynchronousR
         }
     }
 
-    public void renderShield(ShieldEntityModel model, ItemStack stack, ModelTransformation.Mode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+    public void renderShield(ShieldEntityModel model, ItemStack stack, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         boolean bl = stack.getSubNbt("BlockEntityTag") != null;
         matrices.push();
         matrices.scale(1.0F, -1.0F, -1.0F);
@@ -117,7 +116,7 @@ public class NetheritePlusBuiltinItemModelRenderer implements SimpleSynchronousR
         matrices.pop();
     }
 
-    public static void renderTrident(TridentEntityModel model, ItemStack stack, ModelTransformation.Mode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+    public static void renderTrident(TridentEntityModel model, ItemStack stack, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         matrices.push();
         matrices.scale(1.0F, -1.0F, -1.0F);
         VertexConsumer vertexConsumer2 = ItemRenderer.getDirectItemGlintConsumer(vertexConsumers, model.getLayer(id("textures/entity/netherite_trident.png")), false, stack.hasGlint());

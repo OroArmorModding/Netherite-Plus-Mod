@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2023 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,8 @@ import com.oroarmor.netherite_plus.NetheritePlusMod;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialRecipeSerializer;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
@@ -46,7 +47,7 @@ public final class NetheritePlusRecipeSerializer {
     }
 
     public static <S extends RecipeSerializer<T>, T extends Recipe<?>> S register(String id, S serializer) {
-        return Registry.register(Registry.RECIPE_SERIALIZER, id(id), serializer);
+        return Registry.register(Registries.RECIPE_SERIALIZER, id(id), serializer);
     }
 
 }
