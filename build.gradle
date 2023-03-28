@@ -34,7 +34,7 @@ repositories {
 
 oroarmor {
     name = "Netherite Plus Mod"
-    githubProjectName = "OroArmorModdding/Netherite-Plus-Mod"
+    githubProjectName = "OroArmorModding/Netherite-Plus-Mod"
     description = "This mod adds extra netherite features that aren't vanilla.\n\nNOTE: Editing the config requires a game restart."
 }
 
