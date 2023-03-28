@@ -53,6 +53,10 @@ minecraftPublishing {
     modTask = remapJar
 }
 
+license {
+    exclude '**/*.accesswidener'
+}
+
 loom {
     accessWidenerPath = file("src/main/resources/netherite_plus.accesswidener")
 }
