@@ -40,7 +40,9 @@ import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootTable;
+import net.minecraft.loot.LootTables;
 import net.minecraft.loot.context.LootContext;
+import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.particle.ParticleTypes;
@@ -72,10 +74,10 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
     }
 
     private FishingBobberEntity.PositionType getPositionType(BlockPos pos) {
-        BlockState blockState = world.getBlockState(pos);
+        BlockState blockState = this.getWorld().getBlockState(pos);
         if (!blockState.isAir()) {
             FluidState fluidState = blockState.getFluidState();
-            return fluidState.isIn(FluidTags.LAVA) && fluidState.isSource() && blockState.getCollisionShape(world, pos).isEmpty() ? FishingBobberEntity.PositionType.INSIDE_WATER : FishingBobberEntity.PositionType.INVALID;
+            return fluidState.isIn(FluidTags.LAVA) && fluidState.isSource() && blockState.getCollisionShape(this.getWorld(), pos).isEmpty() ? FishingBobberEntity.PositionType.INSIDE_WATER : FishingBobberEntity.PositionType.INVALID;
         } else {
             return FishingBobberEntity.PositionType.ABOVE_WATER;
         }
@@ -136,21 +138,21 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
     @Override
     public void tick() {
         BlockPos blockPos = getBlockPos();
-        FluidState fluidState = world.getFluidState(blockPos);
+        FluidState fluidState = this.getWorld().getFluidState(blockPos);
         if (fluidState.isIn(FluidTags.WATER)) {
             super.tick();
             return;
         }
 
 
-        velocityRandom.setSeed(getUuid().getLeastSignificantBits() ^ world.getTime());
+        velocityRandom.setSeed(getUuid().getLeastSignificantBits() ^ this.getWorld().getTime());
         baseTick();
 
         PlayerEntity playerEntity = getPlayerOwner();
         if (playerEntity == null) {
             this.discard();
-        } else if (world.isClient || !removeIfInvalid(playerEntity)) {
-            if (onGround) {
+        } else if (this.getWorld().isClient || !removeIfInvalid(playerEntity)) {
+            if (this.isOnGround()) {
                 ++removalTimer;
                 if (removalTimer >= 1200) {
                     this.discard();
@@ -162,7 +164,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 
             float fluidHeight = 0.0F;
             if (fluidState.isIn(FluidTags.LAVA)) {
-                fluidHeight = fluidState.getHeight(world, blockPos);
+                fluidHeight = fluidState.getHeight(this.getWorld(), blockPos);
             }
 
             boolean validFluid = fluidHeight > 0.0F;
@@ -184,7 +186,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
             } else {
                 if (state == FishingBobberEntity.State.HOOKED_IN_ENTITY) {
                     if (hookedEntity != null) {
-                        if (hookedEntity.isRemoved() && this.hookedEntity.world.getRegistryKey() == this.world.getRegistryKey()) {
+                        if (hookedEntity.isRemoved() && this.hookedEntity.getWorld().getRegistryKey() == this.getWorld().getRegistryKey()) {
                             hookedEntity = null;
                             state = FishingBobberEntity.State.FLYING;
                         } else {
@@ -215,7 +217,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
                             this.setVelocity(getVelocity().add(0.0D, -0.1D * velocityRandom.nextFloat() * velocityRandom.nextFloat(), 0.0D));
                         }
 
-                        if (!world.isClient) {
+                        if (!this.getWorld().isClient) {
                             tickFishingLogic();
                         }
 
@@ -231,7 +233,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
 
             move(MovementType.SELF, getVelocity());
             updateRotation();
-            if (state == FishingBobberEntity.State.FLYING && (onGround || horizontalCollision)) {
+            if (state == FishingBobberEntity.State.FLYING && (this.isOnGround() || horizontalCollision)) {
                 this.setVelocity(Vec3d.ZERO);
             }
 
@@ -242,7 +244,7 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
     }
 
     private void tickFishingLogic() {
-        ServerWorld serverWorld = (ServerWorld) world;
+        ServerWorld serverWorld = (ServerWorld) this.getWorld();
         int i = 1;
 
         if (hookCountdown > 0) {
@@ -327,40 +329,45 @@ public class NetheriteFishingBobberEntity extends FishingBobberEntity {
     @Override
     public int use(ItemStack usedItem) {
         BlockPos blockPos = getBlockPos();
-        FluidState fluidState = world.getFluidState(blockPos);
+        FluidState fluidState = this.getWorld().getFluidState(blockPos);
         if (fluidState.isIn(FluidTags.WATER)) {
             return super.use(usedItem);
         }
 
         PlayerEntity playerEntity = getPlayerOwner();
-        if (!world.isClient && playerEntity != null) {
+        if (!this.getWorld().isClient && playerEntity != null) {
             int i = 0;
             if (hookedEntity != null) {
                 pullHookedEntity(hookedEntity);
-                world.sendEntityStatus(this, (byte) 31);
+                this.getWorld().sendEntityStatus(this, (byte) 31);
                 i = hookedEntity instanceof ItemEntity ? 3 : 5;
             } else if (hookCountdown > 0) {
-                LootContext.Builder builder = new LootContext.Builder((ServerWorld) world).parameter(LootContextParameters.ORIGIN, getPos()).parameter(LootContextParameters.TOOL, usedItem).parameter(LootContextParameters.THIS_ENTITY, this).random(random).luck(luckOfTheSeaLevel + playerEntity.getLuck());
-                LootTable lootTable = world.getServer().getLootManager().getTable(LAVA_FISHING_LOOT_TABLE);
-                List<ItemStack> list = lootTable.generateLoot(builder.build(LootContextTypes.FISHING));
-                Criteria.FISHING_ROD_HOOKED.trigger((ServerPlayerEntity) playerEntity, usedItem, this, list);
+                LootContextParameterSet lootContextParameterSet = new LootContextParameterSet.Builder((ServerWorld)this.getWorld())
+                        .add(LootContextParameters.ORIGIN, this.getPos())
+                        .add(LootContextParameters.TOOL, usedItem)
+                        .add(LootContextParameters.THIS_ENTITY, this)
+                        .withLuck((float)this.luckOfTheSeaLevel + playerEntity.getLuck())
+                        .build(LootContextTypes.FISHING);
+                LootTable lootTable = this.getWorld().getServer().getLootManager().getLootTable(LAVA_FISHING_LOOT_TABLE);
+                List<ItemStack> list = lootTable.generateLoot(lootContextParameterSet);
+                Criteria.FISHING_ROD_HOOKED.trigger((ServerPlayerEntity)playerEntity, usedItem, this, list);
 
                 for (ItemStack itemStack : list) {
-                    ItemEntity itemEntity = new ItemEntity(world, getX(), getY(), getZ(), itemStack);
+                    ItemEntity itemEntity = new ItemEntity(this.getWorld(), getX(), getY(), getZ(), itemStack);
                     double d = playerEntity.getX() - getX();
                     double e = playerEntity.getY() - getY();
                     double f = playerEntity.getZ() - getZ();
                     double g = 0.1D;
                     itemEntity.setVelocity(d * g, e * g + Math.sqrt(Math.sqrt(d * d + e * e + f * f)) * 0.08D, f * g);
                     itemEntity.setInvulnerable(true);
-                    world.spawnEntity(itemEntity);
-                    playerEntity.world.spawnEntity(new ExperienceOrbEntity(playerEntity.world, playerEntity.getX(), playerEntity.getY() + 0.5D, playerEntity.getZ() + 0.5D, random.nextInt(6) + 1));
+                    this.getWorld().spawnEntity(itemEntity);
+                    playerEntity.getWorld().spawnEntity(new ExperienceOrbEntity(playerEntity.getWorld(), playerEntity.getX(), playerEntity.getY() + 0.5D, playerEntity.getZ() + 0.5D, random.nextInt(6) + 1));
                 }
 
                 i = 1;
             }
 
-            if (onGround) {
+            if (this.isOnGround()) {
                 i = 2;
             }
 

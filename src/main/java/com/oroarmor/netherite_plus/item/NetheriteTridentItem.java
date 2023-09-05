@@ -52,7 +52,7 @@ public class NetheriteTridentItem extends TridentItem {
     public NetheriteTridentItem(Settings settings) {
         super(settings);
         attributeModifiers.get(EntityAttributes.GENERIC_ATTACK_DAMAGE).forEach(eam -> {
-            eam.value = eam.getValue() * NetheritePlusMod.CONFIG.damage.trident_damage_multiplier + NetheritePlusMod.CONFIG.damage.trident_damage_addition;
+            eam.value = eam.getValue() * NetheritePlusMod.CONFIG.damage.trident_damage_multiplier.value() + NetheritePlusMod.CONFIG.damage.trident_damage_addition.value();
         });
     }
 

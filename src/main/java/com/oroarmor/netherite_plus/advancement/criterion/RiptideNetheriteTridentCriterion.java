@@ -32,6 +32,7 @@ import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateSerializer;
 import net.minecraft.predicate.entity.EntityPredicate;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.unmapped.C_ctsfmifk;
 import net.minecraft.util.Identifier;
 
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
@@ -45,7 +46,7 @@ public class RiptideNetheriteTridentCriterion extends AbstractCriterion<RiptideN
     }
 
     @Override
-    public Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended extended, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
+    public Conditions conditionsFromJson(JsonObject jsonObject, C_ctsfmifk extended, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
         return new Conditions(extended);
     }
 
@@ -55,7 +56,7 @@ public class RiptideNetheriteTridentCriterion extends AbstractCriterion<RiptideN
 
     public static class Conditions extends AbstractCriterionConditions {
 
-        public Conditions(EntityPredicate.Extended player) {
+        public Conditions(C_ctsfmifk player) {
             super(id, player);
         }
 

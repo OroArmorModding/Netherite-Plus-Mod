@@ -26,10 +26,9 @@ package com.oroarmor.netherite_plus.recipe;
 
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 
-import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.BannerItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.CraftingCategory;
 import net.minecraft.recipe.RecipeSerializer;
@@ -38,16 +37,13 @@ import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-
 public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
     public NetheriteShieldDecorationRecipe(Identifier identifier, CraftingCategory category) {
         super(identifier, category);
     }
 
     @Override
-    public ItemStack craft(CraftingInventory craftingInventory, DynamicRegistryManager registryManager) {
+    public ItemStack craft(RecipeInputInventory craftingInventory, DynamicRegistryManager registryManager) {
         ItemStack itemStack = ItemStack.EMPTY;
         ItemStack itemStack2 = ItemStack.EMPTY;
 
@@ -83,7 +79,7 @@ public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public boolean matches(CraftingInventory craftingInventory, World world) {
+    public boolean matches(RecipeInputInventory craftingInventory, World world) {
         ItemStack itemStack = ItemStack.EMPTY;
         ItemStack itemStack2 = ItemStack.EMPTY;
 

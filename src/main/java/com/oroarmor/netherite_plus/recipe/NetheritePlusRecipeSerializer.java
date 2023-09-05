@@ -39,8 +39,8 @@ public final class NetheritePlusRecipeSerializer {
     public static SpecialRecipeSerializer<NetheriteShieldDecorationRecipe> NETHERITE_SHIELD;
 
     static {
-        NETHERITE_SHULKER_BOX = NetheritePlusMod.CONFIG.enabled.shulker_boxes ? register("crafting_special_netheriteshulkerboxcoloring", new SpecialRecipeSerializer<>(NetheriteShulkerBoxColoringRecipe::new)) : null;
-        NETHERITE_SHIELD = NetheritePlusMod.CONFIG.enabled.shields ? register("crafting_special_netheriteshielddecoration", new SpecialRecipeSerializer<>(NetheriteShieldDecorationRecipe::new)) : null;
+        NETHERITE_SHULKER_BOX = NetheritePlusMod.CONFIG.enabled.shulker_boxes.value() ? register("crafting_special_netheriteshulkerboxcoloring", new SpecialRecipeSerializer<>(NetheriteShulkerBoxColoringRecipe::new)) : null;
+        NETHERITE_SHIELD = NetheritePlusMod.CONFIG.enabled.shields.value() ? register("crafting_special_netheriteshielddecoration", new SpecialRecipeSerializer<>(NetheriteShieldDecorationRecipe::new)) : null;
     }
 
     public static void init() {

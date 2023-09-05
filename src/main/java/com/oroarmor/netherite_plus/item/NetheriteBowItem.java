@@ -40,6 +40,6 @@ public class NetheriteBowItem extends ProjectileModifyingBowItem {
 
     @Override
     public void onProjectileShot(ItemStack bowStack, ItemStack arrowStack, LivingEntity user, float pullProgress, PersistentProjectileEntity projectile) {
-        projectile.setDamage(projectile.getDamage() * NetheritePlusMod.CONFIG.damage.bow_damage_multiplier + NetheritePlusMod.CONFIG.damage.bow_damage_addition);
+        projectile.setDamage(projectile.getDamage() * NetheritePlusMod.CONFIG.damage.bow_damage_multiplier.value() + NetheritePlusMod.CONFIG.damage.bow_damage_addition.value());
     }
 }

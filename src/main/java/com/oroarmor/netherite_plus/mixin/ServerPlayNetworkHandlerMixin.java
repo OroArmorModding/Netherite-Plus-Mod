@@ -52,7 +52,7 @@ public class ServerPlayNetworkHandlerMixin {
     public void init(MinecraftServer server, ClientConnection connection, ServerPlayerEntity player, CallbackInfo info) {
         NetheritePlusMod.CONNECTED_CLIENTS.add(player);
         PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeDouble(NetheritePlusMod.CONFIG.graphics.lava_vision_distance);
+        buf.writeDouble(NetheritePlusMod.CONFIG.graphics.lava_vision_distance.value());
         ServerPlayNetworking.send(player, LavaVisionUpdatePacket.ID, buf);
     }
 

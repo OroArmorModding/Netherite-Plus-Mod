@@ -39,15 +39,11 @@
       },
       {
         "id": "minecraft",
-        "versions": "1.19.4"
+        "versions": "1.20.1"
       },
       {
         "id": "multi_item_lib",
         "versions": ">=1.6.2"
-      },
-      {
-        "id": "fabricshieldlib",
-        "version": ">=1.7-pre2-1.19.4"
       }
     ]
   },

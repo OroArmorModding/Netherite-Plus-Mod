@@ -33,7 +33,9 @@ import net.minecraft.predicate.NumberRange;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateSerializer;
 import net.minecraft.predicate.entity.EntityPredicate;
+import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.unmapped.C_ctsfmifk;
 import net.minecraft.util.Identifier;
 
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
@@ -47,7 +49,7 @@ public class ConstructNetheriteBeaconCriterion extends AbstractCriterion<Constru
     }
 
     @Override
-    public Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended extended, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
+    public Conditions conditionsFromJson(JsonObject jsonObject, C_ctsfmifk extended, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
         NumberRange.IntRange intRange = NumberRange.IntRange.fromJson(jsonObject.get("level"));
         return new Conditions(extended, intRange);
     }
@@ -59,13 +61,13 @@ public class ConstructNetheriteBeaconCriterion extends AbstractCriterion<Constru
     public static class Conditions extends AbstractCriterionConditions {
         private final NumberRange.IntRange level;
 
-        public Conditions(EntityPredicate.Extended player, NumberRange.IntRange level) {
+        public Conditions(C_ctsfmifk player, NumberRange.IntRange level) {
             super(ConstructNetheriteBeaconCriterion.ID, player);
             this.level = level;
         }
 
         public static Conditions level(NumberRange.IntRange level) {
-            return new Conditions(EntityPredicate.Extended.EMPTY, level);
+            return new Conditions(C_ctsfmifk.field_24388, level);
         }
 
         public boolean matches(NetheriteBeaconBlockEntity beacon) {
