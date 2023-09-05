@@ -70,9 +70,8 @@ dependencies {
     modImplementation "org.quiltmc.quilted-fabric-api:quilted-fabric-api:${project.qfapi_version}"
 
     modImplementation "com.oroarmor:multi-item-lib:1.6.2"
-//    include(modImplementation('com.github.CrimsonDawn45:Fabric-Shield-Lib:1.7-1.19.3'))
-    include(modImplementation('com.github.OroArmor:Fabric-Shield-Lib:1.19.4-SNAPSHOT'))
-    modRuntimeOnly("com.terraformersmc:modmenu:6.1.0-rc.2")
+    modCompileOnly('com.github.CrimsonDawn45:Fabric-Shield-Lib:main-SNAPSHOT')
+    modRuntimeOnly("com.terraformersmc:modmenu:7.2.1")
 }
 
 processResources {

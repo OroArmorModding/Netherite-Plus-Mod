@@ -37,7 +37,7 @@ public class NetheritePlusStatusEffects {
     public static final StatusEffect LAVA_VISION;
 
     static {
-        LAVA_VISION = NetheritePlusMod.CONFIG.enabled.beacon ? register("lava_vision", new StatusEffect(StatusEffectType.BENEFICIAL, 16744207)) : null;
+        LAVA_VISION = NetheritePlusMod.CONFIG.enabled.beacon.value() ? register("lava_vision", new StatusEffect(StatusEffectType.BENEFICIAL, 16744207)) : null;
     }
 
     private static StatusEffect register(String name, StatusEffect entry) {

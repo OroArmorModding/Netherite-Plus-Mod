@@ -89,7 +89,7 @@ public class NetheriteBeaconScreenHandler extends ScreenHandler {
     @Override
     public void close(PlayerEntity player) {
         super.close(player);
-        if (!player.world.isClient) {
+        if (!player.getWorld().isClient) {
             ItemStack itemStack = paymentSlot.takeStack(paymentSlot.getMaxItemCount());
             if (!itemStack.isEmpty()) {
                 player.dropItem(itemStack, false);

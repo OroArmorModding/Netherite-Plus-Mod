@@ -26,24 +26,15 @@ package com.oroarmor.netherite_plus.mixin.render;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 
 import com.oroarmor.netherite_plus.NetheritePlusMod;
 import com.oroarmor.netherite_plus.client.NetheritePlusTextures;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.client.texture.SpriteAtlasManager;
-import net.minecraft.client.texture.TextureManager;
-import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.util.Identifier;
-
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 @Mixin(SpriteAtlasManager.class)
 public class TexturedRenderLayersMixin {

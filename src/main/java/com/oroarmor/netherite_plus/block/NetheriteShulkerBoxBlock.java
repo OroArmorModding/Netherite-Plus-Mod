@@ -48,6 +48,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContext;
+import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandler;
@@ -104,7 +105,6 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
             case GREEN -> NetheritePlusBlocks.NETHERITE_GREEN_SHULKER_BOX;
             case RED -> NetheritePlusBlocks.NETHERITE_RED_SHULKER_BOX;
             case BLACK -> NetheritePlusBlocks.NETHERITE_BLACK_SHULKER_BOX;
-            default -> NetheritePlusBlocks.NETHERITE_PURPLE_SHULKER_BOX;
         };
     }
 
@@ -184,14 +184,13 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
     }
 
     @Override
-    public List<ItemStack> getDroppedStacks(BlockState state, LootContext.Builder builder) {
-        BlockEntity blockEntity = builder.getNullable(LootContextParameters.BLOCK_ENTITY);
+    public List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
+        BlockEntity blockEntity = builder.getOptionalParameter(LootContextParameters.BLOCK_ENTITY);
         if (blockEntity instanceof NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity) {
-            builder = builder.putDrop(CONTENTS, (lootContext, consumer) -> {
+            builder = builder.withDynamicDrop(CONTENTS, (consumer) -> {
                 for (int i = 0; i < shulkerBoxBlockEntity.size(); ++i) {
                     consumer.accept(shulkerBoxBlockEntity.getStack(i));
                 }
-
             });
         }
 
@@ -214,11 +213,6 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
         }
 
         return itemStack;
-    }
-
-    @Override
-    public PistonBehavior getPistonBehavior(BlockState state) {
-        return PistonBehavior.DESTROY;
     }
 
     @Override

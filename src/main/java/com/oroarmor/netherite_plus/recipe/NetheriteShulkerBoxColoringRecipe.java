@@ -27,7 +27,7 @@ package com.oroarmor.netherite_plus.recipe;
 import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
 
 import net.minecraft.block.Block;
-import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -39,16 +39,13 @@ import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-
 public class NetheriteShulkerBoxColoringRecipe extends SpecialCraftingRecipe {
     public NetheriteShulkerBoxColoringRecipe(Identifier identifier, CraftingCategory category) {
         super(identifier, category);
     }
 
     @Override
-    public ItemStack craft(CraftingInventory craftingInventory, DynamicRegistryManager registryManager) {
+    public ItemStack craft(RecipeInputInventory craftingInventory, DynamicRegistryManager registryManager) {
         ItemStack itemStack = ItemStack.EMPTY;
         DyeItem dyeItem = (DyeItem) Items.WHITE_DYE;
 
@@ -83,7 +80,7 @@ public class NetheriteShulkerBoxColoringRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public boolean matches(CraftingInventory craftingInventory, World world) {
+    public boolean matches(RecipeInputInventory craftingInventory, World world) {
         int i = 0;
         int j = 0;
 

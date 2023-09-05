@@ -28,14 +28,12 @@ package com.oroarmor.netherite_plus.item;
 import com.oroarmor.netherite_plus.NetheritePlusMod;
 import com.oroarmor.netherite_plus.block.NetheritePlusBlocks;
 import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
-import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.DispenserBlock;
-import net.minecraft.block.LeveledCauldronBlock;
 import net.minecraft.block.cauldron.CauldronBehavior;
+import net.minecraft.block.cauldron.LeveledCauldronBlock;
+import net.minecraft.block.dispenser.DispenserBlock;
 import net.minecraft.block.dispenser.ShearsDispenserBehavior;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
@@ -130,8 +128,8 @@ public final class NetheritePlusItems {
     }
 
     private static void registerBowAndCrossbow() {
-        NETHERITE_BOW = register(id("netherite_bow"), new NetheriteBowItem(new Item.Settings().maxDamage(NetheritePlusMod.CONFIG.durability.bow).fireproof()));
-        NETHERITE_CROSSBOW = register(id("netherite_crossbow"), new NetheriteCrossbowItem(new Item.Settings().maxDamage(NetheritePlusMod.CONFIG.durability.crossbow).fireproof()));
+        NETHERITE_BOW = register(id("netherite_bow"), new NetheriteBowItem(new Item.Settings().maxDamage(NetheritePlusMod.CONFIG.durability.bow.value()).fireproof()));
+        NETHERITE_CROSSBOW = register(id("netherite_crossbow"), new NetheriteCrossbowItem(new Item.Settings().maxDamage(NetheritePlusMod.CONFIG.durability.crossbow.value()).fireproof()));
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(entries -> {
             entries.addAfter(Items.BOW, NETHERITE_BOW);
             entries.addAfter(Items.CROSSBOW, NETHERITE_CROSSBOW);
@@ -139,7 +137,7 @@ public final class NetheritePlusItems {
     }
 
     private static void registerElytra() {
-        Item.Settings elytraSettings = new Item.Settings().maxDamage(NetheritePlusMod.CONFIG.durability.elytra).rarity(Rarity.UNCOMMON).fireproof();
+        Item.Settings elytraSettings = new Item.Settings().maxDamage(NetheritePlusMod.CONFIG.durability.elytra.value()).rarity(Rarity.UNCOMMON).fireproof();
 
         NETHERITE_ELYTRA = register(id("netherite_elytra"), new NetheriteElytraItem(elytraSettings));
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS_AND_UTILITIES).register(entries -> {
@@ -148,7 +146,7 @@ public final class NetheritePlusItems {
     }
 
     private static void registerFishingRod() {
-        NETHERITE_FISHING_ROD = register(id("netherite_fishing_rod"), new NetheriteFishingRodItem(new Item.Settings().maxDamage(NetheritePlusMod.CONFIG.durability.fishing_rod).fireproof()));
+        NETHERITE_FISHING_ROD = register(id("netherite_fishing_rod"), new NetheriteFishingRodItem(new Item.Settings().maxDamage(NetheritePlusMod.CONFIG.durability.fishing_rod.value()).fireproof()));
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS_AND_UTILITIES).register(entries -> {
             entries.addAfter(Items.FISHING_ROD, NETHERITE_FISHING_ROD);
         });
@@ -162,57 +160,57 @@ public final class NetheritePlusItems {
     }
 
     public static void init() {
-        if (NetheritePlusMod.CONFIG.enabled.shulker_boxes) {
+        if (NetheritePlusMod.CONFIG.enabled.shulker_boxes.value()) {
             registerShulkerBoxes();
         }
 
-        if (NetheritePlusMod.CONFIG.enabled.elytra) {
+        if (NetheritePlusMod.CONFIG.enabled.elytra.value()) {
             registerElytra();
         }
 
-        if (NetheritePlusMod.CONFIG.enabled.shields) {
+        if (NetheritePlusMod.CONFIG.enabled.shields.value()) {
             registerShield();
         }
 
-        if (NetheritePlusMod.CONFIG.enabled.bows_and_crossbows) {
+        if (NetheritePlusMod.CONFIG.enabled.bows_and_crossbows.value()) {
             registerBowAndCrossbow();
         }
 
-        if (NetheritePlusMod.CONFIG.enabled.fishing_rod) {
+        if (NetheritePlusMod.CONFIG.enabled.fishing_rod.value()) {
             registerFishingRod();
         }
 
-        if (NetheritePlusMod.CONFIG.enabled.horse_armor) {
+        if (NetheritePlusMod.CONFIG.enabled.horse_armor.value()) {
             registerHorseArmor();
         }
 
-        if (NetheritePlusMod.CONFIG.enabled.trident) {
+        if (NetheritePlusMod.CONFIG.enabled.trident.value()) {
             registerTrident();
         }
 
-        if (NetheritePlusMod.CONFIG.enabled.fake_netherite_blocks) {
+        if (NetheritePlusMod.CONFIG.enabled.fake_netherite_blocks.value()) {
             FAKE_NETHERITE_BLOCK = register(NetheritePlusBlocks.FAKE_NETHERITE_BLOCK, new BlockItem(NetheritePlusBlocks.FAKE_NETHERITE_BLOCK, new Item.Settings().fireproof()));
             ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register(entries -> {
                 entries.addBefore(Items.IRON_BLOCK, FAKE_NETHERITE_BLOCK);
             });
         }
 
-        if (NetheritePlusMod.CONFIG.enabled.anvils) {
+        if (NetheritePlusMod.CONFIG.enabled.anvils.value()) {
             NETHERITE_ANVIL_ITEM = register(NetheritePlusBlocks.NETHERITE_ANVIL_BLOCK, new BlockItem(NetheritePlusBlocks.NETHERITE_ANVIL_BLOCK, new Item.Settings().fireproof()));
             ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL_BLOCKS).register(entries -> {
                 entries.addAfter(Items.DAMAGED_ANVIL, NETHERITE_ANVIL_ITEM);
             });
         }
 
-        if (NetheritePlusMod.CONFIG.enabled.beacon) {
+        if (NetheritePlusMod.CONFIG.enabled.beacon.value()) {
             NETHERITE_BEACON = register(NetheritePlusBlocks.NETHERITE_BEACON, new BlockItem(NetheritePlusBlocks.NETHERITE_BEACON, new Item.Settings().maxCount(64).fireproof()));
             ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL_BLOCKS).register(entries -> {
                 entries.addAfter(Items.BEACON, NETHERITE_BEACON);
             });
         }
 
-        if (NetheritePlusMod.CONFIG.enabled.shears) {
-            NETHERITE_SHEARS = register(id("netherite_shears"), new ShearsItem(new Item.Settings().fireproof().maxDamage(NetheritePlusMod.CONFIG.durability.shears)));
+        if (NetheritePlusMod.CONFIG.enabled.shears.value()) {
+            NETHERITE_SHEARS = register(id("netherite_shears"), new ShearsItem(new Item.Settings().fireproof().maxDamage(NetheritePlusMod.CONFIG.durability.shears.value())));
             DispenserBlock.registerBehavior(NETHERITE_SHEARS, new ShearsDispenserBehavior());
             ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS_AND_UTILITIES).register(entries -> {
                 entries.addAfter(Items.SHEARS, NETHERITE_SHEARS);
@@ -221,10 +219,10 @@ public final class NetheritePlusItems {
     }
 
     private static void registerShield() {
-        NETHERITE_SHIELD = register(id("netherite_shield"), new NetheriteShieldItem(new QuiltItemSettings().maxDamage(NetheritePlusMod.CONFIG.durability.shield).fireproof().equipmentSlot(stack -> EquipmentSlot.OFFHAND)));
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(entries -> {
-            entries.addAfter(Items.SHIELD, NETHERITE_SHIELD);
-        });
+//        NETHERITE_SHIELD = register(id("netherite_shield"), new NetheriteShieldItem(new QuiltItemSettings().maxDamage(NetheritePlusMod.CONFIG.durability.shield.value()).fireproof().equipmentSlot(stack -> EquipmentSlot.OFFHAND)));
+//        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(entries -> {
+//            entries.addAfter(Items.SHIELD, NETHERITE_SHIELD);
+//        });
     }
 
     private static void registerShulkerBoxes() {
@@ -256,7 +254,7 @@ public final class NetheritePlusItems {
     }
 
     private static void registerTrident() {
-        Item.Settings properties = new Item.Settings().maxDamage(NetheritePlusMod.CONFIG.durability.trident).fireproof();
+        Item.Settings properties = new Item.Settings().maxDamage(NetheritePlusMod.CONFIG.durability.trident.value()).fireproof();
         NETHERITE_TRIDENT = register(id("netherite_trident"), new NetheriteTridentItem(properties));
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(entries -> {
             entries.addAfter(Items.TRIDENT, NETHERITE_TRIDENT);

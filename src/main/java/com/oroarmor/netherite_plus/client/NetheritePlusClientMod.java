@@ -61,7 +61,7 @@ import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 public class NetheritePlusClientMod implements ClientModInitializer {
     public static final Queue<Integer> TRIDENT_QUEUE = new LinkedList<>();
-    public static double LAVA_VISION_DISTANCE = NetheritePlusMod.CONFIG.graphics.lava_vision_distance;
+    public static double LAVA_VISION_DISTANCE = NetheritePlusMod.CONFIG.graphics.lava_vision_distance.value();
 
     public void onInitializeClient(ModContainer mod) {
         ClientPlayConnectionEvents.INIT.register((handler, client) -> {
@@ -84,7 +84,7 @@ public class NetheritePlusClientMod implements ClientModInitializer {
         NetheritePlusModelProvider.registerItemsWithModelProvider();
         NetheritePlusScreenHandlers.initializeClient();
 
-        if (NetheritePlusMod.CONFIG.enabled.beacon) {
+        if (NetheritePlusMod.CONFIG.enabled.beacon.value()) {
             BlockRenderLayerMap.put(RenderLayer.getCutout(), NetheritePlusBlocks.NETHERITE_BEACON);
         }
 
@@ -101,7 +101,7 @@ public class NetheritePlusClientMod implements ClientModInitializer {
         ResourceLoader.get(ResourceType.CLIENT_RESOURCES).registerReloader(builtinItemModelRenderer);
 
         BuiltinItemRendererRegistry.DynamicItemRenderer dynamicItemRenderer = builtinItemModelRenderer::render;
-        if (NetheritePlusMod.CONFIG.enabled.shulker_boxes) {
+        if (NetheritePlusMod.CONFIG.enabled.shulker_boxes.value()) {
             BuiltinItemRendererRegistry.INSTANCE.register(NetheritePlusItems.NETHERITE_SHULKER_BOX, dynamicItemRenderer);
             BuiltinItemRendererRegistry.INSTANCE.register(NetheritePlusItems.NETHERITE_WHITE_SHULKER_BOX, dynamicItemRenderer);
             BuiltinItemRendererRegistry.INSTANCE.register(NetheritePlusItems.NETHERITE_ORANGE_SHULKER_BOX, dynamicItemRenderer);
@@ -121,10 +121,10 @@ public class NetheritePlusClientMod implements ClientModInitializer {
             BuiltinItemRendererRegistry.INSTANCE.register(NetheritePlusItems.NETHERITE_BLACK_SHULKER_BOX, dynamicItemRenderer);
         }
 
-        if (NetheritePlusMod.CONFIG.enabled.shields) {
-            BuiltinItemRendererRegistry.INSTANCE.register(NetheritePlusItems.NETHERITE_SHIELD, dynamicItemRenderer);
+        if (NetheritePlusMod.CONFIG.enabled.shields.value()) {
+//            BuiltinItemRendererRegistry.INSTANCE.register(NetheritePlusItems.NETHERITE_SHIELD, dynamicItemRenderer);
         }
-        if (NetheritePlusMod.CONFIG.enabled.trident) {
+        if (NetheritePlusMod.CONFIG.enabled.trident.value()) {
             BuiltinItemRendererRegistry.INSTANCE.register(NetheritePlusItems.NETHERITE_TRIDENT, dynamicItemRenderer);
         }
     }

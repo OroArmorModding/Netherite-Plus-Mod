@@ -52,7 +52,7 @@ public abstract class TridentEntityMixin extends Entity {
         if ((Object) this instanceof TridentEntity tridentEntity) {
             PacketByteBuf passedData = PacketByteBufs.create();
             passedData.writeInt(Registries.ITEM.getRawId(tridentEntity.tridentStack.getItem()));
-            ServerPlayNetworking.send(this.world.getServer().getPlayerManager().getPlayerList(), NetheritePlusMod.id("netherite_trident"), passedData);
+            ServerPlayNetworking.send(this.getWorld().getServer().getPlayerManager().getPlayerList(), NetheritePlusMod.id("netherite_trident"), passedData);
         }
     }
 }

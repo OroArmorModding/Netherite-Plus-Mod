@@ -104,24 +104,24 @@ public class NetheritePlusModelProvider {
 	}
 
 	public static void registerItemsWithModelProvider() {
-		if (NetheritePlusMod.CONFIG.enabled.elytra) {
+		if (NetheritePlusMod.CONFIG.enabled.elytra.value()) {
 			registerElytraModels();
 		}
 
-		if (NetheritePlusMod.CONFIG.enabled.shields) {
-			registerShieldModels();
+		if (NetheritePlusMod.CONFIG.enabled.shields.value()) {
+//			registerShieldModels();
 		}
 
-		if (NetheritePlusMod.CONFIG.enabled.fishing_rod) {
+		if (NetheritePlusMod.CONFIG.enabled.fishing_rod.value()) {
 			registerFishingRodModels();
 		}
 
-		if (NetheritePlusMod.CONFIG.enabled.bows_and_crossbows) {
+		if (NetheritePlusMod.CONFIG.enabled.bows_and_crossbows.value()) {
 			registerBowModels();
 			registerCrossbowModels();
 		}
 
-		if (NetheritePlusMod.CONFIG.enabled.trident) {
+		if (NetheritePlusMod.CONFIG.enabled.trident.value()) {
 			registerTridentModels();
 		}
 	}

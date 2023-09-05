@@ -35,13 +35,13 @@ import io.netty.buffer.Unpooled;
 import org.quiltmc.qsl.networking.api.client.ClientPlayNetworking;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerInventory;
@@ -50,8 +50,8 @@ import net.minecraft.item.Items;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerListener;
+import net.minecraft.text.CommonTexts;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -154,31 +154,30 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
     }
 
     @Override
-    protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-        drawCenteredText(matrices, textRenderer, PRIMARY_TEXT, 62, 10, 14737632);
-        drawCenteredText(matrices, textRenderer, SECONDARY_TEXT, 169, 10, 14737632);
-        drawCenteredText(matrices, textRenderer, TERTIARY_TEXT, 169, 58, 14737632);
+    protected void drawForeground(GuiGraphics graphics, int mouseX, int mouseY) {
+        graphics.drawCenteredShadowedText(this.textRenderer, PRIMARY_TEXT, 62, 10, 14737632);
+        graphics.drawCenteredShadowedText(this.textRenderer, SECONDARY_TEXT, 169, 10, 14737632);
+        graphics.drawCenteredShadowedText(this.textRenderer, TERTIARY_TEXT, 169, 58, 14737632);
     }
 
     @Override
-    protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+    protected void drawBackground(GuiGraphics graphics, float delta, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
         int i = (width - backgroundWidth) / 2;
         int j = (height - backgroundHeight) / 2;
-        drawTexture(matrices, i, j, 0, 0, backgroundWidth, backgroundHeight);
-        matrices.push();
-        matrices.translate(0.0F, 0.0F, 100.0F);
-        this.itemRenderer.method_4023(matrices, new ItemStack(Items.NETHERITE_INGOT), i + 42 + 66, j + 109);
-        matrices.pop();
+        graphics.drawTexture(TEXTURE, i, j, 0, 0, backgroundWidth, backgroundHeight);
+        graphics.getMatrices().push();
+        graphics.getMatrices().translate(0.0F, 0.0F, 100.0F);
+        graphics.drawItem(new ItemStack(Items.NETHERITE_INGOT), i + 42 + 66, j + 109);
+        graphics.getMatrices().pop();
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
-        super.render(matrices, mouseX, mouseY, delta);
-        this.drawMouseoverTooltip(matrices, mouseX, mouseY);
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+        this.renderBackground(graphics);
+        super.render(graphics, mouseX, mouseY, delta);
+        this.drawMouseoverTooltip(graphics, mouseX, mouseY);
     }
 
     @Environment(EnvType.CLIENT)
@@ -198,8 +197,8 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
         }
 
         @Override
-        protected void renderExtra(MatrixStack matrixStack) {
-            drawTexture(matrixStack, getX() + 2, getY() + 2, u, v, 18, 18);
+        protected void renderExtra(GuiGraphics graphics) {
+            graphics.drawTexture(TEXTURE, getX() + 2, getY() + 2, u, v, 18, 18);
         }
     }
 
@@ -208,7 +207,7 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
         private boolean disabled;
 
         protected BaseButtonWidget(int x, int y) {
-            super(x, y, 22, 22, ScreenTexts.EMPTY);
+            super(x, y, 22, 22, CommonTexts.EMPTY);
         }
 
         protected BaseButtonWidget(int x, int y, Text text) {
@@ -216,7 +215,7 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
         }
 
         @Override
-        public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
             RenderSystem.setShaderTexture(0, NetheriteBeaconScreen.TEXTURE);
             int uStart = 0;
             if (!active) {
@@ -227,11 +226,11 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
                 uStart += width * 3;
             }
 
-            drawTexture(matrices, this.getX(), this.getY(), uStart, 219, width, height);
-            renderExtra(matrices);
+            graphics.drawTexture(TEXTURE, this.getX(), this.getY(), uStart, 219, width, height);
+            this.renderExtra(graphics);
         }
 
-        protected abstract void renderExtra(MatrixStack matrixStack);
+        protected abstract void renderExtra(GuiGraphics graphics);
 
         public boolean isDisabled() {
             return disabled;
@@ -250,7 +249,7 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
     @Environment(EnvType.CLIENT)
     class CancelButtonWidget extends IconButtonWidget {
         public CancelButtonWidget(int x, int y) {
-            super(x, y, 112, 220, ScreenTexts.CANCEL);
+            super(x, y, 112, 220, CommonTexts.CANCEL);
         }
 
         @Override
@@ -266,7 +265,7 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
     @Environment(EnvType.CLIENT)
     class DoneButtonWidget extends IconButtonWidget {
         public DoneButtonWidget(int x, int y) {
-            super(x, y, 90, 220, ScreenTexts.DONE);
+            super(x, y, 90, 220, CommonTexts.DONE);
         }
 
         @Override
@@ -323,9 +322,9 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
         }
 
         @Override
-        protected void renderExtra(MatrixStack matrixStack) {
+        protected void renderExtra(GuiGraphics graphics) {
             RenderSystem.setShaderTexture(0, this.sprite.getId());
-            drawSprite(matrixStack, getX() + 2, getY() + 2, 0, 18, 18, sprite);
+            graphics.drawSprite(getX() + 2, getY() + 2, 0, 18, 18, sprite);
         }
 
         @Override

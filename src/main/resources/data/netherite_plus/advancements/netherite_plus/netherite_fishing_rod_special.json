@@ -19,11 +19,9 @@
     "netherite_fishing_rod": {
       "trigger": "minecraft:fishing_rod_hooked",
       "conditions": {
-        "items": [
-          {
-            "items": ["minecraft:ancient_debris"]
-          }
-        ]
+        "item": {
+          "items": ["minecraft:ancient_debris"]
+        }
       }
     }
   },

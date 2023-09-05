@@ -65,7 +65,7 @@ public class NetheriteTridentEntity extends TridentEntity {
             f += EnchantmentHelper.getAttackDamage(tridentStack, livingEntity.getGroup());
         }
 
-        f = (float) (f * NetheritePlusMod.CONFIG.damage.trident_damage_multiplier + NetheritePlusMod.CONFIG.damage.trident_damage_addition);
+        f = (float) (f * NetheritePlusMod.CONFIG.damage.trident_damage_multiplier.value() + NetheritePlusMod.CONFIG.damage.trident_damage_addition.value());
 
         Entity entity2 = getOwner();
         DamageSource damageSource = this.getDamageSources().trident(this, entity2 == null ? this : entity2);
@@ -88,13 +88,13 @@ public class NetheriteTridentEntity extends TridentEntity {
 
         this.setVelocity(getVelocity().multiply(-0.01D, -0.1D, -0.01D));
         float g = 1.0F;
-        if (world instanceof ServerWorld && world.isThundering() && EnchantmentHelper.hasChanneling(tridentStack)) {
+        if (this.getWorld() instanceof ServerWorld && this.getWorld().isThundering() && EnchantmentHelper.hasChanneling(tridentStack)) {
             BlockPos blockPos = entity.getBlockPos();
-            if (world.isSkyVisible(blockPos)) {
-                LightningEntity lightningEntity = EntityType.LIGHTNING_BOLT.create(world);
+            if (this.getWorld().isSkyVisible(blockPos)) {
+                LightningEntity lightningEntity = EntityType.LIGHTNING_BOLT.create(this.getWorld());
                 lightningEntity.refreshPositionAfterTeleport(Vec3d.ofBottomCenter(blockPos));
                 lightningEntity.setChanneler(entity2 instanceof ServerPlayerEntity ? (ServerPlayerEntity) entity2 : null);
-                world.spawnEntity(lightningEntity);
+                this.getWorld().spawnEntity(lightningEntity);
                 soundEvent = SoundEvents.ITEM_TRIDENT_THUNDER;
                 g = 5.0F;
             }

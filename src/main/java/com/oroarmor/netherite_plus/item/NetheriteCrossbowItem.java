@@ -40,6 +40,6 @@ public class NetheriteCrossbowItem extends ProjectileModifyingCrossbowItem {
 
     @Override
     public void onProjectileShot(ItemStack crossbowStack, ItemStack arrowStack, LivingEntity user, PersistentProjectileEntity projectile) {
-        projectile.setDamage(projectile.getDamage() * NetheritePlusMod.CONFIG.damage.crossbow_damage_multiplier + NetheritePlusMod.CONFIG.damage.crossbow_damage_addition);
+        projectile.setDamage(projectile.getDamage() * NetheritePlusMod.CONFIG.damage.crossbow_damage_multiplier.value() + NetheritePlusMod.CONFIG.damage.crossbow_damage_addition.value());
     }
 }

@@ -42,7 +42,7 @@ import io.netty.buffer.ByteBuf;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.quiltmc.loader.api.ModContainer;
-import org.quiltmc.loader.api.config.QuiltConfig;
+import org.quiltmc.loader.api.config.v2.QuiltConfig;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.quiltmc.qsl.networking.api.PacketByteBufs;
 import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
@@ -83,7 +83,7 @@ public class NetheritePlusMod implements ModInitializer {
 
         CONFIG.registerCallback(config -> {
             PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeDouble(CONFIG.graphics.lava_vision_distance);
+            buf.writeDouble(CONFIG.graphics.lava_vision_distance.value());
             ServerPlayNetworking.send(CONNECTED_CLIENTS, LavaVisionUpdatePacket.ID, buf);
         });
         NetheritePlusMod.registerItemsWithMultiItemLib();
@@ -94,16 +94,16 @@ public class NetheritePlusMod implements ModInitializer {
     }
 
     public static void registerItemsWithMultiItemLib() {
-        if (CONFIG.enabled.shields) {
-            UniqueItemRegistry.SHIELD.addItemToRegistry(NETHERITE_SHIELD);
+        if (CONFIG.enabled.shields.value()) {
+//            UniqueItemRegistry.SHIELD.addItemToRegistry(NETHERITE_SHIELD);
         }
-        if (CONFIG.enabled.fishing_rod) {
+        if (CONFIG.enabled.fishing_rod.value()) {
             UniqueItemRegistry.FISHING_ROD.addItemToRegistry(NETHERITE_FISHING_ROD);
         }
-        if (CONFIG.enabled.trident) {
+        if (CONFIG.enabled.trident.value()) {
             UniqueItemRegistry.TRIDENT.addItemToRegistry(NETHERITE_TRIDENT);
         }
-        if (CONFIG.enabled.shears) {
+        if (CONFIG.enabled.shears.value()) {
             UniqueItemRegistry.SHEARS.addItemToRegistry(NETHERITE_SHEARS);
         }
     }
