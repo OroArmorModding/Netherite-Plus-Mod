@@ -33,9 +33,11 @@ repositories {
 }
 
 oroarmor {
-    name = "Netherite Plus Mod"
+    name = "Netherite-Plus-Mod"
     githubProjectName = "OroArmorModding/Netherite-Plus-Mod"
     description = "This mod adds extra netherite features that aren't vanilla.\n\nNOTE: Editing the config requires a game restart."
+
+    println(projectPublishing.changelog.get())
 }
 
 import com.oroarmor.orogradleplugin.minecraft.dependency.ModDependency.DependencyType
