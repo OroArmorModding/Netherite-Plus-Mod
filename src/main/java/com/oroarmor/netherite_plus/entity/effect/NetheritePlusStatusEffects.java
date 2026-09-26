@@ -24,24 +24,24 @@
 
 package com.oroarmor.netherite_plus.entity.effect;
 
-import com.oroarmor.netherite_plus.NetheritePlusMod;
-
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
+import com.oroarmor.netherite_plus.NetheritePlusMod;
+
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
+
 public class NetheritePlusStatusEffects {
-    public static final StatusEffect LAVA_VISION;
+    public static final MobEffect LAVA_VISION;
 
     static {
-        LAVA_VISION = NetheritePlusMod.CONFIG.enabled.beacon.value() ? register("lava_vision", new StatusEffect(StatusEffectType.BENEFICIAL, 16744207)) : null;
+        LAVA_VISION = NetheritePlusMod.CONFIG.enabled.beacon.value() ? register("lava_vision", new MobEffect(MobEffectCategory.BENEFICIAL, 16744207)) : null;
     }
 
-    private static StatusEffect register(String name, StatusEffect entry) {
-        return Registry.register(Registries.STATUS_EFFECT, id(name), entry);
+    private static MobEffect register(String name, MobEffect entry) {
+        return Registry.register(BuiltInRegistries.MOB_EFFECT, id(name), entry);
     }
 
     public static void init() {

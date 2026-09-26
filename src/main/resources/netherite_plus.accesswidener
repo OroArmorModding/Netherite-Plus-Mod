@@ -1,36 +1,34 @@
 accessWidener	v1	named
 
-extendable class net/minecraft/entity/projectile/FishingBobberEntity$State
-extendable class net/minecraft/entity/projectile/FishingBobberEntity$PositionType
-extendable method net/minecraft/entity/projectile/ProjectileEntity <init> (Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;)V
+extendable class net/minecraft/world/entity/projectile/FishingHook$FishHookState
+extendable class net/minecraft/world/entity/projectile/FishingHook$OpenWaterType
 
-accessible field net/minecraft/entity/projectile/FishingBobberEntity velocityRandom Lnet/minecraft/util/random/RandomGenerator;
-accessible field net/minecraft/entity/projectile/FishingBobberEntity caughtFish Z
-accessible field net/minecraft/entity/projectile/FishingBobberEntity outOfOpenWaterTicks I
-accessible field net/minecraft/entity/projectile/FishingBobberEntity removalTimer I
-accessible field net/minecraft/entity/projectile/FishingBobberEntity hookCountdown I
-accessible field net/minecraft/entity/projectile/FishingBobberEntity waitCountdown I
-accessible field net/minecraft/entity/projectile/FishingBobberEntity fishTravelCountdown I
-accessible field net/minecraft/entity/projectile/FishingBobberEntity fishAngle F
-accessible field net/minecraft/entity/projectile/FishingBobberEntity inOpenWater Z
-accessible field net/minecraft/entity/projectile/FishingBobberEntity hookedEntity Lnet/minecraft/entity/Entity;
-accessible field net/minecraft/entity/projectile/FishingBobberEntity state Lnet/minecraft/entity/projectile/FishingBobberEntity$State;
-accessible field net/minecraft/entity/projectile/FishingBobberEntity luckOfTheSeaLevel I
-accessible field net/minecraft/entity/projectile/FishingBobberEntity lureLevel I
+accessible field net/minecraft/world/entity/projectile/FishingHook syncronizedRandom Lnet/minecraft/util/RandomSource;
+accessible field net/minecraft/world/entity/projectile/FishingHook biting Z
+accessible field net/minecraft/world/entity/projectile/FishingHook outOfWaterTime I
+accessible field net/minecraft/world/entity/projectile/FishingHook life I
+accessible field net/minecraft/world/entity/projectile/FishingHook nibble I
+accessible field net/minecraft/world/entity/projectile/FishingHook timeUntilLured I
+accessible field net/minecraft/world/entity/projectile/FishingHook timeUntilHooked I
+accessible field net/minecraft/world/entity/projectile/FishingHook fishAngle F
+accessible field net/minecraft/world/entity/projectile/FishingHook openWater Z
+accessible field net/minecraft/world/entity/projectile/FishingHook hookedIn Lnet/minecraft/world/entity/Entity;
+accessible field net/minecraft/world/entity/projectile/FishingHook currentState Lnet/minecraft/world/entity/projectile/FishingHook$FishHookState;
+accessible field net/minecraft/world/entity/projectile/FishingHook luck I
+accessible field net/minecraft/world/entity/projectile/FishingHook lureSpeed I
 
-accessible field net/minecraft/entity/projectile/FishingBobberEntity HOOK_ENTITY_ID Lnet/minecraft/entity/data/TrackedData;
-accessible field net/minecraft/entity/projectile/FishingBobberEntity CAUGHT_FISH Lnet/minecraft/entity/data/TrackedData;
+accessible field net/minecraft/world/entity/projectile/FishingHook DATA_HOOKED_ENTITY Lnet/minecraft/network/syncher/EntityDataAccessor;
+accessible field net/minecraft/world/entity/projectile/FishingHook DATA_BITING Lnet/minecraft/network/syncher/EntityDataAccessor;
 
-accessible field net/minecraft/entity/projectile/ProjectileEntity leftOwner Z
+accessible field net/minecraft/world/entity/projectile/Projectile leftOwner Z
 
-accessible field net/minecraft/entity/projectile/TridentEntity tridentStack Lnet/minecraft/item/ItemStack;
-accessible field net/minecraft/entity/projectile/TridentEntity dealtDamage Z
+accessible field net/minecraft/world/entity/projectile/ThrownTrident tridentItem Lnet/minecraft/world/item/ItemStack;
+accessible field net/minecraft/world/entity/projectile/ThrownTrident dealtDamage Z
 
-accessible method net/minecraft/nbt/NbtCompound <init> (Ljava/util/Map;)V
-accessible method net/minecraft/entity/effect/StatusEffect <init> (Lnet/minecraft/entity/effect/StatusEffectType;I)V
+accessible method net/minecraft/world/effect/MobEffect <init> (Lnet/minecraft/world/effect/MobEffectCategory;I)V
 
-accessible    field    net/minecraft/item/TridentItem                            attributeModifiers         Lcom/google/common/collect/Multimap;
-mutable       field    net/minecraft/entity/attribute/EntityAttributeModifier    value                      D
-accessible    field    net/minecraft/entity/attribute/EntityAttributeModifier    value                      D
+accessible    field    net/minecraft/world/item/TridentItem                            defaultModifiers         Lcom/google/common/collect/Multimap;
+mutable field net/minecraft/world/entity/ai/attributes/AttributeModifier amount D
+accessible field net/minecraft/world/entity/ai/attributes/AttributeModifier amount D
 
-accessible class net/minecraft/client/render/BackgroundRenderer$FogParameters
+accessible class net/minecraft/client/renderer/FogRenderer$FogData

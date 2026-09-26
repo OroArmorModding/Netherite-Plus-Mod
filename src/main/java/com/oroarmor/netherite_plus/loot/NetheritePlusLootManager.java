@@ -24,10 +24,10 @@
 
 package com.oroarmor.netherite_plus.loot;
 
-import net.minecraft.util.Identifier;
-
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
+import net.minecraft.resources.ResourceLocation;
+
 public class NetheritePlusLootManager {
-    public static final Identifier LAVA_FISHING_LOOT_TABLE = id("gameplay/fishing");
+    public static final ResourceLocation LAVA_FISHING_LOOT_TABLE = id("gameplay/fishing");
 }

@@ -24,23 +24,23 @@
 
 package com.oroarmor.netherite_plus.mixin.render;
 
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
+
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import net.minecraft.client.render.entity.TridentEntityRenderer;
-import net.minecraft.entity.projectile.TridentEntity;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.entity.ThrownTridentRenderer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.projectile.ThrownTrident;
 
-import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
-
-@Mixin(TridentEntityRenderer.class)
+@Mixin(ThrownTridentRenderer.class)
 public class TridentEntityRendererMixin {
-    @Inject(method = "getTexture(Lnet/minecraft/entity/projectile/TridentEntity;)Lnet/minecraft/util/Identifier;", at = @At(value = "HEAD"), cancellable = true)
-    public void getTextureMixin(TridentEntity entity, CallbackInfoReturnable<Identifier> cir) {
-        if(entity.tridentStack.isOf(NetheritePlusItems.NETHERITE_TRIDENT)) {
+    @Inject(method = "getTextureLocation(Lnet/minecraft/world/entity/projectile/ThrownTrident;)Lnet/minecraft/resources/ResourceLocation;", at = @At(value = "HEAD"), cancellable = true)
+    public void getTextureMixin(ThrownTrident entity, CallbackInfoReturnable<ResourceLocation> cir) {
+        if (entity.tridentItem.is(NetheritePlusItems.NETHERITE_TRIDENT)) {
             cir.setReturnValue(id("textures/entity/netherite_trident.png"));
         }
     }

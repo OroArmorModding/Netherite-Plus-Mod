@@ -27,75 +27,75 @@ package com.oroarmor.netherite_plus.entity;
 import com.oroarmor.netherite_plus.NetheritePlusMod;
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LightningEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.projectile.TridentEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.ThrownTrident;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 
-public class NetheriteTridentEntity extends TridentEntity {
-    public NetheriteTridentEntity(EntityType<? extends TridentEntity> entityType, World world) {
+public class NetheriteTridentEntity extends ThrownTrident {
+    public NetheriteTridentEntity(EntityType<? extends ThrownTrident> entityType, Level world) {
         super(entityType, world);
-        tridentStack = new ItemStack(NetheritePlusItems.NETHERITE_TRIDENT);
+        tridentItem = new ItemStack(NetheritePlusItems.NETHERITE_TRIDENT);
     }
 
-    public NetheriteTridentEntity(World world, LivingEntity owner, ItemStack stack) {
+    public NetheriteTridentEntity(Level world, LivingEntity owner, ItemStack stack) {
         super(world, owner, stack);
-        tridentStack = stack;
+        tridentItem = stack;
     }
 
     @Override
-    protected void onEntityHit(EntityHitResult entityHitResult) {
+    protected void onHitEntity(EntityHitResult entityHitResult) {
         Entity entity = entityHitResult.getEntity();
         float f = 8.0F;
         if (entity instanceof LivingEntity livingEntity) {
-            f += EnchantmentHelper.getAttackDamage(tridentStack, livingEntity.getGroup());
+            f += EnchantmentHelper.getDamageBonus(tridentItem, livingEntity.getMobType());
         }
 
         f = (float) (f * NetheritePlusMod.CONFIG.damage.trident_damage_multiplier.value() + NetheritePlusMod.CONFIG.damage.trident_damage_addition.value());
 
         Entity entity2 = getOwner();
-        DamageSource damageSource = this.getDamageSources().trident(this, entity2 == null ? this : entity2);
+        DamageSource damageSource = this.damageSources().trident(this, entity2 == null ? this : entity2);
         dealtDamage = true;
-        SoundEvent soundEvent = SoundEvents.ITEM_TRIDENT_HIT;
-        if (entity.damage(damageSource, f)) {
+        SoundEvent soundEvent = SoundEvents.TRIDENT_HIT;
+        if (entity.hurt(damageSource, f)) {
             if (entity.getType() == EntityType.ENDERMAN) {
                 return;
             }
 
             if (entity instanceof LivingEntity livingEntity2) {
                 if (entity2 instanceof LivingEntity) {
-                    EnchantmentHelper.onUserDamaged(livingEntity2, entity2);
-                    EnchantmentHelper.onTargetDamaged((LivingEntity) entity2, livingEntity2);
+                    EnchantmentHelper.doPostHurtEffects(livingEntity2, entity2);
+                    EnchantmentHelper.doPostDamageEffects((LivingEntity) entity2, livingEntity2);
                 }
 
-                onHit(livingEntity2);
+                doPostHurtEffects(livingEntity2);
             }
         }
 
-        this.setVelocity(getVelocity().multiply(-0.01D, -0.1D, -0.01D));
+        this.setDeltaMovement(getDeltaMovement().multiply(-0.01D, -0.1D, -0.01D));
         float g = 1.0F;
-        if (this.getWorld() instanceof ServerWorld && this.getWorld().isThundering() && EnchantmentHelper.hasChanneling(tridentStack)) {
-            BlockPos blockPos = entity.getBlockPos();
-            if (this.getWorld().isSkyVisible(blockPos)) {
-                LightningEntity lightningEntity = EntityType.LIGHTNING_BOLT.create(this.getWorld());
-                lightningEntity.refreshPositionAfterTeleport(Vec3d.ofBottomCenter(blockPos));
-                lightningEntity.setChanneler(entity2 instanceof ServerPlayerEntity ? (ServerPlayerEntity) entity2 : null);
-                this.getWorld().spawnEntity(lightningEntity);
-                soundEvent = SoundEvents.ITEM_TRIDENT_THUNDER;
+        if (this.level() instanceof ServerLevel && this.level().isThundering() && EnchantmentHelper.hasChanneling(tridentItem)) {
+            BlockPos blockPos = entity.blockPosition();
+            if (this.level().canSeeSky(blockPos)) {
+                LightningBolt lightningEntity = EntityType.LIGHTNING_BOLT.create(this.level());
+                lightningEntity.moveTo(Vec3.atBottomCenterOf(blockPos));
+                lightningEntity.setCause(entity2 instanceof ServerPlayer ? (ServerPlayer) entity2 : null);
+                this.level().addFreshEntity(lightningEntity);
+                soundEvent = SoundEvents.TRIDENT_THUNDER;
                 g = 5.0F;
             }
         }
@@ -104,7 +104,7 @@ public class NetheriteTridentEntity extends TridentEntity {
     }
 
     @Override
-    public Packet<ClientPlayPacketListener> createSpawnPacket() {
-        return super.createSpawnPacket();
+    public Packet<ClientGamePacketListener> getAddEntityPacket() {
+        return super.getAddEntityPacket();
     }
 }

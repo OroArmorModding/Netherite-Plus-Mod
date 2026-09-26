@@ -29,59 +29,69 @@ import java.util.List;
 
 import com.oroarmor.netherite_plus.block.entity.NetheriteShulkerBoxBlockEntity;
 import com.oroarmor.netherite_plus.block.entity.NetheriteShulkerBoxBlockEntity.AnimationStage;
-import org.jetbrains.annotations.Nullable;
-
-import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.mob.PiglinBrain;
-import net.minecraft.entity.mob.ShulkerEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.context.LootContext;
-import net.minecraft.loot.context.LootContextParameterSet;
-import net.minecraft.loot.context.LootContextParameters;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.stat.Stats;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.*;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import org.jetbrains.annotations.Nullable;
 
-public class NetheriteShulkerBoxBlock extends BlockWithEntity {
-    public static final EnumProperty<Direction> FACING = FacingBlock.FACING;
-    public static final Identifier CONTENTS = new Identifier("contents");
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.Container;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.Shulker;
+import net.minecraft.world.entity.monster.piglin.PiglinAi;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DirectionalBlock;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+
+//import net.minecraft.block.*;
+
+public class NetheriteShulkerBoxBlock extends BaseEntityBlock {
+    public static final EnumProperty<Direction> FACING = DirectionalBlock.FACING;
+    public static final ResourceLocation CONTENTS = new ResourceLocation("contents");
 
     @Nullable
     private final DyeColor color;
 
-    public NetheriteShulkerBoxBlock(@Nullable DyeColor color, Settings settings) {
+    public NetheriteShulkerBoxBlock(@Nullable DyeColor color, Properties settings) {
         super(settings);
         this.color = color;
-        setDefaultState(stateManager.getDefaultState().with(FACING, Direction.UP));
+        registerDefaultState(stateDefinition.any().setValue(FACING, Direction.UP));
     }
 
     public static Block get(DyeColor dyeColor) {
@@ -114,30 +124,39 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
     }
 
     public static DyeColor getColor(Item item) {
-        return getColor(Block.getBlockFromItem(item));
+        return getColor(Block.byItem(item));
     }
 
     public static ItemStack getItemStack(DyeColor color) {
         return new ItemStack(get(color));
     }
 
+    private static boolean canOpen(BlockState state, Level world, BlockPos pos, NetheriteShulkerBoxBlockEntity entity) {
+        if (entity.getAnimationStage() != AnimationStage.CLOSED) {
+            return true;
+        } else {
+            AABB box = Shulker.getProgressDeltaAabb(state.getValue(FACING), 0.0F, 0.5F).move(pos).deflate(1.0E-6);
+            return world.noCollision(box);
+        }
+    }
+
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, BlockView world, List<Text> tooltip, TooltipContext options) {
-        super.appendTooltip(stack, world, tooltip, options);
-        NbtCompound compoundTag = stack.getSubNbt("BlockEntityTag");
+    public void appendHoverText(ItemStack stack, BlockGetter world, List<Component> tooltip, TooltipFlag options) {
+        super.appendHoverText(stack, world, tooltip, options);
+        CompoundTag compoundTag = stack.getTagElement("BlockEntityTag");
         if (compoundTag != null) {
             if (compoundTag.contains("LootTable", 8)) {
-                tooltip.add(Text.literal("???????"));
+                tooltip.add(Component.literal("???????"));
             }
 
             if (compoundTag.contains("Items", 9)) {
-                DefaultedList<ItemStack> defaultedList = DefaultedList.ofSize(27, ItemStack.EMPTY);
-                Inventories.readNbt(compoundTag, defaultedList);
+                NonNullList<ItemStack> defaultedList = NonNullList.withSize(27, ItemStack.EMPTY);
+                ContainerHelper.loadAllItems(compoundTag, defaultedList);
                 int i = 0;
                 int j = 0;
                 Iterator<ItemStack> var9 = defaultedList.iterator();
@@ -148,7 +167,7 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
                         ++j;
                         if (i <= 4) {
                             ++i;
-                            MutableText mutableText = itemStack.getName().copyContentOnly();
+                            MutableComponent mutableText = itemStack.getHoverName().plainCopy();
                             mutableText.append(" x").append(String.valueOf(itemStack.getCount()));
                             tooltip.add(mutableText);
                         }
@@ -156,7 +175,7 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
                 }
 
                 if (j - i > 0) {
-                    tooltip.add(Text.translatable("container.shulkerBox.more", j - i).formatted(Formatting.ITALIC));
+                    tooltip.add(Component.translatable("container.shulkerBox.more", j - i).withStyle(ChatFormatting.ITALIC));
                 }
             }
         }
@@ -164,14 +183,14 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
     }
 
     @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new NetheriteShulkerBoxBlockEntity(this.color, pos, state);
     }
 
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, NetheritePlusBlocks.NETHERITE_SHULKER_BOX_ENTITY, NetheriteShulkerBoxBlockEntity::tick);
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
+        return createTickerHelper(type, NetheritePlusBlocks.NETHERITE_SHULKER_BOX_ENTITY, NetheriteShulkerBoxBlockEntity::tick);
     }
 
     public DyeColor getColor() {
@@ -179,145 +198,136 @@ public class NetheriteShulkerBoxBlock extends BlockWithEntity {
     }
 
     @Override
-    public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
-        return ScreenHandler.calculateComparatorOutput((Inventory) world.getBlockEntity(pos));
+    public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
+        return AbstractContainerMenu.getRedstoneSignalFromContainer((Container) world.getBlockEntity(pos));
     }
 
     @Override
-    public List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
-        BlockEntity blockEntity = builder.getOptionalParameter(LootContextParameters.BLOCK_ENTITY);
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
+        BlockEntity blockEntity = builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
         if (blockEntity instanceof NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity) {
             builder = builder.withDynamicDrop(CONTENTS, (consumer) -> {
-                for (int i = 0; i < shulkerBoxBlockEntity.size(); ++i) {
-                    consumer.accept(shulkerBoxBlockEntity.getStack(i));
+                for (int i = 0; i < shulkerBoxBlockEntity.getContainerSize(); ++i) {
+                    consumer.accept(shulkerBoxBlockEntity.getItem(i));
                 }
             });
         }
 
-        return super.getDroppedStacks(state, builder);
+        return super.getDrops(state, builder);
     }
 
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        return blockEntity instanceof NetheriteShulkerBoxBlockEntity ? VoxelShapes.cuboid(((NetheriteShulkerBoxBlockEntity) blockEntity).getBoundingBox(state)) : VoxelShapes.fullCube();
+        return blockEntity instanceof NetheriteShulkerBoxBlockEntity ? Shapes.create(((NetheriteShulkerBoxBlockEntity) blockEntity).getBoundingBox(state)) : Shapes.block();
     }
 
     @Override
-    public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
-        ItemStack itemStack = super.getPickStack(world, pos, state);
+    public ItemStack getCloneItemStack(BlockGetter world, BlockPos pos, BlockState state) {
+        ItemStack itemStack = super.getCloneItemStack(world, pos, state);
         NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity = (NetheriteShulkerBoxBlockEntity) world.getBlockEntity(pos);
-        NbtCompound compoundTag = shulkerBoxBlockEntity.serializeInventory(new NbtCompound());
+        CompoundTag compoundTag = shulkerBoxBlockEntity.serializeInventory(new CompoundTag());
         if (!compoundTag.isEmpty()) {
-            itemStack.setSubNbt("BlockEntityTag", compoundTag);
+            itemStack.addTagElement("BlockEntityTag", compoundTag);
         }
 
         return itemStack;
     }
 
     @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return getDefaultState().with(FACING, ctx.getSide());
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        return defaultBlockState().setValue(FACING, ctx.getClickedFace());
     }
 
     @Override
-    public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.ANIMATED;
+    public RenderShape getRenderShape(BlockState state) {
+        return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
-    public boolean hasComparatorOutput(BlockState state) {
+    public boolean hasAnalogOutputSignal(BlockState state) {
         return true;
     }
 
     @Override
-    public BlockState mirror(BlockState state, BlockMirror mirror) {
-        return state.rotate(mirror.getRotation(state.get(FACING)));
+    public BlockState mirror(BlockState state, Mirror mirror) {
+        return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 
     @Override
-    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+    public void playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof NetheriteShulkerBoxBlockEntity netheriteShulkerBoxBlockEntity) {
-            if (!world.isClient && player.isCreative() && !netheriteShulkerBoxBlockEntity.isEmpty()) {
+            if (!world.isClientSide && player.isCreative() && !netheriteShulkerBoxBlockEntity.isEmpty()) {
                 ItemStack itemStack = getItemStack(this.getColor());
-                NbtCompound compoundTag = netheriteShulkerBoxBlockEntity.serializeInventory(new NbtCompound());
+                CompoundTag compoundTag = netheriteShulkerBoxBlockEntity.serializeInventory(new CompoundTag());
                 if (!compoundTag.isEmpty()) {
-                    itemStack.setSubNbt("BlockEntityTag", compoundTag);
+                    itemStack.addTagElement("BlockEntityTag", compoundTag);
                 }
 
                 if (netheriteShulkerBoxBlockEntity.hasCustomName()) {
-                    itemStack.setCustomName(netheriteShulkerBoxBlockEntity.getCustomName());
+                    itemStack.setHoverName(netheriteShulkerBoxBlockEntity.getCustomName());
                 }
 
                 ItemEntity itemEntity = new ItemEntity(world, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, itemStack);
-                itemEntity.setToDefaultPickupDelay();
-                world.spawnEntity(itemEntity);
+                itemEntity.setDefaultPickUpDelay();
+                world.addFreshEntity(itemEntity);
             } else {
-                netheriteShulkerBoxBlockEntity.checkLootInteraction(player);
+                netheriteShulkerBoxBlockEntity.unpackLootTable(player);
             }
         }
 
-        super.onBreak(world, pos, state, player);
+        super.playerWillDestroy(world, pos, state, player);
     }
 
     @Override
-    public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
-        if (itemStack.hasCustomName()) {
+    public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
+        if (itemStack.hasCustomHoverName()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof NetheriteShulkerBoxBlockEntity) {
-                ((NetheriteShulkerBoxBlockEntity) blockEntity).setCustomName(itemStack.getName());
+                ((NetheriteShulkerBoxBlockEntity) blockEntity).setCustomName(itemStack.getHoverName());
             }
         }
 
     }
 
     @Override
-    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if (!state.isOf(newState.getBlock())) {
+    public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {
+        if (!state.is(newState.getBlock())) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof NetheriteShulkerBoxBlockEntity) {
-                world.updateComparators(pos, state.getBlock());
+                world.updateNeighbourForOutputSignal(pos, state.getBlock());
             }
 
-            super.onStateReplaced(state, world, pos, newState, moved);
+            super.onRemove(state, world, pos, newState, moved);
         }
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (world.isClient) {
-            return ActionResult.SUCCESS;
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (world.isClientSide) {
+            return InteractionResult.SUCCESS;
         } else if (player.isSpectator()) {
-            return ActionResult.CONSUME;
+            return InteractionResult.CONSUME;
         } else {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity) {
                 if (canOpen(state, world, pos, shulkerBoxBlockEntity)) {
-                    player.openHandledScreen(shulkerBoxBlockEntity);
-                    player.incrementStat(Stats.OPEN_SHULKER_BOX);
-                    PiglinBrain.onGuardedBlockInteracted(player, true);
+                    player.openMenu(shulkerBoxBlockEntity);
+                    player.awardStat(Stats.OPEN_SHULKER_BOX);
+                    PiglinAi.angerNearbyPiglins(player, true);
                 }
 
-                return ActionResult.CONSUME;
+                return InteractionResult.CONSUME;
             } else {
-                return ActionResult.PASS;
+                return InteractionResult.PASS;
             }
         }
     }
 
-    private static boolean canOpen(BlockState state, World world, BlockPos pos, NetheriteShulkerBoxBlockEntity entity) {
-        if (entity.getAnimationStage() != AnimationStage.CLOSED) {
-            return true;
-        } else {
-            Box box = ShulkerEntity.getOpeningDeltaBoundingBox(state.get(FACING), 0.0F, 0.5F).offset(pos).contract(1.0E-6);
-            return world.isSpaceEmpty(box);
-        }
-    }
-
     @Override
-    public BlockState rotate(BlockState state, BlockRotation rotation) {
-        return state.with(FACING, rotation.rotate(state.get(FACING)));
+    public BlockState rotate(BlockState state, Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
 }

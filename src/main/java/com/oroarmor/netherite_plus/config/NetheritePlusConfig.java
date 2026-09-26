@@ -25,7 +25,6 @@
 package com.oroarmor.netherite_plus.config;
 
 import org.quiltmc.config.api.ReflectiveConfig;
-import org.quiltmc.config.api.WrappedConfig;
 import org.quiltmc.config.api.annotations.Comment;
 import org.quiltmc.config.api.annotations.FloatRange;
 import org.quiltmc.config.api.values.TrackedValue;
@@ -58,13 +57,13 @@ public final class NetheritePlusConfig extends ReflectiveConfig {
 //        NetworkManager.sendToPlayer((ServerPlayerEntity) player, LavaVisionUpdatePacket.ID, passedData);
 //    }
 
-    public static class AnvilConfigs extends Section {
+    public static class AnvilConfigs extends org.quiltmc.config.api.ReflectiveConfig.Section {
         @FloatRange(min = 0, max = 1)
         @Comment("The xp reduction percentage.")
         public final TrackedValue<Double> xp_reduction = value(0.5);
     }
 
-    public static class DamageConfigs extends Section {
+    public static class DamageConfigs extends org.quiltmc.config.api.ReflectiveConfig.Section {
         @FloatRange(min = 0, max = Double.MAX_VALUE)
         @Comment("The bow damage addition over vanilla.")
         public final TrackedValue<Double> bow_damage_addition = value(0.0);
@@ -87,7 +86,7 @@ public final class NetheritePlusConfig extends ReflectiveConfig {
         public final TrackedValue<Integer> elytra_armor_points = value(4);
     }
 
-    public static class DurabilityConfigs extends Section {
+    public static class DurabilityConfigs extends org.quiltmc.config.api.ReflectiveConfig.Section {
         @Comment("The bow durability points.")
         public final TrackedValue<Integer> bow = value(768);
         @Comment("The crossbow durability points.")
@@ -104,7 +103,7 @@ public final class NetheritePlusConfig extends ReflectiveConfig {
         public final TrackedValue<Integer> shears = value(476);
     }
 
-    public static class EnabledConfigs extends Section {
+    public static class EnabledConfigs extends org.quiltmc.config.api.ReflectiveConfig.Section {
         @Comment("Enables debug print feature.")
         public final TrackedValue<Boolean> config_debug_print = value(false);
         @Comment("Enables anvil features.")
@@ -131,7 +130,7 @@ public final class NetheritePlusConfig extends ReflectiveConfig {
         public final TrackedValue<Boolean> shears = value(true);
     }
 
-    public static class GraphicsConfigs extends Section {
+    public static class GraphicsConfigs extends org.quiltmc.config.api.ReflectiveConfig.Section {
         @Comment("Distance to see in lava.")
         public final TrackedValue<Double> lava_vision_distance = value(0.25);
     }

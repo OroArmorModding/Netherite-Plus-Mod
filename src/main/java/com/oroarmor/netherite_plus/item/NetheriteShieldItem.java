@@ -26,18 +26,18 @@ package com.oroarmor.netherite_plus.item;
 
 import com.github.crimsondawn45.fabricshieldlib.lib.object.FabricShield;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.ShieldItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ShieldItem;
 
 public class NetheriteShieldItem extends ShieldItem implements FabricShield {
-    public NetheriteShieldItem(Settings settings) {
+    public NetheriteShieldItem(Properties settings) {
         super(settings);
     }
 
     @Override
-    public boolean canRepair(ItemStack stack, ItemStack ingredient) {
-        return stack.isOf(Items.NETHERITE_INGOT);
+    public boolean isValidRepairItem(ItemStack stack, ItemStack ingredient) {
+        return stack.is(Items.NETHERITE_INGOT);
     }
 
     @Override

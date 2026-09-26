@@ -31,48 +31,48 @@ import com.oroarmor.netherite_plus.block.NetheritePlusBlocks;
 import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShulkerBoxBlock;
-import net.minecraft.block.entity.LootableContainerBlockEntity;
-import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.MovementType;
-import net.minecraft.entity.mob.ShulkerEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.SidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ShulkerBoxScreenHandler;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.monster.Shulker;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ShulkerBoxMenu;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ShulkerBoxBlock;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.Shapes;
 
 
-public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity implements SidedInventory {
+public class NetheriteShulkerBoxBlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer {
     public static final int COLUMNS = 9;
     public static final int ROWS = 3;
     private static final int[] AVAILABLE_SLOTS = IntStream.range(0, 27).toArray();
-    private DefaultedList<ItemStack> inventory = DefaultedList.ofSize(27, ItemStack.EMPTY);
+    @Nullable
+    private final DyeColor cachedColor;
+    private NonNullList<ItemStack> inventory = NonNullList.withSize(27, ItemStack.EMPTY);
     private int viewerCount;
     private AnimationStage animationStage = AnimationStage.CLOSED;
     private float animationProgress;
     private float prevAnimationProgress;
-    @Nullable
-    private final DyeColor cachedColor;
 
     public NetheriteShulkerBoxBlockEntity(@Nullable DyeColor dyeColor, BlockPos blockPos, BlockState blockState) {
         super(NetheritePlusBlocks.NETHERITE_SHULKER_BOX_ENTITY, blockPos, blockState);
@@ -81,41 +81,49 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
 
     public NetheriteShulkerBoxBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(NetheritePlusBlocks.NETHERITE_SHULKER_BOX_ENTITY, blockPos, blockState);
-        this.cachedColor = ShulkerBoxBlock.getColor(blockState.getBlock());
+        this.cachedColor = ShulkerBoxBlock.getColorFromBlock(blockState.getBlock());
+    }
+
+    public static void tick(Level world, BlockPos pos, BlockState state, NetheriteShulkerBoxBlockEntity blockEntity) {
+        blockEntity.updateAnimation(world, pos, state);
+    }
+
+    private static void updateNeighborStates(Level world, BlockPos pos, BlockState state) {
+        state.updateNeighbourShapes(world, pos, 3);
     }
 
     @Override
-    public boolean canExtract(int slot, ItemStack stack, Direction dir) {
+    public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction dir) {
         return true;
     }
 
     @Override
-    public boolean canInsert(int slot, ItemStack stack, Direction dir) {
-        Block block = Block.getBlockFromItem(stack.getItem());
+    public boolean canPlaceItemThroughFace(int slot, ItemStack stack, Direction dir) {
+        Block block = Block.byItem(stack.getItem());
         return !(block instanceof NetheriteShulkerBoxBlock) && !(block instanceof ShulkerBoxBlock);
     }
 
     @Override
-    protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
-        return new ShulkerBoxScreenHandler(syncId, playerInventory, this);
+    protected AbstractContainerMenu createMenu(int syncId, Inventory playerInventory) {
+        return new ShulkerBoxMenu(syncId, playerInventory, this);
     }
 
-    public void deserializeInventory(NbtCompound tag) {
-        inventory = DefaultedList.ofSize(size(), ItemStack.EMPTY);
-        if (!deserializeLootTable(tag) && tag.contains("Items", 9)) {
-            Inventories.readNbt(tag, inventory);
+    public void deserializeInventory(CompoundTag tag) {
+        inventory = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
+        if (!tryLoadLootTable(tag) && tag.contains("Items", 9)) {
+            ContainerHelper.loadAllItems(tag, inventory);
         }
 
     }
 
     @Override
-    public void readNbt(NbtCompound tag) {
-        super.readNbt(tag);
+    public void load(CompoundTag tag) {
+        super.load(tag);
         deserializeInventory(tag);
     }
 
     public float getAnimationProgress(float f) {
-        return MathHelper.lerp(f, prevAnimationProgress, animationProgress);
+        return Mth.lerp(f, prevAnimationProgress, animationProgress);
     }
 
     public AnimationStage getAnimationStage() {
@@ -123,22 +131,22 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
     }
 
     @Override
-    public int[] getAvailableSlots(Direction side) {
+    public int[] getSlotsForFace(Direction side) {
         return AVAILABLE_SLOTS;
     }
 
-    public Box getBoundingBox(BlockState state) {
-        return this.getBoundingBox(state.get(NetheriteShulkerBoxBlock.FACING));
+    public AABB getBoundingBox(BlockState state) {
+        return this.getBoundingBox(state.getValue(NetheriteShulkerBoxBlock.FACING));
     }
 
-    public Box getBoundingBox(Direction openDirection) {
+    public AABB getBoundingBox(Direction openDirection) {
         float f = getAnimationProgress(1.0F);
-        return VoxelShapes.fullCube().getBoundingBox().stretch(0.5F * f * openDirection.getOffsetX(), 0.5F * f * openDirection.getOffsetY(), 0.5F * f * openDirection.getOffsetZ());
+        return Shapes.block().bounds().expandTowards(0.5F * f * openDirection.getStepX(), 0.5F * f * openDirection.getStepY(), 0.5F * f * openDirection.getStepZ());
     }
 
-    private Box getCollisionBox(Direction facing) {
+    private AABB getCollisionBox(Direction facing) {
         Direction direction = facing.getOpposite();
-        return this.getBoundingBox(facing).shrink(direction.getOffsetX(), direction.getOffsetY(), direction.getOffsetZ());
+        return this.getBoundingBox(facing).contract(direction.getStepX(), direction.getStepY(), direction.getStepZ());
     }
 
     public DyeColor getColor() {
@@ -146,84 +154,84 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
     }
 
     @Override
-    protected Text getContainerName() {
-        return Text.translatable("container.netheriteShulkerBox");
+    protected Component getDefaultName() {
+        return Component.translatable("container.netheriteShulkerBox");
     }
 
     @Override
-    protected DefaultedList<ItemStack> getInvStackList() {
+    protected NonNullList<ItemStack> getItems() {
         return inventory;
     }
 
     @Override
-    protected void setInvStackList(DefaultedList<ItemStack> list) {
+    protected void setItems(NonNullList<ItemStack> list) {
         inventory = list;
     }
 
     @Override
-    public void onOpen(PlayerEntity player) {
+    public void startOpen(Player player) {
         if (!player.isSpectator()) {
             if (this.viewerCount < 0) {
                 this.viewerCount = 0;
             }
 
             ++this.viewerCount;
-            this.world.addSyncedBlockEvent(this.pos, this.getCachedState().getBlock(), 1, this.viewerCount);
+            this.level.blockEvent(this.worldPosition, this.getBlockState().getBlock(), 1, this.viewerCount);
             if (this.viewerCount == 1) {
-                this.world.emitGameEvent(player, GameEvent.CONTAINER_OPEN, this.pos);
-                this.world.playSound(null, this.pos, SoundEvents.BLOCK_SHULKER_BOX_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
+                this.level.gameEvent(player, GameEvent.CONTAINER_OPEN, this.worldPosition);
+                this.level.playSound(null, this.worldPosition, SoundEvents.SHULKER_BOX_OPEN, SoundSource.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
             }
         }
 
     }
 
     @Override
-    public void onClose(PlayerEntity player) {
+    public void stopOpen(Player player) {
         if (!player.isSpectator()) {
             --this.viewerCount;
-            this.world.addSyncedBlockEvent(this.pos, this.getCachedState().getBlock(), 1, this.viewerCount);
+            this.level.blockEvent(this.worldPosition, this.getBlockState().getBlock(), 1, this.viewerCount);
             if (this.viewerCount <= 0) {
-                this.world.emitGameEvent(player, GameEvent.CONTAINER_CLOSE, this.pos);
-                this.world.playSound(null, this.pos, SoundEvents.BLOCK_SHULKER_BOX_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
+                this.level.gameEvent(player, GameEvent.CONTAINER_CLOSE, this.worldPosition);
+                this.level.playSound(null, this.worldPosition, SoundEvents.SHULKER_BOX_CLOSE, SoundSource.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
             }
         }
 
     }
 
     @Override
-    public boolean onSyncedBlockEvent(int type, int data) {
+    public boolean triggerEvent(int type, int data) {
         if (type == 1) {
             this.viewerCount = data;
             if (data == 0) {
                 this.animationStage = AnimationStage.CLOSING;
-                updateNeighborStates(this.getWorld(), this.pos, this.getCachedState());
+                updateNeighborStates(this.getLevel(), this.worldPosition, this.getBlockState());
             }
 
             if (data == 1) {
                 this.animationStage = AnimationStage.OPENING;
-                updateNeighborStates(this.getWorld(), this.pos, this.getCachedState());
+                updateNeighborStates(this.getLevel(), this.worldPosition, this.getBlockState());
             }
 
             return true;
         } else {
-            return super.onSyncedBlockEvent(type, data);
+            return super.triggerEvent(type, data);
         }
     }
 
-    private void pushEntities(World world, BlockPos pos, BlockState state) {
+    private void pushEntities(Level world, BlockPos pos, BlockState state) {
         if (state.getBlock() instanceof NetheriteShulkerBoxBlock) {
-            Direction direction = state.get(NetheriteShulkerBoxBlock.FACING);
-            Box box = ShulkerEntity.getOpeningDeltaBoundingBox(direction, this.prevAnimationProgress, this.animationProgress).offset(pos);
-            List<Entity> list = world.getOtherEntities(null, box);
+            Direction direction = state.getValue(NetheriteShulkerBoxBlock.FACING);
+            AABB box = Shulker.getProgressDeltaAabb(direction, this.prevAnimationProgress, this.animationProgress).move(pos);
+            List<Entity> list = world.getEntities(null, box);
             if (!list.isEmpty()) {
                 for (Entity entity : list) {
-                    if (entity.getPistonBehavior() != PistonBehavior.IGNORE) {
+                    if (entity.getPistonPushReaction() != PushReaction.IGNORE) {
                         entity.move(
-                                MovementType.SHULKER_BOX,
-                                new Vec3d(
-                                        (box.getXLength() + 0.01) * (double) direction.getOffsetX(),
-                                        (box.getYLength() + 0.01) * (double) direction.getOffsetY(),
-                                        (box.getZLength() + 0.01) * (double) direction.getOffsetZ()
+                                MoverType.SHULKER_BOX,
+                                new Vec3(
+                                        (box.getXsize() + 0.01) * (double) direction.getStepX(),
+                                        (box.getYsize() + 0.01) * (double) direction.getStepY(),
+                                        (box.getZsize() + 0.01) * (double) direction.getStepZ()
                                 )
                         );
                     }
@@ -233,21 +241,21 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
         }
     }
 
-    public NbtCompound serializeInventory(NbtCompound tag) {
-        if (!serializeLootTable(tag)) {
-            Inventories.readNbt(tag, inventory);
+    public CompoundTag serializeInventory(CompoundTag tag) {
+        if (!trySaveLootTable(tag)) {
+            ContainerHelper.loadAllItems(tag, inventory);
         }
 
         return tag;
     }
 
     @Override
-    public void setStack(int slot, ItemStack stack) {
-        super.setStack(slot, stack);
+    public void setItem(int slot, ItemStack stack) {
+        super.setItem(slot, stack);
     }
 
     @Override
-    public int size() {
+    public int getContainerSize() {
         return inventory.size();
     }
 
@@ -255,17 +263,13 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
         return animationStage == AnimationStage.CLOSED;
     }
 
-    public static void tick(World world, BlockPos pos, BlockState state, NetheriteShulkerBoxBlockEntity blockEntity) {
-        blockEntity.updateAnimation(world, pos, state);
-    }
-
     @Override
-    public void writeNbt(NbtCompound tag) {
-        super.writeNbt(tag);
+    public void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
         serializeInventory(tag);
     }
 
-    private void updateAnimation(World world, BlockPos pos, BlockState state) {
+    private void updateAnimation(Level world, BlockPos pos, BlockState state) {
         this.prevAnimationProgress = this.animationProgress;
         switch (this.animationStage) {
             case CLOSED -> this.animationProgress = 0.0F;
@@ -289,10 +293,6 @@ public class NetheriteShulkerBoxBlockEntity extends LootableContainerBlockEntity
             case OPENED -> this.animationProgress = 1.0F;
         }
 
-    }
-
-    private static void updateNeighborStates(World world, BlockPos pos, BlockState state) {
-        state.updateNeighbors(world, pos, 3);
     }
 
     public enum AnimationStage {

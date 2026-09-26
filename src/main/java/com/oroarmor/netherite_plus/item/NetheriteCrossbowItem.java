@@ -25,21 +25,22 @@
 package com.oroarmor.netherite_plus.item;
 
 import com.oroarmor.netherite_plus.NetheritePlusMod;
+
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.ItemStack;
+
 import org.quiltmc.qsl.item.extensions.api.crossbow.CrossbowShotProjectileEvents;
 import org.quiltmc.qsl.item.extensions.api.crossbow.ProjectileModifyingCrossbowItem;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.item.ItemStack;
-
 public class NetheriteCrossbowItem extends ProjectileModifyingCrossbowItem {
-    public NetheriteCrossbowItem(Settings settings) {
+    public NetheriteCrossbowItem(Properties settings) {
         super(settings);
         CrossbowShotProjectileEvents.CROSSBOW_MODIFY_SHOT_PROJECTILE.register(this);
     }
 
     @Override
-    public void onProjectileShot(ItemStack crossbowStack, ItemStack arrowStack, LivingEntity user, PersistentProjectileEntity projectile) {
-        projectile.setDamage(projectile.getDamage() * NetheritePlusMod.CONFIG.damage.crossbow_damage_multiplier.value() + NetheritePlusMod.CONFIG.damage.crossbow_damage_addition.value());
+    public void onProjectileShot(ItemStack crossbowStack, ItemStack arrowStack, LivingEntity user, AbstractArrow projectile) {
+        projectile.setBaseDamage(projectile.getBaseDamage() * NetheritePlusMod.CONFIG.damage.crossbow_damage_multiplier.value() + NetheritePlusMod.CONFIG.damage.crossbow_damage_addition.value());
     }
 }

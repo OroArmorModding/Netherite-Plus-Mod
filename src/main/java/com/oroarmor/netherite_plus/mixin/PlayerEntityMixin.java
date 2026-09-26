@@ -31,33 +31,33 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
-@Mixin(PlayerEntity.class)
+@Mixin(Player.class)
 public abstract class PlayerEntityMixin extends LivingEntity {
-    @Shadow public abstract void increaseStat(Identifier stat, int amount);
-
-    protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
+    protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, Level world) {
         super(entityType, world);
     }
 
-    @Inject(method = "increaseTravelMotionStats", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;increaseStat(Lnet/minecraft/util/Identifier;I)V", ordinal = 7))
+    @Shadow
+    public abstract void awardStat(ResourceLocation stat, int amount);
+
+    @Inject(method = "checkMovementStatistics", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;awardStat(Lnet/minecraft/resources/ResourceLocation;I)V", ordinal = 7))
     private void increaseTravelMotionStats(double dx, double dy, double dz, CallbackInfo ci) {
         boolean hasNetheriteElytra = false;
-        for (ItemStack item : this.getArmorItems()) {
-            hasNetheriteElytra |= item.isOf(NetheritePlusItems.NETHERITE_ELYTRA);
+        for (ItemStack item : this.getArmorSlots()) {
+            hasNetheriteElytra |= item.is(NetheritePlusItems.NETHERITE_ELYTRA);
         }
         if (!hasNetheriteElytra) {
             return;
         }
 
-        this.increaseStat(NetheritePlusStats.FLY_NETHERITE_ELYTRA_ONE_CM, Math.round((float)Math.sqrt(dx * dx + dy * dy + dz * dz) * 100.0F));
+        this.awardStat(NetheritePlusStats.FLY_NETHERITE_ELYTRA_ONE_CM, Math.round((float) Math.sqrt(dx * dx + dy * dy + dz * dz) * 100.0F));
     }
 }

@@ -26,29 +26,29 @@ package com.oroarmor.netherite_plus.recipe;
 
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 
-import net.minecraft.inventory.RecipeInputInventory;
-import net.minecraft.item.BannerItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.recipe.CraftingCategory;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.SpecialCraftingRecipe;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.BannerItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 
-public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
-    public NetheriteShieldDecorationRecipe(Identifier identifier, CraftingCategory category) {
+public class NetheriteShieldDecorationRecipe extends CustomRecipe {
+    public NetheriteShieldDecorationRecipe(ResourceLocation identifier, CraftingBookCategory category) {
         super(identifier, category);
     }
 
     @Override
-    public ItemStack craft(RecipeInputInventory craftingInventory, DynamicRegistryManager registryManager) {
+    public ItemStack assemble(CraftingContainer craftingInventory, RegistryAccess registryManager) {
         ItemStack itemStack = ItemStack.EMPTY;
         ItemStack itemStack2 = ItemStack.EMPTY;
 
-        for (int i = 0; i < craftingInventory.size(); ++i) {
-            ItemStack craftingStack = craftingInventory.getStack(i);
+        for (int i = 0; i < craftingInventory.getContainerSize(); ++i) {
+            ItemStack craftingStack = craftingInventory.getItem(i);
             if (!craftingStack.isEmpty()) {
                 if (craftingStack.getItem() instanceof BannerItem) {
                     itemStack = craftingStack;
@@ -61,15 +61,15 @@ public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
         if (itemStack2.isEmpty()) {
             return itemStack2;
         }
-        NbtCompound compoundTag = itemStack.getSubNbt("BlockEntityTag");
-        NbtCompound compoundTag2 = compoundTag == null ? new NbtCompound() : compoundTag.copy();
+        CompoundTag compoundTag = itemStack.getTagElement("BlockEntityTag");
+        CompoundTag compoundTag2 = compoundTag == null ? new CompoundTag() : compoundTag.copy();
         compoundTag2.putInt("Base", ((BannerItem) itemStack.getItem()).getColor().getId());
-        itemStack2.setSubNbt("BlockEntityTag", compoundTag2);
+        itemStack2.addTagElement("BlockEntityTag", compoundTag2);
         return itemStack2;
     }
 
     @Override
-    public boolean fits(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return width * height >= 2;
     }
 
@@ -79,12 +79,12 @@ public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
     }
 
     @Override
-    public boolean matches(RecipeInputInventory craftingInventory, World world) {
+    public boolean matches(CraftingContainer craftingInventory, Level world) {
         ItemStack itemStack = ItemStack.EMPTY;
         ItemStack itemStack2 = ItemStack.EMPTY;
 
-        for (int i = 0; i < craftingInventory.size(); ++i) {
-            ItemStack itemStack3 = craftingInventory.getStack(i);
+        for (int i = 0; i < craftingInventory.getContainerSize(); ++i) {
+            ItemStack itemStack3 = craftingInventory.getItem(i);
             if (!itemStack3.isEmpty()) {
                 if (itemStack3.getItem() instanceof BannerItem) {
                     if (!itemStack2.isEmpty()) {
@@ -101,7 +101,7 @@ public class NetheriteShieldDecorationRecipe extends SpecialCraftingRecipe {
                         return false;
                     }
 
-                    if (itemStack3.getSubNbt("BlockEntityTag") != null) {
+                    if (itemStack3.getTagElement("BlockEntityTag") != null) {
                         return false;
                     }
 

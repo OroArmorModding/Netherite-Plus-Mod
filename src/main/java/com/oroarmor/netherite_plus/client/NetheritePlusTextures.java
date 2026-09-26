@@ -25,14 +25,14 @@
 package com.oroarmor.netherite_plus.client;
 
 
-import net.minecraft.client.resource.Material;
-import net.minecraft.util.Identifier;
-
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.resources.ResourceLocation;
+
 public class NetheritePlusTextures {
-    public static final Identifier NETHERITE_SHULKER_BOXES_ATLAS_TEXTURE = id("textures/atlas/netherite_shulker_boxes.png");
-    public static final Identifier NETHERITE_SHIELD_PATTERNS_ATLAS_TEXTURE = id("textures/atlas/netherite_shield_patterns.png");
+    public static final ResourceLocation NETHERITE_SHULKER_BOXES_ATLAS_TEXTURE = id("textures/atlas/netherite_shulker_boxes.png");
+    public static final ResourceLocation NETHERITE_SHIELD_PATTERNS_ATLAS_TEXTURE = id("textures/atlas/netherite_shield_patterns.png");
 
     public static final Material NETHERITE_SHIELD_BASE = new Material(
             NETHERITE_SHIELD_PATTERNS_ATLAS_TEXTURE, id("entity/netherite_shield_base")

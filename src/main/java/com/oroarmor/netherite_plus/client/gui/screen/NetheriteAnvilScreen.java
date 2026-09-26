@@ -25,139 +25,137 @@
 package com.oroarmor.netherite_plus.client.gui.screen;
 
 import com.oroarmor.netherite_plus.screen.NetheriteAnvilScreenHandler;
-
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screen.ingame.ForgingScreen;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.packet.c2s.play.ItemRenameC2SPacket;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-@Environment(EnvType.CLIENT)
-public class NetheriteAnvilScreen extends ForgingScreen<NetheriteAnvilScreenHandler> {
-    private static final Identifier TEXTURE = new Identifier("textures/gui/container/anvil.png");
-    private static final Text TOO_EXPENSIVE_TEXT = Text.translatable("container.repair.expensive");
-    private final PlayerEntity player;
-    private TextFieldWidget nameField;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.inventory.ItemCombinerScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ServerboundRenameItemPacket;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 
-    public NetheriteAnvilScreen(NetheriteAnvilScreenHandler handler, PlayerInventory inventory, Text title) {
+@Environment(EnvType.CLIENT)
+public class NetheriteAnvilScreen extends ItemCombinerScreen<NetheriteAnvilScreenHandler> {
+    private static final ResourceLocation TEXTURE = new ResourceLocation("textures/gui/container/anvil.png");
+    private static final Component TOO_EXPENSIVE_TEXT = Component.translatable("container.repair.expensive");
+    private final Player player;
+    private EditBox nameField;
+
+    public NetheriteAnvilScreen(NetheriteAnvilScreenHandler handler, Inventory inventory, Component title) {
         super(handler, inventory, title, TEXTURE);
         this.player = inventory.player;
-        this.titleX = 60;
+        this.titleLabelX = 60;
     }
 
-    public void handledScreenTick() {
-        super.handledScreenTick();
+    public void containerTick() {
+        super.containerTick();
         this.nameField.tick();
     }
 
     @Override
-    protected void drawForeground(GuiGraphics graphics, int mouseX, int mouseY) {
-        super.drawForeground(graphics, mouseX, mouseY);
-        int level = handler.getLevelCost();
+    protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
+        super.renderLabels(graphics, mouseX, mouseY);
+        int level = menu.getLevelCost();
         if (level > 0) {
             int color = 0x80ff20;
-            Text text;
-            if (level >= 40 && !player.getAbilities().creativeMode) {
+            Component text;
+            if (level >= 40 && !player.getAbilities().instabuild) {
                 text = TOO_EXPENSIVE_TEXT;
                 color = 0xff6060;
-            } else if (!handler.getSlot(2).hasStack()) {
+            } else if (!menu.getSlot(2).hasItem()) {
                 text = null;
             } else {
-                text = Text.translatable("container.repair.cost", level);
-                if (!handler.getSlot(2).canTakeItems(player)) {
+                text = Component.translatable("container.repair.cost", level);
+                if (!menu.getSlot(2).mayPickup(player)) {
                     color = 0xff6060;
                 }
             }
 
             if (text != null) {
-                int k = backgroundWidth - 8 - textRenderer.getWidth(text) - 2;
-                graphics.fill(k - 2, 67, backgroundWidth - 8, 79, 0x4f000000);
-                graphics.drawShadowedText(textRenderer, text, k, 69, color);
+                int k = imageWidth - 8 - font.width(text) - 2;
+                graphics.fill(k - 2, 67, imageWidth - 8, 79, 0x4f000000);
+                graphics.drawString(font, text, k, 69, color);
             }
         }
 
     }
 
-    protected void drawBackground(GuiGraphics graphics, float delta, int mouseX, int mouseY) {
-        super.drawBackground(graphics, delta, mouseX, mouseY);
-        graphics.drawTexture(TEXTURE, this.x + 59, this.y + 20, 0, this.backgroundHeight + (this.handler.getSlot(0).hasStack() ? 0 : 16), 110, 16);
+    protected void renderBg(GuiGraphics graphics, float delta, int mouseX, int mouseY) {
+        super.renderBg(graphics, delta, mouseX, mouseY);
+        graphics.blit(TEXTURE, this.leftPos + 59, this.topPos + 20, 0, this.imageHeight + (this.menu.getSlot(0).hasItem() ? 0 : 16), 110, 16);
     }
 
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (keyCode == 256) {
-            this.client.player.closeHandledScreen();
+            this.minecraft.player.closeContainer();
         }
 
-        return this.nameField.keyPressed(keyCode, scanCode, modifiers) || this.nameField.isActive() || super.keyPressed(keyCode, scanCode, modifiers);
+        return this.nameField.keyPressed(keyCode, scanCode, modifiers) || this.nameField.canConsumeInput() || super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     private void onRenamed(String name) {
         if (!name.isEmpty()) {
             String s = name;
-            Slot slot = this.handler.getSlot(0);
-            if (slot != null && slot.hasStack() && !slot.getStack().hasCustomName() && name.equals(slot.getStack().getName().getString())) {
+            Slot slot = this.menu.getSlot(0);
+            if (slot != null && slot.hasItem() && !slot.getItem().hasCustomHoverName() && name.equals(slot.getItem().getHoverName().getString())) {
                 s = "";
             }
 
-            this.handler.setNewItemName(s);
-            this.client.player.networkHandler.sendPacket(new ItemRenameC2SPacket(s));
+            this.menu.setNewItemName(s);
+            this.minecraft.player.connection.send(new ServerboundRenameItemPacket(s));
         }
     }
 
     @Override
-    public void onSlotUpdate(ScreenHandler handler, int slotId, ItemStack stack) {
+    public void slotChanged(AbstractContainerMenu handler, int slotId, ItemStack stack) {
         if (slotId == 0) {
-            nameField.setText(stack.isEmpty() ? "" : stack.getName().getString());
+            nameField.setValue(stack.isEmpty() ? "" : stack.getHoverName().getString());
             nameField.setEditable(!stack.isEmpty());
-            setFocusedChild(nameField);
+            setFocused(nameField);
         }
 
     }
 
     @Override
-    public void renderForeground(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+    public void renderFg(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
         this.nameField.render(graphics, mouseX, mouseY, delta);
     }
 
     @Override
-    public void resize(MinecraftClient client, int width, int height) {
-        String string = this.nameField.getText();
+    public void resize(Minecraft client, int width, int height) {
+        String string = this.nameField.getValue();
         this.init(client, width, height);
-        this.nameField.setText(string);
+        this.nameField.setValue(string);
     }
 
     @Override
-    protected void renderIcon(GuiGraphics graphics, int i, int j) {
-        if ((this.handler.getSlot(0).hasStack() || this.handler.getSlot(1).hasStack())
-            && !this.handler.getSlot(this.handler.getResultSlotIndex()).hasStack()) {
-            graphics.drawTexture(TEXTURE, i + 99, j + 45, this.backgroundWidth, 0, 28, 21);
+    protected void renderErrorIcon(GuiGraphics graphics, int i, int j) {
+        if ((this.menu.getSlot(0).hasItem() || this.menu.getSlot(1).hasItem())
+            && !this.menu.getSlot(this.menu.getResultSlot()).hasItem()) {
+            graphics.blit(TEXTURE, i + 99, j + 45, this.imageWidth, 0, 28, 21);
         }
     }
 
     @Override
-    protected void setup() {
-        int i = (this.width - this.backgroundWidth) / 2;
-        int j = (this.height - this.backgroundHeight) / 2;
-        this.nameField = new TextFieldWidget(this.textRenderer, i + 62, j + 24, 103, 12, Text.translatable("container.repair"));
-        this.nameField.setFocusUnlocked(false);
-        this.nameField.setEditableColor(-1);
-        this.nameField.setUneditableColor(-1);
-        this.nameField.setDrawsBackground(false);
+    protected void subInit() {
+        int i = (this.width - this.imageWidth) / 2;
+        int j = (this.height - this.imageHeight) / 2;
+        this.nameField = new EditBox(this.font, i + 62, j + 24, 103, 12, Component.translatable("container.repair"));
+        this.nameField.setCanLoseFocus(false);
+        this.nameField.setTextColor(-1);
+        this.nameField.setTextColorUneditable(-1);
+        this.nameField.setBordered(false);
         this.nameField.setMaxLength(50);
-        this.nameField.setChangedListener(this::onRenamed);
-        this.nameField.setText("");
-        this.addSelectableChild(this.nameField);
+        this.nameField.setResponder(this::onRenamed);
+        this.nameField.setValue("");
+        this.addWidget(this.nameField);
         this.setInitialFocus(this.nameField);
         this.nameField.setEditable(false);
     }

@@ -31,14 +31,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.level.block.Block;
 
 @Mixin(BlockItem.class)
 public abstract class BlockItemMixin {
-    @Shadow public abstract Block getBlock();
+    @Shadow
+    public abstract Block getBlock();
 
-    @Inject(method = "canBeNested", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "canFitInsideContainerItems", at = @At("HEAD"), cancellable = true)
     public void cannotNestNetheriteBoxes(CallbackInfoReturnable<Boolean> cir) {
         if (this.getBlock() instanceof NetheriteShulkerBoxBlock) {
             cir.setReturnValue(false);

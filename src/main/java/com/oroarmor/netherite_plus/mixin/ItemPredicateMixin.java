@@ -26,7 +26,6 @@ package com.oroarmor.netherite_plus.mixin;
 
 import java.util.Set;
 
-import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -35,10 +34,10 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.predicate.item.ItemPredicate;
+import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 @Mixin(ItemPredicate.class)
 public class ItemPredicateMixin {
@@ -47,12 +46,12 @@ public class ItemPredicateMixin {
     @Nullable
     private Set<Item> items;
 
-    @ModifyVariable(method = "test", at = @At("HEAD"), argsOnly = true)
+    @ModifyVariable(method = "matches", at = @At("HEAD"), argsOnly = true)
     public ItemStack letNetheriteShearsCountAsShears(ItemStack stack) {
-        if(items != null && items.contains(Items.SHEARS) && stack.isOf(NetheritePlusItems.NETHERITE_SHEARS)) {
+        if (items != null && items.contains(Items.SHEARS) && stack.is(NetheritePlusItems.NETHERITE_SHEARS)) {
             ItemStack itemStack = new ItemStack(Items.SHEARS);
             itemStack.setCount(stack.getCount());
-            itemStack.setNbt(stack.getOrCreateNbt());
+            itemStack.setTag(stack.getOrCreateTag());
             return itemStack;
         }
         return stack;

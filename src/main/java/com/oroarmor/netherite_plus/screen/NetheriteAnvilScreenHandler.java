@@ -33,32 +33,28 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.EnchantedBookItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.screen.ForgingScreenHandler;
-import net.minecraft.screen.Property;
-import net.minecraft.screen.ScreenHandlerContext;
-import net.minecraft.screen.slot.ItemCombinationSlotManager;
-import net.minecraft.text.Text;
-import net.minecraft.world.WorldEvents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.DataSlot;
+import net.minecraft.world.inventory.ItemCombinerMenu;
+import net.minecraft.world.inventory.ItemCombinerMenuSlotDefinition;
+import net.minecraft.world.item.EnchantedBookItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.block.LevelEvent;
+import net.minecraft.world.level.block.state.BlockState;
 
-public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
+public class NetheriteAnvilScreenHandler extends ItemCombinerMenu {
     public static final int INGREDIENT_SLOT = 0;
     public static final int ADDITIONAL_SLOT = 1;
     public static final int RESULT_SLOT = 2;
+    public static final int MAX_NAME_LENGTH = 50;
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final boolean DEBUG_COST = false;
-    public static final int MAX_NAME_LENGTH = 50;
-    private int repairItemUsage;
-    @Nullable
-    private String newItemName;
-    private final Property levelCost = Property.create();
     private static final int FAIL_COST = 0;
     private static final int BASE_COST = 1;
     private static final int ADDED_BASE_COST = 1;
@@ -70,23 +66,18 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
     private static final int ADDITIONAL_SLOT_X = 76;
     private static final int RESULT_SLOT_X = 134;
     private static final int SLOT_Y = 47;
+    private final DataSlot levelCost = DataSlot.standalone();
+    private int repairItemUsage;
+    @Nullable
+    private String newItemName;
 
-    public NetheriteAnvilScreenHandler(int syncId, PlayerInventory inventory) {
-        this(syncId, inventory, ScreenHandlerContext.EMPTY);
+    public NetheriteAnvilScreenHandler(int syncId, Inventory inventory) {
+        this(syncId, inventory, ContainerLevelAccess.NULL);
     }
 
-    public NetheriteAnvilScreenHandler(int syncId, PlayerInventory inventory, ScreenHandlerContext context) {
+    public NetheriteAnvilScreenHandler(int syncId, Inventory inventory, ContainerLevelAccess context) {
         super(NetheritePlusScreenHandlers.NETHERITE_ANVIL, syncId, inventory, context);
-        this.addProperty(levelCost);
-    }
-
-    @Override
-    protected ItemCombinationSlotManager createSlotManager() {
-        return ItemCombinationSlotManager.createBuilder()
-                .addIngredientSlot(0, 27, 47, stack -> true)
-                .addIngredientSlot(1, 76, 47, stack -> true)
-                .setResultSlot(2, 134, 47)
-                .build();
+        this.addDataSlot(levelCost);
     }
 
     public static int getNextCost(int cost) {
@@ -94,13 +85,22 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
     }
 
     @Override
-    protected boolean canTakeOutput(PlayerEntity player, boolean present) {
-        return (player.getAbilities().creativeMode || player.experienceLevel >= levelCost.get()) && levelCost.get() > 0;
+    protected ItemCombinerMenuSlotDefinition createInputSlotDefinitions() {
+        return ItemCombinerMenuSlotDefinition.create()
+                .withSlot(0, 27, 47, stack -> true)
+                .withSlot(1, 76, 47, stack -> true)
+                .withResultSlot(2, 134, 47)
+                .build();
     }
 
     @Override
-    protected boolean canUse(BlockState state) {
-        return state.isOf(NetheritePlusBlocks.NETHERITE_ANVIL_BLOCK);
+    protected boolean mayPickup(Player player, boolean present) {
+        return (player.getAbilities().instabuild || player.experienceLevel >= levelCost.get()) && levelCost.get() > 0;
+    }
+
+    @Override
+    protected boolean isValidBlock(BlockState state) {
+        return state.is(NetheritePlusBlocks.NETHERITE_ANVIL_BLOCK);
     }
 
     public int getLevelCost() {
@@ -108,86 +108,86 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
     }
 
     @Override
-    protected void onTakeOutput(PlayerEntity player, ItemStack stack) {
-        if (!player.getAbilities().creativeMode) {
-            player.addExperienceLevels(-this.levelCost.get());
+    protected void onTake(Player player, ItemStack stack) {
+        if (!player.getAbilities().instabuild) {
+            player.giveExperienceLevels(-this.levelCost.get());
         }
 
-        this.ingredientInventory.setStack(INGREDIENT_SLOT, ItemStack.EMPTY);
+        this.inputSlots.setItem(INGREDIENT_SLOT, ItemStack.EMPTY);
         if (repairItemUsage > 0) {
-            ItemStack additionStack = this.ingredientInventory.getStack(ADDITIONAL_SLOT);
+            ItemStack additionStack = this.inputSlots.getItem(ADDITIONAL_SLOT);
             if (!additionStack.isEmpty() && additionStack.getCount() > repairItemUsage) {
-                additionStack.decrement(repairItemUsage);
-                this.ingredientInventory.setStack(ADDITIONAL_SLOT, additionStack);
+                additionStack.shrink(repairItemUsage);
+                this.inputSlots.setItem(ADDITIONAL_SLOT, additionStack);
             } else {
-                this.ingredientInventory.setStack(ADDITIONAL_SLOT, ItemStack.EMPTY);
+                this.inputSlots.setItem(ADDITIONAL_SLOT, ItemStack.EMPTY);
             }
         } else {
-            this.ingredientInventory.setStack(ADDITIONAL_SLOT, ItemStack.EMPTY);
+            this.inputSlots.setItem(ADDITIONAL_SLOT, ItemStack.EMPTY);
         }
 
         levelCost.set(0);
-        context.run((world, blockPos) -> world.syncWorldEvent(WorldEvents.ANVIL_USED, blockPos, 0));
+        access.execute((world, blockPos) -> world.levelEvent(LevelEvent.SOUND_ANVIL_USED, blockPos, 0));
     }
 
     public void setNewItemName(String string) {
         newItemName = string;
-        if (getSlot(RESULT_SLOT).hasStack()) {
-            ItemStack itemStack = getSlot(RESULT_SLOT).getStack();
+        if (getSlot(RESULT_SLOT).hasItem()) {
+            ItemStack itemStack = getSlot(RESULT_SLOT).getItem();
             if (StringUtils.isBlank(string)) {
-                itemStack.removeCustomName();
+                itemStack.resetHoverName();
             } else {
-                itemStack.setCustomName(Text.literal(newItemName));
+                itemStack.setHoverName(Component.literal(newItemName));
             }
         }
 
-        updateResult();
+        createResult();
     }
 
     @Override
-    public void updateResult() {
-        ItemStack inputStack = this.ingredientInventory.getStack(INGREDIENT_SLOT);
+    public void createResult() {
+        ItemStack inputStack = this.inputSlots.getItem(INGREDIENT_SLOT);
         levelCost.set(BASE_COST);
         if (inputStack.isEmpty()) {
-            this.result.setStack(0, ItemStack.EMPTY);
+            this.resultSlots.setItem(0, ItemStack.EMPTY);
             levelCost.set(FAIL_COST);
         } else {
             ItemStack copiedInput = inputStack.copy();
-            ItemStack addition = this.ingredientInventory.getStack(ADDITIONAL_SLOT);
-            Map<Enchantment, Integer> currentEnchantments = EnchantmentHelper.get(copiedInput);
-            int repairCost = inputStack.getRepairCost() + (addition.isEmpty() ? FAIL_COST : addition.getRepairCost());
+            ItemStack addition = this.inputSlots.getItem(ADDITIONAL_SLOT);
+            Map<Enchantment, Integer> currentEnchantments = EnchantmentHelper.getEnchantments(copiedInput);
+            int repairCost = inputStack.getBaseRepairCost() + (addition.isEmpty() ? FAIL_COST : addition.getBaseRepairCost());
             this.repairItemUsage = 0;
             int uses = 0;
             int isRename = 0;
             if (!addition.isEmpty()) {
-                boolean addingEnchantmentBook = addition.getItem() == Items.ENCHANTED_BOOK && !EnchantedBookItem.getEnchantmentNbt(addition).isEmpty();
-                if (copiedInput.isDamageable() && copiedInput.getItem().canRepair(inputStack, addition)) {
-                    int additionRepairAmount = Math.min(copiedInput.getDamage(), copiedInput.getMaxDamage() / 4);
+                boolean addingEnchantmentBook = addition.getItem() == Items.ENCHANTED_BOOK && !EnchantedBookItem.getEnchantments(addition).isEmpty();
+                if (copiedInput.isDamageableItem() && copiedInput.getItem().isValidRepairItem(inputStack, addition)) {
+                    int additionRepairAmount = Math.min(copiedInput.getDamageValue(), copiedInput.getMaxDamage() / 4);
                     if (additionRepairAmount <= 0) {
-                        this.result.setStack(0, ItemStack.EMPTY);
+                        this.resultSlots.setItem(0, ItemStack.EMPTY);
                         levelCost.set(FAIL_COST);
                         return;
                     }
 
                     int repairs = 0;
                     for (; additionRepairAmount > 0 && repairs < addition.getCount(); ++repairs) {
-                        int newDamage = copiedInput.getDamage() - additionRepairAmount;
-                        copiedInput.setDamage(newDamage);
+                        int newDamage = copiedInput.getDamageValue() - additionRepairAmount;
+                        copiedInput.setDamageValue(newDamage);
                         ++uses;
-                        additionRepairAmount = Math.min(copiedInput.getDamage(), copiedInput.getMaxDamage() / 4);
+                        additionRepairAmount = Math.min(copiedInput.getDamageValue(), copiedInput.getMaxDamage() / 4);
                     }
 
                     repairItemUsage = repairs;
                 } else {
-                    if (!addingEnchantmentBook && (copiedInput.getItem() != addition.getItem() || !copiedInput.isDamageable())) {
-                        this.result.setStack(0, ItemStack.EMPTY);
+                    if (!addingEnchantmentBook && (copiedInput.getItem() != addition.getItem() || !copiedInput.isDamageableItem())) {
+                        this.resultSlots.setItem(0, ItemStack.EMPTY);
                         levelCost.set(0);
                         return;
                     }
 
-                    if (copiedInput.isDamageable() && !addingEnchantmentBook) {
-                        int inputDamage = inputStack.getMaxDamage() - inputStack.getDamage();
-                        int additionDamage = addition.getMaxDamage() - addition.getDamage();
+                    if (copiedInput.isDamageableItem() && !addingEnchantmentBook) {
+                        int inputDamage = inputStack.getMaxDamage() - inputStack.getDamageValue();
+                        int additionDamage = addition.getMaxDamage() - addition.getDamageValue();
                         int addedDamage = additionDamage + copiedInput.getMaxDamage() * 12 / 100;
                         int combinedDamage = inputDamage + addedDamage;
                         int newDamage = copiedInput.getMaxDamage() - combinedDamage;
@@ -195,28 +195,28 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
                             newDamage = 0;
                         }
 
-                        if (newDamage < copiedInput.getDamage()) {
-                            copiedInput.setDamage(newDamage);
+                        if (newDamage < copiedInput.getDamageValue()) {
+                            copiedInput.setDamageValue(newDamage);
                             uses += 2;
                         }
                     }
 
-                    Map<Enchantment, Integer> addedEnchantments = EnchantmentHelper.get(addition);
+                    Map<Enchantment, Integer> addedEnchantments = EnchantmentHelper.getEnchantments(addition);
                     boolean addedAnyEnchantment = false;
                     boolean failedEnchantmentAdded = false;
 
-                    for(Enchantment addedEnchantment : addedEnchantments.keySet()) {
+                    for (Enchantment addedEnchantment : addedEnchantments.keySet()) {
                         if (addedEnchantment != null) {
                             int currentLevel = currentEnchantments.getOrDefault(addedEnchantment, 0);
                             int addedLevel = addedEnchantments.get(addedEnchantment);
                             addedLevel = currentLevel == addedLevel ? addedLevel + 1 : Math.max(addedLevel, currentLevel);
-                            boolean canAddEnchantment = addedEnchantment.isAcceptableItem(inputStack);
-                            if (this.player.getAbilities().creativeMode || inputStack.isOf(Items.ENCHANTED_BOOK)) {
+                            boolean canAddEnchantment = addedEnchantment.canEnchant(inputStack);
+                            if (this.player.getAbilities().instabuild || inputStack.is(Items.ENCHANTED_BOOK)) {
                                 canAddEnchantment = true;
                             }
 
-                            for(Enchantment currentEnchantment : currentEnchantments.keySet()) {
-                                if (currentEnchantment != addedEnchantment && !currentEnchantment.canCombine(addedEnchantment)) {
+                            for (Enchantment currentEnchantment : currentEnchantments.keySet()) {
+                                if (currentEnchantment != addedEnchantment && !currentEnchantment.isCompatibleWith(addedEnchantment)) {
                                     canAddEnchantment = false;
                                     ++uses;
                                 }
@@ -249,7 +249,7 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
                     }
 
                     if (failedEnchantmentAdded && !addedAnyEnchantment) {
-                        this.result.setStack(0, ItemStack.EMPTY);
+                        this.resultSlots.setItem(0, ItemStack.EMPTY);
                         this.levelCost.set(0);
                         return;
                     }
@@ -257,15 +257,15 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
             }
 
             if (StringUtils.isBlank(newItemName)) {
-                if (inputStack.hasCustomName()) {
+                if (inputStack.hasCustomHoverName()) {
                     isRename = 1;
                     uses += isRename;
-                    copiedInput.removeCustomName();
+                    copiedInput.resetHoverName();
                 }
-            } else if (!newItemName.equals(inputStack.getName().getString())) {
+            } else if (!newItemName.equals(inputStack.getHoverName().getString())) {
                 isRename = 1;
                 uses += isRename;
-                copiedInput.setCustomName(Text.literal(newItemName));
+                copiedInput.setHoverName(Component.literal(newItemName));
             }
 
             // this is the important line that changes things
@@ -280,14 +280,14 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
                 levelCost.set(39);
             }
 
-            if (levelCost.get() >= 40 && !player.getAbilities().creativeMode) {
+            if (levelCost.get() >= 40 && !player.getAbilities().instabuild) {
                 copiedInput = ItemStack.EMPTY;
             }
 
             if (!copiedInput.isEmpty()) {
-                int copiedRepairCost = copiedInput.getRepairCost();
-                if (!addition.isEmpty() && copiedRepairCost < addition.getRepairCost()) {
-                    copiedRepairCost = addition.getRepairCost();
+                int copiedRepairCost = copiedInput.getBaseRepairCost();
+                if (!addition.isEmpty() && copiedRepairCost < addition.getBaseRepairCost()) {
+                    copiedRepairCost = addition.getBaseRepairCost();
                 }
 
                 if (isRename != uses || isRename == 0) {
@@ -295,11 +295,11 @@ public class NetheriteAnvilScreenHandler extends ForgingScreenHandler {
                 }
 
                 copiedInput.setRepairCost(copiedRepairCost);
-                EnchantmentHelper.set(currentEnchantments, copiedInput);
+                EnchantmentHelper.setEnchantments(currentEnchantments, copiedInput);
             }
 
-            this.result.setStack(0, copiedInput);
-            sendContentUpdates();
+            this.resultSlots.setItem(0, copiedInput);
+            broadcastChanges();
         }
     }
 }
