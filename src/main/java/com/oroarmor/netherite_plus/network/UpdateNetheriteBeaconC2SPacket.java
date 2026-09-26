@@ -24,39 +24,39 @@
 
 package com.oroarmor.netherite_plus.network;
 
-import java.util.Optional;
-
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.c2s.play.BeaconUpdateC2SPacket;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
-
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
-public class UpdateNetheriteBeaconC2SPacket extends BeaconUpdateC2SPacket {
+import java.util.Optional;
 
-    public static final Identifier ID = id("netherite_beacon_update_packet");
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.game.ServerboundSetBeaconPacket;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
 
-    private final Optional<StatusEffect> tertiaryEffect;
+public class UpdateNetheriteBeaconC2SPacket extends ServerboundSetBeaconPacket {
 
-    public UpdateNetheriteBeaconC2SPacket(Optional<StatusEffect> primaryEffect, Optional<StatusEffect> secondaryEffect, Optional<StatusEffect> tertiaryEffect) {
+    public static final ResourceLocation ID = id("netherite_beacon_update_packet");
+
+    private final Optional<MobEffect> tertiaryEffect;
+
+    public UpdateNetheriteBeaconC2SPacket(Optional<MobEffect> primaryEffect, Optional<MobEffect> secondaryEffect, Optional<MobEffect> tertiaryEffect) {
         super(primaryEffect, secondaryEffect);
         this.tertiaryEffect = tertiaryEffect;
     }
 
-    public UpdateNetheriteBeaconC2SPacket(PacketByteBuf packetByteBuf) {
+    public UpdateNetheriteBeaconC2SPacket(FriendlyByteBuf packetByteBuf) {
         super(packetByteBuf);
-        this.tertiaryEffect = packetByteBuf.readOptional(byteBuf -> byteBuf.readFromIterable(Registries.STATUS_EFFECT));
+        this.tertiaryEffect = packetByteBuf.readOptional(byteBuf -> byteBuf.readById(BuiltInRegistries.MOB_EFFECT));
     }
 
     @Override
-    public void write(PacketByteBuf buf) {
+    public void write(FriendlyByteBuf buf) {
         super.write(buf);
-        buf.writeOptional(this.tertiaryEffect, (packetByteBuf, statusEffect) -> packetByteBuf.writeFromIterable(Registries.STATUS_EFFECT, statusEffect));
+        buf.writeOptional(this.tertiaryEffect, (packetByteBuf, statusEffect) -> packetByteBuf.writeId(BuiltInRegistries.MOB_EFFECT, statusEffect));
     }
 
-    public Optional<StatusEffect> getTertiaryEffect() {
+    public Optional<MobEffect> getTertiaryEffect() {
         return tertiaryEffect;
     }
 }

@@ -24,68 +24,67 @@
 
 package com.oroarmor.netherite_plus.client.gui.screen;
 
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
+
 import java.util.List;
 import java.util.Optional;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.oroarmor.netherite_plus.network.UpdateNetheriteBeaconC2SPacket;
 import com.oroarmor.netherite_plus.screen.NetheriteBeaconScreenHandler;
 import io.netty.buffer.Unpooled;
-import org.quiltmc.qsl.networking.api.client.ClientPlayNetworking;
-
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
-import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.gui.widget.PressableWidget;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerListener;
-import net.minecraft.text.CommonTexts;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
-public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHandler> {
-    private static final Identifier TEXTURE = id("textures/gui/container/netherite_beacon.png");
-    private static final Text PRIMARY_TEXT = Text.translatable("block.minecraft.beacon.primary");
-    private static final Text SECONDARY_TEXT = Text.translatable("block.minecraft.beacon.secondary");
-    private static final Text TERTIARY_TEXT = Text.translatable("block.netherite_plus.netherite_beacon.tertiary");
+import com.mojang.blaze3d.systems.RenderSystem;
 
-    public static final StatusEffect[][] EFFECTS_BY_LEVEL = new StatusEffect[][]{
-            {StatusEffects.SPEED, StatusEffects.HASTE}, {StatusEffects.RESISTANCE, StatusEffects.JUMP_BOOST}, {StatusEffects.STRENGTH}, {StatusEffects.REGENERATION}, {StatusEffects.GLOWING}
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.AbstractButton;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerListener;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+
+import org.quiltmc.qsl.networking.api.client.ClientPlayNetworking;
+
+public class NetheriteBeaconScreen extends AbstractContainerScreen<NetheriteBeaconScreenHandler> {
+    public static final MobEffect[][] EFFECTS_BY_LEVEL = new MobEffect[][]{
+            {MobEffects.MOVEMENT_SPEED, MobEffects.DIG_SPEED}, {MobEffects.DAMAGE_RESISTANCE, MobEffects.JUMP}, {MobEffects.DAMAGE_BOOST}, {MobEffects.REGENERATION}, {MobEffects.GLOWING}
     };
-
-    private StatusEffect primaryEffect;
-    private StatusEffect secondaryEffect;
-    private StatusEffect tertiaryEffect;
-
+    private static final ResourceLocation TEXTURE = id("textures/gui/container/netherite_beacon.png");
+    private static final Component PRIMARY_TEXT = Component.translatable("block.minecraft.beacon.primary");
+    private static final Component SECONDARY_TEXT = Component.translatable("block.minecraft.beacon.secondary");
+    private static final Component TERTIARY_TEXT = Component.translatable("block.netherite_plus.netherite_beacon.tertiary");
     private final List<BeaconButtonWidget> buttons = Lists.newArrayList();
+    private MobEffect primaryEffect;
+    private MobEffect secondaryEffect;
+    private MobEffect tertiaryEffect;
 
-    public NetheriteBeaconScreen(final NetheriteBeaconScreenHandler handler, PlayerInventory inventory, Text title) {
+    public NetheriteBeaconScreen(final NetheriteBeaconScreenHandler handler, Inventory inventory, Component title) {
         super(handler, inventory, title);
-        backgroundWidth = 230;
-        backgroundHeight = 219;
-        handler.addListener(new ScreenHandlerListener() {
+        imageWidth = 230;
+        imageHeight = 219;
+        handler.addSlotListener(new ContainerListener() {
             @Override
-            public void onSlotUpdate(ScreenHandler _handler, int slotId, ItemStack stack) {
+            public void slotChanged(AbstractContainerMenu _handler, int slotId, ItemStack stack) {
             }
 
             @Override
-            public void onPropertyUpdate(ScreenHandler _handler, int property, int value) {
+            public void dataChanged(AbstractContainerMenu _handler, int property, int value) {
                 primaryEffect = handler.getPrimaryEffect();
                 secondaryEffect = handler.getSecondaryEffect();
                 tertiaryEffect = handler.getTertiaryEffect();
@@ -93,8 +92,8 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
         });
     }
 
-    private <T extends ClickableWidget & BeaconButtonWidget> void addButton(T button) {
-        this.addDrawableChild(button);
+    private <T extends AbstractWidget & BeaconButtonWidget> void addButton(T button) {
+        this.addRenderableWidget(button);
         this.buttons.add(button);
     }
 
@@ -103,17 +102,17 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
         super.init();
         this.buttons.clear();
 
-        this.addButton(new DoneButtonWidget(x + 164, y + 107));
-        this.addButton(new CancelButtonWidget(x + 190, y + 107));
+        this.addButton(new DoneButtonWidget(leftPos + 164, topPos + 107));
+        this.addButton(new CancelButtonWidget(leftPos + 190, topPos + 107));
 
         for (int mainEffectIndex = 0; mainEffectIndex <= 2; ++mainEffectIndex) {
             int levelEffectCount = EFFECTS_BY_LEVEL[mainEffectIndex].length;
             int spacing = levelEffectCount * 22 + (levelEffectCount - 1) * 2;
 
             for (int levelEffectIndex = 0; levelEffectIndex < levelEffectCount; ++levelEffectIndex) {
-                StatusEffect effect = EFFECTS_BY_LEVEL[mainEffectIndex][levelEffectIndex];
+                MobEffect effect = EFFECTS_BY_LEVEL[mainEffectIndex][levelEffectIndex];
                 EffectButtonWidget widget = new EffectButtonWidget(
-                        this.x + 76 + levelEffectIndex * 24 - spacing / 2, this.y + 22 + mainEffectIndex * 25, effect, 0, mainEffectIndex
+                        this.leftPos + 76 + levelEffectIndex * 24 - spacing / 2, this.topPos + 22 + mainEffectIndex * 25, effect, 0, mainEffectIndex
                 );
                 widget.active = false;
                 this.addButton(widget);
@@ -121,21 +120,21 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
         }
 
         int additionalEffectsStartIndex = 3;
-        for (int additionalEffectIndex = additionalEffectsStartIndex; additionalEffectIndex < EFFECTS_BY_LEVEL.length; additionalEffectIndex ++) {
+        for (int additionalEffectIndex = additionalEffectsStartIndex; additionalEffectIndex < EFFECTS_BY_LEVEL.length; additionalEffectIndex++) {
             int levelEffectCount = EFFECTS_BY_LEVEL[additionalEffectIndex].length + 1;
             int spacing = levelEffectCount * 22 + (levelEffectCount - 1) * 2;
 
             for (int levelEffectIndex = 0; levelEffectIndex < levelEffectCount - 1; ++levelEffectIndex) {
-                StatusEffect effect = EFFECTS_BY_LEVEL[additionalEffectIndex][levelEffectIndex];
+                MobEffect effect = EFFECTS_BY_LEVEL[additionalEffectIndex][levelEffectIndex];
                 EffectButtonWidget widget = new EffectButtonWidget(
-                        this.x + 175 + levelEffectIndex * 24 - spacing / 2, this.y + 22 + (additionalEffectIndex - additionalEffectsStartIndex) * 50, effect, (additionalEffectIndex - additionalEffectsStartIndex) + 1, 3
+                        this.leftPos + 175 + levelEffectIndex * 24 - spacing / 2, this.topPos + 22 + (additionalEffectIndex - additionalEffectsStartIndex) * 50, effect, (additionalEffectIndex - additionalEffectsStartIndex) + 1, 3
                 );
                 widget.active = false;
                 this.addButton(widget);
             }
 
             EffectButtonWidget widget = new AdditionalEffectButtonWidget(
-                    this.x + 175 + (levelEffectCount - 1) * 24 - spacing / 2, this.y + 22 + (additionalEffectIndex - additionalEffectsStartIndex) * 50, (additionalEffectIndex - additionalEffectsStartIndex) + 1, EFFECTS_BY_LEVEL[0][0]
+                    this.leftPos + 175 + (levelEffectCount - 1) * 24 - spacing / 2, this.topPos + 22 + (additionalEffectIndex - additionalEffectsStartIndex) * 50, (additionalEffectIndex - additionalEffectsStartIndex) + 1, EFFECTS_BY_LEVEL[0][0]
             );
             widget.visible = false;
             this.addButton(widget);
@@ -143,41 +142,41 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
     }
 
     @Override
-    public void handledScreenTick() {
-        super.handledScreenTick();
+    public void containerTick() {
+        super.containerTick();
         this.tickButtons();
     }
 
     void tickButtons() {
-        int i = this.handler.getProperties();
+        int i = this.menu.getProperties();
         this.buttons.forEach(button -> button.tick(i));
     }
 
     @Override
-    protected void drawForeground(GuiGraphics graphics, int mouseX, int mouseY) {
-        graphics.drawCenteredShadowedText(this.textRenderer, PRIMARY_TEXT, 62, 10, 14737632);
-        graphics.drawCenteredShadowedText(this.textRenderer, SECONDARY_TEXT, 169, 10, 14737632);
-        graphics.drawCenteredShadowedText(this.textRenderer, TERTIARY_TEXT, 169, 58, 14737632);
+    protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
+        graphics.drawCenteredString(this.font, PRIMARY_TEXT, 62, 10, 14737632);
+        graphics.drawCenteredString(this.font, SECONDARY_TEXT, 169, 10, 14737632);
+        graphics.drawCenteredString(this.font, TERTIARY_TEXT, 169, 58, 14737632);
     }
 
     @Override
-    protected void drawBackground(GuiGraphics graphics, float delta, int mouseX, int mouseY) {
+    protected void renderBg(GuiGraphics graphics, float delta, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        int i = (width - backgroundWidth) / 2;
-        int j = (height - backgroundHeight) / 2;
-        graphics.drawTexture(TEXTURE, i, j, 0, 0, backgroundWidth, backgroundHeight);
-        graphics.getMatrices().push();
-        graphics.getMatrices().translate(0.0F, 0.0F, 100.0F);
-        graphics.drawItem(new ItemStack(Items.NETHERITE_INGOT), i + 42 + 66, j + 109);
-        graphics.getMatrices().pop();
+        int i = (width - imageWidth) / 2;
+        int j = (height - imageHeight) / 2;
+        graphics.blit(TEXTURE, i, j, 0, 0, imageWidth, imageHeight);
+        graphics.pose().pushPose();
+        graphics.pose().translate(0.0F, 0.0F, 100.0F);
+        graphics.renderItem(new ItemStack(Items.NETHERITE_INGOT), i + 42 + 66, j + 109);
+        graphics.pose().popPose();
     }
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
         this.renderBackground(graphics);
         super.render(graphics, mouseX, mouseY, delta);
-        this.drawMouseoverTooltip(graphics, mouseX, mouseY);
+        this.renderTooltip(graphics, mouseX, mouseY);
     }
 
     @Environment(EnvType.CLIENT)
@@ -190,7 +189,7 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
         private final int u;
         private final int v;
 
-        protected IconButtonWidget(int x, int y, int u, int v, Text text) {
+        protected IconButtonWidget(int x, int y, int u, int v, Component text) {
             super(x, y, text);
             this.u = u;
             this.v = v;
@@ -198,19 +197,19 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
 
         @Override
         protected void renderExtra(GuiGraphics graphics) {
-            graphics.drawTexture(TEXTURE, getX() + 2, getY() + 2, u, v, 18, 18);
+            graphics.blit(TEXTURE, getX() + 2, getY() + 2, u, v, 18, 18);
         }
     }
 
     @Environment(EnvType.CLIENT)
-    abstract static class BaseButtonWidget extends PressableWidget implements BeaconButtonWidget {
+    abstract static class BaseButtonWidget extends AbstractButton implements BeaconButtonWidget {
         private boolean disabled;
 
         protected BaseButtonWidget(int x, int y) {
-            super(x, y, 22, 22, CommonTexts.EMPTY);
+            super(x, y, 22, 22, CommonComponents.EMPTY);
         }
 
-        protected BaseButtonWidget(int x, int y, Text text) {
+        protected BaseButtonWidget(int x, int y, Component text) {
             super(x, y, 22, 22, text);
         }
 
@@ -226,7 +225,7 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
                 uStart += width * 3;
             }
 
-            graphics.drawTexture(TEXTURE, this.getX(), this.getY(), uStart, 219, width, height);
+            graphics.blit(TEXTURE, this.getX(), this.getY(), uStart, 219, width, height);
             this.renderExtra(graphics);
         }
 
@@ -241,20 +240,20 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
         }
 
         @Override
-        protected void updateNarration(NarrationMessageBuilder builder) {
-            this.appendDefaultNarrations(builder);
+        protected void updateWidgetNarration(NarrationElementOutput builder) {
+            this.defaultButtonNarrationText(builder);
         }
     }
 
     @Environment(EnvType.CLIENT)
     class CancelButtonWidget extends IconButtonWidget {
         public CancelButtonWidget(int x, int y) {
-            super(x, y, 112, 220, CommonTexts.CANCEL);
+            super(x, y, 112, 220, CommonComponents.GUI_CANCEL);
         }
 
         @Override
         public void onPress() {
-            NetheriteBeaconScreen.this.client.player.closeHandledScreen();
+            NetheriteBeaconScreen.this.minecraft.player.closeContainer();
         }
 
         @Override
@@ -265,23 +264,23 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
     @Environment(EnvType.CLIENT)
     class DoneButtonWidget extends IconButtonWidget {
         public DoneButtonWidget(int x, int y) {
-            super(x, y, 90, 220, CommonTexts.DONE);
+            super(x, y, 90, 220, CommonComponents.GUI_DONE);
         }
 
         @Override
         public void onPress() {
-            PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+            FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
             new UpdateNetheriteBeaconC2SPacket(Optional.ofNullable(primaryEffect),
                     Optional.ofNullable(secondaryEffect),
                     Optional.ofNullable(tertiaryEffect))
                     .write(buf);
             ClientPlayNetworking.send(UpdateNetheriteBeaconC2SPacket.ID, buf);
-            NetheriteBeaconScreen.this.client.player.closeHandledScreen();
+            NetheriteBeaconScreen.this.minecraft.player.closeContainer();
         }
 
         @Override
         public void tick(int level) {
-            this.active = NetheriteBeaconScreen.this.handler.hasPayment() && NetheriteBeaconScreen.this.primaryEffect != null;
+            this.active = NetheriteBeaconScreen.this.menu.hasPayment() && NetheriteBeaconScreen.this.primaryEffect != null;
         }
     }
 
@@ -289,32 +288,32 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
     class EffectButtonWidget extends BaseButtonWidget {
         protected final int effectIndex;
         private final int level;
-        private StatusEffect effect;
-        private Sprite sprite;
+        private MobEffect effect;
+        private TextureAtlasSprite sprite;
 
-        public EffectButtonWidget(int x, int y, StatusEffect statusEffect, int effectIndex, int level) {
+        public EffectButtonWidget(int x, int y, MobEffect statusEffect, int effectIndex, int level) {
             super(x, y);
             this.effectIndex = effectIndex;
             this.level = level;
             this.init(statusEffect);
         }
 
-        protected void init(StatusEffect statusEffect) {
+        protected void init(MobEffect statusEffect) {
             this.effect = statusEffect;
-            this.sprite = MinecraftClient.getInstance().getStatusEffectSpriteManager().getSprite(statusEffect);
+            this.sprite = Minecraft.getInstance().getMobEffectTextures().get(statusEffect);
         }
 
-        protected MutableText getEffectName(StatusEffect statusEffect) {
-            return Text.translatable(statusEffect.getTranslationKey());
+        protected MutableComponent getEffectName(MobEffect statusEffect) {
+            return Component.translatable(statusEffect.getDescriptionId());
         }
 
         public void onPress() {
             if (!this.isDisabled()) {
                 switch (this.effectIndex) {
                     case 0 -> NetheriteBeaconScreen.this.primaryEffect = this.effect;
-                    case 1-> NetheriteBeaconScreen.this.secondaryEffect = this.effect;
-                    case 2-> NetheriteBeaconScreen.this.tertiaryEffect = this.effect;
-                    default-> throw new RuntimeException("Unknown Netherite Beacon effect index");
+                    case 1 -> NetheriteBeaconScreen.this.secondaryEffect = this.effect;
+                    case 2 -> NetheriteBeaconScreen.this.tertiaryEffect = this.effect;
+                    default -> throw new RuntimeException("Unknown Netherite Beacon effect index");
                 }
 
                 NetheriteBeaconScreen.this.tickButtons();
@@ -323,8 +322,8 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
 
         @Override
         protected void renderExtra(GuiGraphics graphics) {
-            RenderSystem.setShaderTexture(0, this.sprite.getId());
-            graphics.drawSprite(getX() + 2, getY() + 2, 0, 18, 18, sprite);
+            RenderSystem.setShaderTexture(0, this.sprite.atlasLocation());
+            graphics.blit(getX() + 2, getY() + 2, 0, 18, 18, sprite);
         }
 
         @Override
@@ -332,26 +331,26 @@ public class NetheriteBeaconScreen extends HandledScreen<NetheriteBeaconScreenHa
             this.active = this.level < level;
             this.setDisabled(this.effect == switch (this.effectIndex) {
                 case 0 -> NetheriteBeaconScreen.this.primaryEffect;
-                case 1-> NetheriteBeaconScreen.this.secondaryEffect;
-                case 2-> NetheriteBeaconScreen.this.tertiaryEffect;
-                default-> throw new RuntimeException("Unknown Netherite Beacon effect index");
+                case 1 -> NetheriteBeaconScreen.this.secondaryEffect;
+                case 2 -> NetheriteBeaconScreen.this.tertiaryEffect;
+                default -> throw new RuntimeException("Unknown Netherite Beacon effect index");
             });
         }
 
-        protected MutableText getNarrationMessage() {
+        protected MutableComponent createNarrationMessage() {
             return this.getEffectName(this.effect);
         }
     }
 
     @Environment(EnvType.CLIENT)
     class AdditionalEffectButtonWidget extends EffectButtonWidget {
-        public AdditionalEffectButtonWidget(int i, int j, int effectIndex, StatusEffect statusEffect) {
+        public AdditionalEffectButtonWidget(int i, int j, int effectIndex, MobEffect statusEffect) {
             super(i, j, statusEffect, effectIndex, 3);
         }
 
         @Override
-        protected MutableText getEffectName(StatusEffect statusEffect) {
-            return Text.translatable(statusEffect.getTranslationKey()).append(" " + "I".repeat(this.effectIndex + 1));
+        protected MutableComponent getEffectName(MobEffect statusEffect) {
+            return Component.translatable(statusEffect.getDescriptionId()).append(" " + "I".repeat(this.effectIndex + 1));
         }
 
         @Override

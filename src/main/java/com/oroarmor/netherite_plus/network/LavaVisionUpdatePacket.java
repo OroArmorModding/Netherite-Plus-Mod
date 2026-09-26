@@ -24,10 +24,10 @@
 
 package com.oroarmor.netherite_plus.network;
 
-import net.minecraft.util.Identifier;
-
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
+import net.minecraft.resources.ResourceLocation;
+
 public class LavaVisionUpdatePacket {
-    public static Identifier ID = id("lava_vision_update");
+    public static ResourceLocation ID = id("lava_vision_update");
 }

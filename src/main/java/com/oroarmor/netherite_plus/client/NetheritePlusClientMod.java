@@ -24,6 +24,8 @@
 
 package com.oroarmor.netherite_plus.client;
 
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -36,6 +38,21 @@ import com.oroarmor.netherite_plus.client.render.NetheriteShulkerBoxBlockEntityR
 import com.oroarmor.netherite_plus.item.NetheritePlusItems;
 import com.oroarmor.netherite_plus.network.LavaVisionUpdatePacket;
 import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ArmorStandModel;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
 import org.quiltmc.qsl.block.extensions.api.client.BlockRenderLayerMap;
@@ -43,62 +60,14 @@ import org.quiltmc.qsl.networking.api.client.ClientPlayConnectionEvents;
 import org.quiltmc.qsl.networking.api.client.ClientPlayNetworking;
 import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.LivingEntityRenderer;
-import net.minecraft.client.render.entity.model.ArmorStandEntityModel;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.render.entity.model.PlayerEntityModel;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.resource.ResourceType;
-
-import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
-import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
-
 public class NetheritePlusClientMod implements ClientModInitializer {
     public static final Queue<Integer> TRIDENT_QUEUE = new LinkedList<>();
     public static double LAVA_VISION_DISTANCE = NetheritePlusMod.CONFIG.graphics.lava_vision_distance.value();
 
-    public void onInitializeClient(ModContainer mod) {
-        ClientPlayConnectionEvents.INIT.register((handler, client) -> {
-            ClientPlayNetworking.registerReceiver(LavaVisionUpdatePacket.ID, (minecraft, listener, buf, responseSender) -> {
-                LAVA_VISION_DISTANCE = buf.readDouble();
-            });
+    public static void registerBuiltinItemRenderers(Minecraft client) {
+        NetheritePlusBuiltinItemModelRenderer builtinItemModelRenderer = new NetheritePlusBuiltinItemModelRenderer(client.getBlockEntityRenderDispatcher(), client.getEntityModels());
 
-            ClientPlayNetworking.registerReceiver(id("lava_vision_update"), (minecraft, listener, buf, sender) -> {
-                NetheritePlusClientMod.LAVA_VISION_DISTANCE = buf.getDouble(0);
-            });
-
-            ClientPlayNetworking.registerReceiver(id("netherite_trident"), (minecraft, listener, buf, responseSender) -> TRIDENT_QUEUE.add(buf.readInt()));
-        });
-
-//        NetheritePlusTextures.register();
-
-        BlockEntityRendererRegistry.register(NetheritePlusBlocks.NETHERITE_SHULKER_BOX_ENTITY, NetheriteShulkerBoxBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(NetheritePlusBlocks.NETHERITE_BEACON_BLOCK_ENTITY, NetheriteBeaconBlockEntityRenderer::new);
-
-        NetheritePlusModelProvider.registerItemsWithModelProvider();
-        NetheritePlusScreenHandlers.initializeClient();
-
-        if (NetheritePlusMod.CONFIG.enabled.beacon.value()) {
-            BlockRenderLayerMap.put(RenderLayer.getCutout(), NetheritePlusBlocks.NETHERITE_BEACON);
-        }
-
-        LivingEntityFeatureRendererRegistrationCallback.EVENT.register(((EntityType<? extends LivingEntity> entityType, LivingEntityRenderer<?, ?> entityRenderer, LivingEntityFeatureRendererRegistrationCallback.RegistrationHelper registrationHelper, EntityRendererFactory.Context context) -> {
-            if (entityRenderer.getModel() instanceof PlayerEntityModel || entityRenderer.getModel() instanceof BipedEntityModel || entityRenderer.getModel() instanceof ArmorStandEntityModel) {
-                registrationHelper.register(new NetheriteElytraFeatureRenderer<>(entityRenderer, context.getModelLoader()));
-            }
-        }));
-    }
-
-    public static void registerBuiltinItemRenderers(MinecraftClient client) {
-        NetheritePlusBuiltinItemModelRenderer builtinItemModelRenderer = new NetheritePlusBuiltinItemModelRenderer(client.getBlockEntityRenderDispatcher(), client.getEntityModelLoader());
-
-        ResourceLoader.get(ResourceType.CLIENT_RESOURCES).registerReloader(builtinItemModelRenderer);
+        ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloader(builtinItemModelRenderer);
 
         BuiltinItemRendererRegistry.DynamicItemRenderer dynamicItemRenderer = builtinItemModelRenderer::render;
         if (NetheritePlusMod.CONFIG.enabled.shulker_boxes.value()) {
@@ -127,5 +96,37 @@ public class NetheritePlusClientMod implements ClientModInitializer {
         if (NetheritePlusMod.CONFIG.enabled.trident.value()) {
             BuiltinItemRendererRegistry.INSTANCE.register(NetheritePlusItems.NETHERITE_TRIDENT, dynamicItemRenderer);
         }
+    }
+
+    public void onInitializeClient(ModContainer mod) {
+        ClientPlayConnectionEvents.INIT.register((handler, client) -> {
+            ClientPlayNetworking.registerReceiver(LavaVisionUpdatePacket.ID, (minecraft, listener, buf, responseSender) -> {
+                LAVA_VISION_DISTANCE = buf.readDouble();
+            });
+
+            ClientPlayNetworking.registerReceiver(id("lava_vision_update"), (minecraft, listener, buf, sender) -> {
+                NetheritePlusClientMod.LAVA_VISION_DISTANCE = buf.getDouble(0);
+            });
+
+            ClientPlayNetworking.registerReceiver(id("netherite_trident"), (minecraft, listener, buf, responseSender) -> TRIDENT_QUEUE.add(buf.readInt()));
+        });
+
+//        NetheritePlusTextures.register();
+
+        BlockEntityRendererRegistry.register(NetheritePlusBlocks.NETHERITE_SHULKER_BOX_ENTITY, NetheriteShulkerBoxBlockEntityRenderer::new);
+        BlockEntityRendererRegistry.register(NetheritePlusBlocks.NETHERITE_BEACON_BLOCK_ENTITY, NetheriteBeaconBlockEntityRenderer::new);
+
+        NetheritePlusModelProvider.registerItemsWithModelProvider();
+        NetheritePlusScreenHandlers.initializeClient();
+
+        if (NetheritePlusMod.CONFIG.enabled.beacon.value()) {
+            BlockRenderLayerMap.put(RenderType.cutout(), NetheritePlusBlocks.NETHERITE_BEACON);
+        }
+
+        LivingEntityFeatureRendererRegistrationCallback.EVENT.register(((EntityType<? extends LivingEntity> entityType, LivingEntityRenderer<?, ?> entityRenderer, LivingEntityFeatureRendererRegistrationCallback.RegistrationHelper registrationHelper, EntityRendererProvider.Context context) -> {
+            if (entityRenderer.getModel() instanceof PlayerModel || entityRenderer.getModel() instanceof HumanoidModel || entityRenderer.getModel() instanceof ArmorStandModel) {
+                registrationHelper.register(new NetheriteElytraFeatureRenderer<>(entityRenderer, context.getModelSet()));
+            }
+        }));
     }
 }

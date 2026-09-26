@@ -26,30 +26,29 @@ package com.oroarmor.netherite_plus.mixin.render;
 
 import com.oroarmor.netherite_plus.client.NetheritePlusClientMod;
 import com.oroarmor.netherite_plus.entity.effect.NetheritePlusStatusEffects;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import net.minecraft.client.render.BackgroundRenderer;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.CameraSubmersionType;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import net.minecraft.client.Camera;
+import net.minecraft.client.renderer.FogRenderer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.material.FogType;
 
 @Environment(EnvType.CLIENT)
-@Mixin(BackgroundRenderer.class)
+@Mixin(FogRenderer.class)
 public class BackgroundRendererMixin {
-    @Inject(at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderFogStart(F)V", shift = At.Shift.BEFORE), method = "applyFog", locals = LocalCapture.CAPTURE_FAILHARD)
-    private static void applyFog(Camera camera, BackgroundRenderer.FogType fogType, float viewDistance, boolean thickFog, float tickDelta, CallbackInfo ci, CameraSubmersionType cameraSubmersionType, Entity entity, BackgroundRenderer.FogParameters fogParameters) {
-        if (cameraSubmersionType == CameraSubmersionType.LAVA) {
-            if (entity instanceof LivingEntity livingEntity && livingEntity.hasStatusEffect(NetheritePlusStatusEffects.LAVA_VISION)) {
-                fogParameters.fogEnd = (float) (3.0F + NetheritePlusClientMod.LAVA_VISION_DISTANCE * livingEntity.getStatusEffect(NetheritePlusStatusEffects.LAVA_VISION).getAmplifier());
-            } 
+    @Inject(at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderFogStart(F)V"), method = "setupFog", locals = LocalCapture.CAPTURE_FAILHARD)
+    private static void applyFog(Camera camera, FogRenderer.FogMode fogType, float viewDistance, boolean thickFog, float tickDelta, CallbackInfo ci, FogType cameraSubmersionType, Entity entity, FogRenderer.FogData fogParameters) {
+        if (cameraSubmersionType == FogType.LAVA) {
+            if (entity instanceof LivingEntity livingEntity && livingEntity.hasEffect(NetheritePlusStatusEffects.LAVA_VISION)) {
+                fogParameters.end = (float) (3.0F + NetheritePlusClientMod.LAVA_VISION_DISTANCE * livingEntity.getEffect(NetheritePlusStatusEffects.LAVA_VISION).getAmplifier());
+            }
         }
     }
 }

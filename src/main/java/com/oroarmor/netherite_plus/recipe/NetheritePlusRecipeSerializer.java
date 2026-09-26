@@ -24,30 +24,30 @@
 
 package com.oroarmor.netherite_plus.recipe;
 
-import com.oroarmor.netherite_plus.NetheritePlusMod;
-
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.SpecialRecipeSerializer;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
+import com.oroarmor.netherite_plus.NetheritePlusMod;
+
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
+
 public final class NetheritePlusRecipeSerializer {
-    public static SpecialRecipeSerializer<NetheriteShulkerBoxColoringRecipe> NETHERITE_SHULKER_BOX;
-    public static SpecialRecipeSerializer<NetheriteShieldDecorationRecipe> NETHERITE_SHIELD;
+    public static SimpleCraftingRecipeSerializer<NetheriteShulkerBoxColoringRecipe> NETHERITE_SHULKER_BOX;
+    public static SimpleCraftingRecipeSerializer<NetheriteShieldDecorationRecipe> NETHERITE_SHIELD;
 
     static {
-        NETHERITE_SHULKER_BOX = NetheritePlusMod.CONFIG.enabled.shulker_boxes.value() ? register("crafting_special_netheriteshulkerboxcoloring", new SpecialRecipeSerializer<>(NetheriteShulkerBoxColoringRecipe::new)) : null;
-        NETHERITE_SHIELD = NetheritePlusMod.CONFIG.enabled.shields.value() ? register("crafting_special_netheriteshielddecoration", new SpecialRecipeSerializer<>(NetheriteShieldDecorationRecipe::new)) : null;
+        NETHERITE_SHULKER_BOX = NetheritePlusMod.CONFIG.enabled.shulker_boxes.value() ? register("crafting_special_netheriteshulkerboxcoloring", new SimpleCraftingRecipeSerializer<>(NetheriteShulkerBoxColoringRecipe::new)) : null;
+        NETHERITE_SHIELD = NetheritePlusMod.CONFIG.enabled.shields.value() ? register("crafting_special_netheriteshielddecoration", new SimpleCraftingRecipeSerializer<>(NetheriteShieldDecorationRecipe::new)) : null;
     }
 
     public static void init() {
     }
 
     public static <S extends RecipeSerializer<T>, T extends Recipe<?>> S register(String id, S serializer) {
-        return Registry.register(Registries.RECIPE_SERIALIZER, id(id), serializer);
+        return Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, id(id), serializer);
     }
 
 }

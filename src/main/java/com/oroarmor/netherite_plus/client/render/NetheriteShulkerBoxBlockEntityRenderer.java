@@ -24,43 +24,44 @@
 
 package com.oroarmor.netherite_plus.client.render;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
+
 import com.oroarmor.netherite_plus.block.entity.NetheriteShulkerBoxBlockEntity;
 import com.oroarmor.netherite_plus.client.NetheritePlusTextures;
-
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShulkerBoxBlock;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.render.entity.model.EntityModelLayers;
-import net.minecraft.client.render.entity.model.ShulkerEntityModel;
-import net.minecraft.client.resource.Material;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.math.Direction;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+
+import net.minecraft.client.model.ShulkerModel;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.block.ShulkerBoxBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 @Environment(EnvType.CLIENT)
 public class NetheriteShulkerBoxBlockEntityRenderer implements BlockEntityRenderer<NetheriteShulkerBoxBlockEntity> {
-    private final ShulkerEntityModel<?> model;
+    private final ShulkerModel<?> model;
 
-    public NetheriteShulkerBoxBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
-        model = new ShulkerEntityModel<>(context.getLayerModelPart(EntityModelLayers.SHULKER));
+    public NetheriteShulkerBoxBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
+        model = new ShulkerModel<>(context.bakeLayer(ModelLayers.SHULKER));
     }
 
     @Override
-    public void render(NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity, float f, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, int j) {
+    public void render(NetheriteShulkerBoxBlockEntity shulkerBoxBlockEntity, float f, PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int i, int j) {
         Direction direction = Direction.UP;
-        if (shulkerBoxBlockEntity.hasWorld()) {
-            BlockState blockState = shulkerBoxBlockEntity.getWorld().getBlockState(shulkerBoxBlockEntity.getPos());
+        if (shulkerBoxBlockEntity.hasLevel()) {
+            BlockState blockState = shulkerBoxBlockEntity.getLevel().getBlockState(shulkerBoxBlockEntity.getBlockPos());
             if (blockState.getBlock() instanceof ShulkerBoxBlock) {
-                direction = blockState.get(ShulkerBoxBlock.FACING);
+                direction = blockState.getValue(ShulkerBoxBlock.FACING);
             }
         }
 
@@ -72,18 +73,18 @@ public class NetheriteShulkerBoxBlockEntityRenderer implements BlockEntityRender
             spriteIdentifier = new Material(NetheritePlusTextures.NETHERITE_SHULKER_BOXES_ATLAS_TEXTURE, id("entity/netherite_shulker/netherite_shulker_" + dyeColor.getName()));
         }
 
-        matrixStack.push();
+        matrixStack.pushPose();
         matrixStack.translate(0.5, 0.5, 0.5);
         float scale = 0.9995F;
         matrixStack.scale(scale, scale, scale);
-        matrixStack.multiply(direction.getRotationQuaternion());
+        matrixStack.mulPose(direction.getRotation());
         matrixStack.scale(1.0F, -1.0F, -1.0F);
         matrixStack.translate(0.0, -1.0, 0.0);
         ModelPart modelPart = this.model.getLid();
-        modelPart.setPivot(0.0F, 24.0F - shulkerBoxBlockEntity.getAnimationProgress(f) * 0.5F * 16.0F, 0.0F);
-        modelPart.yaw = 270.0F * shulkerBoxBlockEntity.getAnimationProgress(f) * (float) (Math.PI / 180.0);
-        VertexConsumer vertexConsumer = spriteIdentifier.getVertexConsumer(vertexConsumerProvider, RenderLayer::getEntityCutoutNoCull);
-        this.model.render(matrixStack, vertexConsumer, i, j, 1.0F, 1.0F, 1.0F, 1.0F);
-        matrixStack.pop();
+        modelPart.setPos(0.0F, 24.0F - shulkerBoxBlockEntity.getAnimationProgress(f) * 0.5F * 16.0F, 0.0F);
+        modelPart.yRot = 270.0F * shulkerBoxBlockEntity.getAnimationProgress(f) * (float) (Math.PI / 180.0);
+        VertexConsumer vertexConsumer = spriteIdentifier.buffer(vertexConsumerProvider, RenderType::entityCutoutNoCull);
+        this.model.renderToBuffer(matrixStack, vertexConsumer, i, j, 1.0F, 1.0F, 1.0F, 1.0F);
+        matrixStack.popPose();
     }
 }

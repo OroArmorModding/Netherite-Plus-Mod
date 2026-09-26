@@ -24,16 +24,16 @@
 
 package com.oroarmor.netherite_plus.advancement.criterion;
 
-import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.advancement.criterion.Criterion;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.CriterionTrigger;
 
 public class NetheritePlusCriteria {
     public static final FullNetheriteNetheriteBeaconCriterion FULL_NETHERITE_NETHERITE_BEACON = register(new FullNetheriteNetheriteBeaconCriterion());
     public static final ConstructNetheriteBeaconCriterion CONSTRUCT_NETHERITE_BEACON = register(new ConstructNetheriteBeaconCriterion());
     public static final RiptideNetheriteTridentCriterion RIPTIDE_NETHERITE_TRIDENT = register(new RiptideNetheriteTridentCriterion());
 
-    private static <T extends Criterion<?>> T register(T object) {
-        return Criteria.register(object);
+    private static <T extends CriterionTrigger<?>> T register(T object) {
+        return CriteriaTriggers.register(object);
     }
 
     public static void init() {

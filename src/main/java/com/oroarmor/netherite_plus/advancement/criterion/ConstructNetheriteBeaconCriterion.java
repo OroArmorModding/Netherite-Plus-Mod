@@ -24,60 +24,58 @@
 
 package com.oroarmor.netherite_plus.advancement.criterion;
 
+import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
+
 import com.google.gson.JsonObject;
 import com.oroarmor.netherite_plus.block.entity.NetheriteBeaconBlockEntity;
 
-import net.minecraft.advancement.criterion.AbstractCriterion;
-import net.minecraft.advancement.criterion.AbstractCriterionConditions;
-import net.minecraft.predicate.NumberRange;
-import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
-import net.minecraft.predicate.entity.AdvancementEntityPredicateSerializer;
-import net.minecraft.predicate.entity.EntityPredicate;
-import net.minecraft.predicate.entity.EntityPredicates;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.unmapped.C_ctsfmifk;
-import net.minecraft.util.Identifier;
+import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
+import net.minecraft.advancements.critereon.ContextAwarePredicate;
+import net.minecraft.advancements.critereon.DeserializationContext;
+import net.minecraft.advancements.critereon.MinMaxBounds;
+import net.minecraft.advancements.critereon.SerializationContext;
+import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 
-import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
-
-public class ConstructNetheriteBeaconCriterion extends AbstractCriterion<ConstructNetheriteBeaconCriterion.Conditions> {
-    private static final Identifier ID = id("construct_netherite_beacon");
+public class ConstructNetheriteBeaconCriterion extends SimpleCriterionTrigger<ConstructNetheriteBeaconCriterion.Conditions> {
+    private static final ResourceLocation ID = id("construct_netherite_beacon");
 
     @Override
-    public Identifier getId() {
+    public ResourceLocation getId() {
         return ID;
     }
 
     @Override
-    public Conditions conditionsFromJson(JsonObject jsonObject, C_ctsfmifk extended, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
-        NumberRange.IntRange intRange = NumberRange.IntRange.fromJson(jsonObject.get("level"));
+    public Conditions createInstance(JsonObject jsonObject, ContextAwarePredicate extended, DeserializationContext advancementEntityPredicateDeserializer) {
+        MinMaxBounds.Ints intRange = MinMaxBounds.Ints.fromJson(jsonObject.get("level"));
         return new Conditions(extended, intRange);
     }
 
-    public void trigger(ServerPlayerEntity player, NetheriteBeaconBlockEntity beacon) {
+    public void trigger(ServerPlayer player, NetheriteBeaconBlockEntity beacon) {
         this.trigger(player, (conditions) -> conditions.matches(beacon));
     }
 
-    public static class Conditions extends AbstractCriterionConditions {
-        private final NumberRange.IntRange level;
+    public static class Conditions extends AbstractCriterionTriggerInstance {
+        private final MinMaxBounds.Ints level;
 
-        public Conditions(C_ctsfmifk player, NumberRange.IntRange level) {
+        public Conditions(ContextAwarePredicate player, MinMaxBounds.Ints level) {
             super(ConstructNetheriteBeaconCriterion.ID, player);
             this.level = level;
         }
 
-        public static Conditions level(NumberRange.IntRange level) {
-            return new Conditions(C_ctsfmifk.field_24388, level);
+        public static Conditions level(MinMaxBounds.Ints level) {
+            return new Conditions(ContextAwarePredicate.ANY, level);
         }
 
         public boolean matches(NetheriteBeaconBlockEntity beacon) {
-            return level.test(beacon.getBeaconLevel());
+            return level.matches(beacon.getBeaconLevel());
         }
 
         @Override
-        public JsonObject toJson(AdvancementEntityPredicateSerializer predicateSerializer) {
-            JsonObject jsonObject = super.toJson(predicateSerializer);
-            jsonObject.add("level", level.toJson());
+        public JsonObject serializeToJson(SerializationContext predicateSerializer) {
+            JsonObject jsonObject = super.serializeToJson(predicateSerializer);
+            jsonObject.add("level", level.serializeToJson());
             return jsonObject;
         }
     }

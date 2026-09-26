@@ -65,14 +65,14 @@ loom {
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "org.quiltmc:quilt-mappings:${project.mappings}:intermediary-v2"
+    mappings loom.officialMojangMappings()
     modImplementation "org.quiltmc:quilt-loader:${project.quilt_loader_version}"
 
     modImplementation "org.quiltmc:qsl:${project.qsl_version}"
     modImplementation "org.quiltmc.quilted-fabric-api:quilted-fabric-api:${project.qfapi_version}"
 
     modImplementation "com.oroarmor:multi-item-lib:1.6.2"
-    modCompileOnly('com.github.CrimsonDawn45:Fabric-Shield-Lib:main-SNAPSHOT')
+    modCompileOnly('com.github.CrimsonDawn45:Fabric-Shield-Lib:v1.7.2-1.20.1')
     modRuntimeOnly("com.terraformersmc:modmenu:7.2.1")
 }
 

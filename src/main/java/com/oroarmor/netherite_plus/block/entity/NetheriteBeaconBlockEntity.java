@@ -37,51 +37,51 @@ import com.oroarmor.netherite_plus.entity.effect.NetheritePlusStatusEffects;
 import com.oroarmor.netherite_plus.screen.NetheriteBeaconScreenHandler;
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.Stainable;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.LockableContainerBlockEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.ContainerLock;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.PropertyDelegate;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerContext;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.property.Properties;
-import net.minecraft.text.Text;
-import net.minecraft.util.Pair;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.world.Heightmap;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Tuple;
+import net.minecraft.world.LockCode;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BeaconBeamBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.phys.AABB;
 
-public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScreenHandlerFactory {
-    public static final StatusEffect[][] EFFECTS_BY_LEVEL = new StatusEffect[][]{{StatusEffects.SPEED, StatusEffects.HASTE}, {StatusEffects.RESISTANCE, StatusEffects.JUMP_BOOST}, {StatusEffects.STRENGTH}, {StatusEffects.REGENERATION}, {StatusEffects.GLOWING}};
-    private static final Set<StatusEffect> EFFECTS = Arrays.stream(EFFECTS_BY_LEVEL).flatMap(Arrays::stream).collect(Collectors.toSet());
+public class NetheriteBeaconBlockEntity extends BlockEntity implements MenuProvider {
+    public static final MobEffect[][] EFFECTS_BY_LEVEL = new MobEffect[][]{{MobEffects.MOVEMENT_SPEED, MobEffects.DIG_SPEED}, {MobEffects.DAMAGE_RESISTANCE, MobEffects.JUMP}, {MobEffects.DAMAGE_BOOST}, {MobEffects.REGENERATION}, {MobEffects.GLOWING}};
+    private static final Set<MobEffect> EFFECTS = Arrays.stream(EFFECTS_BY_LEVEL).flatMap(Arrays::stream).collect(Collectors.toSet());
 
-    private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
+    private final ContainerData propertyDelegate = new ContainerData() {
         @Override
         public int get(int index) {
             return switch (index) {
                 case 0 -> beaconLevel;
-                case 1 -> StatusEffect.getRawId(primary);
-                case 2 -> StatusEffect.getRawId(secondary);
-                case 3 -> StatusEffect.getRawId(tertiary);
+                case 1 -> MobEffect.getId(primary);
+                case 2 -> MobEffect.getId(secondary);
+                case 3 -> MobEffect.getId(tertiary);
                 default -> 0;
             };
         }
@@ -93,8 +93,8 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
                     beaconLevel = value;
                     break;
                 case 1:
-                    if (!NetheriteBeaconBlockEntity.this.world.isClient && !beamSegments.isEmpty()) {
-                        playSound(NetheriteBeaconBlockEntity.this.world, NetheriteBeaconBlockEntity.this.pos, SoundEvents.BLOCK_BEACON_POWER_SELECT);
+                    if (!NetheriteBeaconBlockEntity.this.level.isClientSide && !beamSegments.isEmpty()) {
+                        playSound(NetheriteBeaconBlockEntity.this.level, NetheriteBeaconBlockEntity.this.worldPosition, SoundEvents.BEACON_POWER_SELECT);
                     }
 
                     primary = NetheriteBeaconBlockEntity.getPotionEffectById(value);
@@ -108,7 +108,7 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
         }
 
         @Override
-        public int size() {
+        public int getCount() {
             return 4;
         }
     };
@@ -118,30 +118,26 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
     private int netheriteLevel;
     private int minY = -1;
     @Nullable
-    private StatusEffect primary;
+    private MobEffect primary;
     @Nullable
-    private StatusEffect secondary;
+    private MobEffect secondary;
     @Nullable
-    private StatusEffect tertiary;
+    private MobEffect tertiary;
     @Nullable
-    private Text customName;
-    private ContainerLock lock = ContainerLock.EMPTY;
+    private Component customName;
+    private LockCode lock = LockCode.NO_LOCK;
 
     public NetheriteBeaconBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(NetheritePlusBlocks.NETHERITE_BEACON_BLOCK_ENTITY, blockPos, blockState);
     }
 
     @Nullable
-    private static StatusEffect getPotionEffectById(int id) {
-        StatusEffect statusEffect = StatusEffect.byRawId(id);
+    private static MobEffect getPotionEffectById(int id) {
+        MobEffect statusEffect = MobEffect.byId(id);
         return EFFECTS.contains(statusEffect) ? statusEffect : null;
     }
 
-    public int getNetheriteLevel() {
-        return netheriteLevel;
-    }
-
-    public static void tick(World world, BlockPos pos, BlockState state, NetheriteBeaconBlockEntity blockEntity) {
+    public static void tick(Level world, BlockPos pos, BlockState state, NetheriteBeaconBlockEntity blockEntity) {
         int i = pos.getX();
         int j = pos.getY();
         int k = pos.getZ();
@@ -155,14 +151,14 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
         }
 
         BeamSegment beamSegment = blockEntity.beamSegmentsToCheck.isEmpty() ? null : blockEntity.beamSegmentsToCheck.get(blockEntity.beamSegmentsToCheck.size() - 1);
-        int l = world.getTopY(Heightmap.Type.WORLD_SURFACE, i, k);
+        int l = world.getHeight(Heightmap.Types.WORLD_SURFACE, i, k);
 
         int n;
         for (n = 0; n < 10 && blockPos2.getY() <= l; ++n) {
             BlockState blockState = world.getBlockState(blockPos2);
             Block block = blockState.getBlock();
-            if (block instanceof Stainable) {
-                float[] fs = ((Stainable) block).getColor().getColorComponents();
+            if (block instanceof BeaconBeamBlock) {
+                float[] fs = ((BeaconBeamBlock) block).getColor().getTextureDiffuseColors();
                 if (blockEntity.beamSegmentsToCheck.size() <= 1) {
                     beamSegment = new BeamSegment(fs);
                     blockEntity.beamSegmentsToCheck.add(beamSegment);
@@ -175,7 +171,7 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
                     }
                 }
             } else {
-                if (beamSegment == null || blockState.getOpacity(world, blockPos2) >= 15 && block != Blocks.BEDROCK) {
+                if (beamSegment == null || blockState.getLightBlock(world, blockPos2) >= 15 && block != Blocks.BEDROCK) {
                     blockEntity.beamSegmentsToCheck.clear();
                     blockEntity.minY = l;
                     break;
@@ -184,29 +180,29 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
                 beamSegment.increaseHeight();
             }
 
-            blockPos2 = blockPos2.up();
+            blockPos2 = blockPos2.above();
             ++blockEntity.minY;
         }
 
         n = blockEntity.beaconLevel;
-        if (world.getTime() % 80L == 0L) {
+        if (world.getGameTime() % 80L == 0L) {
             if (!blockEntity.beamSegments.isEmpty()) {
-                Pair<Integer, Integer> levels = updateLevel(world, i, j, k);
-                blockEntity.beaconLevel = levels.getLeft();
-                blockEntity.netheriteLevel = levels.getRight();
+                Tuple<Integer, Integer> levels = updateLevel(world, i, j, k);
+                blockEntity.beaconLevel = levels.getA();
+                blockEntity.netheriteLevel = levels.getB();
                 if (blockEntity.netheriteLevel == 164) {
-                    List<ServerPlayerEntity> var14 = world.getNonSpectatingEntities(ServerPlayerEntity.class, new Box(i, j, k, i, j - 4, k).expand(10.0D, 5.0D, 10.0D));
+                    List<ServerPlayer> var14 = world.getEntitiesOfClass(ServerPlayer.class, new AABB(i, j, k, i, j - 4, k).inflate(10.0D, 5.0D, 10.0D));
 
-                    for (ServerPlayerEntity serverPlayerEntity : var14) {
+                    for (ServerPlayer serverPlayerEntity : var14) {
                         NetheritePlusCriteria.FULL_NETHERITE_NETHERITE_BEACON.trigger(serverPlayerEntity, blockEntity);
                     }
 
                 }
 
                 if (blockEntity.beaconLevel == 4) {
-                    List<ServerPlayerEntity> var14 = world.getNonSpectatingEntities(ServerPlayerEntity.class, new Box(i, j, k, i, j - 4, k).expand(10.0D, 5.0D, 10.0D));
+                    List<ServerPlayer> var14 = world.getEntitiesOfClass(ServerPlayer.class, new AABB(i, j, k, i, j - 4, k).inflate(10.0D, 5.0D, 10.0D));
 
-                    for (ServerPlayerEntity serverPlayerEntity : var14) {
+                    for (ServerPlayer serverPlayerEntity : var14) {
                         NetheritePlusCriteria.CONSTRUCT_NETHERITE_BEACON.trigger(serverPlayerEntity, blockEntity);
                     }
                 }
@@ -214,7 +210,7 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
 
             if (blockEntity.beaconLevel > 0 && !blockEntity.beamSegments.isEmpty()) {
                 blockEntity.applyPlayerEffects();
-                playSound(world, pos, SoundEvents.BLOCK_BEACON_AMBIENT);
+                playSound(world, pos, SoundEvents.BEACON_AMBIENT);
             }
         }
 
@@ -222,26 +218,26 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
             blockEntity.minY = -1;
             boolean bl = n > 0;
             blockEntity.beamSegments = blockEntity.beamSegmentsToCheck;
-            if (!world.isClient) {
+            if (!world.isClientSide) {
                 boolean bl2 = blockEntity.beaconLevel > 0;
                 if (!bl && bl2) {
-                    playSound(world, pos, SoundEvents.BLOCK_BEACON_ACTIVATE);
+                    playSound(world, pos, SoundEvents.BEACON_ACTIVATE);
                 } else if (bl && !bl2) {
-                    playSound(world, pos, SoundEvents.BLOCK_BEACON_DEACTIVATE);
+                    playSound(world, pos, SoundEvents.BEACON_DEACTIVATE);
                 }
             }
         }
 
-        world.setBlockState(pos, state.with(Properties.POWERED, blockEntity.beaconLevel > 0), 2);
+        world.setBlock(pos, state.setValue(BlockStateProperties.POWERED, blockEntity.beaconLevel > 0), 2);
     }
 
-    private static Pair<Integer, Integer> updateLevel(World world, int x, int y, int z) {
+    private static Tuple<Integer, Integer> updateLevel(Level world, int x, int y, int z) {
         int beaconLevel = 0;
         int netheriteLevel = 0;
 
         for (int i = 1; i <= 4; beaconLevel = i++) {
             int j = y - i;
-            if (j < world.getBottomY()) {
+            if (j < world.getMinBuildHeight()) {
                 break;
             }
 
@@ -252,7 +248,7 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
                     if (world.getBlockState(new BlockPos(k, j, l)).getBlock() == Blocks.NETHERITE_BLOCK) {
                         netheriteLevel++;
                     }
-                    if (!world.getBlockState(new BlockPos(k, j, l)).isIn(BlockTags.BEACON_BASE_BLOCKS)) {
+                    if (!world.getBlockState(new BlockPos(k, j, l)).is(BlockTags.BEACON_BASE_BLOCKS)) {
                         bl = false;
                         break;
                     }
@@ -264,17 +260,25 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
             }
         }
 
-        return new Pair<>(beaconLevel, netheriteLevel);
+        return new Tuple<>(beaconLevel, netheriteLevel);
+    }
+
+    public static void playSound(Level world, BlockPos pos, SoundEvent sound) {
+        world.playSound(null, pos, sound, SoundSource.BLOCKS, 1.0F, 1.0F);
+    }
+
+    public int getNetheriteLevel() {
+        return netheriteLevel;
     }
 
     @Override
-    public void markRemoved() {
-        playSound(this.world, this.pos, SoundEvents.BLOCK_BEACON_DEACTIVATE);
-        super.markRemoved();
+    public void setRemoved() {
+        playSound(this.level, this.worldPosition, SoundEvents.BEACON_DEACTIVATE);
+        super.setRemoved();
     }
 
     private void applyPlayerEffects() {
-        if (!world.isClient && primary != null) {
+        if (!level.isClientSide && primary != null) {
             double effectBoundingBox = beaconLevel * 10 + 10;
             int primaryEffectLevel = 0;
             int secondaryEffectLevel = 0;
@@ -294,32 +298,28 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
             }
 
             int effectLength = (9 + beaconLevel * 3) * 20;
-            Box box = new Box(pos).expand(effectBoundingBox).stretch(0.0D, world.getHeight(), 0.0D);
-            List<PlayerEntity> list = world.getNonSpectatingEntities(PlayerEntity.class, box);
+            AABB box = new AABB(worldPosition).inflate(effectBoundingBox).expandTowards(0.0D, level.getHeight(), 0.0D);
+            List<Player> list = level.getEntitiesOfClass(Player.class, box);
 
-            for (PlayerEntity player : list) {
-                player.addStatusEffect(new StatusEffectInstance(primary, effectLength, primaryEffectLevel, true, true));
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, effectLength, 0, true, true));
-                player.addStatusEffect(new StatusEffectInstance(NetheritePlusStatusEffects.LAVA_VISION, effectLength, Math.min(netheriteLevel, 127), true, true));
+            for (Player player : list) {
+                player.addEffect(new MobEffectInstance(primary, effectLength, primaryEffectLevel, true, true));
+                player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, effectLength, 0, true, true));
+                player.addEffect(new MobEffectInstance(NetheritePlusStatusEffects.LAVA_VISION, effectLength, Math.min(netheriteLevel, 127), true, true));
 
                 // regeneration case
                 if (beaconLevel >= 4 && primary != secondary && secondary != null) {
-                    player.addStatusEffect(new StatusEffectInstance(secondary, effectLength, secondaryEffectLevel, true, true));
+                    player.addEffect(new MobEffectInstance(secondary, effectLength, secondaryEffectLevel, true, true));
                 }
             }
 
-            if (tertiary == StatusEffects.GLOWING) {
-                List<MobEntity> entities = world.getNonSpectatingEntities(MobEntity.class, box);
+            if (tertiary == MobEffects.GLOWING) {
+                List<Mob> entities = level.getEntitiesOfClass(Mob.class, box);
                 for (LivingEntity entity : entities) {
-                    entity.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, effectLength, 0, true, true));
+                    entity.addEffect(new MobEffectInstance(MobEffects.GLOWING, effectLength, 0, true, true));
                 }
             }
 
         }
-    }
-
-    public static void playSound(World world, BlockPos pos, SoundEvent sound) {
-        world.playSound(null, pos, sound, SoundCategory.BLOCKS, 1.0F, 1.0F);
     }
 
     public List<BeamSegment> getBeamSegments() {
@@ -332,64 +332,64 @@ public class NetheriteBeaconBlockEntity extends BlockEntity implements NamedScre
 
     @Override
     @Nullable
-    public BlockEntityUpdateS2CPacket toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.of(this);
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
 
     @Override
-    public NbtCompound toSyncedNbt() {
-        return this.toNbt();
+    public CompoundTag getUpdateTag() {
+        return this.saveWithoutMetadata();
     }
 
     @Override
-    public void readNbt(NbtCompound tag) {
-        super.readNbt(tag);
+    public void load(CompoundTag tag) {
+        super.load(tag);
         primary = getPotionEffectById(tag.getInt("Primary"));
         secondary = getPotionEffectById(tag.getInt("Secondary"));
         tertiary = getPotionEffectById(tag.getInt("Tertiary"));
         netheriteLevel = tag.getInt("NetheriteLevel");
         if (tag.contains("CustomName", 8)) {
-            customName = Text.Serializer.fromJson(tag.getString("CustomName"));
+            customName = Component.Serializer.fromJson(tag.getString("CustomName"));
         }
 
-        lock = ContainerLock.fromNbt(tag);
+        lock = LockCode.fromTag(tag);
     }
 
     @Override
-    public void writeNbt(NbtCompound tag) {
-        super.writeNbt(tag);
-        tag.putInt("Primary", StatusEffect.getRawId(primary));
-        tag.putInt("Secondary", StatusEffect.getRawId(secondary));
-        tag.putInt("Tertiary", StatusEffect.getRawId(tertiary));
+    public void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        tag.putInt("Primary", MobEffect.getId(primary));
+        tag.putInt("Secondary", MobEffect.getId(secondary));
+        tag.putInt("Tertiary", MobEffect.getId(tertiary));
         tag.putInt("Levels", beaconLevel);
         tag.putInt("NetheriteLevel", netheriteLevel);
         if (customName != null) {
-            tag.putString("CustomName", Text.Serializer.toJson(customName));
+            tag.putString("CustomName", Component.Serializer.toJson(customName));
         }
 
-        lock.writeNbt(tag);
+        lock.addToTag(tag);
     }
 
-    public void setCustomName(@Nullable Text text) {
+    public void setCustomName(@Nullable Component text) {
         customName = text;
     }
 
     @Override
     @Nullable
-    public ScreenHandler createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-        return LockableContainerBlockEntity.checkUnlocked(playerEntity, lock, getDisplayName()) ? new NetheriteBeaconScreenHandler(i, playerInventory, propertyDelegate, ScreenHandlerContext.create(world, getPos())) : null;
+    public AbstractContainerMenu createMenu(int i, Inventory playerInventory, Player playerEntity) {
+        return BaseContainerBlockEntity.canUnlock(playerEntity, lock, getDisplayName()) ? new NetheriteBeaconScreenHandler(i, playerInventory, propertyDelegate, ContainerLevelAccess.create(level, getBlockPos())) : null;
     }
 
     @Override
-    public Text getDisplayName() {
-        return customName != null ? customName : Text.translatable("container.netherite_beacon");
+    public Component getDisplayName() {
+        return customName != null ? customName : Component.translatable("container.netherite_beacon");
     }
 
     @Override
-    public void setWorld(World world) {
-        super.setWorld(world);
-        this.minY = world.getBottomY() - 1;
+    public void setLevel(Level world) {
+        super.setLevel(world);
+        this.minY = world.getMinBuildHeight() - 1;
     }
 
     public static class BeamSegment {

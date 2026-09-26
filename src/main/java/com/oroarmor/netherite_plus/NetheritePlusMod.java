@@ -24,6 +24,8 @@
 
 package com.oroarmor.netherite_plus;
 
+import static com.oroarmor.netherite_plus.item.NetheritePlusItems.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -38,20 +40,18 @@ import com.oroarmor.netherite_plus.recipe.NetheritePlusRecipeSerializer;
 import com.oroarmor.netherite_plus.screen.NetheriteBeaconScreenHandler;
 import com.oroarmor.netherite_plus.screen.NetheritePlusScreenHandlers;
 import com.oroarmor.netherite_plus.stat.NetheritePlusStats;
-import io.netty.buffer.ByteBuf;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.config.v2.QuiltConfig;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.quiltmc.qsl.networking.api.PacketByteBufs;
 import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
-
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
-
-import static com.oroarmor.netherite_plus.item.NetheritePlusItems.*;
 
 public class NetheritePlusMod implements ModInitializer {
     public static final String MOD_ID = "netherite_plus";
@@ -62,35 +62,10 @@ public class NetheritePlusMod implements ModInitializer {
     );
 
     public static final Logger LOGGER = LogManager.getLogger("Netherite Plus");
-    public static final Collection<ServerPlayerEntity> CONNECTED_CLIENTS = new ArrayList<>();
+    public static final Collection<ServerPlayer> CONNECTED_CLIENTS = new ArrayList<>();
 
-    public void onInitialize(ModContainer mod) {
-        NetheritePlusItems.init();
-        NetheritePlusScreenHandlers.init();
-        NetheritePlusRecipeSerializer.init();
-        NetheritePlusStatusEffects.init();
-        NetheritePlusCriteria.init();
-        NetheritePlusStats.init();
-
-        ServerPlayNetworking.registerGlobalReceiver(UpdateNetheriteBeaconC2SPacket.ID, (server, player, handler, buf, responseSender) -> {
-            UpdateNetheriteBeaconC2SPacket packet = new UpdateNetheriteBeaconC2SPacket(buf);
-            server.execute(() -> {
-                if (player.currentScreenHandler instanceof NetheriteBeaconScreenHandler screenHandler) {
-                    screenHandler.setEffects(packet.getPrimaryEffectId(), packet.getSecondaryEffectId(), packet.getTertiaryEffect());
-                }
-            });
-        });
-
-        CONFIG.registerCallback(config -> {
-            PacketByteBuf buf = PacketByteBufs.create();
-            buf.writeDouble(CONFIG.graphics.lava_vision_distance.value());
-            ServerPlayNetworking.send(CONNECTED_CLIENTS, LavaVisionUpdatePacket.ID, buf);
-        });
-        NetheritePlusMod.registerItemsWithMultiItemLib();
-    }
-
-    public static Identifier id(String id) {
-        return new Identifier(MOD_ID, id);
+    public static ResourceLocation id(String id) {
+        return new ResourceLocation(MOD_ID, id);
     }
 
     public static void registerItemsWithMultiItemLib() {
@@ -106,5 +81,30 @@ public class NetheritePlusMod implements ModInitializer {
         if (CONFIG.enabled.shears.value()) {
             UniqueItemRegistry.SHEARS.addItemToRegistry(NETHERITE_SHEARS);
         }
+    }
+
+    public void onInitialize(ModContainer mod) {
+        NetheritePlusItems.init();
+        NetheritePlusScreenHandlers.init();
+        NetheritePlusRecipeSerializer.init();
+        NetheritePlusStatusEffects.init();
+        NetheritePlusCriteria.init();
+        NetheritePlusStats.init();
+
+        ServerPlayNetworking.registerGlobalReceiver(UpdateNetheriteBeaconC2SPacket.ID, (server, player, handler, buf, responseSender) -> {
+            UpdateNetheriteBeaconC2SPacket packet = new UpdateNetheriteBeaconC2SPacket(buf);
+            server.execute(() -> {
+                if (player.containerMenu instanceof NetheriteBeaconScreenHandler screenHandler) {
+                    screenHandler.setEffects(packet.getPrimary(), packet.getSecondary(), packet.getTertiaryEffect());
+                }
+            });
+        });
+
+        CONFIG.registerCallback(config -> {
+            FriendlyByteBuf buf = PacketByteBufs.create();
+            buf.writeDouble(CONFIG.graphics.lava_vision_distance.value());
+            ServerPlayNetworking.send(CONNECTED_CLIENTS, LavaVisionUpdatePacket.ID, buf);
+        });
+        NetheritePlusMod.registerItemsWithMultiItemLib();
     }
 }

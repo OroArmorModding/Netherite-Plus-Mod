@@ -24,20 +24,20 @@
 
 package com.oroarmor.netherite_plus.item;
 
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-
 import net.fabricmc.fabric.api.entity.event.v1.FabricElytraItem;
+
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 public class NetheriteElytraItem extends ArmorItem implements FabricElytraItem {
 
-    public NetheriteElytraItem(Settings settings) {
-        super(NetheriteElytraArmorMaterials.NETHERITE_ELYTRA_MATERIAL, ArmorSlot.CHESTPLATE, settings);
+    public NetheriteElytraItem(Properties settings) {
+        super(NetheriteElytraArmorMaterials.NETHERITE_ELYTRA_MATERIAL, Type.CHESTPLATE, settings);
     }
 
     @Override
-    public boolean canRepair(ItemStack stack, ItemStack ingredient) {
+    public boolean isValidRepairItem(ItemStack stack, ItemStack ingredient) {
         return ingredient.getItem() == Items.PHANTOM_MEMBRANE;
     }
 }

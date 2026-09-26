@@ -24,21 +24,21 @@
 
 package com.oroarmor.netherite_plus.stat;
 
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.stat.StatFormatter;
-import net.minecraft.stat.Stats;
-import net.minecraft.util.Identifier;
-
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
-public class NetheritePlusStats {
-    public static final Identifier FLY_NETHERITE_ELYTRA_ONE_CM = register("netherite_elytra_flight_cm", StatFormatter.DISTANCE);
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.stats.StatFormatter;
+import net.minecraft.stats.Stats;
 
-    private static Identifier register(String name, StatFormatter formatter) {
-        Identifier identifier = id(name);
-        Registry.register(Registries.CUSTOM_STAT, identifier, identifier);
-        Stats.CUSTOM.getOrCreateStat(identifier, formatter);
+public class NetheritePlusStats {
+    public static final ResourceLocation FLY_NETHERITE_ELYTRA_ONE_CM = register("netherite_elytra_flight_cm", StatFormatter.DISTANCE);
+
+    private static ResourceLocation register(String name, StatFormatter formatter) {
+        ResourceLocation identifier = id(name);
+        Registry.register(BuiltInRegistries.CUSTOM_STAT, identifier, identifier);
+        Stats.CUSTOM.get(identifier, formatter);
         return identifier;
     }
 

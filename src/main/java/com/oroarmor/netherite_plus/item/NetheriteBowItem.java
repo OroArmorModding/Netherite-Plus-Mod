@@ -25,21 +25,22 @@
 package com.oroarmor.netherite_plus.item;
 
 import com.oroarmor.netherite_plus.NetheritePlusMod;
+
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.ItemStack;
+
 import org.quiltmc.qsl.item.extensions.api.bow.BowShotProjectileEvents;
 import org.quiltmc.qsl.item.extensions.api.bow.ProjectileModifyingBowItem;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.item.ItemStack;
-
 public class NetheriteBowItem extends ProjectileModifyingBowItem {
-    public NetheriteBowItem(Settings settings) {
+    public NetheriteBowItem(Properties settings) {
         super(settings);
         BowShotProjectileEvents.BOW_MODIFY_SHOT_PROJECTILE.register(this);
     }
 
     @Override
-    public void onProjectileShot(ItemStack bowStack, ItemStack arrowStack, LivingEntity user, float pullProgress, PersistentProjectileEntity projectile) {
-        projectile.setDamage(projectile.getDamage() * NetheritePlusMod.CONFIG.damage.bow_damage_multiplier.value() + NetheritePlusMod.CONFIG.damage.bow_damage_addition.value());
+    public void onProjectileShot(ItemStack bowStack, ItemStack arrowStack, LivingEntity user, float pullProgress, AbstractArrow projectile) {
+        projectile.setBaseDamage(projectile.getBaseDamage() * NetheritePlusMod.CONFIG.damage.bow_damage_multiplier.value() + NetheritePlusMod.CONFIG.damage.bow_damage_addition.value());
     }
 }

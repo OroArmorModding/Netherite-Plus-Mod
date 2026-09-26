@@ -25,34 +25,35 @@
 package com.oroarmor.netherite_plus.mixin;
 
 import com.oroarmor.netherite_plus.NetheritePlusMod;
-import org.quiltmc.qsl.networking.api.PacketByteBufs;
-import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.entity.projectile.TridentEntity;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.registry.Registries;
-import net.minecraft.world.World;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.ThrownTrident;
+import net.minecraft.world.level.Level;
 
-@Mixin(ProjectileEntity.class)
+import org.quiltmc.qsl.networking.api.PacketByteBufs;
+import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
+
+@Mixin(Projectile.class)
 public abstract class TridentEntityMixin extends Entity {
-    public TridentEntityMixin(EntityType<?> entityType, World world) {
+    public TridentEntityMixin(EntityType<?> entityType, Level world) {
         super(entityType, world);
     }
 
-    @Inject(method = "createSpawnPacket", at = @At("HEAD"))
+    @Inject(method = "getAddEntityPacket", at = @At("HEAD"))
     public void sendTridentStackOnSpawn(CallbackInfoReturnable<Packet<?>> info) {
-        if ((Object) this instanceof TridentEntity tridentEntity) {
-            PacketByteBuf passedData = PacketByteBufs.create();
-            passedData.writeInt(Registries.ITEM.getRawId(tridentEntity.tridentStack.getItem()));
-            ServerPlayNetworking.send(this.getWorld().getServer().getPlayerManager().getPlayerList(), NetheritePlusMod.id("netherite_trident"), passedData);
+        if ((Object) this instanceof ThrownTrident tridentEntity) {
+            FriendlyByteBuf passedData = PacketByteBufs.create();
+            passedData.writeInt(BuiltInRegistries.ITEM.getId(tridentEntity.tridentItem.getItem()));
+            ServerPlayNetworking.send(this.level().getServer().getPlayerList().getPlayers(), NetheritePlusMod.id("netherite_trident"), passedData);
         }
     }
 }

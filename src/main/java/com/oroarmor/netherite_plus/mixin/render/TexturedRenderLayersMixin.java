@@ -33,13 +33,13 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-import net.minecraft.client.texture.SpriteAtlasManager;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.resources.model.AtlasSet;
+import net.minecraft.resources.ResourceLocation;
 
-@Mixin(SpriteAtlasManager.class)
+@Mixin(AtlasSet.class)
 public class TexturedRenderLayersMixin {
     @ModifyVariable(at = @At("HEAD"), method = "<init>", argsOnly = true)
-    private static Map<Identifier, Identifier> onAddDefaultTextures(Map<Identifier, Identifier> atlasIds) {
+    private static Map<ResourceLocation, ResourceLocation> onAddDefaultTextures(Map<ResourceLocation, ResourceLocation> atlasIds) {
         atlasIds = new HashMap<>(atlasIds);
         atlasIds.put(NetheritePlusTextures.NETHERITE_SHULKER_BOXES_ATLAS_TEXTURE, NetheritePlusMod.id("netherite_shulker_boxes"));
         atlasIds.put(NetheritePlusTextures.NETHERITE_SHIELD_PATTERNS_ATLAS_TEXTURE, NetheritePlusMod.id("netherite_shield_patterns"));
