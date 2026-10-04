@@ -1,0 +1,25 @@
+[versions]
+minecraft = "26.3"
+fabric_loader = "0.19.5"
+
+fabric_api = "0.161.0+26.3"
+
+kaleido_config = "0.3.3+1.3.2"
+ranged_weapon_api = "4.0.0+26.3-fabric"
+
+fabric_loom = "1.18.2"
+oro_gradle_plugin = "1.4.0"
+
+[libraries]
+minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
+fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
+
+fabric_api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric_api" }
+
+kaleido_config = { module = "folk.sisby:kaleido-config", version.ref = "kaleido_config"}
+ranged_weapon_api = { module = "maven.modrinth:ranged-weapon-api", version.ref = "ranged_weapon_api"}
+
+[plugins]
+fabric_loom = { id = "net.fabricmc.fabric-loom", version.ref = "fabric_loom" }
+oro_general_gradle_plugin = {id = 'com.oroarmor.general-gradle-plugin', version.ref = "oro_gradle_plugin"}
+oro_minecraft_gradle_plugin = {id = 'com.oroarmor.minecraft-gradle-plugin', version.ref = "oro_gradle_plugin"}

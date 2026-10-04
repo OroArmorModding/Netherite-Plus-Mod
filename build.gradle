@@ -1,8 +1,8 @@
 plugins {
-    id 'net.fabricmc.fabric-loom' version "1.18.+"
+    alias libs.plugins.fabric.loom
 
-    id 'com.oroarmor.general-gradle-plugin' version '1.3.1'
-    id 'com.oroarmor.minecraft-gradle-plugin' version '1.3.1'
+    alias libs.plugins.oro.general.gradle.plugin
+    alias libs.plugins.oro.minecraft.gradle.plugin
 }
 
 version = project.mod_version
@@ -38,16 +38,17 @@ oroarmor {
 
 import com.oroarmor.orogradleplugin.minecraft.dependency.ModDependency.DependencyType
 minecraftPublishing {
-    gameVersions = ["26.3"]
+    gameVersions = [libs.versions.minecraft.get()]
     modrinthId = "MlaM22M4"
     curseforgeId = "394120"
+    releaseType = ReleaseType.BETA
     dependencies {
         "ranged-weapon-api" {
-            version = project.ranged_weapon_api_version
+            version = libs.versions.ranged.weapon.api.get()
             type = DependencyType.REQUIRED
         }
         "fabric-api" {
-            version = project.fabric_api_version
+            version = libs.versions.fabric.api.get()
             type = DependencyType.REQUIRED
         }
     }
@@ -57,19 +58,13 @@ minecraftPublishing {
 
 license {
     exclude '**/*.accesswidener'
+    exclude '**/.cache/*'
 }
 
 loom {
     accessWidenerPath = file("src/main/resources/netherite_plus.accesswidener")
 
     splitEnvironmentSourceSets()
-
-    mods {
-        "netherite_plus_mod" {
-            sourceSet sourceSets.main
-            sourceSet sourceSets.client
-        }
-    }
 }
 
 fabricApi {
@@ -84,15 +79,15 @@ fabricApi {
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    implementation "net.fabricmc:fabric-loader:${project.fabric_loader_version}"
+    minecraft libs.minecraft
+    implementation libs.fabric.loader
 
-    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+    implementation libs.fabric.api
 
-    implementation "folk.sisby:kaleido-config:${project.kaleido_config_version}"
-    include "folk.sisby:kaleido-config:${project.kaleido_config_version}"
+    implementation libs.kaleido.config
+    include libs.kaleido.config
 
-    implementation "maven.modrinth:ranged-weapon-api:${project.ranged_weapon_api_version}"
+    implementation libs.ranged.weapon.api
 }
 
 processResources {
@@ -137,11 +132,19 @@ publishing {
     }
 }
 
+import net.fabricmc.loom.task.ValidateMixinNameTask
+tasks.register('validateMixinNames', ValidateMixinNameTask) {
+    source(sourceSets.main.output)
+    source(sourceSets.client.output)
+}
+
+check.dependsOn "validateMixinNames"
+
 import com.oroarmor.orogradleplugin.publish.PublishProjectToGithubTask
 tasks.register("github", PublishProjectToGithubTask) {
     assets.from(jar, sourcesJar)
 }
 
 import com.oroarmor.orogradleplugin.minecraft.*
-//tasks.register("curseforge", CurseforgePublishTask)
+tasks.register("curseforge", CurseforgePublishTask)
 tasks.register("modrinth", ModrinthPublishTask)

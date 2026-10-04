@@ -41,7 +41,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.projectile.arrow.ThrownTrident;
 
 @Mixin(ThrownTridentRenderer.class)
-public class TridentEntityRendererMixin {
+public class ThrownTridentRendererMixin {
     @Inject(method = "extractRenderState(Lnet/minecraft/world/entity/projectile/arrow/ThrownTrident;Lnet/minecraft/client/renderer/entity/state/ThrownTridentRenderState;F)V", at = @At("TAIL"))
     void addNetheriteRenderState(ThrownTrident entity, ThrownTridentRenderState state, float partialTicks, CallbackInfo ci) {
         state.setData(NetheritePlusClientMod.IS_NETHERITE, entity.getWeaponItem().is(NetheritePlusItems.NETHERITE_TRIDENT));

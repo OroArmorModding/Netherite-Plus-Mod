@@ -35,12 +35,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.TripWireBlock;
 
-@Mixin(
-        value = {
-                TripWireBlock.class,
-        }
-)
-public class BlockPlayerWillDestroyMixin {
+@Mixin(TripWireBlock.class)
+public class TripWireBlockMixin {
     @Definition(id = "is", method = "Lnet/minecraft/world/item/ItemStack;is(Ljava/lang/Object;)Z")
     @Definition(id = "SHEARS", field = "Lnet/minecraft/world/item/Items;SHEARS:Lnet/minecraft/world/item/Item;")
     @Expression("?.is(SHEARS)")
