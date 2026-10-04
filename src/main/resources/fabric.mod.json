@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "netherite_plus",
+  "version": "${version}",
+  "name": "Netherite Plus Mod",
+  "description": "This mod adds extra netherite features that aren't vanilla.\n\nNOTE: Editing the config requires a game restart",
+  "authors": [
+    "OroArmor",
+    "1198159",
+    "Ron (Texture Artist)"
+  ],
+  "contact": {
+    "sources": "https://github.com/OroArmor/Netherite-Plus-Mod/",
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/netherite-plus-mod",
+    "issues": "https://github.com/OroArmor/Netherite-Plus-Mod/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/netherite_plus/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.oroarmor.netherite_plus.NetheritePlusMod"
+    ],
+    "client": [
+      "com.oroarmor.netherite_plus.client.NetheritePlusClientMod"
+    ],
+    "fabric-datagen": [
+      "com.oroarmor.netherite_plus.data.NetheritePlusDataGenerator"
+    ]
+  },
+  "mixins": [
+    "netherite_plus.mixins.json",
+    {
+      "environment": "client",
+      "config": "netherite_plus.client.mixins.json"
+    }
+  ],
+  "accessWidener": "netherite_plus.accesswidener",
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "fabric-api": ">=0.161.0",
+    "minecraft": "=26.3",
+    "ranged_weapon_api": "4.0.0+26.3"
+  }
+}

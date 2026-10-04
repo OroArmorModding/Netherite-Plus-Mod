@@ -1,0 +1,33 @@
+{
+  "criteria": {
+    "netherite_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:netherite_ingot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "netherite_plus:gui/advancements/backgrounds/netherite",
+    "description": {
+      "translate": "advancements.netherite_plus.netherite_plus/root.description"
+    },
+    "icon": {
+      "id": "minecraft:netherite_ingot"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.netherite_plus.netherite_plus/root.title"
+    }
+  },
+  "requirements": [
+    [
+      "netherite_ingot"
+    ]
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "parent": "netherite_plus:netherite_plus/root",
+  "criteria": {
+    "netherite_plus/netherite_fishing_rod": {
+      "conditions": {
+        "items": [
+          {
+            "items": "netherite_plus:netherite_fishing_rod"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.netherite_plus.netherite_plus/netherite_fishing_rod.description"
+    },
+    "icon": {
+      "id": "netherite_plus:netherite_fishing_rod"
+    },
+    "title": {
+      "translate": "advancements.netherite_plus.netherite_plus/netherite_fishing_rod.title"
+    }
+  },
+  "requirements": [
+    [
+      "netherite_plus/netherite_fishing_rod"
+    ]
+  ]
+}

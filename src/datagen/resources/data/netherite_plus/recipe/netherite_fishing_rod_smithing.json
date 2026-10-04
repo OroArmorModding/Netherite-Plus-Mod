@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "#minecraft:netherite_tool_materials",
+  "base": "minecraft:fishing_rod",
+  "result": {
+    "id": "netherite_plus:netherite_fishing_rod"
+  },
+  "template": "minecraft:netherite_upgrade_smithing_template"
+}

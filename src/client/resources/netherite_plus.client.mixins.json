@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.oroarmor.netherite_plus.client.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+  ],
+  "client": [
+    "render.BackgroundRendererMixin",
+    "render.ShieldSpecialRendererMixin",
+    "render.ShulkerBoxRendererMixin",
+    "render.ShulkerBoxSpecialRendererUnbakedMixin",
+    "render.trident.DrownedRendererMixin",
+    "render.trident.TridentEntityRendererMixin",
+    "render.trident.TridentSpecialRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixinextras": {
+    "minVersion": "0.5.5"
+  }
+}

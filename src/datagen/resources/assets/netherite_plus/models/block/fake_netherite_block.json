@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "netherite_plus:block/fake_netherite_block"
+  }
+}

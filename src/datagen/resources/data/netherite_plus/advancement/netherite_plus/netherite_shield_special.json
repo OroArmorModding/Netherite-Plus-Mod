@@ -1,0 +1,66 @@
+{
+  "parent": "netherite_plus:netherite_plus/netherite_shield",
+  "criteria": {
+    "deflected_with_shield": {
+      "conditions": {
+        "damage": {
+          "type": {
+            "direct_entity": {
+              "minecraft:entity_type": "minecraft:small_fireball"
+            }
+          },
+          "blocked": true,
+          "source_entity": {
+            "minecraft:entity_type": "minecraft:blaze"
+          }
+        },
+        "player": {
+          "type": "minecraft:any_of",
+          "terms": [
+            {
+              "type": "minecraft:entity_properties",
+              "entity": "this",
+              "predicate": {
+                "minecraft:equipment": {
+                  "mainhand": {
+                    "items": "netherite_plus:netherite_shield"
+                  }
+                }
+              }
+            },
+            {
+              "type": "minecraft:entity_properties",
+              "entity": "this",
+              "predicate": {
+                "minecraft:equipment": {
+                  "offhand": {
+                    "items": "netherite_plus:netherite_shield"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "trigger": "minecraft:entity_hurt_player"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.netherite_plus.netherite_plus/netherite_shield_special.description"
+    },
+    "frame": "challenge",
+    "hidden": true,
+    "icon": {
+      "id": "netherite_plus:netherite_shield"
+    },
+    "title": {
+      "translate": "advancements.netherite_plus.netherite_plus/netherite_shield_special.title"
+    }
+  },
+  "requirements": [
+    [
+      "deflected_with_shield"
+    ]
+  ]
+}

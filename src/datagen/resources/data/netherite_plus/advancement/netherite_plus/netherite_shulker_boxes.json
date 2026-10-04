@@ -1,0 +1,31 @@
+{
+  "parent": "netherite_plus:netherite_plus/root",
+  "criteria": {
+    "shulker_box": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#netherite_plus:netherite_shulker_boxes"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.netherite_plus.netherite_plus/netherite_shulker_boxes.description"
+    },
+    "icon": {
+      "id": "netherite_plus:netherite_shulker_box"
+    },
+    "title": {
+      "translate": "advancements.netherite_plus.netherite_plus/netherite_shulker_boxes.title"
+    }
+  },
+  "requirements": [
+    [
+      "shulker_box"
+    ]
+  ]
+}

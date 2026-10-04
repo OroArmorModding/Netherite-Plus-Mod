@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021-2023 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2026 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,8 +26,12 @@ package com.oroarmor.netherite_plus.loot;
 
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.storage.loot.LootTable;
 
 public class NetheritePlusLootManager {
-    public static final ResourceLocation LAVA_FISHING_LOOT_TABLE = id("gameplay/fishing");
+    public static final ResourceKey<LootTable> LAVA_FISHING_LOOT_TABLE = ResourceKey.create(Registries.LOOT_TABLE, id("gameplay/fishing"));
+    public static final ResourceKey<LootTable> LAVA_FISHING_TREASURE_LOOT_TABLE = ResourceKey.create(Registries.LOOT_TABLE, id("gameplay/fishing/treasure"));
+    public static final ResourceKey<LootTable> LAVA_FISHING_JUNK_LOOT_TABLE = ResourceKey.create(Registries.LOOT_TABLE, id("gameplay/fishing/junk"));
 }

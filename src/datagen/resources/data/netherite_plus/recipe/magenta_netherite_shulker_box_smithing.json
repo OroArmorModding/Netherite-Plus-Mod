@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "#minecraft:netherite_tool_materials",
+  "base": "minecraft:magenta_shulker_box",
+  "result": {
+    "id": "netherite_plus:magenta_netherite_shulker_box"
+  },
+  "template": "minecraft:netherite_upgrade_smithing_template"
+}

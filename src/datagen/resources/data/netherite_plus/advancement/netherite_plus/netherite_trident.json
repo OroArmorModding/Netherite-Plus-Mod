@@ -1,0 +1,31 @@
+{
+  "parent": "netherite_plus:netherite_plus/root",
+  "criteria": {
+    "netherite_plus/netherite_trident": {
+      "conditions": {
+        "items": [
+          {
+            "items": "netherite_plus:netherite_trident"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.netherite_plus.netherite_plus/netherite_trident.description"
+    },
+    "icon": {
+      "id": "netherite_plus:netherite_trident"
+    },
+    "title": {
+      "translate": "advancements.netherite_plus.netherite_plus/netherite_trident.title"
+    }
+  },
+  "requirements": [
+    [
+      "netherite_plus/netherite_trident"
+    ]
+  ]
+}

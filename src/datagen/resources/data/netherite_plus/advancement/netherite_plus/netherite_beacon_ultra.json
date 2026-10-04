@@ -1,0 +1,33 @@
+{
+  "parent": "netherite_plus:netherite_plus/netherite_beacon_special",
+  "criteria": {
+    "full_netherite_beacon": {
+      "conditions": {
+        "netherite_level": 285
+      },
+      "trigger": "netherite_plus:netherite_blocks_netherite_beacon"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.netherite_plus.netherite_plus/netherite_beacon_ultra.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "components": {
+        "minecraft:block_state": {
+          "powered": "true"
+        }
+      },
+      "id": "netherite_plus:netherite_beacon"
+    },
+    "title": {
+      "translate": "advancements.netherite_plus.netherite_plus/netherite_beacon_ultra.title"
+    }
+  },
+  "requirements": [
+    [
+      "full_netherite_beacon"
+    ]
+  ]
+}

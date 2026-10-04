@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld_rod",
+  "textures": {
+    "layer0": "netherite_plus:item/netherite_fishing_rod"
+  }
+}

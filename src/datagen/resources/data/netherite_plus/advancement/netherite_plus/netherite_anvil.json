@@ -1,0 +1,31 @@
+{
+  "parent": "netherite_plus:netherite_plus/root",
+  "criteria": {
+    "netherite_plus/netherite_anvil": {
+      "conditions": {
+        "items": [
+          {
+            "items": "netherite_plus:netherite_anvil"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.netherite_plus.netherite_plus/netherite_anvil.description"
+    },
+    "icon": {
+      "id": "netherite_plus:netherite_anvil"
+    },
+    "title": {
+      "translate": "advancements.netherite_plus.netherite_plus/netherite_anvil.title"
+    }
+  },
+  "requirements": [
+    [
+      "netherite_plus/netherite_anvil"
+    ]
+  ]
+}

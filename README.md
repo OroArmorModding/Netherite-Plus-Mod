@@ -5,107 +5,86 @@ Discord: https://discord.gg/dGCvj56
 
 ## Features
 
-* Netherite Shulker Boxes
-  - Don't burn in lava
-  - Still are exploded by TNT, will be fixed soon
-  
-* Netherite Fishing Rod
-  - Doesnt burn in lava
-  - Double durability
-  - Lava Fishing! You can get gold items, nether themed items, and rarely ancient debris.
-  
-* Netherite Elytra
-  - Doesn't burn in lava
-  - Double durability
-  - Gives 4 armor points
-  
-* Netherite Bow and Crossbows
-  - Don't burn in lava
-  - Damage is configurable, as you can multiply and add to the vanilla base damage
-  - Double durability
-  
-* Fake Netherite Blocks
-  - Same texture
+### New Blocks
+- Netherite Shulker Boxes
+  - Blast resistant
+  - Protects your items from burning in lava
+
+- Netherite Anvils
+  - Never Break
+  - Same recipe as anvil, but with Netherite Blocks and Ingots instead of Iron
+  - Reduces XP cost for upgrading/repairing items, default of 50%
+
+- Netherite Beacons
+  - Gives Fire Resistance to all players within range
+  - New Lava Vision effect is given based on the number of Netherite Blocks in the base
+  - New Third effect requires an additional layer of blocks (11x11) and can choose between:
+    - Third level for effect from first tier (if selected for the second effect)
+    - Regeneration II (if regeneration was selected for the second effect)
+    - Glowing, applied to all mobs within range of the beacon
+
+- Fake Netherite Blocks
+  - Very similar texture to Netherite Blocks, with a touch of the Iron Block base leaking through
+  - Usable in beacon bases
   - 8 Iron blocks around 1 Netherite ingot for 8 Fake Netherite Blocks
 
-* Netherite Horse Armor
-  - Doesn't burn in lava
-  
-* Netherite Shields
-  - Don't burn in lava
-  - Double durability
+### New Tools
+All tools do not burn in lava and have twice the durability of vanilla tools by default.
 
-* Netherite Anvils
-  - Never Break
-  - Same recipe as normal anvils, but with netherite instead of iron
-  - Reduces xp cost for upgrading/repairing items, default of 50%
-
-* Netherite Tridents
+- Netherite Bow and Crossbows
+  - Damage is configurable, as you can multiply and add to the vanilla base damage
+- Netherite Elytra
+  - Gives 4 armor points
+- Netherite Fishing Rod
+  - Lava Fishing! You can get gold items, nether themed items, and rarely ancient debris.
+- Netherite Shields
+- Netherite Tridents
   - Riptide out of lava and water
   - Damage is configurable, as you can multiply and add to the vanilla base damage
-  - Don't burn in lava
+- Netherite Shears
 
-* Lava Vision
+### New Effects
+- Lava Vision
   - A new effect that grants 0.25 blocks of vision in lava for each level of the effect
   - The only way to get is currently with Netherite Beacons
 
-* Netherite Beacons
-  - Three tiers
-  - New lava vision effect that is given based on the number of netherite blocks in the base
-  - First Tier is the same as normal beacon
-  - Second Tier (Level 2 of the tier one effect or regeneration) can be added to any level.
-  - Third Tier requires a full beacon base (up to a 9x9) and gives either glowing to all mobs within the beacon effect zone, or increase the level of the tier two effect (Regeneration 2 or the tier one effect at level 3)
-  
-* Full advancement system
-   - Each feature as at least one advancement
-   - Advancements:
-     - BASE: A Serious Upgrade: Get a Piece of Netherite Plus Gear
 
-     - Falling in Style: Get a Netherite Elytra
-     - SPECIAL: Earning your Wings: Fly Ten Thousand Blocks With a Netherite Elytra
+### Advancement Progression System
+Each feature has at least one advancement
+- Falling in Style: Get a Netherite Elytra
+  - SPECIAL: Earning your Wings: Fly Ten Thousand Blocks With a Netherite Elytra
+- Safety First: Get a Netherite Shulker Box
+- A Bigger Throwaway Joke: Get a Netherite Trident
+  - SPECIAL: Will-O'-Wisp: Use Riptide to get Out of Lava
+- Iron Defense: Get a Netherite Shield
+  - SPECIAL: Parry This you Casual: Block a Blaze Fireball with a Netherite Shield
+- The Real Beaconator: Get a Netherite Beacon
+  - SPECIAL: There's Three, Actually: Get a Full Level Netherite Beacon
+    - ULTRA: Get a Life: Create a Full Netherite Block Beacon Base
+- Cheap Knock-off: Get a Fake Netherite Block
+- Shots Fired: Get a Netherite Bow or Crossbow
+- A Waste of Space: Get a Netherite Fishing Rod
+  - SPECIAL: Wait Never Mind: Fish in Lava with a Netherite Fishing Rod and Get Ancient Debris
+- Worth Its Weight in Gold: Get a Netherite Anvil
 
-     - Safety First: Get a Netherite Shulker Box
+#### New Data Driven features
+- New statistics
+  - Distance flown with Netherite Elytra in centimeters
+- New advancement triggers
+  - Full Netherite Base Netherite Beacon: triggered when you create a full netherite beacon base for the Netherite Beacon
+  - Construct Netherite Beacon: the same as the Construct Beacon trigger, but for the Netherite Beacon
+  - Riptide Netherite Trident: triggered when you riptide out of lava
 
-     - A Bigger Throway Joke: Get a Netherite Trident
-     - SPECIAL: Will-O'-Wisp: Use Riptide to get Out of Lava
-
-     - Iron Defense: Get a Netherite Shield
-     - SPECIAL: Parry This you Casual: Block a Blaze Fireball with a Netherite Shield
-
-     - The Real Beaconator: Get a Netherite Beacon
-     - SPECIAL: There's Three, Actually: Get a Full Level Netherite Beacon
-     - ULTRA: Get a Life: Create a Full Netherite Block Beacon Base
-
-     - Cheap Knock-off: Get a Fake Netherite Block
-
-     - Weird Flex but Ok: Get some Netherite Horse Armor
-     - SPECIAL: Nice Lambo: Ride a Horse with Netherite Horse Armor
-
-     - Shots Fired: Get a Netherite Bow or Crossbow
-
-     - A Waste of Space: Get a Netherite Fishing Rod
-     - SPECIAL: Wait Never Mind: Fish in Lava with a Netherite Fishing Rod and Get Ancient Debris
-
-     - Worth Its Weight in Gold: Get a Netherite Anvil
-   
-* New statistics
- - Distance flown with netherite elytra
-
-* New advancement triggers
- - Full Nethertie Netherite Beacon: triggered when you create a full netherite beacon base for the netherite beacon
- - Construct Netherite Beacon: the same as the Construct Beacon trigger, but for the netherite beacon
- - Riptide Netherite Trident: triggered when you riptide out of lava
-
-* Configurations
-  - All features are fully configable
-  - Include or don't include
-  - Durabilities
-  - Damage for Bows, Crossbows, and Tridents
+### Mod Configuration
+  - Modify XP reduction for Netherite Anvil
+  - Changeable durability for all tools
+  - Modify multiplier and additions to vanilla damage for Netherite Bows, Crossbows, and Tridents
   - Distance settings for Lava Vision
 
 ## Potential Features
-* Netherite Food Items
+- Netherite Food Items
   - Carrot
   - Apples
-* Potion of the Nether Master
+- Netherite Wolf Armor
+- Potion of the Nether Master
   - Similar effects to Enchanted Golden Apple

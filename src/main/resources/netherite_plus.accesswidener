@@ -1,4 +1,4 @@
-accessWidener	v1	named
+accessWidener	v1	official
 
 extendable class net/minecraft/world/entity/projectile/FishingHook$FishHookState
 extendable class net/minecraft/world/entity/projectile/FishingHook$OpenWaterType
@@ -20,15 +20,7 @@ accessible field net/minecraft/world/entity/projectile/FishingHook lureSpeed I
 accessible field net/minecraft/world/entity/projectile/FishingHook DATA_HOOKED_ENTITY Lnet/minecraft/network/syncher/EntityDataAccessor;
 accessible field net/minecraft/world/entity/projectile/FishingHook DATA_BITING Lnet/minecraft/network/syncher/EntityDataAccessor;
 
-accessible field net/minecraft/world/entity/projectile/Projectile leftOwner Z
-
-accessible field net/minecraft/world/entity/projectile/ThrownTrident tridentItem Lnet/minecraft/world/item/ItemStack;
-accessible field net/minecraft/world/entity/projectile/ThrownTrident dealtDamage Z
-
 accessible method net/minecraft/world/effect/MobEffect <init> (Lnet/minecraft/world/effect/MobEffectCategory;I)V
 
-accessible    field    net/minecraft/world/item/TridentItem                            defaultModifiers         Lcom/google/common/collect/Multimap;
 mutable field net/minecraft/world/entity/ai/attributes/AttributeModifier amount D
 accessible field net/minecraft/world/entity/ai/attributes/AttributeModifier amount D
-
-accessible class net/minecraft/client/renderer/FogRenderer$FogData

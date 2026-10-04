@@ -4,25 +4,30 @@
   "package": "com.oroarmor.netherite_plus.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "BlockItemMixin",
-    "ItemPredicateMixin",
-    "PlayerEntityMixin",
-    "ServerPlayNetworkHandlerMixin",
+    "AnvilBlockMixin",
+    "AnvilMenuMixin",
+    "CauldronInteractionDispatcherAccessor",
+    "CauldronInteractionsMixin",
+    "LivingEntityMixin",
+    "ServerPlayerMixin",
     "ShulkerBoxBlockEntityMixin",
-    "TridentEntityMixin"
+    "fishing.FishingHookMixin",
+    "fishing.FishingRodItemMixin",
+    "shears.BlockPlayerWillDestroyMixin",
+    "shears.BlockUseItemOnMixin",
+    "shears.EntityInteractMixin",
+    "shears.EntityMobInteractMixin",
+    "shears.RegistryLoadTaskPendingRegistrationMixin",
+    "trident.AbstractArrowMixin",
+    "trident.ThrownTridentMixin",
+    "trident.TridentItemMixin"
   ],
   "client": [
-    "ClientPlayNetworkHandlerAccessor",
-    "ClientPlayNetworkHandlerMixin",
-    "render.BackgroundRendererMixin",
-    "render.ItemRendererAccessor",
-    "render.ItemRendererMixin",
-    "render.MinecraftClientMixin",
-    "render.ModelLoaderMixin",
-    "render.TexturedRenderLayersMixin",
-    "render.TridentEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
+  },
+  "mixinextras": {
+    "minVersion": "0.5.5"
   }
 }

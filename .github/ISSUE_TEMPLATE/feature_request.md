@@ -13,4 +13,4 @@ A clear and concise description of what you want to happen.
 **Describe how this feature adheres to the vanilla feel**
 
 **Additional context**
-Examples of other mods having similar features (Not required).
+Examples of other mods having similar features (not required).

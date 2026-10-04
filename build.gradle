@@ -1,11 +1,10 @@
 plugins {
-    id 'org.quiltmc.loom' version "1.1.+"
+    id 'net.fabricmc.fabric-loom' version "1.18.+"
 
-    id 'com.oroarmor.general-gradle-plugin' version '1.2.3'
-    id 'com.oroarmor.minecraft-gradle-plugin' version '1.2.3'
+    id 'com.oroarmor.general-gradle-plugin' version '1.3.1'
+    id 'com.oroarmor.minecraft-gradle-plugin' version '1.3.1'
 }
 
-archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
 
@@ -19,10 +18,6 @@ repositories {
         url = 'https://jitpack.io'
     }
     maven {
-        name = "Shedaniel"
-        url = 'https://maven.shedaniel.me'
-    }
-    maven {
         name = "Terraformers"
         url = "https://maven.terraformersmc.com/releases/"
     }
@@ -30,6 +25,7 @@ repositories {
         name = "Modrinth"
         url = "https://api.modrinth.com/maven"
     }
+    maven { url 'https://repo.sleeping.town/' }
 }
 
 oroarmor {
@@ -42,17 +38,21 @@ oroarmor {
 
 import com.oroarmor.orogradleplugin.minecraft.dependency.ModDependency.DependencyType
 minecraftPublishing {
-    gameVersions = ["1.19.4"]
+    gameVersions = ["26.3"]
     modrinthId = "MlaM22M4"
     curseforgeId = "394120"
     dependencies {
-        "multi-item-lib" {
-            version = "1.6.2"
+        "ranged-weapon-api" {
+            version = project.ranged_weapon_api_version
+            type = DependencyType.REQUIRED
+        }
+        "fabric-api" {
+            version = project.fabric_api_version
             type = DependencyType.REQUIRED
         }
     }
-    loaders = ["Quilt"]
-    modTask = remapJar
+    loaders = ["Fabric"]
+    modTask = jar
 }
 
 license {
@@ -61,44 +61,66 @@ license {
 
 loom {
     accessWidenerPath = file("src/main/resources/netherite_plus.accesswidener")
+
+    splitEnvironmentSourceSets()
+
+    mods {
+        "netherite_plus_mod" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
+}
+
+fabricApi {
+    configureDataGeneration() {
+        client = true
+        strictValidation = true
+        createRunConfiguration = true
+        createSourceSet = true
+        modId = "netherite_plus"
+        outputDirectory = file("src/datagen/resources")
+    }
 }
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.officialMojangMappings()
-    modImplementation "org.quiltmc:quilt-loader:${project.quilt_loader_version}"
+    implementation "net.fabricmc:fabric-loader:${project.fabric_loader_version}"
 
-    modImplementation "org.quiltmc:qsl:${project.qsl_version}"
-    modImplementation "org.quiltmc.quilted-fabric-api:quilted-fabric-api:${project.qfapi_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
-    modImplementation "com.oroarmor:multi-item-lib:1.6.2"
-    modCompileOnly('com.github.CrimsonDawn45:Fabric-Shield-Lib:v1.7.2-1.20.1')
-    modRuntimeOnly("com.terraformersmc:modmenu:7.2.1")
+    implementation "folk.sisby:kaleido-config:${project.kaleido_config_version}"
+    include "folk.sisby:kaleido-config:${project.kaleido_config_version}"
+
+    implementation "maven.modrinth:ranged-weapon-api:${project.ranged_weapon_api_version}"
 }
 
 processResources {
     inputs.property "version", version
 
-    filesMatching('quilt.mod.json') {
+    filesMatching('fabric.mod.json') {
         expand "version": version
     }
 }
 
 tasks.withType(JavaCompile).configureEach {
     it.options.encoding = "UTF-8"
-    it.options.release = 17
+    it.options.release = 25
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
 
     withSourcesJar()
 }
 
 jar {
+    def projectName = project.name
+    inputs.property "projectName", projectName
+
     from("LICENSE") {
-        rename { "${it}_${archivesBaseName}" }
+        rename { "${it}_${project.name}" }
     }
 }
 
@@ -106,10 +128,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
-
             oroarmor.generateDefaultPom(it)
-
-            archivesBaseName = project.archivesBaseName
         }
     }
 
@@ -119,10 +138,10 @@ publishing {
 }
 
 import com.oroarmor.orogradleplugin.publish.PublishProjectToGithubTask
-task github(type: PublishProjectToGithubTask) {
-    assets.from(remapJar, sourcesJar)
+tasks.register("github", PublishProjectToGithubTask) {
+    assets.from(jar, sourcesJar)
 }
 
 import com.oroarmor.orogradleplugin.minecraft.*
-task curseforge(type: CurseforgePublishTask)
-task modrinth(type: ModrinthPublishTask)
+//tasks.register("curseforge", CurseforgePublishTask)
+tasks.register("modrinth", ModrinthPublishTask)

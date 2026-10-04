@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/beacon",
+  "textures": {
+    "beacon": "netherite_plus:block/netherite_beacon_powered",
+    "glass": "minecraft:block/glass",
+    "obsidian": "minecraft:block/netherite_block",
+    "particle": "minecraft:block/glass"
+  }
+}

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021-2023 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2026 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,23 +24,33 @@
 
 package com.oroarmor.netherite_plus.mixin;
 
-import com.oroarmor.netherite_plus.block.NetheriteShulkerBoxBlock;
+import com.oroarmor.netherite_plus.tags.NetheritePlusBlockTags;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import net.minecraft.core.Direction;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 @Mixin(ShulkerBoxBlockEntity.class)
-public class ShulkerBoxBlockEntityMixin {
-    @Inject(method = "canPlaceItemThroughFace", at = @At("HEAD"), cancellable = true)
-    public void canInsert(int slot, ItemStack stack, Direction dir, CallbackInfoReturnable<Boolean> cir) {
-        if (Block.byItem(stack.getItem()) instanceof NetheriteShulkerBoxBlock) {
-            cir.setReturnValue(false);
+public abstract class ShulkerBoxBlockEntityMixin extends RandomizableContainerBlockEntity {
+    @Unique
+    private static final Component NETHERITE_NAME = Component.translatable("container.netheriteShulkerBox");
+
+    protected ShulkerBoxBlockEntityMixin(BlockEntityType<?> type, BlockPos worldPosition, BlockState blockState) {
+        super(type, worldPosition, blockState);
+    }
+
+    @Inject(method = "getDefaultName", at = @At("HEAD"), cancellable = true)
+    void useNetheriteShulkerBoxName(CallbackInfoReturnable<Component> cir) {
+        if (this.getBlockState().is(NetheritePlusBlockTags.NETHERITE_SHULKER_BOXES)) {
+            cir.setReturnValue(NETHERITE_NAME);
         }
     }
 }

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/template_shulker_box",
+  "textures": {
+    "particle": "netherite_plus:block/brown_netherite_shulker_box"
+  }
+}

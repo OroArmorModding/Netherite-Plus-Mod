@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "#minecraft:netherite_tool_materials",
+  "base": "minecraft:shield",
+  "result": {
+    "id": "netherite_plus:netherite_shield"
+  },
+  "template": "minecraft:netherite_upgrade_smithing_template"
+}
