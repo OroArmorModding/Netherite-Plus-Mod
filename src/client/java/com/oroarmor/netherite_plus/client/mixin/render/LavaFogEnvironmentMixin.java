@@ -43,7 +43,7 @@ import net.minecraft.world.entity.LivingEntity;
 
 @Environment(EnvType.CLIENT)
 @Mixin(LavaFogEnvironment.class)
-public class BackgroundRendererMixin {
+public class LavaFogEnvironmentMixin {
     @Inject(at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/fog/FogData;cloudEnd:F", opcode = Opcodes.PUTFIELD), method = "setupFog")
     private static void applyFog(FogData fog, Camera camera, ClientLevel level, float renderDistance, DeltaTracker deltaTracker, CallbackInfo ci) {
         if (camera.entity() instanceof LivingEntity livingEntity && livingEntity.hasEffect(NetheritePlusStatusEffects.LAVA_VISION)) {

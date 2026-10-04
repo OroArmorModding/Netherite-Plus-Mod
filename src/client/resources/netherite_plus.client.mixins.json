@@ -6,12 +6,12 @@
   "mixins": [
   ],
   "client": [
-    "render.BackgroundRendererMixin",
+    "render.LavaFogEnvironmentMixin",
     "render.ShieldSpecialRendererMixin",
     "render.ShulkerBoxRendererMixin",
     "render.ShulkerBoxSpecialRendererUnbakedMixin",
     "render.trident.DrownedRendererMixin",
-    "render.trident.TridentEntityRendererMixin",
+    "render.trident.ThrownTridentRendererMixin",
     "render.trident.TridentSpecialRendererMixin"
   ],
   "injectors": {

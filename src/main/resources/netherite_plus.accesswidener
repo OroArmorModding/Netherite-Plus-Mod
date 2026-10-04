@@ -1,26 +1,3 @@
 accessWidener	v1	official
 
-extendable class net/minecraft/world/entity/projectile/FishingHook$FishHookState
-extendable class net/minecraft/world/entity/projectile/FishingHook$OpenWaterType
-
-accessible field net/minecraft/world/entity/projectile/FishingHook syncronizedRandom Lnet/minecraft/util/RandomSource;
-accessible field net/minecraft/world/entity/projectile/FishingHook biting Z
-accessible field net/minecraft/world/entity/projectile/FishingHook outOfWaterTime I
-accessible field net/minecraft/world/entity/projectile/FishingHook life I
-accessible field net/minecraft/world/entity/projectile/FishingHook nibble I
-accessible field net/minecraft/world/entity/projectile/FishingHook timeUntilLured I
-accessible field net/minecraft/world/entity/projectile/FishingHook timeUntilHooked I
-accessible field net/minecraft/world/entity/projectile/FishingHook fishAngle F
-accessible field net/minecraft/world/entity/projectile/FishingHook openWater Z
-accessible field net/minecraft/world/entity/projectile/FishingHook hookedIn Lnet/minecraft/world/entity/Entity;
-accessible field net/minecraft/world/entity/projectile/FishingHook currentState Lnet/minecraft/world/entity/projectile/FishingHook$FishHookState;
-accessible field net/minecraft/world/entity/projectile/FishingHook luck I
-accessible field net/minecraft/world/entity/projectile/FishingHook lureSpeed I
-
-accessible field net/minecraft/world/entity/projectile/FishingHook DATA_HOOKED_ENTITY Lnet/minecraft/network/syncher/EntityDataAccessor;
-accessible field net/minecraft/world/entity/projectile/FishingHook DATA_BITING Lnet/minecraft/network/syncher/EntityDataAccessor;
-
 accessible method net/minecraft/world/effect/MobEffect <init> (Lnet/minecraft/world/effect/MobEffectCategory;I)V
-
-mutable field net/minecraft/world/entity/ai/attributes/AttributeModifier amount D
-accessible field net/minecraft/world/entity/ai/attributes/AttributeModifier amount D
