@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Report a crash or bug with Netherite Plus
-title: "[Fabric | Forge] - Bug/Issue"
+title: "Bug/Issue - [Insert Short Description Here]"
 labels: bug
 assignees: ''
 

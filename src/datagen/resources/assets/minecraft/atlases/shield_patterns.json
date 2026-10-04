@@ -1,0 +1,9 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:directory",
+      "prefix": "entity/netherite_shield/",
+      "source": "entity/netherite_shield"
+    }
+  ]
+}

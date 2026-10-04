@@ -1,0 +1,26 @@
+{
+  "parent": "netherite_plus:netherite_plus/netherite_trident",
+  "criteria": {
+    "netherite_plus/netherite_trident_special": {
+      "trigger": "netherite_plus:riptide_netherite_trident"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.netherite_plus.netherite_plus/netherite_trident_special.description"
+    },
+    "frame": "challenge",
+    "hidden": true,
+    "icon": {
+      "id": "netherite_plus:netherite_trident"
+    },
+    "title": {
+      "translate": "advancements.netherite_plus.netherite_plus/netherite_trident_special.title"
+    }
+  },
+  "requirements": [
+    [
+      "netherite_plus/netherite_trident_special"
+    ]
+  ]
+}

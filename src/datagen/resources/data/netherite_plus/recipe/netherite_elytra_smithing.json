@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "#minecraft:netherite_tool_materials",
+  "base": "minecraft:elytra",
+  "result": {
+    "id": "netherite_plus:netherite_elytra"
+  },
+  "template": "minecraft:netherite_upgrade_smithing_template"
+}

@@ -1,0 +1,31 @@
+{
+  "parent": "netherite_plus:netherite_plus/root",
+  "criteria": {
+    "netherite_plus/fake_netherite_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "netherite_plus:fake_netherite_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.netherite_plus.netherite_plus/fake_netherite_block.description"
+    },
+    "icon": {
+      "id": "netherite_plus:fake_netherite_block"
+    },
+    "title": {
+      "translate": "advancements.netherite_plus.netherite_plus/fake_netherite_block.title"
+    }
+  },
+  "requirements": [
+    [
+      "netherite_plus/fake_netherite_block"
+    ]
+  ]
+}

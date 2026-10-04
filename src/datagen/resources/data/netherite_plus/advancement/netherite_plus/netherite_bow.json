@@ -1,0 +1,42 @@
+{
+  "parent": "netherite_plus:netherite_plus/root",
+  "criteria": {
+    "netherite_bow": {
+      "conditions": {
+        "items": [
+          {
+            "items": "netherite_plus:netherite_bow"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "netherite_crossbow": {
+      "conditions": {
+        "items": [
+          {
+            "items": "netherite_plus:netherite_crossbow"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.netherite_plus.netherite_plus/netherite_bow.description"
+    },
+    "icon": {
+      "id": "netherite_plus:netherite_bow"
+    },
+    "title": {
+      "translate": "advancements.netherite_plus.netherite_plus/netherite_bow.title"
+    }
+  },
+  "requirements": [
+    [
+      "netherite_bow",
+      "netherite_crossbow"
+    ]
+  ]
+}

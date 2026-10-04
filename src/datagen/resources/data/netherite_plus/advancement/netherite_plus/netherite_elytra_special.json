@@ -1,0 +1,45 @@
+{
+  "parent": "netherite_plus:netherite_plus/netherite_elytra",
+  "criteria": {
+    "flew_10km": {
+      "conditions": {
+        "player": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:type_specific/player": {
+              "stats": [
+                {
+                  "type": "minecraft:custom",
+                  "stat": "netherite_plus:netherite_elytra_flight_cm",
+                  "value": {
+                    "min": 1000000
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "trigger": "minecraft:tick"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.netherite_plus.netherite_plus/netherite_elytra_special.description"
+    },
+    "frame": "challenge",
+    "hidden": true,
+    "icon": {
+      "id": "netherite_plus:netherite_elytra"
+    },
+    "title": {
+      "translate": "advancements.netherite_plus.netherite_plus/netherite_elytra_special.title"
+    }
+  },
+  "requirements": [
+    [
+      "flew_10km"
+    ]
+  ]
+}

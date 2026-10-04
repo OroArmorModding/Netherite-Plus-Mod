@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021-2023 OroArmor (Eli Orona)
+ * Copyright (c) 2021-2026 OroArmor (Eli Orona)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,114 +24,104 @@
 
 package com.oroarmor.netherite_plus.config;
 
-import org.quiltmc.config.api.ReflectiveConfig;
-import org.quiltmc.config.api.annotations.Comment;
-import org.quiltmc.config.api.annotations.FloatRange;
-import org.quiltmc.config.api.values.TrackedValue;
+import folk.sisby.kaleido.api.WrappedConfig;
+import folk.sisby.kaleido.lib.quiltconfig.api.annotations.Comment;
+import folk.sisby.kaleido.lib.quiltconfig.api.annotations.FloatRange;
+import folk.sisby.kaleido.lib.quiltconfig.api.annotations.IntegerRange;
+import folk.sisby.kaleido.lib.quiltconfig.api.annotations.SerializedNameConvention;
+import folk.sisby.kaleido.lib.quiltconfig.api.metadata.NamingSchemes;
 
-public final class NetheritePlusConfig extends ReflectiveConfig {
+public class NetheritePlusConfig extends WrappedConfig {
     @Comment("Config values for anvils")
-    public final AnvilConfigs anvil = new AnvilConfigs();
-
+    public AnvilConfigs anvil = new AnvilConfigs();
     @Comment("Config values for damage")
-    public final DamageConfigs damage = new DamageConfigs();
+    public DamageConfigs damage = new DamageConfigs();
 
     @Comment("Config values for durability")
-    public final DurabilityConfigs durability = new DurabilityConfigs();
-
-    @Comment("Config values for enabled features")
-    public final EnabledConfigs enabled = new EnabledConfigs();
+    public DurabilityConfigs durability = new DurabilityConfigs();
 
     @Comment("Config values for graphics")
-    public final GraphicsConfigs graphics = new GraphicsConfigs();
+    public GraphicsConfigs graphics = new GraphicsConfigs();
 
-//    public static void createLavaVisionUpdatePacket(Double configItem) {
-//        PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
-//        passedData.writeDouble(configItem.getValue());
-//        NetheritePlusMod.CONNECTED_CLIENTS.forEach(_player -> NetworkManager.sendToPlayer((ServerPlayerEntity) _player, LavaVisionUpdatePacket.ID, passedData));
-//    }
-//
-//    public static void createLavaVisionUpdatePacket(PlayerEntity player) {
-//        PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
-//        passedData.writeDouble(GRAPHICS.LAVA_VISION_DISTANCE.getValue());
-//        NetworkManager.sendToPlayer((ServerPlayerEntity) player, LavaVisionUpdatePacket.ID, passedData);
-//    }
-
-    public static class AnvilConfigs extends org.quiltmc.config.api.ReflectiveConfig.Section {
+    public static class AnvilConfigs implements Section {
         @FloatRange(min = 0, max = 1)
         @Comment("The xp reduction percentage.")
-        public final TrackedValue<Double> xp_reduction = value(0.5);
+        @SerializedNameConvention(NamingSchemes.SNAKE_CASE)
+        public float xpReduction = 0.5f;
     }
 
-    public static class DamageConfigs extends org.quiltmc.config.api.ReflectiveConfig.Section {
-        @FloatRange(min = 0, max = Double.MAX_VALUE)
+    public static class DamageConfigs implements Section {
+        @FloatRange(min = 0, max = Float.MAX_VALUE)
         @Comment("The bow damage addition over vanilla.")
-        public final TrackedValue<Double> bow_damage_addition = value(0.0);
-        @FloatRange(min = 0, max = Double.MAX_VALUE)
+        @SerializedNameConvention(NamingSchemes.SNAKE_CASE)
+        public float bow_damage_addition = 0.0f;
+
+        @FloatRange(min = 0, max = Float.MAX_VALUE)
         @Comment("The bow damage multiplier.")
-        public final TrackedValue<Double> bow_damage_multiplier = value(1.0);
-        @FloatRange(min = 0, max = Double.MAX_VALUE)
+        @SerializedNameConvention(NamingSchemes.SNAKE_CASE)
+        public float bowDamageMultiplier = 1.0f;
+
+        @FloatRange(min = 0, max = Float.MAX_VALUE)
         @Comment("The crossbow damage addition over vanilla.")
-        public final TrackedValue<Double> crossbow_damage_addition = value(0.0);
-        @FloatRange(min = 0, max = Double.MAX_VALUE)
+        @SerializedNameConvention(NamingSchemes.SNAKE_CASE)
+        public float crossbowDamageAddition = 0.0f;
+
+        @FloatRange(min = 0, max = Float.MAX_VALUE)
         @Comment("The crossbow damage multiplier.")
-        public final TrackedValue<Double> crossbow_damage_multiplier = value(1.0);
-        @FloatRange(min = 0, max = Double.MAX_VALUE)
+        @SerializedNameConvention(NamingSchemes.SNAKE_CASE)
+        public float crossbowDamageMultiplier = 1.0f;
+
+        @FloatRange(min = 0, max = Float.MAX_VALUE)
         @Comment("The trident damage addition over vanilla.")
-        public final TrackedValue<Double> trident_damage_addition = value(0.0);
-        @FloatRange(min = 0, max = Double.MAX_VALUE)
+        @SerializedNameConvention(NamingSchemes.SNAKE_CASE)
+        public Double tridentDamageAddition = 0.0;
+
+        @FloatRange(min = 0, max = Float.MAX_VALUE)
         @Comment("The trident damage multiplier.")
-        public final TrackedValue<Double> trident_damage_multiplier = value(1.0);
+        @SerializedNameConvention(NamingSchemes.SNAKE_CASE)
+        public Double tridentDamageMultiplier = 1.0;
+
+        @IntegerRange(min = 0, max = Integer.MAX_VALUE)
         @Comment("The elytra armor points.")
-        public final TrackedValue<Integer> elytra_armor_points = value(4);
+        @SerializedNameConvention(NamingSchemes.SNAKE_CASE)
+        public Integer elytraArmorPoints = 4;
+
     }
 
-    public static class DurabilityConfigs extends org.quiltmc.config.api.ReflectiveConfig.Section {
+    public static class DurabilityConfigs implements Section {
+        @IntegerRange(min = 0, max = Integer.MAX_VALUE)
         @Comment("The bow durability points.")
-        public final TrackedValue<Integer> bow = value(768);
+        public Integer bow = 768;
+
+        @IntegerRange(min = 0, max = Integer.MAX_VALUE)
         @Comment("The crossbow durability points.")
-        public final TrackedValue<Integer> crossbow = value(562);
+        public Integer crossbow = 562;
+
+        @IntegerRange(min = 0, max = Integer.MAX_VALUE)
         @Comment("The elytra durability points.")
-        public final TrackedValue<Integer> elytra = value(864);
+        public Integer elytra = 864;
+
+        @IntegerRange(min = 0, max = Integer.MAX_VALUE)
         @Comment("The fishing rod durability points.")
-        public final TrackedValue<Integer> fishing_rod = value(128);
+        public Integer fishing_rod = 128;
+
+        @IntegerRange(min = 0, max = Integer.MAX_VALUE)
         @Comment("The shield durability points.")
-        public final TrackedValue<Integer> shield = value(672);
+        public Integer shield = 672;
+
+        @IntegerRange(min = 0, max = Integer.MAX_VALUE)
         @Comment("The trident durability points.")
-        public final TrackedValue<Integer> trident = value(500);
+        public Integer trident = 500;
+
+        @IntegerRange(min = 0, max = Integer.MAX_VALUE)
         @Comment("The shears durability points.")
-        public final TrackedValue<Integer> shears = value(476);
+        public Integer shears = 476;
     }
 
-    public static class EnabledConfigs extends org.quiltmc.config.api.ReflectiveConfig.Section {
-        @Comment("Enables debug print feature.")
-        public final TrackedValue<Boolean> config_debug_print = value(false);
-        @Comment("Enables anvil features.")
-        public final TrackedValue<Boolean> anvils = value(true);
-        @Comment("Enables bow and crossbow features.")
-        public final TrackedValue<Boolean> bows_and_crossbows = value(true);
-        @Comment("Enables elytra features.")
-        public final TrackedValue<Boolean> elytra = value(true);
-        @Comment("Enables fake netherite block features.")
-        public final TrackedValue<Boolean> fake_netherite_blocks = value(true);
-        @Comment("Enables fishing rod features.")
-        public final TrackedValue<Boolean> fishing_rod = value(true);
-        @Comment("Enables horse armor features.")
-        public final TrackedValue<Boolean> horse_armor = value(true);
-        @Comment("Enables shields features.")
-        public final TrackedValue<Boolean> shields = value(false);
-        @Comment("Enables shulker box features.")
-        public final TrackedValue<Boolean> shulker_boxes = value(true);
-        @Comment("Enables trident features.")
-        public final TrackedValue<Boolean> trident = value(true);
-        @Comment("Enables beacon features.")
-        public final TrackedValue<Boolean> beacon = value(true);
-        @Comment("Enables shears features.")
-        public final TrackedValue<Boolean> shears = value(true);
-    }
-
-    public static class GraphicsConfigs extends org.quiltmc.config.api.ReflectiveConfig.Section {
+    public static class GraphicsConfigs implements Section {
+        @FloatRange(min = 0, max = Float.MAX_VALUE)
         @Comment("Distance to see in lava.")
-        public final TrackedValue<Double> lava_vision_distance = value(0.25);
+        @SerializedNameConvention(NamingSchemes.SNAKE_CASE)
+        public float lavaVisionDistance = 0.25f;
     }
 }

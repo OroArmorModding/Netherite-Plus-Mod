@@ -1,0 +1,31 @@
+{
+  "parent": "netherite_plus:netherite_plus/root",
+  "criteria": {
+    "netherite_plus/netherite_shield": {
+      "conditions": {
+        "items": [
+          {
+            "items": "netherite_plus:netherite_shield"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.netherite_plus.netherite_plus/netherite_shield.description"
+    },
+    "icon": {
+      "id": "netherite_plus:netherite_shield"
+    },
+    "title": {
+      "translate": "advancements.netherite_plus.netherite_plus/netherite_shield.title"
+    }
+  },
+  "requirements": [
+    [
+      "netherite_plus/netherite_shield"
+    ]
+  ]
+}

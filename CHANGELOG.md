@@ -1,3 +1,9 @@
+Version 3.0.0-beta.1
+- Update to Minecraft 26.3
+- Move back to Fabric
+- Modernize Project
+- Fix a lot of small issues with the mod
+----
 Version 2.2.0
 
 - Update to Minecraft 1.20.1
