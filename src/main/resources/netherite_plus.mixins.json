@@ -13,7 +13,7 @@
     "ShulkerBoxBlockEntityMixin",
     "fishing.FishingHookMixin",
     "fishing.FishingRodItemMixin",
-    "shears.BlockPlayerWillDestroyMixin",
+    "shears.TripWireBlockMixin",
     "shears.BlockUseItemOnMixin",
     "shears.EntityInteractMixin",
     "shears.EntityMobInteractMixin",
