@@ -30,9 +30,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
-import com.oroarmor.netherite_plus.loot.NetheritePlusLootManager;
-import com.oroarmor.netherite_plus.world.entity.NetheritePlusEntityAttachments;
-import com.oroarmor.netherite_plus.world.item.NetheritePlusItems;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -60,88 +57,99 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.storage.loot.LootTable;
 
+import com.oroarmor.netherite_plus.loot.NetheritePlusLootManager;
+import com.oroarmor.netherite_plus.world.entity.NetheritePlusEntityAttachments;
+import com.oroarmor.netherite_plus.world.item.NetheritePlusItems;
+
 @Mixin(FishingHook.class)
 public abstract class FishingHookMixin extends Projectile {
-    public FishingHookMixin(EntityType<? extends Projectile> type, Level level) {
-        super(type, level);
-    }
+	public FishingHookMixin(EntityType<? extends Projectile> type, Level level) {
+		super(type, level);
+	}
 
-    @Unique
-    boolean isNetheriteHook() {
-        return this.getAttachedOrElse(NetheritePlusEntityAttachments.IS_NETHERITE, false);
-    }
+	@Unique
+	boolean isNetheriteHook() {
+		return this.getAttachedOrElse(NetheritePlusEntityAttachments.IS_NETHERITE, false);
+	}
 
-    @Definition(id = "is", method = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/TagKey;)Z")
-    @Definition(id = "WATER", field = "Lnet/minecraft/tags/FluidTags;WATER:Lnet/minecraft/tags/TagKey;")
-    @Expression("?.is(WATER)")
-    @WrapOperation(method = {"tick", "getOpenWaterTypeForBlock"}, at = @At("MIXINEXTRAS:EXPRESSION"))
-    boolean allowInLava(FluidState instance, TagKey<Fluid> tagKey, Operation<Boolean> original) {
-        return original.call(instance, tagKey) || this.isNetheriteHook() && original.call(instance, FluidTags.LAVA);
-    }
+	@Definition(id = "is", method = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/TagKey;)Z")
+	@Definition(id = "WATER", field = "Lnet/minecraft/tags/FluidTags;WATER:Lnet/minecraft/tags/TagKey;")
+	@Expression("?.is(WATER)")
+	@WrapOperation(method = {"tick", "getOpenWaterTypeForBlock"}, at = @At("MIXINEXTRAS:EXPRESSION"))
+	boolean allowInLava(FluidState instance, TagKey<Fluid> tagKey, Operation<Boolean> original) {
+		return original.call(instance, tagKey) || this.isNetheriteHook() && original.call(instance, FluidTags.LAVA);
+	}
 
+	@ModifyConstant(method = "tick", constant = @Constant(doubleValue = 0.2))
+	double provideLavaUpwardForce(double constant) {
+		return this.isNetheriteHook() ? 0.4 : constant;
+	}
 
-    @ModifyConstant(method = "tick", constant = @Constant(doubleValue = 0.2))
-    double provideLavaUpwardForce(double constant) {
-        return this.isNetheriteHook() ? 0.4 : constant;
-    }
+	@Definition(id = "is", method = "Lnet/minecraft/world/item/ItemStack;is(Ljava/lang/Object;)Z")
+	@Definition(id = "FISHING_ROD", field = "Lnet/minecraft/world/item/Items;FISHING_ROD:Lnet/minecraft/world/item/Item;")
+	@Expression("?.is(FISHING_ROD)")
+	@WrapOperation(method = "shouldStopFishing", at = @At("MIXINEXTRAS:EXPRESSION"))
+	boolean allowHoldingNetheriteRod(ItemStack instance, Object item, Operation<Boolean> original) {
+		return original.call(instance, item) || this.isNetheriteHook() && original.call(instance, NetheritePlusItems.NETHERITE_FISHING_ROD);
+	}
 
-    @Definition(id = "is", method = "Lnet/minecraft/world/item/ItemStack;is(Ljava/lang/Object;)Z")
-    @Definition(id = "FISHING_ROD", field = "Lnet/minecraft/world/item/Items;FISHING_ROD:Lnet/minecraft/world/item/Item;")
-    @Expression("?.is(FISHING_ROD)")
-    @WrapOperation(method = "shouldStopFishing", at = @At("MIXINEXTRAS:EXPRESSION"))
-    boolean allowHoldingNetheriteRod(ItemStack instance, Object item, Operation<Boolean> original) {
-        return original.call(instance, item) || this.isNetheriteHook() && original.call(instance, NetheritePlusItems.NETHERITE_FISHING_ROD);
-    }
+	@Inject(method = "catchingFish", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/FishingHook;playSound(Lnet/minecraft/sounds/SoundEvent;FF)V"))
+	void allowLavaForParticles(BlockPos blockPos, CallbackInfo ci, @Share("isInLava") LocalRef<Boolean> isInLavaRef) {
+		isInLavaRef.set(this.isNetheriteHook() && this
+				.level()
+				.getFluidState(this.blockPosition())
+				.is(FluidTags.LAVA));
+	}
 
-    @Inject(method = "catchingFish", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/FishingHook;playSound(Lnet/minecraft/sounds/SoundEvent;FF)V"))
-    void allowLavaForParticles(BlockPos blockPos, CallbackInfo ci, @Share("isInLava") LocalRef<Boolean> isInLavaRef) {
-        isInLavaRef.set(this.isNetheriteHook() && this.level().getFluidState(this.blockPosition()).is(FluidTags.LAVA));
-    }
+	@WrapOperation(method = "catchingFish", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z"))
+	boolean allowLavaForParticles(BlockState instance, Object block, Operation<Boolean> original, @Share("isInLava") LocalRef<Boolean> isInLavaRef) {
+		boolean isInLava = this.isNetheriteHook() && original.call(instance, Blocks.LAVA);
+		isInLavaRef.set(isInLava);
+		return original.call(instance, block) || isInLava;
+	}
 
-    @WrapOperation(method = "catchingFish", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z"))
-    boolean allowLavaForParticles(BlockState instance, Object block, Operation<Boolean> original, @Share("isInLava") LocalRef<Boolean> isInLavaRef) {
-        boolean isInLava = this.isNetheriteHook() && original.call(instance, Blocks.LAVA);
-        isInLavaRef.set(isInLava);
-        return original.call(instance, block) || isInLava;
-    }
+	@SuppressWarnings("unchecked")
+	@ModifyArg(method = "catchingFish", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;sendParticles(Lnet/minecraft/core/particles/ParticleOptions;DDDIDDDD)I"))
+	<T extends ParticleOptions> T useLavaFishingParticles(T particle, @Share("isInLava") LocalRef<Boolean> isInLavaRef) {
+		if (!this.isNetheriteHook() || !isInLavaRef.get()) {
+			return particle;
+		} else if (particle == ParticleTypes.BUBBLE) {
+			return (T) ParticleTypes.LANDING_LAVA;
+		} else if (particle == ParticleTypes.FISHING) {
+			return (T) ParticleTypes.FLAME;
+		} else if (particle == ParticleTypes.SPLASH) {
+			return (T) ParticleTypes.SMOKE;
+		} else {
+			return particle;
+		}
+	}
 
-    @SuppressWarnings("unchecked")
-    @ModifyArg(method = "catchingFish", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;sendParticles(Lnet/minecraft/core/particles/ParticleOptions;DDDIDDDD)I"))
-    <T extends ParticleOptions> T useLavaFishingParticles(T particle, @Share("isInLava") LocalRef<Boolean> isInLavaRef) {
-        if (!this.isNetheriteHook() || !isInLavaRef.get()) {
-            return particle;
-        } else if (particle == ParticleTypes.BUBBLE) {
-            return (T) ParticleTypes.LANDING_LAVA;
-        } else if (particle == ParticleTypes.FISHING) {
-            return (T) ParticleTypes.FLAME;
-        } else if (particle == ParticleTypes.SPLASH) {
-            return (T) ParticleTypes.SMOKE;
-        } else {
-            return particle;
-        }
-    }
+	@ModifyArg(method = "retrieve", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/ReloadableServerRegistries$Holder;getLootTable(Lnet/minecraft/resources/ResourceKey;)Lnet/minecraft/world/level/storage/loot/LootTable;"))
+	ResourceKey<LootTable> useLavaFishingLootTable(ResourceKey<LootTable> id) {
+		if (this.isNetheriteHook()) {
+			BlockPos blockPos = this.blockPosition();
+			FluidState fluidState = this
+					.level()
+					.getFluidState(blockPos);
+			FluidState fluidStateBelow = this
+					.level()
+					.getFluidState(blockPos.below());
 
-    @ModifyArg(method = "retrieve", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/ReloadableServerRegistries$Holder;getLootTable(Lnet/minecraft/resources/ResourceKey;)Lnet/minecraft/world/level/storage/loot/LootTable;"))
-    ResourceKey<LootTable> useLavaFishingLootTable(ResourceKey<LootTable> id) {
-        if (this.isNetheriteHook()) {
-            BlockPos blockPos = this.blockPosition();
-            FluidState fluidState = this.level().getFluidState(blockPos);
-            FluidState fluidStateBelow = this.level().getFluidState(blockPos.below());
+			if (fluidState.is(FluidTags.LAVA) || fluidStateBelow.is(FluidTags.LAVA)) {
+				return NetheritePlusLootManager.LAVA_FISHING_LOOT_TABLE;
+			}
+		}
 
-            if (fluidState.is(FluidTags.LAVA) || fluidStateBelow.is(FluidTags.LAVA)) {
-                return NetheritePlusLootManager.LAVA_FISHING_LOOT_TABLE;
-            }
-        }
+		return id;
+	}
 
-        return id;
-    }
+	@ModifyArg(method = "retrieve", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"))
+	Entity makeLavaFishingInvulnerableForHalfASecond(Entity entity) {
+		if (this.isNetheriteHook()) {
+			// TODO: only for lava fishing?
+			entity.setInvulnerableTime(10);
+		}
 
-    @ModifyArg(method = "retrieve", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"))
-    Entity makeLavaFishingInvulnerableForHalfASecond(Entity entity) {
-        if (this.isNetheriteHook()) {
-            // TODO: only for lava fishing?
-            entity.setInvulnerableTime(10);
-        }
-        return entity;
-    }
+		return entity;
+	}
 }

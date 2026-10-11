@@ -26,35 +26,38 @@ package com.oroarmor.netherite_plus.data.tags;
 
 import java.util.concurrent.CompletableFuture;
 
-import com.oroarmor.netherite_plus.tags.NetheritePlusBlockTags;
-import com.oroarmor.netherite_plus.world.level.block.NetheritePlusBlockItemsIds;
-import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
-
 import net.minecraft.core.HolderLookup;
 import net.minecraft.references.BlockItemId;
 import net.minecraft.tags.BlockTags;
 
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
+
+import com.oroarmor.netherite_plus.tags.NetheritePlusBlockTags;
+import com.oroarmor.netherite_plus.world.level.block.NetheritePlusBlockItemsIds;
+
 public class NetheritePlusBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
+	public NetheritePlusBlockTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookupFuture) {
+		super(output, registryLookupFuture);
+	}
 
-    public NetheritePlusBlockTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookupFuture) {
-        super(output, registryLookupFuture);
-    }
+	@Override
+	protected void addTags(HolderLookup.Provider registries) {
+		this
+				.builder(NetheritePlusBlockTags.NETHERITE_SHULKER_BOXES)
+				.add(NetheritePlusBlockItemsIds.NETHERITE_SHULKER_BOX)
+				.addAll(NetheritePlusBlockItemsIds.DYED_NETHERITE_SHULKER_BOX.map(BlockItemId::block));
 
-    @Override
-    protected void addTags(HolderLookup.Provider registries) {
-        this.builder(NetheritePlusBlockTags.NETHERITE_SHULKER_BOXES)
-                .add(NetheritePlusBlockItemsIds.NETHERITE_SHULKER_BOX)
-                .addAll(NetheritePlusBlockItemsIds.DYED_NETHERITE_SHULKER_BOX.map(BlockItemId::block));
+		this
+				.builder(NetheritePlusBlockTags.DYED_NETHERITE_SHULKER_BOXES)
+				.addAll(NetheritePlusBlockItemsIds.DYED_NETHERITE_SHULKER_BOX.map(BlockItemId::block));
 
-        this.builder(NetheritePlusBlockTags.DYED_NETHERITE_SHULKER_BOXES)
-                .addAll(NetheritePlusBlockItemsIds.DYED_NETHERITE_SHULKER_BOX.map(BlockItemId::block));
+		this
+				.builder(BlockTags.BEACON_BASE_BLOCKS)
+				.add(NetheritePlusBlockItemsIds.FAKE_NETHERITE_BLOCK.block());
 
-
-        this.builder(BlockTags.BEACON_BASE_BLOCKS)
-                .add(NetheritePlusBlockItemsIds.FAKE_NETHERITE_BLOCK.block());
-
-        this.builder(BlockTags.ANVIL)
-                .add(NetheritePlusBlockItemsIds.NETHERITE_ANVIL.block());
-    }
+		this
+				.builder(BlockTags.ANVIL)
+				.add(NetheritePlusBlockItemsIds.NETHERITE_ANVIL.block());
+	}
 }

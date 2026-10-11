@@ -26,24 +26,25 @@ package com.oroarmor.netherite_plus.client.model.geom;
 
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
-import com.oroarmor.netherite_plus.client.renderer.special.NetheriteShieldSpecialRenderer;
-import com.oroarmor.netherite_plus.client.renderer.special.NetheriteTridentSpecialRenderer;
-import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
-
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.object.equipment.ShieldModel;
 import net.minecraft.client.model.object.projectile.TridentModel;
 import net.minecraft.client.renderer.special.SpecialModelRenderers;
 
+import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
+
+import com.oroarmor.netherite_plus.client.renderer.special.NetheriteShieldSpecialRenderer;
+import com.oroarmor.netherite_plus.client.renderer.special.NetheriteTridentSpecialRenderer;
+
 public class NetheritePlusModelLayers {
-    public static final ModelLayerLocation NETHERITE_SHIELD = new ModelLayerLocation(id("netherite_shield"), "main");
-    public static final ModelLayerLocation NETHERITE_TRIDENT = new ModelLayerLocation(id("netherite_trident"), "main");
+	public static final ModelLayerLocation NETHERITE_SHIELD = new ModelLayerLocation(id("netherite_shield"), "main");
+	public static final ModelLayerLocation NETHERITE_TRIDENT = new ModelLayerLocation(id("netherite_trident"), "main");
 
-    public static void init() {
-        SpecialModelRenderers.ID_MAPPER.put(id("netherite_shield"), NetheriteShieldSpecialRenderer.Unbaked.MAP_CODEC);
-        ModelLayerRegistry.registerModelLayer(NETHERITE_SHIELD, ShieldModel::createLayer);
+	public static void init() {
+		SpecialModelRenderers.ID_MAPPER.put(id("netherite_shield"), NetheriteShieldSpecialRenderer.Unbaked.MAP_CODEC);
+		ModelLayerRegistry.registerModelLayer(NETHERITE_SHIELD, ShieldModel::createLayer);
 
-        SpecialModelRenderers.ID_MAPPER.put(id("netherite_trident"), NetheriteTridentSpecialRenderer.Unbaked.MAP_CODEC);
-        ModelLayerRegistry.registerModelLayer(NETHERITE_TRIDENT, TridentModel::createLayer);
-    }
+		SpecialModelRenderers.ID_MAPPER.put(id("netherite_trident"), NetheriteTridentSpecialRenderer.Unbaked.MAP_CODEC);
+		ModelLayerRegistry.registerModelLayer(NETHERITE_TRIDENT, TridentModel::createLayer);
+	}
 }

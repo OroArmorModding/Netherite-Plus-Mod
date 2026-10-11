@@ -32,9 +32,6 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
-import com.oroarmor.netherite_plus.world.item.NetheritePlusElytraComponents;
-import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
-
 import net.minecraft.client.resources.model.EquipmentClientInfo;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
@@ -42,34 +39,39 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+
+import com.oroarmor.netherite_plus.world.item.NetheritePlusElytraComponents;
+
 public class NetheritePlusEquipmentAssetProvider implements DataProvider {
-    private final PackOutput.PathProvider pathProvider;
+	private final PackOutput.PathProvider pathProvider;
 
-    public NetheritePlusEquipmentAssetProvider(final FabricPackOutput output) {
-        this.pathProvider = output.createPathProvider(PackOutput.Target.RESOURCE_PACK, "equipment");
-    }
+	public NetheritePlusEquipmentAssetProvider(final FabricPackOutput output) {
+		this.pathProvider = output.createPathProvider(PackOutput.Target.RESOURCE_PACK, "equipment");
+	}
 
-    private static void bootstrap(final BiConsumer<ResourceKey<EquipmentAsset>, EquipmentClientInfo> consumer) {
-        consumer.accept(
-                NetheritePlusElytraComponents.NETHERITE_ELYTRA_EQUIPMENT_ASSET,
-                EquipmentClientInfo.builder()
-                        .addLayers(EquipmentClientInfo.LayerType.WINGS, new EquipmentClientInfo.Layer(id("netherite_elytra"), Optional.empty(), true))
-                        .build()
-        );
-    }
+	private static void bootstrap(final BiConsumer<ResourceKey<EquipmentAsset>, EquipmentClientInfo> consumer) {
+		consumer.accept(
+				NetheritePlusElytraComponents.NETHERITE_ELYTRA_EQUIPMENT_ASSET,
+				EquipmentClientInfo
+						.builder()
+						.addLayers(EquipmentClientInfo.LayerType.WINGS, new EquipmentClientInfo.Layer(id("netherite_elytra"), Optional.empty(), true))
+						.build()
+		);
+	}
 
-    public CompletableFuture<?> run(final CachedOutput cache) {
-        Map<ResourceKey<EquipmentAsset>, EquipmentClientInfo> equipmentAssets = new HashMap<>();
-        bootstrap((id, asset) -> {
-            if (equipmentAssets.putIfAbsent(id, asset) != null) {
-                throw new IllegalStateException("Tried to register equipment asset twice for id: " + id);
-            }
-        });
-        return DataProvider.saveAll(cache, EquipmentClientInfo.CODEC, this.pathProvider::json, equipmentAssets);
-    }
+	public CompletableFuture<?> run(final CachedOutput cache) {
+		Map<ResourceKey<EquipmentAsset>, EquipmentClientInfo> equipmentAssets = new HashMap<>();
+		bootstrap((id, asset) -> {
+			if (equipmentAssets.putIfAbsent(id, asset) != null) {
+				throw new IllegalStateException("Tried to register equipment asset twice for id: " + id);
+			}
+		});
+		return DataProvider.saveAll(cache, EquipmentClientInfo.CODEC, this.pathProvider::json, equipmentAssets);
+	}
 
-    @Override
-    public String getName() {
-        return "Netherite Plus Equipment Asset Definitions";
-    }
+	@Override
+	public String getName() {
+		return "Netherite Plus Equipment Asset Definitions";
+	}
 }

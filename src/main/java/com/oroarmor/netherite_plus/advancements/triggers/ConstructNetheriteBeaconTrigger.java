@@ -30,7 +30,6 @@ import java.util.Optional;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.oroarmor.netherite_plus.world.level.block.entity.NetheriteBeaconBlockEntity;
 
 import net.minecraft.advancements.predicates.MinMaxBounds;
 import net.minecraft.advancements.triggers.Criterion;
@@ -40,33 +39,40 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
+import com.oroarmor.netherite_plus.world.level.block.entity.NetheriteBeaconBlockEntity;
+
 public class ConstructNetheriteBeaconTrigger extends SimpleCriterionTrigger<ConstructNetheriteBeaconTrigger.TriggerInstance> {
-    public static final Identifier ID = id("construct_netherite_beacon");
+	public static final Identifier ID = id("construct_netherite_beacon");
 
-    public void trigger(ServerPlayer player, NetheriteBeaconBlockEntity beacon) {
-        this.trigger(player, (trigger) -> trigger.matches(beacon));
-    }
+	public void trigger(ServerPlayer player, NetheriteBeaconBlockEntity beacon) {
+		this.trigger(player, (trigger) -> trigger.matches(beacon));
+	}
 
-    @Override
-    public Codec<TriggerInstance> codec() {
-        return TriggerInstance.CODEC;
-    }
+	@Override
+	public Codec<TriggerInstance> codec() {
+		return TriggerInstance.CODEC;
+	}
 
-    public record TriggerInstance(Optional<Holder<LootItemCondition>> player, MinMaxBounds.Ints level) implements SimpleCriterionTrigger.SimpleInstance {
+	public record TriggerInstance(Optional<Holder<LootItemCondition>> player, MinMaxBounds.Ints level) implements SimpleCriterionTrigger.SimpleInstance {
+		public static final Codec<ConstructNetheriteBeaconTrigger.TriggerInstance> CODEC = RecordCodecBuilder.create(
+				(instance) -> instance
+						.group(
+								LootItemCondition.CODEC
+										.optionalFieldOf("player")
+										.forGetter(ConstructNetheriteBeaconTrigger.TriggerInstance::player),
+								MinMaxBounds.Ints.CODEC
+										.optionalFieldOf("level", MinMaxBounds.Ints.ANY)
+										.forGetter(ConstructNetheriteBeaconTrigger.TriggerInstance::level)
+						)
+						.apply(instance, ConstructNetheriteBeaconTrigger.TriggerInstance::new)
+		);
 
-        public static final Codec<ConstructNetheriteBeaconTrigger.TriggerInstance> CODEC = RecordCodecBuilder.create(
-                (instance) -> instance.group(
-                        LootItemCondition.CODEC.optionalFieldOf("player").forGetter(ConstructNetheriteBeaconTrigger.TriggerInstance::player),
-                        MinMaxBounds.Ints.CODEC.optionalFieldOf("level", MinMaxBounds.Ints.ANY).forGetter(ConstructNetheriteBeaconTrigger.TriggerInstance::level)
-                ).apply(instance, ConstructNetheriteBeaconTrigger.TriggerInstance::new)
-        );
+		public static Criterion<ConstructNetheriteBeaconTrigger.TriggerInstance> constructedBeacon(final MinMaxBounds.Ints level) {
+			return NetheritePlusCriteriaTriggers.CONSTRUCT_NETHERITE_BEACON.createCriterion(new ConstructNetheriteBeaconTrigger.TriggerInstance(Optional.empty(), level));
+		}
 
-        public static Criterion<ConstructNetheriteBeaconTrigger.TriggerInstance> constructedBeacon(final MinMaxBounds.Ints level) {
-            return NetheritePlusCriteriaTriggers.CONSTRUCT_NETHERITE_BEACON.createCriterion(new ConstructNetheriteBeaconTrigger.TriggerInstance(Optional.empty(), level));
-        }
-
-        public boolean matches(NetheriteBeaconBlockEntity beacon) {
-            return this.level.matches(beacon.getBeaconLevel());
-        }
-    }
+		public boolean matches(NetheriteBeaconBlockEntity beacon) {
+			return this.level.matches(beacon.getBeaconLevel());
+		}
+	}
 }

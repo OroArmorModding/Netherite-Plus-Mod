@@ -25,8 +25,6 @@
 package com.oroarmor.netherite_plus.client.renderer.special;
 
 import com.mojang.serialization.MapCodec;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.object.projectile.TridentModel;
@@ -34,22 +32,27 @@ import net.minecraft.client.renderer.special.NoDataSpecialModelRenderer;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.client.renderer.special.TridentSpecialRenderer;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 public class NetheriteTridentSpecialRenderer extends TridentSpecialRenderer {
-    public NetheriteTridentSpecialRenderer(final TridentModel model) {
-        super(model);
-    }
+	public NetheriteTridentSpecialRenderer(final TridentModel model) {
+		super(model);
+	}
 
-    @Environment(EnvType.CLIENT)
-    public record Unbaked() implements NoDataSpecialModelRenderer.Unbaked {
-        public static final MapCodec<NetheriteTridentSpecialRenderer.Unbaked> MAP_CODEC = MapCodec.unit(new NetheriteTridentSpecialRenderer.Unbaked());
+	@Environment(EnvType.CLIENT)
+	public record Unbaked() implements NoDataSpecialModelRenderer.Unbaked {
+		public static final MapCodec<NetheriteTridentSpecialRenderer.Unbaked> MAP_CODEC = MapCodec.unit(new NetheriteTridentSpecialRenderer.Unbaked());
 
-        @Override
-        public MapCodec<NetheriteTridentSpecialRenderer.Unbaked> type() {
-            return MAP_CODEC;
-        }
+		@Override
+		public MapCodec<NetheriteTridentSpecialRenderer.Unbaked> type() {
+			return MAP_CODEC;
+		}
 
-        public NetheriteTridentSpecialRenderer bake(final SpecialModelRenderer.BakingContext context) {
-            return new NetheriteTridentSpecialRenderer(new TridentModel(context.entityModelSet().bakeLayer(ModelLayers.TRIDENT)));
-        }
-    }
+		public NetheriteTridentSpecialRenderer bake(final SpecialModelRenderer.BakingContext context) {
+			return new NetheriteTridentSpecialRenderer(new TridentModel(context
+					.entityModelSet()
+					.bakeLayer(ModelLayers.TRIDENT)));
+		}
+	}
 }

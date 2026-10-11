@@ -32,96 +32,95 @@ import folk.sisby.kaleido.lib.quiltconfig.api.annotations.SerializedNameConventi
 import folk.sisby.kaleido.lib.quiltconfig.api.metadata.NamingSchemes;
 
 public class NetheritePlusConfig extends WrappedConfig {
-    @Comment("Config values for anvils")
-    public AnvilConfigs anvil = new AnvilConfigs();
-    @Comment("Config values for damage")
-    public DamageConfigs damage = new DamageConfigs();
+	@Comment("Config values for anvils")
+	public AnvilConfigs anvil = new AnvilConfigs();
+	@Comment("Config values for damage")
+	public DamageConfigs damage = new DamageConfigs();
 
-    @Comment("Config values for durability")
-    public DurabilityConfigs durability = new DurabilityConfigs();
+	@Comment("Config values for durability")
+	public DurabilityConfigs durability = new DurabilityConfigs();
 
-    @Comment("Config values for graphics")
-    public GraphicsConfigs graphics = new GraphicsConfigs();
+	@Comment("Config values for graphics")
+	public GraphicsConfigs graphics = new GraphicsConfigs();
 
-    public static class AnvilConfigs implements Section {
-        @FloatRange(min = 0, max = 1)
-        @Comment("The xp reduction percentage.")
-        @SerializedNameConvention(NamingSchemes.SNAKE_CASE)
-        public float xpReduction = 0.5f;
-    }
+	public static class AnvilConfigs implements Section {
+		@FloatRange(min = 0, max = 1)
+		@Comment("The xp reduction percentage.")
+		@SerializedNameConvention(NamingSchemes.SNAKE_CASE)
+		public float xpReduction = 0.5f;
+	}
 
-    public static class DamageConfigs implements Section {
-        @FloatRange(min = 0, max = Float.MAX_VALUE)
-        @Comment("The bow damage addition over vanilla.")
-        @SerializedNameConvention(NamingSchemes.SNAKE_CASE)
-        public float bow_damage_addition = 0.0f;
+	public static class DamageConfigs implements Section {
+		@FloatRange(min = 0, max = Float.MAX_VALUE)
+		@Comment("The bow damage addition over vanilla.")
+		@SerializedNameConvention(NamingSchemes.SNAKE_CASE)
+		public float bow_damage_addition = 0.0f;
 
-        @FloatRange(min = 0, max = Float.MAX_VALUE)
-        @Comment("The bow damage multiplier.")
-        @SerializedNameConvention(NamingSchemes.SNAKE_CASE)
-        public float bowDamageMultiplier = 1.0f;
+		@FloatRange(min = 0, max = Float.MAX_VALUE)
+		@Comment("The bow damage multiplier.")
+		@SerializedNameConvention(NamingSchemes.SNAKE_CASE)
+		public float bowDamageMultiplier = 1.0f;
 
-        @FloatRange(min = 0, max = Float.MAX_VALUE)
-        @Comment("The crossbow damage addition over vanilla.")
-        @SerializedNameConvention(NamingSchemes.SNAKE_CASE)
-        public float crossbowDamageAddition = 0.0f;
+		@FloatRange(min = 0, max = Float.MAX_VALUE)
+		@Comment("The crossbow damage addition over vanilla.")
+		@SerializedNameConvention(NamingSchemes.SNAKE_CASE)
+		public float crossbowDamageAddition = 0.0f;
 
-        @FloatRange(min = 0, max = Float.MAX_VALUE)
-        @Comment("The crossbow damage multiplier.")
-        @SerializedNameConvention(NamingSchemes.SNAKE_CASE)
-        public float crossbowDamageMultiplier = 1.0f;
+		@FloatRange(min = 0, max = Float.MAX_VALUE)
+		@Comment("The crossbow damage multiplier.")
+		@SerializedNameConvention(NamingSchemes.SNAKE_CASE)
+		public float crossbowDamageMultiplier = 1.0f;
 
-        @FloatRange(min = 0, max = Float.MAX_VALUE)
-        @Comment("The trident damage addition over vanilla.")
-        @SerializedNameConvention(NamingSchemes.SNAKE_CASE)
-        public Double tridentDamageAddition = 0.0;
+		@FloatRange(min = 0, max = Float.MAX_VALUE)
+		@Comment("The trident damage addition over vanilla.")
+		@SerializedNameConvention(NamingSchemes.SNAKE_CASE)
+		public Double tridentDamageAddition = 0.0;
 
-        @FloatRange(min = 0, max = Float.MAX_VALUE)
-        @Comment("The trident damage multiplier.")
-        @SerializedNameConvention(NamingSchemes.SNAKE_CASE)
-        public Double tridentDamageMultiplier = 1.0;
+		@FloatRange(min = 0, max = Float.MAX_VALUE)
+		@Comment("The trident damage multiplier.")
+		@SerializedNameConvention(NamingSchemes.SNAKE_CASE)
+		public Double tridentDamageMultiplier = 1.0;
 
-        @IntegerRange(min = 0, max = Integer.MAX_VALUE)
-        @Comment("The elytra armor points.")
-        @SerializedNameConvention(NamingSchemes.SNAKE_CASE)
-        public Integer elytraArmorPoints = 4;
+		@IntegerRange(min = 0, max = Integer.MAX_VALUE)
+		@Comment("The elytra armor points.")
+		@SerializedNameConvention(NamingSchemes.SNAKE_CASE)
+		public Integer elytraArmorPoints = 4;
+	}
 
-    }
+	public static class DurabilityConfigs implements Section {
+		@IntegerRange(min = 0, max = Integer.MAX_VALUE)
+		@Comment("The bow durability points.")
+		public Integer bow = 768;
 
-    public static class DurabilityConfigs implements Section {
-        @IntegerRange(min = 0, max = Integer.MAX_VALUE)
-        @Comment("The bow durability points.")
-        public Integer bow = 768;
+		@IntegerRange(min = 0, max = Integer.MAX_VALUE)
+		@Comment("The crossbow durability points.")
+		public Integer crossbow = 562;
 
-        @IntegerRange(min = 0, max = Integer.MAX_VALUE)
-        @Comment("The crossbow durability points.")
-        public Integer crossbow = 562;
+		@IntegerRange(min = 0, max = Integer.MAX_VALUE)
+		@Comment("The elytra durability points.")
+		public Integer elytra = 864;
 
-        @IntegerRange(min = 0, max = Integer.MAX_VALUE)
-        @Comment("The elytra durability points.")
-        public Integer elytra = 864;
+		@IntegerRange(min = 0, max = Integer.MAX_VALUE)
+		@Comment("The fishing rod durability points.")
+		public Integer fishing_rod = 128;
 
-        @IntegerRange(min = 0, max = Integer.MAX_VALUE)
-        @Comment("The fishing rod durability points.")
-        public Integer fishing_rod = 128;
+		@IntegerRange(min = 0, max = Integer.MAX_VALUE)
+		@Comment("The shield durability points.")
+		public Integer shield = 672;
 
-        @IntegerRange(min = 0, max = Integer.MAX_VALUE)
-        @Comment("The shield durability points.")
-        public Integer shield = 672;
+		@IntegerRange(min = 0, max = Integer.MAX_VALUE)
+		@Comment("The trident durability points.")
+		public Integer trident = 500;
 
-        @IntegerRange(min = 0, max = Integer.MAX_VALUE)
-        @Comment("The trident durability points.")
-        public Integer trident = 500;
+		@IntegerRange(min = 0, max = Integer.MAX_VALUE)
+		@Comment("The shears durability points.")
+		public Integer shears = 476;
+	}
 
-        @IntegerRange(min = 0, max = Integer.MAX_VALUE)
-        @Comment("The shears durability points.")
-        public Integer shears = 476;
-    }
-
-    public static class GraphicsConfigs implements Section {
-        @FloatRange(min = 0, max = Float.MAX_VALUE)
-        @Comment("Distance to see in lava.")
-        @SerializedNameConvention(NamingSchemes.SNAKE_CASE)
-        public float lavaVisionDistance = 0.25f;
-    }
+	public static class GraphicsConfigs implements Section {
+		@FloatRange(min = 0, max = Float.MAX_VALUE)
+		@Comment("Distance to see in lava.")
+		@SerializedNameConvention(NamingSchemes.SNAKE_CASE)
+		public float lavaVisionDistance = 0.25f;
+	}
 }

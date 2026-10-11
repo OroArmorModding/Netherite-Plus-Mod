@@ -24,7 +24,6 @@
 
 package com.oroarmor.netherite_plus.mixin;
 
-import com.oroarmor.netherite_plus.tags.NetheritePlusBlockTags;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -38,19 +37,23 @@ import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
+import com.oroarmor.netherite_plus.tags.NetheritePlusBlockTags;
+
 @Mixin(ShulkerBoxBlockEntity.class)
 public abstract class ShulkerBoxBlockEntityMixin extends RandomizableContainerBlockEntity {
-    @Unique
-    private static final Component NETHERITE_NAME = Component.translatable("container.netheriteShulkerBox");
+	@Unique
+	private static final Component NETHERITE_NAME = Component.translatable("container.netheriteShulkerBox");
 
-    protected ShulkerBoxBlockEntityMixin(BlockEntityType<?> type, BlockPos worldPosition, BlockState blockState) {
-        super(type, worldPosition, blockState);
-    }
+	protected ShulkerBoxBlockEntityMixin(BlockEntityType<?> type, BlockPos worldPosition, BlockState blockState) {
+		super(type, worldPosition, blockState);
+	}
 
-    @Inject(method = "getDefaultName", at = @At("HEAD"), cancellable = true)
-    void useNetheriteShulkerBoxName(CallbackInfoReturnable<Component> cir) {
-        if (this.getBlockState().is(NetheritePlusBlockTags.NETHERITE_SHULKER_BOXES)) {
-            cir.setReturnValue(NETHERITE_NAME);
-        }
-    }
+	@Inject(method = "getDefaultName", at = @At("HEAD"), cancellable = true)
+	void useNetheriteShulkerBoxName(CallbackInfoReturnable<Component> cir) {
+		if (this
+				.getBlockState()
+				.is(NetheritePlusBlockTags.NETHERITE_SHULKER_BOXES)) {
+			cir.setReturnValue(NETHERITE_NAME);
+		}
+	}
 }

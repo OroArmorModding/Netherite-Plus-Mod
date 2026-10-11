@@ -24,7 +24,6 @@
 
 package com.oroarmor.netherite_plus.mixin.fishing;
 
-import com.oroarmor.netherite_plus.world.entity.NetheritePlusEntityAttachments;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -32,11 +31,13 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.FishingRodItem;
 
+import com.oroarmor.netherite_plus.world.entity.NetheritePlusEntityAttachments;
+
 @Mixin(FishingRodItem.class)
 public class FishingRodItemMixin {
-    @ModifyArg(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/Projectile;spawnProjectile(Lnet/minecraft/world/entity/projectile/Projectile;Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/world/entity/projectile/Projectile;"))
-    <T extends Projectile> T a(T projectile) {
-        projectile.setAttached(NetheritePlusEntityAttachments.IS_NETHERITE, true);
-        return projectile;
-    }
+	@ModifyArg(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/Projectile;spawnProjectile(Lnet/minecraft/world/entity/projectile/Projectile;Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/world/entity/projectile/Projectile;"))
+	<T extends Projectile> T a(T projectile) {
+		projectile.setAttached(NetheritePlusEntityAttachments.IS_NETHERITE, true);
+		return projectile;
+	}
 }

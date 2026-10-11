@@ -29,4 +29,4 @@ bin/
 run/
 /logs/debug.log
 /logs/latest.log
-src/datagen/resources/.cache
+src/datagen/generated/.cache

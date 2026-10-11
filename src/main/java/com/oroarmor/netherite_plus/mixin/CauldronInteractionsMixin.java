@@ -26,8 +26,6 @@ package com.oroarmor.netherite_plus.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.oroarmor.netherite_plus.tags.NetheritePlusItemTags;
-import com.oroarmor.netherite_plus.world.level.block.NetheritePlusBlocks;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -46,25 +44,27 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
+import com.oroarmor.netherite_plus.tags.NetheritePlusItemTags;
+import com.oroarmor.netherite_plus.world.level.block.NetheritePlusBlocks;
+
 @Mixin(CauldronInteractions.class)
 public class CauldronInteractionsMixin {
+	@Shadow
+	@Final
+	public static CauldronInteraction.Dispatcher WATER;
 
-    @Shadow
-    @Final
-    public static CauldronInteraction.Dispatcher WATER;
+	@Shadow
+	private static InteractionResult shulkerBoxInteraction(final BlockState state, final Level level, final BlockPos pos, final Player player, final InteractionHand hand, final ItemStack itemInHand) {
+		throw new UnsupportedOperationException("Mixin failed to shadow");
+	}
 
-    @Shadow
-    private static InteractionResult shulkerBoxInteraction(final BlockState state, final Level level, final BlockPos pos, final Player player, final InteractionHand hand, final ItemStack itemInHand) {
-        throw new UnsupportedOperationException("Mixin failed to shadow");
-    }
+	@Inject(method = "bootStrap", at = @At("TAIL"))
+	private static void addNetheriteShulkerBoxClean(CallbackInfo ci) {
+		((CauldronInteractionDispatcherAccessor) WATER).invoke$put(NetheritePlusItemTags.DYED_NETHERITE_SHULKER_BOXES, CauldronInteractionsMixin::shulkerBoxInteraction);
+	}
 
-    @Inject(method = "bootStrap", at = @At("TAIL"))
-    private static void addNetheriteShulkerBoxClean(CallbackInfo ci) {
-        ((CauldronInteractionDispatcherAccessor) WATER).invoke$put(NetheritePlusItemTags.DYED_NETHERITE_SHULKER_BOXES, CauldronInteractionsMixin::shulkerBoxInteraction);
-    }
-
-    @WrapOperation(method = "shulkerBoxInteraction", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;transmuteCopy(Lnet/minecraft/world/level/ItemLike;I)Lnet/minecraft/world/item/ItemStack;"))
-    private static ItemStack cleanToNetheriteShulkerBox(ItemStack instance, ItemLike newItem, int newCount, Operation<ItemStack> original) {
-        return original.call(instance, instance.is(NetheritePlusItemTags.DYED_NETHERITE_SHULKER_BOXES) ? NetheritePlusBlocks.NETHERITE_SHULKER_BOX : newItem, newCount);
-    }
+	@WrapOperation(method = "shulkerBoxInteraction", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;transmuteCopy(Lnet/minecraft/world/level/ItemLike;I)Lnet/minecraft/world/item/ItemStack;"))
+	private static ItemStack cleanToNetheriteShulkerBox(ItemStack instance, ItemLike newItem, int newCount, Operation<ItemStack> original) {
+		return original.call(instance, instance.is(NetheritePlusItemTags.DYED_NETHERITE_SHULKER_BOXES) ? NetheritePlusBlocks.NETHERITE_SHULKER_BOX : newItem, newCount);
+	}
 }

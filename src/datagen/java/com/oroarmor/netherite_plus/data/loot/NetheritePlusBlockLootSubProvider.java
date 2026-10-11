@@ -26,33 +26,36 @@ package com.oroarmor.netherite_plus.data.loot;
 
 import java.util.concurrent.CompletableFuture;
 
-import com.oroarmor.netherite_plus.world.item.NetheritePlusItems;
-import com.oroarmor.netherite_plus.world.level.block.NetheritePlusBlocks;
-import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
-
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.predicates.ConditionUserBuilder;
 import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
+
+import com.oroarmor.netherite_plus.world.item.NetheritePlusItems;
+import com.oroarmor.netherite_plus.world.level.block.NetheritePlusBlocks;
+
 public class NetheritePlusBlockLootSubProvider extends FabricBlockLootSubProvider {
-    public NetheritePlusBlockLootSubProvider(FabricPackOutput packOutput, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(packOutput, registriesFuture);
-    }
+	public NetheritePlusBlockLootSubProvider(FabricPackOutput packOutput, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+		super(packOutput, registriesFuture);
+	}
 
-    @Override
-    public void generate() {
-        this.dropSelf(NetheritePlusBlocks.FAKE_NETHERITE_BLOCK);
-        this.add(NetheritePlusBlocks.NETHERITE_BEACON, this.createNameableBlockEntityTable(NetheritePlusBlocks.NETHERITE_BEACON));
-        this.add(NetheritePlusBlocks.NETHERITE_ANVIL, this.createNameableBlockEntityTable(NetheritePlusBlocks.NETHERITE_ANVIL));
+	@Override
+	public void generate() {
+		this.dropSelf(NetheritePlusBlocks.FAKE_NETHERITE_BLOCK);
+		this.add(NetheritePlusBlocks.NETHERITE_BEACON, this.createNameableBlockEntityTable(NetheritePlusBlocks.NETHERITE_BEACON));
+		this.add(NetheritePlusBlocks.NETHERITE_ANVIL, this.createNameableBlockEntityTable(NetheritePlusBlocks.NETHERITE_ANVIL));
 
-        this.add(NetheritePlusBlocks.NETHERITE_SHULKER_BOX, this.createShulkerBoxDrop(NetheritePlusBlocks.NETHERITE_SHULKER_BOX));
-        NetheritePlusBlocks.DYED_NETHERITE_SHULKER_BOX.forEach(box -> this.add(box, createShulkerBoxDrop(box)));
-    }
+		this.add(NetheritePlusBlocks.NETHERITE_SHULKER_BOX, this.createShulkerBoxDrop(NetheritePlusBlocks.NETHERITE_SHULKER_BOX));
+		NetheritePlusBlocks.DYED_NETHERITE_SHULKER_BOX.forEach(box -> this.add(box, createShulkerBoxDrop(box)));
+	}
 
-    @Override
-    public <T extends ConditionUserBuilder<T>> T applyExplosionCondition(ItemLike type, ConditionUserBuilder<T> builder) {
-        return !type.asItem().equals(NetheritePlusItems.FAKE_NETHERITE_BLOCK) ? builder.when(ExplosionCondition.survivesExplosion()) : builder.unwrap();
-    }
+	@Override
+	public <T extends ConditionUserBuilder<T>> T applyExplosionCondition(ItemLike type, ConditionUserBuilder<T> builder) {
+		return !type
+				.asItem()
+				.equals(NetheritePlusItems.FAKE_NETHERITE_BLOCK) ? builder.when(ExplosionCondition.survivesExplosion()) : builder.unwrap();
+	}
 }

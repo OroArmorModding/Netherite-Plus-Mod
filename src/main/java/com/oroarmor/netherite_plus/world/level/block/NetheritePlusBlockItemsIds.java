@@ -24,28 +24,30 @@
 
 package com.oroarmor.netherite_plus.world.level.block;
 
-import com.oroarmor.netherite_plus.NetheritePlusMod;
-
 import net.minecraft.references.BlockItemId;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.ColorCollection;
 
+import com.oroarmor.netherite_plus.NetheritePlusMod;
+
 public class NetheritePlusBlockItemsIds {
-    public static final BlockItemId NETHERITE_SHULKER_BOX = create("netherite_shulker_box");
-    public static final ColorCollection<BlockItemId> DYED_NETHERITE_SHULKER_BOX = createSimpleColored("netherite_shulker_box");
+	public static final BlockItemId NETHERITE_SHULKER_BOX = create("netherite_shulker_box");
+	public static final ColorCollection<BlockItemId> DYED_NETHERITE_SHULKER_BOX = createSimpleColored("netherite_shulker_box");
 
-    public static final BlockItemId FAKE_NETHERITE_BLOCK = create("fake_netherite_block");
+	public static final BlockItemId FAKE_NETHERITE_BLOCK = create("fake_netherite_block");
 
-    public static final BlockItemId NETHERITE_ANVIL = create("netherite_anvil");
+	public static final BlockItemId NETHERITE_ANVIL = create("netherite_anvil");
 
-    public static final BlockItemId NETHERITE_BEACON = create("netherite_beacon");
+	public static final BlockItemId NETHERITE_BEACON = create("netherite_beacon");
 
-    private static BlockItemId create(String name) {
-        Identifier id = NetheritePlusMod.id(name);
-        return BlockItemId.create(id, id);
-    }
+	private static BlockItemId create(String name) {
+		Identifier id = NetheritePlusMod.id(name);
+		return BlockItemId.create(id, id);
+	}
 
-    private static ColorCollection<BlockItemId> createSimpleColored(final String baseName) {
-        return ColorCollection.prefixWithColor(ColorCollection.create(baseName)).map(NetheritePlusBlockItemsIds::create);
-    }
+	private static ColorCollection<BlockItemId> createSimpleColored(final String baseName) {
+		return ColorCollection
+				.prefixWithColor(ColorCollection.create(baseName))
+				.map(NetheritePlusBlockItemsIds::create);
+	}
 }

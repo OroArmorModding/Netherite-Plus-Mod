@@ -1,8 +1,13 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "com.oroarmor.netherite_plus.mixin",
+  "client": [],
   "compatibilityLevel": "JAVA_17",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8",
+  "mixinextras": {
+    "minVersion": "0.5.5"
+  },
   "mixins": [
     "AnvilBlockMixin",
     "AnvilMenuMixin",
@@ -13,21 +18,15 @@
     "ShulkerBoxBlockEntityMixin",
     "fishing.FishingHookMixin",
     "fishing.FishingRodItemMixin",
-    "shears.TripWireBlockMixin",
     "shears.BlockUseItemOnMixin",
     "shears.EntityInteractMixin",
     "shears.EntityMobInteractMixin",
     "shears.RegistryLoadTaskPendingRegistrationMixin",
+    "shears.TripWireBlockMixin",
     "trident.AbstractArrowMixin",
     "trident.ThrownTridentMixin",
     "trident.TridentItemMixin"
   ],
-  "client": [
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  },
-  "mixinextras": {
-    "minVersion": "0.5.5"
-  }
+  "package": "com.oroarmor.netherite_plus.mixin",
+  "required": true
 }

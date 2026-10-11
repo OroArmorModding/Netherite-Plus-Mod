@@ -34,11 +34,7 @@ import java.util.stream.Collectors;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
-import com.oroarmor.netherite_plus.advancements.triggers.NetheritePlusCriteriaTriggers;
-import com.oroarmor.netherite_plus.world.entity.effect.NetheritePlusStatusEffects;
-import com.oroarmor.netherite_plus.world.inventory.NetheriteBeaconMenu;
-import com.oroarmor.netherite_plus.world.level.block.NetheritePlusBlocks;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -86,415 +82,451 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
+import com.oroarmor.netherite_plus.advancements.triggers.NetheritePlusCriteriaTriggers;
+import com.oroarmor.netherite_plus.world.entity.effect.NetheritePlusStatusEffects;
+import com.oroarmor.netherite_plus.world.inventory.NetheriteBeaconMenu;
+import com.oroarmor.netherite_plus.world.level.block.NetheritePlusBlocks;
+
 public class NetheriteBeaconBlockEntity extends BlockEntity implements MenuProvider, Nameable, BeaconBeamOwner {
-    public static final List<List<Holder<MobEffect>>> BEACON_EFFECTS = List.of(
-            List.of(MobEffects.SPEED, MobEffects.HASTE),
-            List.of(MobEffects.RESISTANCE, MobEffects.JUMP_BOOST),
-            List.of(MobEffects.STRENGTH),
-            List.of(MobEffects.REGENERATION),
-            List.of(MobEffects.GLOWING)
-    );
-    public static final int DATA_LEVELS = 0;
-    public static final int DATA_PRIMARY = 1;
-    public static final int DATA_SECONDARY = 2;
-    public static final int DATA_TERTIARY = 3;
-    public static final int NUM_DATA_VALUES = 4;
-    private static final int MAX_LEVELS = 5;
-    private static final int LEVELS_NEEDED_FOR_SECONDARY = MAX_LEVELS - 1;
-    private static final int LEVELS_NEEDED_FOR_TERTIARY = MAX_LEVELS;
-    private static final Set<Holder<MobEffect>> VALID_EFFECTS = BEACON_EFFECTS.stream().flatMap(Collection::stream).collect(Collectors.toSet());
-    private static final int BLOCKS_CHECK_PER_TICK = 10;
-    private static final Component DEFAULT_NAME = Component.translatable("container.netherite_beacon");
-    private static final String TAG_PRIMARY = "primary_effect";
-    private static final String TAG_SECONDARY = "secondary_effect";
-    private static final String TAG_TERTIARY = "tertiary_effect";
-    private final ContainerData dataAccess = new ContainerData() {
-        @Override
-        public int get(int index) {
-            return switch (index) {
-                case DATA_LEVELS -> NetheriteBeaconBlockEntity.this.levels;
-                case DATA_PRIMARY -> BeaconMenu.encodeEffect(primaryPower);
-                case DATA_SECONDARY -> BeaconMenu.encodeEffect(secondaryPower);
-                case DATA_TERTIARY -> BeaconMenu.encodeEffect(tertiaryPower);
-                default -> 0;
-            };
-        }
+	public static final List<List<Holder<MobEffect>>> BEACON_EFFECTS = List.of(
+			List.of(MobEffects.SPEED, MobEffects.HASTE),
+			List.of(MobEffects.RESISTANCE, MobEffects.JUMP_BOOST),
+			List.of(MobEffects.STRENGTH),
+			List.of(MobEffects.REGENERATION),
+			List.of(MobEffects.GLOWING)
+	);
+	public static final int DATA_LEVELS = 0;
+	public static final int DATA_PRIMARY = 1;
+	public static final int DATA_SECONDARY = 2;
+	public static final int DATA_TERTIARY = 3;
+	public static final int NUM_DATA_VALUES = 4;
+	private static final int MAX_LEVELS = 5;
+	private static final int LEVELS_NEEDED_FOR_SECONDARY = MAX_LEVELS - 1;
+	private static final int LEVELS_NEEDED_FOR_TERTIARY = MAX_LEVELS;
+	private static final Set<Holder<MobEffect>> VALID_EFFECTS = BEACON_EFFECTS
+			.stream()
+			.flatMap(Collection::stream)
+			.collect(Collectors.toSet());
+	private static final int BLOCKS_CHECK_PER_TICK = 10;
+	private static final Component DEFAULT_NAME = Component.translatable("container.netherite_beacon");
+	private static final String TAG_PRIMARY = "primary_effect";
+	private static final String TAG_SECONDARY = "secondary_effect";
+	private static final String TAG_TERTIARY = "tertiary_effect";
+	private final ContainerData dataAccess = new ContainerData() {
+		@Override
+		public int get(int index) {
+			return switch (index) {
+				case DATA_LEVELS -> NetheriteBeaconBlockEntity.this.levels;
+				case DATA_PRIMARY -> BeaconMenu.encodeEffect(primaryPower);
+				case DATA_SECONDARY -> BeaconMenu.encodeEffect(secondaryPower);
+				case DATA_TERTIARY -> BeaconMenu.encodeEffect(tertiaryPower);
+				default -> 0;
+			};
+		}
 
-        @Override
-        public void set(int index, int value) {
-            switch (index) {
-                case DATA_LEVELS -> NetheriteBeaconBlockEntity.this.levels = value;
-                case DATA_PRIMARY -> {
-                    //noinspection DataFlowIssue
-                    if (!NetheriteBeaconBlockEntity.this.level.isClientSide() && !NetheriteBeaconBlockEntity.this.beamSections.isEmpty()) {
-                        playSound(NetheriteBeaconBlockEntity.this.level, NetheriteBeaconBlockEntity.this.worldPosition, SoundEvents.BEACON_POWER_SELECT);
-                    }
+		@Override
+		public void set(int index, int value) {
+			switch (index) {
+				case DATA_LEVELS -> NetheriteBeaconBlockEntity.this.levels = value;
+				case DATA_PRIMARY -> {
+					//noinspection DataFlowIssue
+					if (!NetheriteBeaconBlockEntity.this.level.isClientSide() && !NetheriteBeaconBlockEntity.this.beamSections.isEmpty()) {
+						playSound(NetheriteBeaconBlockEntity.this.level, NetheriteBeaconBlockEntity.this.worldPosition, SoundEvents.BEACON_POWER_SELECT);
+					}
 
-                    primaryPower = NetheriteBeaconBlockEntity.filterEffect(BeaconMenu.decodeEffect(value));
-                }
-                case DATA_SECONDARY -> secondaryPower = NetheriteBeaconBlockEntity.filterEffect(BeaconMenu.decodeEffect(value));
-                case DATA_TERTIARY -> tertiaryPower = NetheriteBeaconBlockEntity.filterEffect(BeaconMenu.decodeEffect(value));
-            }
-        }
+					primaryPower = NetheriteBeaconBlockEntity.filterEffect(BeaconMenu.decodeEffect(value));
+				}
+				case DATA_SECONDARY ->
+						secondaryPower = NetheriteBeaconBlockEntity.filterEffect(BeaconMenu.decodeEffect(value));
+				case DATA_TERTIARY ->
+						tertiaryPower = NetheriteBeaconBlockEntity.filterEffect(BeaconMenu.decodeEffect(value));
+			}
+		}
 
-        @Override
-        public int getCount() {
-            return NUM_DATA_VALUES;
-        }
-    };
-    private List<BeaconBeamOwner.Section> beamSections = new ArrayList<>();
-    private List<BeaconBeamOwner.Section> checkingBeamSections = new ArrayList<>();
-    private int levels;
-    private int netheriteLevel;
-    private int lastCheckY;
-    private @Nullable Holder<MobEffect> primaryPower;
-    private @Nullable Holder<MobEffect> secondaryPower;
-    private @Nullable Holder<MobEffect> tertiaryPower;
-    private @Nullable Component name;
-    private LockCode lockKey = LockCode.NO_LOCK;
+		@Override
+		public int getCount() {
+			return NUM_DATA_VALUES;
+		}
+	};
+	private List<BeaconBeamOwner.Section> beamSections = new ArrayList<>();
+	private List<BeaconBeamOwner.Section> checkingBeamSections = new ArrayList<>();
+	private int levels;
+	private int netheriteLevel;
+	private int lastCheckY;
+	private @Nullable Holder<MobEffect> primaryPower;
+	private @Nullable Holder<MobEffect> secondaryPower;
+	private @Nullable Holder<MobEffect> tertiaryPower;
+	private @Nullable Component name;
+	private LockCode lockKey = LockCode.NO_LOCK;
 
-    public NetheriteBeaconBlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(NetheritePlusBlocks.NETHERITE_BEACON_BLOCK_ENTITY, blockPos, blockState);
-    }
+	public NetheriteBeaconBlockEntity(BlockPos blockPos, BlockState blockState) {
+		super(NetheritePlusBlocks.NETHERITE_BEACON_BLOCK_ENTITY, blockPos, blockState);
+	}
 
-    private static @Nullable Holder<MobEffect> filterEffect(final @Nullable Holder<MobEffect> effect) {
-        return VALID_EFFECTS.contains(effect) ? effect : null;
-    }
+	private static @Nullable Holder<MobEffect> filterEffect(final @Nullable Holder<MobEffect> effect) {
+		return VALID_EFFECTS.contains(effect) ? effect : null;
+	}
 
-    public static void tick(final Level level, final BlockPos pos, final BlockState selfState, final NetheriteBeaconBlockEntity entity) {
-        int x = pos.getX();
-        int y = pos.getY();
-        int z = pos.getZ();
-        BlockPos checkPos;
-        if (entity.lastCheckY < y) {
-            checkPos = pos;
-            entity.checkingBeamSections = Lists.newArrayList();
-            entity.lastCheckY = checkPos.getY() - 1;
-        } else {
-            checkPos = new BlockPos(x, entity.lastCheckY + 1, z);
-        }
+	public static void tick(final Level level, final BlockPos pos, final BlockState selfState, final NetheriteBeaconBlockEntity entity) {
+		int x = pos.getX();
+		int y = pos.getY();
+		int z = pos.getZ();
+		BlockPos checkPos;
 
-        BeaconBeamOwner.Section lastBeamSection = entity.checkingBeamSections.isEmpty() ? null : entity.checkingBeamSections.getLast();
-        int lastSetBlock = level.getHeight(Heightmap.Types.WORLD_SURFACE, x, z);
+		if (entity.lastCheckY < y) {
+			checkPos = pos;
+			entity.checkingBeamSections = Lists.newArrayList();
+			entity.lastCheckY = checkPos.getY() - 1;
+		} else {
+			checkPos = new BlockPos(x, entity.lastCheckY + 1, z);
+		}
 
-        for (int i = 0; i < BLOCKS_CHECK_PER_TICK && checkPos.getY() <= lastSetBlock; i++) {
-            BlockState state = level.getBlockState(checkPos);
-            if (state.getBlock() instanceof BeaconBeamBlock beaconBeamBlock) {
-                int color = beaconBeamBlock.getColor().getTextureDiffuseColor();
-                if (entity.checkingBeamSections.size() <= 1) {
-                    lastBeamSection = new BeaconBeamOwner.Section(color);
-                    entity.checkingBeamSections.add(lastBeamSection);
-                } else if (lastBeamSection != null) {
-                    if (color == lastBeamSection.getColor()) {
-                        lastBeamSection.increaseHeight();
-                    } else {
-                        lastBeamSection = new BeaconBeamOwner.Section(ARGB.average(lastBeamSection.getColor(), color));
-                        entity.checkingBeamSections.add(lastBeamSection);
-                    }
-                }
-            } else {
-                if (lastBeamSection == null || state.getLightDampening() >= 15 && !state.is(Blocks.BEDROCK)) {
-                    entity.checkingBeamSections.clear();
-                    entity.lastCheckY = lastSetBlock;
-                    break;
-                }
+		BeaconBeamOwner.Section lastBeamSection = entity.checkingBeamSections.isEmpty() ? null : entity.checkingBeamSections.getLast();
+		int lastSetBlock = level.getHeight(Heightmap.Types.WORLD_SURFACE, x, z);
 
-                lastBeamSection.increaseHeight();
-            }
+		for (int i = 0; i < BLOCKS_CHECK_PER_TICK && checkPos.getY() <= lastSetBlock; i++) {
+			BlockState state = level.getBlockState(checkPos);
 
-            checkPos = checkPos.above();
-            entity.lastCheckY++;
-        }
+			if (state.getBlock() instanceof BeaconBeamBlock beaconBeamBlock) {
+				int color = beaconBeamBlock
+						.getColor()
+						.getTextureDiffuseColor();
 
-        int previousLevels = entity.levels;
-        AABB effectBox = new AABB(x, y, z, x, y - MAX_LEVELS, z).inflate(10.0D, 5.0D, 10.0D);
-        if (level.getGameTime() % 80L == 0L) {
-            if (!entity.beamSections.isEmpty()) {
-                Pair<Integer, Integer> levels = updateLevels(level, x, y, z);
-                entity.levels = levels.getFirst();
-                entity.netheriteLevel = levels.getSecond();
-                if (entity.netheriteLevel == 3 * 3 + 5 * 5 + 7 * 7 + 9 * 9 + 11 * 11) {
-                    List<ServerPlayer> var14 = level.getEntitiesOfClass(ServerPlayer.class, effectBox);
+				if (entity.checkingBeamSections.size() <= 1) {
+					lastBeamSection = new BeaconBeamOwner.Section(color);
+					entity.checkingBeamSections.add(lastBeamSection);
+				} else if (lastBeamSection != null) {
+					if (color == lastBeamSection.getColor()) {
+						lastBeamSection.increaseHeight();
+					} else {
+						lastBeamSection = new BeaconBeamOwner.Section(ARGB.average(lastBeamSection.getColor(), color));
+						entity.checkingBeamSections.add(lastBeamSection);
+					}
+				}
+			} else {
+				if (lastBeamSection == null || state.getLightDampening() >= 15 && !state.is(Blocks.BEDROCK)) {
+					entity.checkingBeamSections.clear();
+					entity.lastCheckY = lastSetBlock;
+					break;
+				}
 
-                    for (ServerPlayer serverPlayerEntity : var14) {
-                        NetheritePlusCriteriaTriggers.FULL_NETHERITE_NETHERITE_BEACON.trigger(serverPlayerEntity, entity);
-                    }
-                }
-            }
+				lastBeamSection.increaseHeight();
+			}
 
-            if (entity.levels > 0 && !entity.beamSections.isEmpty()) {
-                applyEffects(level, pos, entity.levels, entity.netheriteLevel, entity.primaryPower, entity.secondaryPower, entity.tertiaryPower);
-                playSound(level, pos, SoundEvents.BEACON_AMBIENT);
-            }
-        }
+			checkPos = checkPos.above();
+			entity.lastCheckY++;
+		}
 
-        if (entity.lastCheckY >= lastSetBlock) {
-            entity.lastCheckY = level.getMinY() - 1;
-            boolean wasActive = previousLevels > 0;
-            entity.beamSections = entity.checkingBeamSections;
-            if (!level.isClientSide()) {
-                boolean isActive = entity.levels > 0;
-                if (!wasActive && isActive) {
-                    playSound(level, pos, SoundEvents.BEACON_ACTIVATE);
+		int previousLevels = entity.levels;
+		AABB effectBox = new AABB(x, y, z, x, y - MAX_LEVELS, z).inflate(10.0D, 5.0D, 10.0D);
 
-                    for (ServerPlayer player : level.getEntitiesOfClass(ServerPlayer.class, effectBox)) {
-                        NetheritePlusCriteriaTriggers.CONSTRUCT_NETHERITE_BEACON.trigger(player, entity);
-                    }
-                } else if (wasActive && !isActive) {
-                    playSound(level, pos, SoundEvents.BEACON_DEACTIVATE);
-                }
+		if (level.getGameTime() % 80L == 0L) {
+			if (!entity.beamSections.isEmpty()) {
+				Pair<Integer, Integer> levels = updateLevels(level, x, y, z);
+				entity.levels = levels.getFirst();
+				entity.netheriteLevel = levels.getSecond();
 
-                level.setBlock(pos, selfState.setValue(BlockStateProperties.POWERED, entity.levels > 0), Block.UPDATE_CLIENTS);
-            }
-        }
-    }
+				if (entity.netheriteLevel == 3 * 3 + 5 * 5 + 7 * 7 + 9 * 9 + 11 * 11) {
+					List<ServerPlayer> var14 = level.getEntitiesOfClass(ServerPlayer.class, effectBox);
 
-    private static Pair<Integer, Integer> updateLevels(Level level, int x, int y, int z) {
-        int beaconLevel = 0;
-        int netheriteLevel = 0;
+					for (ServerPlayer serverPlayerEntity : var14) {
+						NetheritePlusCriteriaTriggers.FULL_NETHERITE_NETHERITE_BEACON.trigger(serverPlayerEntity, entity);
+					}
+				}
+			}
 
-        for (int step = 1; step <= MAX_LEVELS; beaconLevel = step++) {
-            int ly = y - step;
-            if (ly < level.getMinY()) {
-                break;
-            }
+			if (entity.levels > 0 && !entity.beamSections.isEmpty()) {
+				applyEffects(level, pos, entity.levels, entity.netheriteLevel, entity.primaryPower, entity.secondaryPower, entity.tertiaryPower);
+				playSound(level, pos, SoundEvents.BEACON_AMBIENT);
+			}
+		}
 
-            boolean isOk = true;
+		if (entity.lastCheckY >= lastSetBlock) {
+			entity.lastCheckY = level.getMinY() - 1;
+			boolean wasActive = previousLevels > 0;
+			entity.beamSections = entity.checkingBeamSections;
 
-            for (int lx = x - step; lx <= x + step && isOk; ++lx) {
-                for (int lz = z - step; lz <= z + step; ++lz) {
-                    if (level.getBlockState(new BlockPos(lx, ly, lz)).getBlock() == Blocks.NETHERITE_BLOCK) {
-                        netheriteLevel++;
-                    }
-                    if (!level.getBlockState(new BlockPos(lx, ly, lz)).is(BlockTags.BEACON_BASE_BLOCKS)) {
-                        isOk = false;
-                        break;
-                    }
-                }
-            }
+			if (!level.isClientSide()) {
+				boolean isActive = entity.levels > 0;
 
-            if (!isOk) {
-                break;
-            }
-        }
+				if (!wasActive && isActive) {
+					playSound(level, pos, SoundEvents.BEACON_ACTIVATE);
 
-        return new Pair<>(beaconLevel, netheriteLevel);
-    }
+					for (ServerPlayer player : level.getEntitiesOfClass(ServerPlayer.class, effectBox)) {
+						NetheritePlusCriteriaTriggers.CONSTRUCT_NETHERITE_BEACON.trigger(player, entity);
+					}
+				} else if (wasActive && !isActive) {
+					playSound(level, pos, SoundEvents.BEACON_DEACTIVATE);
+				}
 
-    public static boolean validateEffects(final @Nullable Holder<MobEffect> primary, final @Nullable Holder<MobEffect> secondary, final @Nullable Holder<MobEffect> tertiary, final int levels) {
-        if (secondary != null && levels < LEVELS_NEEDED_FOR_SECONDARY) {
-            return false;
-        } else if (tertiary != null && levels < LEVELS_NEEDED_FOR_TERTIARY) {
-            return false;
-        }
+				level.setBlock(pos, selfState.setValue(BlockStateProperties.POWERED, entity.levels > 0), Block.UPDATE_CLIENTS);
+			}
+		}
+	}
 
-        int primaryLevel = getRequiredLevelsFor(primary);
-        int secondaryLevel = getRequiredLevelsFor(secondary);
-        int tertiaryLevel = getRequiredLevelsFor(tertiary);
+	private static Pair<Integer, Integer> updateLevels(Level level, int x, int y, int z) {
+		int beaconLevel = 0;
+		int netheriteLevel = 0;
 
-        // Needed level for effect is higher than current level
-        if (primaryLevel > levels || secondaryLevel > levels || tertiaryLevel > levels) {
-            return false;
-        }
+		for (int step = 1; step <= MAX_LEVELS; beaconLevel = step++) {
+			int ly = y - step;
 
-        // primary has something higher selected
-        if (primaryLevel >= LEVELS_NEEDED_FOR_SECONDARY) return false;
+			if (ly < level.getMinY()) {
+				break;
+			}
 
-        // secondary has something higher selected
-        if (secondaryLevel >= LEVELS_NEEDED_FOR_TERTIARY) return false;
+			boolean isOk = true;
 
-        // No secondary, secondary level must be level 4, or the secondary is the same as primary
-        boolean secondaryValid = secondaryLevel == 0 || secondaryLevel == LEVELS_NEEDED_FOR_SECONDARY || Objects.equals(primary, secondary);
-        // No tertiary, tertiary level must be level 5, or the secondary is the same as primary or secondary
-        boolean tertiaryValid = tertiaryLevel == 0 || tertiaryLevel == LEVELS_NEEDED_FOR_TERTIARY || Objects.equals(primary, tertiary) || Objects.equals(secondary, tertiary);
+			for (int lx = x - step; lx <= x + step && isOk; ++lx) {
+				for (int lz = z - step; lz <= z + step; ++lz) {
+					if (level
+							.getBlockState(new BlockPos(lx, ly, lz))
+							.getBlock() == Blocks.NETHERITE_BLOCK) {
+						netheriteLevel++;
+					}
 
-        return secondaryValid && tertiaryValid;
-    }
+					if (!level
+							.getBlockState(new BlockPos(lx, ly, lz))
+							.is(BlockTags.BEACON_BASE_BLOCKS)) {
+						isOk = false;
+						break;
+					}
+				}
+			}
 
-    private static int getRequiredLevelsFor(final @Nullable Holder<MobEffect> effect) {
-        if (effect == null) {
-            return 0;
-        }
+			if (!isOk) {
+				break;
+			}
+		}
 
-        for (int i = 0; i < BEACON_EFFECTS.size(); i++) {
-            List<Holder<MobEffect>> effectsForLevel = BEACON_EFFECTS.get(i);
-            if (effectsForLevel.contains(effect)) {
-                return i + 1;
-            }
-        }
+		return new Pair<>(beaconLevel, netheriteLevel);
+	}
 
-        return Integer.MAX_VALUE;
-    }
+	public static boolean validateEffects(final @Nullable Holder<MobEffect> primary, final @Nullable Holder<MobEffect> secondary, final @Nullable Holder<MobEffect> tertiary, final int levels) {
+		if (secondary != null && levels < LEVELS_NEEDED_FOR_SECONDARY) {
+			return false;
+		} else if (tertiary != null && levels < LEVELS_NEEDED_FOR_TERTIARY) {
+			return false;
+		}
 
-    private static void applyEffects(
-            final Level level,
-            final BlockPos worldPosition,
-            final int levels,
-            final int netheriteLevel,
-            final @Nullable Holder<MobEffect> primaryPower,
-            final @Nullable Holder<MobEffect> secondaryPower,
-            final @Nullable Holder<MobEffect> tertiaryPower
-    ) {
-        if (!level.isClientSide() && primaryPower != null) {
-            double effectBoundingBox = levels * 10 + 10;
-            int primaryEffectLevel = 0;
-            int secondaryEffectLevel = 0;
-            if (levels >= LEVELS_NEEDED_FOR_SECONDARY) {
-                if (primaryPower == secondaryPower) {
-                    primaryEffectLevel++;
-                }
+		int primaryLevel = getRequiredLevelsFor(primary);
+		int secondaryLevel = getRequiredLevelsFor(secondary);
+		int tertiaryLevel = getRequiredLevelsFor(tertiary);
 
-                if (primaryPower == tertiaryPower) {
-                    primaryEffectLevel++;
-                }
+		// Needed level for effect is higher than current level
+		if (primaryLevel > levels || secondaryLevel > levels || tertiaryLevel > levels) {
+			return false;
+		}
 
-                if (secondaryPower == tertiaryPower) {
-                    secondaryEffectLevel++;
-                }
+		// primary has something higher selected
+		if (primaryLevel >= LEVELS_NEEDED_FOR_SECONDARY) return false;
 
-            }
+		// secondary has something higher selected
+		if (secondaryLevel >= LEVELS_NEEDED_FOR_TERTIARY) return false;
 
-            int effectLength = (9 + levels * 3) * 20;
-            AABB box = new AABB(worldPosition).inflate(effectBoundingBox).expandTowards(0.0D, level.getHeight(), 0.0D);
-            List<Player> list = level.getEntitiesOfClass(Player.class, box);
+		// No secondary, secondary level must be level 4, or the secondary is the same as primary
+		boolean secondaryValid = secondaryLevel == 0 || secondaryLevel == LEVELS_NEEDED_FOR_SECONDARY || Objects.equals(primary, secondary);
+		// No tertiary, tertiary level must be level 5, or the secondary is the same as primary or secondary
+		boolean tertiaryValid = tertiaryLevel == 0 || tertiaryLevel == LEVELS_NEEDED_FOR_TERTIARY || Objects.equals(primary, tertiary) || Objects.equals(secondary, tertiary);
 
-            for (Player player : list) {
-                player.addEffect(new MobEffectInstance(primaryPower, effectLength, primaryEffectLevel, true, true));
-                player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, effectLength, 0, true, true));
-                player.addEffect(new MobEffectInstance(NetheritePlusStatusEffects.LAVA_VISION, effectLength, Math.min(netheriteLevel, 127), true, true));
+		return secondaryValid && tertiaryValid;
+	}
 
-                // regeneration case
-                if (levels >= LEVELS_NEEDED_FOR_SECONDARY && primaryPower != secondaryPower && secondaryPower != null) {
-                    player.addEffect(new MobEffectInstance(secondaryPower, effectLength, secondaryEffectLevel, true, true));
-                }
-            }
+	private static int getRequiredLevelsFor(final @Nullable Holder<MobEffect> effect) {
+		if (effect == null) {
+			return 0;
+		}
 
-            if (tertiaryPower == MobEffects.GLOWING) {
-                List<Mob> entities = level.getEntitiesOfClass(Mob.class, box);
-                for (LivingEntity entity : entities) {
-                    entity.addEffect(new MobEffectInstance(MobEffects.GLOWING, effectLength, 0, true, true));
-                }
-            }
+		for (int i = 0; i < BEACON_EFFECTS.size(); i++) {
+			List<Holder<MobEffect>> effectsForLevel = BEACON_EFFECTS.get(i);
 
-        }
-    }
+			if (effectsForLevel.contains(effect)) {
+				return i + 1;
+			}
+		}
 
-    public static void playSound(Level level, BlockPos pos, SoundEvent sound) {
-        level.playSound(null, pos, sound, SoundSource.BLOCKS, 1.0F, 1.0F);
-    }
+		return Integer.MAX_VALUE;
+	}
 
-    private static void storeEffect(final ValueOutput output, final String field, final @Nullable Holder<MobEffect> effect) {
-        if (effect != null) {
-            effect.unwrapKey().ifPresent(key -> output.putString(field, key.identifier().toString()));
-        }
-    }
+	private static void applyEffects(
+			final Level level,
+			final BlockPos worldPosition,
+			final int levels,
+			final int netheriteLevel,
+			final @Nullable Holder<MobEffect> primaryPower,
+			final @Nullable Holder<MobEffect> secondaryPower,
+			final @Nullable Holder<MobEffect> tertiaryPower
+	) {
+		if (!level.isClientSide() && primaryPower != null) {
+			double effectBoundingBox = levels * 10 + 10;
+			int primaryEffectLevel = 0;
+			int secondaryEffectLevel = 0;
 
-    private static @Nullable Holder<MobEffect> loadEffect(final ValueInput input, final String field) {
-        return input.read(field, BuiltInRegistries.MOB_EFFECT.holderByNameCodec()).filter(VALID_EFFECTS::contains).orElse(null);
-    }
+			if (levels >= LEVELS_NEEDED_FOR_SECONDARY) {
+				if (primaryPower == secondaryPower) {
+					primaryEffectLevel++;
+				}
 
-    public int getNetheriteLevel() {
-        return netheriteLevel;
-    }
+				if (primaryPower == tertiaryPower) {
+					primaryEffectLevel++;
+				}
 
-    @Override
-    public void setRemoved() {
-        //noinspection DataFlowIssue
-        playSound(this.level, this.worldPosition, SoundEvents.BEACON_DEACTIVATE);
-        super.setRemoved();
-    }
+				if (secondaryPower == tertiaryPower) {
+					secondaryEffectLevel++;
+				}
+			}
 
-    public List<BeaconBeamOwner.Section> getBeamSections() {
-        return levels == 0 ? ImmutableList.of() : beamSections;
-    }
+			int effectLength = (9 + levels * 3) * 20;
+			AABB box = new AABB(worldPosition)
+					.inflate(effectBoundingBox)
+					.expandTowards(0.0D, level.getHeight(), 0.0D);
+			List<Player> list = level.getEntitiesOfClass(Player.class, box);
 
-    public int getBeaconLevel() {
-        return levels;
-    }
+			for (Player player : list) {
+				player.addEffect(new MobEffectInstance(primaryPower, effectLength, primaryEffectLevel, true, true));
+				player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, effectLength, 0, true, true));
+				player.addEffect(new MobEffectInstance(NetheritePlusStatusEffects.LAVA_VISION, effectLength, Math.min(netheriteLevel, 127), true, true));
 
-    @Override
-    @Nullable
-    public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
+				// regeneration case
+				if (levels >= LEVELS_NEEDED_FOR_SECONDARY && primaryPower != secondaryPower && secondaryPower != null) {
+					player.addEffect(new MobEffectInstance(secondaryPower, effectLength, secondaryEffectLevel, true, true));
+				}
+			}
 
-    @Override
-    public CompoundTag getUpdateTag(final HolderLookup.Provider registries) {
-        return this.saveCustomOnly(registries);
-    }
+			if (tertiaryPower == MobEffects.GLOWING) {
+				List<Mob> entities = level.getEntitiesOfClass(Mob.class, box);
 
-    @Override
-    protected void loadAdditional(final ValueInput input) {
-        super.loadAdditional(input);
-        this.primaryPower = loadEffect(input, TAG_PRIMARY);
-        this.secondaryPower = loadEffect(input, TAG_SECONDARY);
-        this.tertiaryPower = loadEffect(input, TAG_TERTIARY);
-        this.name = parseCustomNameSafe(input, "CustomName");
-        this.lockKey = LockCode.fromTag(input);
-    }
+				for (LivingEntity entity : entities) {
+					entity.addEffect(new MobEffectInstance(MobEffects.GLOWING, effectLength, 0, true, true));
+				}
+			}
+		}
+	}
 
-    @Override
-    protected void saveAdditional(final ValueOutput output) {
-        super.saveAdditional(output);
-        storeEffect(output, TAG_PRIMARY, this.primaryPower);
-        storeEffect(output, TAG_SECONDARY, this.secondaryPower);
-        storeEffect(output, TAG_TERTIARY, this.tertiaryPower);
-        output.storeNullable("CustomName", ComponentSerialization.CODEC, this.name);
-        this.lockKey.addToTag(output);
-    }
+	public static void playSound(Level level, BlockPos pos, SoundEvent sound) {
+		level.playSound(null, pos, sound, SoundSource.BLOCKS, 1.0F, 1.0F);
+	}
 
-    @Override
-    public @Nullable Component getCustomName() {
-        return this.name;
-    }
+	private static void storeEffect(final ValueOutput output, final String field, final @Nullable Holder<MobEffect> effect) {
+		if (effect != null) {
+			effect
+					.unwrapKey()
+					.ifPresent(key -> output.putString(field, key
+							.identifier()
+							.toString()));
+		}
+	}
 
-    @Override
-    public @Nullable AbstractContainerMenu createMenu(final int containerId, final Inventory inventory, final Player player) {
-        if (this.lockKey.canUnlock(player)) {
-            //noinspection DataFlowIssue
-            return new NetheriteBeaconMenu(containerId, inventory, this.dataAccess, ContainerLevelAccess.create(this.level, this.getBlockPos()));
-        }
+	private static @Nullable Holder<MobEffect> loadEffect(final ValueInput input, final String field) {
+		return input
+				.read(field, BuiltInRegistries.MOB_EFFECT.holderByNameCodec())
+				.filter(VALID_EFFECTS::contains)
+				.orElse(null);
+	}
 
-        BaseContainerBlockEntity.sendChestLockedNotifications(Vec3.atCenterOf(this.getBlockPos()), player, this.getDisplayName());
-        return null;
-    }
+	public int getNetheriteLevel() {
+		return netheriteLevel;
+	}
 
-    @Override
-    public Component getDisplayName() {
-        return this.getName();
-    }
+	@Override
+	public void setRemoved() {
+		//noinspection DataFlowIssue
+		playSound(this.level, this.worldPosition, SoundEvents.BEACON_DEACTIVATE);
+		super.setRemoved();
+	}
 
-    @Override
-    public Component getName() {
-        return this.name != null ? this.name : DEFAULT_NAME;
-    }
+	public List<BeaconBeamOwner.Section> getBeamSections() {
+		return levels == 0 ? ImmutableList.of() : beamSections;
+	}
 
-    @Override
-    protected void applyImplicitComponents(final DataComponentGetter components) {
-        super.applyImplicitComponents(components);
-        this.name = components.get(DataComponents.CUSTOM_NAME);
-        this.lockKey = components.getOrDefault(DataComponents.LOCK, LockCode.NO_LOCK);
-    }
+	public int getBeaconLevel() {
+		return levels;
+	}
 
-    @Override
-    protected void collectImplicitComponents(final DataComponentMap.Builder components) {
-        super.collectImplicitComponents(components);
-        components.set(DataComponents.CUSTOM_NAME, this.name);
-        if (!this.lockKey.equals(LockCode.NO_LOCK)) {
-            components.set(DataComponents.LOCK, this.lockKey);
-        }
-    }
+	@Override
+	@Nullable
+	public ClientboundBlockEntityDataPacket getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
+	}
 
-    @Override
-    @SuppressWarnings("deprecation")
-    public void removeComponentsFromTag(final ValueOutput output) {
-        output.discard("CustomName");
-        output.discard("lock");
-    }
+	@Override
+	public CompoundTag getUpdateTag(final HolderLookup.Provider registries) {
+		return this.saveCustomOnly(registries);
+	}
 
-    @Override
-    public void setLevel(final Level level) {
-        super.setLevel(level);
-        this.lastCheckY = level.getMinY() - 1;
-    }
+	@Override
+	protected void loadAdditional(final ValueInput input) {
+		super.loadAdditional(input);
+		this.primaryPower = loadEffect(input, TAG_PRIMARY);
+		this.secondaryPower = loadEffect(input, TAG_SECONDARY);
+		this.tertiaryPower = loadEffect(input, TAG_TERTIARY);
+		this.name = parseCustomNameSafe(input, "CustomName");
+		this.lockKey = LockCode.fromTag(input);
+	}
+
+	@Override
+	protected void saveAdditional(final ValueOutput output) {
+		super.saveAdditional(output);
+		storeEffect(output, TAG_PRIMARY, this.primaryPower);
+		storeEffect(output, TAG_SECONDARY, this.secondaryPower);
+		storeEffect(output, TAG_TERTIARY, this.tertiaryPower);
+		output.storeNullable("CustomName", ComponentSerialization.CODEC, this.name);
+		this.lockKey.addToTag(output);
+	}
+
+	@Override
+	public @Nullable Component getCustomName() {
+		return this.name;
+	}
+
+	@Override
+	public @Nullable AbstractContainerMenu createMenu(final int containerId, final Inventory inventory, final Player player) {
+		if (this.lockKey.canUnlock(player)) {
+			//noinspection DataFlowIssue
+			return new NetheriteBeaconMenu(containerId, inventory, this.dataAccess, ContainerLevelAccess.create(this.level, this.getBlockPos()));
+		}
+
+		BaseContainerBlockEntity.sendChestLockedNotifications(Vec3.atCenterOf(this.getBlockPos()), player, this.getDisplayName());
+		return null;
+	}
+
+	@Override
+	public Component getDisplayName() {
+		return this.getName();
+	}
+
+	@Override
+	public Component getName() {
+		return this.name != null ? this.name : DEFAULT_NAME;
+	}
+
+	@Override
+	protected void applyImplicitComponents(final DataComponentGetter components) {
+		super.applyImplicitComponents(components);
+		this.name = components.get(DataComponents.CUSTOM_NAME);
+		this.lockKey = components.getOrDefault(DataComponents.LOCK, LockCode.NO_LOCK);
+	}
+
+	@Override
+	protected void collectImplicitComponents(final DataComponentMap.Builder components) {
+		super.collectImplicitComponents(components);
+		components.set(DataComponents.CUSTOM_NAME, this.name);
+
+		if (!this.lockKey.equals(LockCode.NO_LOCK)) {
+			components.set(DataComponents.LOCK, this.lockKey);
+		}
+	}
+
+	@Override
+	@SuppressWarnings("deprecation")
+	public void removeComponentsFromTag(final ValueOutput output) {
+		output.discard("CustomName");
+		output.discard("lock");
+	}
+
+	@Override
+	public void setLevel(final Level level) {
+		super.setLevel(level);
+		this.lastCheckY = level.getMinY() - 1;
+	}
 }

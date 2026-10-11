@@ -29,7 +29,6 @@ import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
-import com.oroarmor.netherite_plus.NetheritePlusMod;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.equipment.ArmorMaterial;
@@ -38,17 +37,19 @@ import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.item.equipment.EquipmentAssets;
 
-public interface NetheritePlusElytraComponents {
-    ArmorMaterial NETHERITE_ELYTRA_ARMOR_MATERIAL = new ArmorMaterial(
-            ArmorMaterials.NETHERITE.durability(),
-            Maps.newEnumMap(Map.of(ArmorType.CHESTPLATE, NetheritePlusMod.CONFIG.damage.elytraArmorPoints)),
-            ArmorMaterials.NETHERITE.enchantmentValue(),
-            ArmorMaterials.NETHERITE.equipSound(),
-            ArmorMaterials.NETHERITE.toughness(),
-            ArmorMaterials.NETHERITE.knockbackResistance(),
-            ArmorMaterials.NETHERITE.repairIngredient(),
-            ArmorMaterials.NETHERITE.assetId()
-    );
+import com.oroarmor.netherite_plus.NetheritePlusMod;
 
-    ResourceKey<EquipmentAsset> NETHERITE_ELYTRA_EQUIPMENT_ASSET = ResourceKey.create(EquipmentAssets.ROOT_ID, id("netherite_elytra"));
+public interface NetheritePlusElytraComponents {
+	ArmorMaterial NETHERITE_ELYTRA_ARMOR_MATERIAL = new ArmorMaterial(
+			ArmorMaterials.NETHERITE.durability(),
+			Maps.newEnumMap(Map.of(ArmorType.CHESTPLATE, NetheritePlusMod.CONFIG.damage.elytraArmorPoints)),
+			ArmorMaterials.NETHERITE.enchantmentValue(),
+			ArmorMaterials.NETHERITE.equipSound(),
+			ArmorMaterials.NETHERITE.toughness(),
+			ArmorMaterials.NETHERITE.knockbackResistance(),
+			ArmorMaterials.NETHERITE.repairIngredient(),
+			ArmorMaterials.NETHERITE.assetId()
+	);
+
+	ResourceKey<EquipmentAsset> NETHERITE_ELYTRA_EQUIPMENT_ASSET = ResourceKey.create(EquipmentAssets.ROOT_ID, id("netherite_elytra"));
 }

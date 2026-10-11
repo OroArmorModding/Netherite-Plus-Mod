@@ -27,11 +27,6 @@ package com.oroarmor.netherite_plus.client.data;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import com.oroarmor.netherite_plus.client.renderer.NetheritePlusSheets;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
-
 import net.minecraft.client.renderer.SpriteMapper;
 import net.minecraft.client.renderer.texture.atlas.SpriteSource;
 import net.minecraft.client.renderer.texture.atlas.SpriteSources;
@@ -42,36 +37,42 @@ import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+
+import com.oroarmor.netherite_plus.client.renderer.NetheritePlusSheets;
+
 @Environment(EnvType.CLIENT)
 public class NetheritePlusAtlasProvider implements DataProvider {
-    private final PackOutput.PathProvider pathProvider;
+	private final PackOutput.PathProvider pathProvider;
 
-    public NetheritePlusAtlasProvider(FabricPackOutput output) {
-        this.pathProvider = output.createPathProvider(PackOutput.Target.RESOURCE_PACK, "atlases");
-    }
+	public NetheritePlusAtlasProvider(FabricPackOutput output) {
+		this.pathProvider = output.createPathProvider(PackOutput.Target.RESOURCE_PACK, "atlases");
+	}
 
-    private static SpriteSource forMapper(SpriteMapper mapper) {
-        return new DirectoryLister(mapper.prefix(), mapper.prefix() + "/");
-    }
+	private static SpriteSource forMapper(SpriteMapper mapper) {
+		return new DirectoryLister(mapper.prefix(), mapper.prefix() + "/");
+	}
 
-    private static List<SpriteSource> simpleMapper(final SpriteMapper mapper) {
-        return List.of(forMapper(mapper));
-    }
+	private static List<SpriteSource> simpleMapper(final SpriteMapper mapper) {
+		return List.of(forMapper(mapper));
+	}
 
-    @Override
-    public CompletableFuture<?> run(CachedOutput cache) {
-        return CompletableFuture.allOf(
-                this.storeAtlas(cache, AtlasIds.SHIELD_PATTERNS, simpleMapper(NetheritePlusSheets.NETHERITE_SHIELD_MAPPER)),
-                this.storeAtlas(cache, AtlasIds.SHULKER_BOXES, simpleMapper(NetheritePlusSheets.NETHERITE_SHULKER_MAPPER))
-        );
-    }
+	@Override
+	public CompletableFuture<?> run(CachedOutput cache) {
+		return CompletableFuture.allOf(
+				this.storeAtlas(cache, AtlasIds.SHIELD_PATTERNS, simpleMapper(NetheritePlusSheets.NETHERITE_SHIELD_MAPPER)),
+				this.storeAtlas(cache, AtlasIds.SHULKER_BOXES, simpleMapper(NetheritePlusSheets.NETHERITE_SHULKER_MAPPER))
+		);
+	}
 
-    private CompletableFuture<?> storeAtlas(CachedOutput cache, Identifier atlasId, List<SpriteSource> contents) {
-        return DataProvider.saveStable(cache, SpriteSources.FILE_CODEC, contents, this.pathProvider.json(atlasId));
-    }
+	private CompletableFuture<?> storeAtlas(CachedOutput cache, Identifier atlasId, List<SpriteSource> contents) {
+		return DataProvider.saveStable(cache, SpriteSources.FILE_CODEC, contents, this.pathProvider.json(atlasId));
+	}
 
-    @Override
-    public String getName() {
-        return "Netherite Plus Atlas Definitions";
-    }
+	@Override
+	public String getName() {
+		return "Netherite Plus Atlas Definitions";
+	}
 }

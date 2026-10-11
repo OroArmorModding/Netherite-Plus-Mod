@@ -24,31 +24,30 @@
 
 package com.oroarmor.netherite_plus.client;
 
+import net.minecraft.client.renderer.blockentity.BeaconRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.RenderStateDataKey;
+
 import com.oroarmor.netherite_plus.NetheritePlusMod;
 import com.oroarmor.netherite_plus.client.gui.screens.NetheritePlusMenuScreens;
 import com.oroarmor.netherite_plus.client.model.geom.NetheritePlusModelLayers;
 import com.oroarmor.netherite_plus.client.renderer.NetheritePlusSheets;
 import com.oroarmor.netherite_plus.network.protocol.configuration.ClientboundLavaVisionUpdatePacket;
 import com.oroarmor.netherite_plus.world.level.block.NetheritePlusBlocks;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationNetworking;
-import net.fabricmc.fabric.api.client.rendering.v1.RenderStateDataKey;
-
-import net.minecraft.client.renderer.blockentity.BeaconRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 
 public class NetheritePlusClientMod implements ClientModInitializer {
-    public static final RenderStateDataKey<Boolean> IS_NETHERITE = RenderStateDataKey.create(() -> "is_netherite");
-    public static double LAVA_VISION_DISTANCE = NetheritePlusMod.CONFIG.graphics.lavaVisionDistance;
+	public static final RenderStateDataKey<Boolean> IS_NETHERITE = RenderStateDataKey.create(() -> "is_netherite");
+	public static double LAVA_VISION_DISTANCE = NetheritePlusMod.CONFIG.graphics.lavaVisionDistance;
 
-    public void onInitializeClient() {
-        ClientConfigurationNetworking.registerGlobalReceiver(ClientboundLavaVisionUpdatePacket.TYPE, (packet, context) -> {
-            LAVA_VISION_DISTANCE = packet.value();
-        });
+	public void onInitializeClient() {
+		ClientConfigurationNetworking.registerGlobalReceiver(ClientboundLavaVisionUpdatePacket.TYPE, (packet, _) -> LAVA_VISION_DISTANCE = packet.value());
 
-        NetheritePlusSheets.init();
-        NetheritePlusModelLayers.init();
-        BlockEntityRenderers.register(NetheritePlusBlocks.NETHERITE_BEACON_BLOCK_ENTITY, _ -> new BeaconRenderer<>());
-        NetheritePlusMenuScreens.init();
-    }
+		NetheritePlusSheets.init();
+		NetheritePlusModelLayers.init();
+		BlockEntityRenderers.register(NetheritePlusBlocks.NETHERITE_BEACON_BLOCK_ENTITY, _ -> new BeaconRenderer<>());
+		NetheritePlusMenuScreens.init();
+	}
 }

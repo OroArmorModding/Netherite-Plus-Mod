@@ -33,15 +33,15 @@ import net.minecraft.stats.StatFormatter;
 import net.minecraft.stats.Stats;
 
 public class NetheritePlusStats {
-    public static final Identifier FLY_NETHERITE_ELYTRA_ONE_CM = register("netherite_elytra_flight_cm", StatFormatter.DISTANCE);
+	public static final Identifier FLY_NETHERITE_ELYTRA_ONE_CM = register("netherite_elytra_flight_cm", StatFormatter.DISTANCE);
 
-    private static Identifier register(String name, StatFormatter formatter) {
-        Identifier identifier = id(name);
-        Registry.register(BuiltInRegistries.CUSTOM_STAT, identifier, identifier);
-        Stats.CUSTOM.get(identifier, formatter);
-        return identifier;
-    }
+	private static Identifier register(String name, StatFormatter formatter) {
+		Identifier identifier = id(name);
+		Registry.register(BuiltInRegistries.CUSTOM_STAT, identifier, identifier);
+		Stats.CUSTOM.get(identifier, formatter);
+		return identifier;
+	}
 
-    public static void init() {
-    }
+	public static void init() {
+	}
 }

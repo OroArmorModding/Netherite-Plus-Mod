@@ -28,7 +28,6 @@ import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.oroarmor.netherite_plus.world.item.NetheritePlusItems;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -38,26 +37,28 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.PumpkinBlock;
 
+import com.oroarmor.netherite_plus.world.item.NetheritePlusItems;
+
 @Mixin(
-        value = {
-                BeehiveBlock.class,
-                PumpkinBlock.class,
-        }
+		value = {
+				BeehiveBlock.class,
+				PumpkinBlock.class,
+		}
 )
 public class BlockUseItemOnMixin {
-    @Definition(id = "is", method = "Lnet/minecraft/world/item/ItemStack;is(Ljava/lang/Object;)Z")
-    @Definition(id = "SHEARS", field = "Lnet/minecraft/world/item/Items;SHEARS:Lnet/minecraft/world/item/Item;")
-    @Expression("?.is(SHEARS)")
-    @WrapOperation(method = "useItemOn", at = @At("MIXINEXTRAS:EXPRESSION"))
-    boolean useNetheriteShears(ItemStack instance, Object o, Operation<Boolean> original) {
-        return original.call(instance, o) || original.call(instance, NetheritePlusItems.NETHERITE_SHEARS);
-    }
+	@Definition(id = "is", method = "Lnet/minecraft/world/item/ItemStack;is(Ljava/lang/Object;)Z")
+	@Definition(id = "SHEARS", field = "Lnet/minecraft/world/item/Items;SHEARS:Lnet/minecraft/world/item/Item;")
+	@Expression("?.is(SHEARS)")
+	@WrapOperation(method = "useItemOn", at = @At("MIXINEXTRAS:EXPRESSION"))
+	boolean useNetheriteShears(ItemStack instance, Object o, Operation<Boolean> original) {
+		return original.call(instance, o) || original.call(instance, NetheritePlusItems.NETHERITE_SHEARS);
+	}
 
-    @Definition(id = "ITEM_USED", field = "Lnet/minecraft/stats/Stats;ITEM_USED:Lnet/minecraft/stats/StatType;")
-    @Definition(id = "get", method = "Lnet/minecraft/stats/StatType;get(Ljava/lang/Object;)Lnet/minecraft/stats/Stat;")
-    @Expression("ITEM_USED.get(?)")
-    @WrapOperation(method = "useItemOn", at = @At("MIXINEXTRAS:EXPRESSION"))
-    <T> Stat<T> useNetheriteShearsForStats(StatType<T> instance, T argument, Operation<Stat<T>> original, ItemStack itemStack) {
-        return original.call(instance, itemStack.getItem());
-    }
+	@Definition(id = "ITEM_USED", field = "Lnet/minecraft/stats/Stats;ITEM_USED:Lnet/minecraft/stats/StatType;")
+	@Definition(id = "get", method = "Lnet/minecraft/stats/StatType;get(Ljava/lang/Object;)Lnet/minecraft/stats/Stat;")
+	@Expression("ITEM_USED.get(?)")
+	@WrapOperation(method = "useItemOn", at = @At("MIXINEXTRAS:EXPRESSION"))
+	<T> Stat<T> useNetheriteShearsForStats(StatType<T> instance, T argument, Operation<Stat<T>> original, ItemStack itemStack) {
+		return original.call(instance, itemStack.getItem());
+	}
 }

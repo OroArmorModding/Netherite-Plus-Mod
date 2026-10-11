@@ -31,7 +31,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.storage.loot.LootTable;
 
 public class NetheritePlusLootManager {
-    public static final ResourceKey<LootTable> LAVA_FISHING_LOOT_TABLE = ResourceKey.create(Registries.LOOT_TABLE, id("gameplay/fishing"));
-    public static final ResourceKey<LootTable> LAVA_FISHING_TREASURE_LOOT_TABLE = ResourceKey.create(Registries.LOOT_TABLE, id("gameplay/fishing/treasure"));
-    public static final ResourceKey<LootTable> LAVA_FISHING_JUNK_LOOT_TABLE = ResourceKey.create(Registries.LOOT_TABLE, id("gameplay/fishing/junk"));
+	public static final ResourceKey<LootTable> LAVA_FISHING_LOOT_TABLE = ResourceKey.create(Registries.LOOT_TABLE, id("gameplay/fishing"));
+	public static final ResourceKey<LootTable> LAVA_FISHING_TREASURE_LOOT_TABLE = ResourceKey.create(Registries.LOOT_TABLE, id("gameplay/fishing/treasure"));
+	public static final ResourceKey<LootTable> LAVA_FISHING_JUNK_LOOT_TABLE = ResourceKey.create(Registries.LOOT_TABLE, id("gameplay/fishing/junk"));
 }

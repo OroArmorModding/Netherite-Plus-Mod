@@ -1,0 +1,18 @@
+{
+  "authors": [
+    "OroArmor"
+  ],
+  "depends": {
+    "netherite_plus": "*"
+  },
+  "entrypoints": {
+    "fabric-datagen": [
+      "com.oroarmor.netherite_plus.data.NetheritePlusDataGenerator"
+    ]
+  },
+  "id": "netherite_plus-datagen",
+  "license": "MIT",
+  "name": "Netherite Plus Mod - Datagen",
+  "schemaVersion": 1,
+  "version": "${version}"
+}

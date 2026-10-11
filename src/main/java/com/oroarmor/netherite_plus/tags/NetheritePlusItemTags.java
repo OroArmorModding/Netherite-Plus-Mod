@@ -31,6 +31,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
 public class NetheritePlusItemTags {
-    public static final TagKey<Item> NETHERITE_SHULKER_BOXES = TagKey.create(Registries.ITEM, id("netherite_shulker_boxes"));
-    public static final TagKey<Item> DYED_NETHERITE_SHULKER_BOXES = TagKey.create(Registries.ITEM, id("dyed_netherite_shulker_boxes"));
+	public static final TagKey<Item> NETHERITE_SHULKER_BOXES = TagKey.create(Registries.ITEM, id("netherite_shulker_boxes"));
+	public static final TagKey<Item> DYED_NETHERITE_SHULKER_BOXES = TagKey.create(Registries.ITEM, id("dyed_netherite_shulker_boxes"));
 }

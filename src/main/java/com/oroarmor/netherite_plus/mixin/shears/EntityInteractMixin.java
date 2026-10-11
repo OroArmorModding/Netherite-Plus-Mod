@@ -28,7 +28,6 @@ import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.oroarmor.netherite_plus.world.item.NetheritePlusItems;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -36,18 +35,20 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.decoration.LeashFenceKnotEntity;
 import net.minecraft.world.item.ItemStack;
 
+import com.oroarmor.netherite_plus.world.item.NetheritePlusItems;
+
 @Mixin(
-        value = {
-                Entity.class,
-                LeashFenceKnotEntity.class,
-        }
+		value = {
+				Entity.class,
+				LeashFenceKnotEntity.class,
+		}
 )
 public class EntityInteractMixin {
-    @Definition(id = "is", method = "Lnet/minecraft/world/item/ItemStack;is(Ljava/lang/Object;)Z")
-    @Definition(id = "SHEARS", field = "Lnet/minecraft/world/item/Items;SHEARS:Lnet/minecraft/world/item/Item;")
-    @Expression("?.is(SHEARS)")
-    @WrapOperation(method = "interact", at = @At("MIXINEXTRAS:EXPRESSION"))
-    boolean useNetheriteShears(ItemStack instance, Object o, Operation<Boolean> original) {
-        return original.call(instance, o) || original.call(instance, NetheritePlusItems.NETHERITE_SHEARS);
-    }
+	@Definition(id = "is", method = "Lnet/minecraft/world/item/ItemStack;is(Ljava/lang/Object;)Z")
+	@Definition(id = "SHEARS", field = "Lnet/minecraft/world/item/Items;SHEARS:Lnet/minecraft/world/item/Item;")
+	@Expression("?.is(SHEARS)")
+	@WrapOperation(method = "interact", at = @At("MIXINEXTRAS:EXPRESSION"))
+	boolean useNetheriteShears(ItemStack instance, Object o, Operation<Boolean> original) {
+		return original.call(instance, o) || original.call(instance, NetheritePlusItems.NETHERITE_SHEARS);
+	}
 }

@@ -33,17 +33,18 @@ import net.minecraft.world.entity.LivingEntity;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
-    @Shadow
-    public abstract boolean isAutoSpinAttack();
+	@Shadow
+	public abstract boolean isAutoSpinAttack();
 
-    @ModifyConstant(method = {
-            "travelFlying(Lnet/minecraft/world/phys/Vec3;FFF)V",
-            "travelInLava"
-    }, constant = @Constant(doubleValue = 0.5))
-    double doNotSlowInLavaWhenSpinAttackIsOn(double constant) {
-        if (this.isAutoSpinAttack()) {
-            return 0.8;
-        }
-        return constant;
-    }
+	@ModifyConstant(method = {
+			"travelFlying(Lnet/minecraft/world/phys/Vec3;FFF)V",
+			"travelInLava"
+	}, constant = @Constant(doubleValue = 0.5))
+	double doNotSlowInLavaWhenSpinAttackIsOn(double constant) {
+		if (this.isAutoSpinAttack()) {
+			return 0.8;
+		}
+
+		return constant;
+	}
 }

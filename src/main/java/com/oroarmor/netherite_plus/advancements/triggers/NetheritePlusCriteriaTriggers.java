@@ -30,14 +30,14 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 
 public class NetheritePlusCriteriaTriggers {
-    public static final ConstructNetheriteBeaconTrigger CONSTRUCT_NETHERITE_BEACON = register(ConstructNetheriteBeaconTrigger.ID, new ConstructNetheriteBeaconTrigger());
-    public static final NetheriteBlocksNetheriteBeaconTrigger FULL_NETHERITE_NETHERITE_BEACON = register(NetheriteBlocksNetheriteBeaconTrigger.ID, new NetheriteBlocksNetheriteBeaconTrigger());
-    public static final RiptideNetheriteTridentTrigger RIPTIDE_NETHERITE_TRIDENT = register(RiptideNetheriteTridentTrigger.ID, new RiptideNetheriteTridentTrigger());
+	public static final ConstructNetheriteBeaconTrigger CONSTRUCT_NETHERITE_BEACON = register(ConstructNetheriteBeaconTrigger.ID, new ConstructNetheriteBeaconTrigger());
+	public static final NetheriteBlocksNetheriteBeaconTrigger FULL_NETHERITE_NETHERITE_BEACON = register(NetheriteBlocksNetheriteBeaconTrigger.ID, new NetheriteBlocksNetheriteBeaconTrigger());
+	public static final RiptideNetheriteTridentTrigger RIPTIDE_NETHERITE_TRIDENT = register(RiptideNetheriteTridentTrigger.ID, new RiptideNetheriteTridentTrigger());
 
-    private static <T extends CriterionTrigger<?>> T register(Identifier id, T criterion) {
-        return Registry.register(BuiltInRegistries.TRIGGER_TYPES, id, criterion);
-    }
+	private static <T extends CriterionTrigger<?>> T register(Identifier id, T criterion) {
+		return Registry.register(BuiltInRegistries.TRIGGER_TYPES, id, criterion);
+	}
 
-    public static void init() {
-    }
+	public static void init() {
+	}
 }

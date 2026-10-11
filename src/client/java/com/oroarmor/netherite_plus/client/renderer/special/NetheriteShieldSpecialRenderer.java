@@ -25,9 +25,6 @@
 package com.oroarmor.netherite_plus.client.renderer.special;
 
 import com.mojang.serialization.MapCodec;
-import com.oroarmor.netherite_plus.client.model.geom.NetheritePlusModelLayers;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 import net.minecraft.client.model.object.equipment.ShieldModel;
 import net.minecraft.client.renderer.special.ShieldSpecialRenderer;
@@ -35,24 +32,30 @@ import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.core.component.DataComponentMap;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
+import com.oroarmor.netherite_plus.client.model.geom.NetheritePlusModelLayers;
+
 public class NetheriteShieldSpecialRenderer extends ShieldSpecialRenderer {
-    public NetheriteShieldSpecialRenderer(final SpriteGetter sprites, final ShieldModel model) {
-        super(sprites, model);
-    }
+	public NetheriteShieldSpecialRenderer(final SpriteGetter sprites, final ShieldModel model) {
+		super(sprites, model);
+	}
 
-    @Environment(EnvType.CLIENT)
-    public record Unbaked() implements SpecialModelRenderer.Unbaked<DataComponentMap> {
+	@Environment(EnvType.CLIENT)
+	public record Unbaked() implements SpecialModelRenderer.Unbaked<DataComponentMap> {
+		public static final Unbaked INSTANCE = new Unbaked();
+		public static final MapCodec<Unbaked> MAP_CODEC = MapCodec.unit(INSTANCE);
 
-        public static final Unbaked INSTANCE = new Unbaked();
-        public static final MapCodec<Unbaked> MAP_CODEC = MapCodec.unit(INSTANCE);
+		@Override
+		public MapCodec<Unbaked> type() {
+			return MAP_CODEC;
+		}
 
-        @Override
-        public MapCodec<Unbaked> type() {
-            return MAP_CODEC;
-        }
-
-        public NetheriteShieldSpecialRenderer bake(final SpecialModelRenderer.BakingContext context) {
-            return new NetheriteShieldSpecialRenderer(context.sprites(), new ShieldModel(context.entityModelSet().bakeLayer(NetheritePlusModelLayers.NETHERITE_SHIELD)));
-        }
-    }
+		public NetheriteShieldSpecialRenderer bake(final SpecialModelRenderer.BakingContext context) {
+			return new NetheriteShieldSpecialRenderer(context.sprites(), new ShieldModel(context
+					.entityModelSet()
+					.bakeLayer(NetheritePlusModelLayers.NETHERITE_SHIELD)));
+		}
+	}
 }

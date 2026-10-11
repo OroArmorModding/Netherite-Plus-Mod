@@ -26,8 +26,6 @@ package com.oroarmor.netherite_plus.mixin.trident;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.oroarmor.netherite_plus.advancements.triggers.NetheritePlusCriteriaTriggers;
-import com.oroarmor.netherite_plus.world.item.NetheritePlusItems;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -41,25 +39,27 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TridentItem;
 import net.minecraft.world.level.Level;
 
+import com.oroarmor.netherite_plus.advancements.triggers.NetheritePlusCriteriaTriggers;
+import com.oroarmor.netherite_plus.world.item.NetheritePlusItems;
+
 @Mixin(TridentItem.class)
 public class TridentItemMixin extends Item {
+	public TridentItemMixin(Properties properties) {
+		super(properties);
+	}
 
-    public TridentItemMixin(Properties properties) {
-        super(properties);
-    }
+	@WrapOperation(method = {
+			"releaseUsing",
+			"use"
+	}, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isInWaterOrRain()Z"))
+	boolean allowRiptideInLava(Player instance, Operation<Boolean> original) {
+		return original.call(instance) || this == NetheritePlusItems.NETHERITE_TRIDENT && instance.isInLava();
+	}
 
-    @WrapOperation(method = {
-            "releaseUsing",
-            "use"
-    }, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isInWaterOrRain()Z"))
-    boolean allowRiptideInLava(Player instance, Operation<Boolean> original) {
-        return original.call(instance) || this == NetheritePlusItems.NETHERITE_TRIDENT && instance.isInLava();
-    }
-
-    @Inject(method = "releaseUsing", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;startAutoSpinAttack(IFLnet/minecraft/world/item/ItemStack;)V"))
-    void grantRiptideAdvancement(ItemStack itemStack, Level level, LivingEntity entity, int remainingTime, CallbackInfoReturnable<Boolean> cir) {
-        if (entity instanceof ServerPlayer serverPlayer && serverPlayer.isInLava()) {
-            NetheritePlusCriteriaTriggers.RIPTIDE_NETHERITE_TRIDENT.trigger(serverPlayer);
-        }
-    }
+	@Inject(method = "releaseUsing", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;startAutoSpinAttack(IFLnet/minecraft/world/item/ItemStack;)V"))
+	void grantRiptideAdvancement(ItemStack itemStack, Level level, LivingEntity entity, int remainingTime, CallbackInfoReturnable<Boolean> cir) {
+		if (entity instanceof ServerPlayer serverPlayer && serverPlayer.isInLava()) {
+			NetheritePlusCriteriaTriggers.RIPTIDE_NETHERITE_TRIDENT.trigger(serverPlayer);
+		}
+	}
 }

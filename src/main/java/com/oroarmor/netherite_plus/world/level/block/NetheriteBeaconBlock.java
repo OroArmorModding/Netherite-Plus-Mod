@@ -24,7 +24,6 @@
 
 package com.oroarmor.netherite_plus.world.level.block;
 
-import com.oroarmor.netherite_plus.world.level.block.entity.NetheriteBeaconBlockEntity;
 import org.jspecify.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
@@ -42,36 +41,40 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 
+import com.oroarmor.netherite_plus.world.level.block.entity.NetheriteBeaconBlockEntity;
+
 public class NetheriteBeaconBlock extends BeaconBlock {
-    public NetheriteBeaconBlock(Properties properties) {
-        super(properties);
-        this.registerDefaultState(getStateDefinition().any().setValue(BlockStateProperties.POWERED, false));
-    }
+	public NetheriteBeaconBlock(Properties properties) {
+		super(properties);
+		this.registerDefaultState(getStateDefinition()
+				.any()
+				.setValue(BlockStateProperties.POWERED, false));
+	}
 
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder);
-        builder.add(BlockStateProperties.POWERED);
-    }
+	@Override
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		super.createBlockStateDefinition(builder);
+		builder.add(BlockStateProperties.POWERED);
+	}
 
-    @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new NetheriteBeaconBlockEntity(pos, state);
-    }
+	@Override
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+		return new NetheriteBeaconBlockEntity(pos, state);
+	}
 
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return createTickerHelper(type, NetheritePlusBlocks.NETHERITE_BEACON_BLOCK_ENTITY, NetheriteBeaconBlockEntity::tick);
-    }
+	@Nullable
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+		return createTickerHelper(type, NetheritePlusBlocks.NETHERITE_BEACON_BLOCK_ENTITY, NetheriteBeaconBlockEntity::tick);
+	}
 
-    @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (!level.isClientSide() && level.getBlockEntity(pos) instanceof NetheriteBeaconBlockEntity beacon) {
-            player.openMenu(beacon);
-            player.awardStat(Stats.INTERACT_WITH_BEACON);
-        }
+	@Override
+	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+		if (!level.isClientSide() && level.getBlockEntity(pos) instanceof NetheriteBeaconBlockEntity beacon) {
+			player.openMenu(beacon);
+			player.awardStat(Stats.INTERACT_WITH_BEACON);
+		}
 
-        return InteractionResult.SUCCESS;
-    }
+		return InteractionResult.SUCCESS;
+	}
 }

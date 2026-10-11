@@ -24,6 +24,7 @@
 
 package com.oroarmor.netherite_plus.mixin.shears;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -32,48 +33,62 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Decoder;
-import com.oroarmor.netherite_plus.world.item.NetheritePlusItems;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 import net.minecraft.advancements.predicates.ItemPredicate;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.storage.loot.predicates.LootPredicates;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 
+import com.oroarmor.netherite_plus.world.item.NetheritePlusItems;
+
 @Mixin(targets = "net/minecraft/resources/RegistryLoadTask$PendingRegistration")
 public class RegistryLoadTaskPendingRegistrationMixin {
+	@SuppressWarnings({"unchecked", "deprecation"})
+	@WrapOperation(method = "loadFromResource", at = @At(value = "INVOKE", target = "Lcom/mojang/serialization/DataResult;getOrThrow()Ljava/lang/Object;"))
+	private static <R> R injectNetheriteShears(DataResult<R> instance, Operation<R> original, final Decoder<R> elementDecoder, final RegistryOps<JsonElement> ops, final ResourceKey<R> elementKey, final Resource thunk) {
+		R result = original.call(instance);
 
-    @SuppressWarnings("unchecked")
-    @WrapOperation(method = "loadFromResource", at = @At(value = "INVOKE", target = "Lcom/mojang/serialization/DataResult;getOrThrow()Ljava/lang/Object;"))
-    private static <R> R injectNetheriteShears(DataResult<R> instance, Operation<R> original, final Decoder<R> elementDecoder, final RegistryOps<JsonElement> ops, final ResourceKey<R> elementKey, final Resource thunk) {
-        R result = original.call(instance);
+		if (elementKey.isFor(Registries.PREDICATE) && elementKey
+				.identifier()
+				.equals(LootPredicates.TOOL_CAN_SHEAR.identifier())) {
+			MatchTool match = (MatchTool) result;
 
-        if (elementKey.isFor(Registries.PREDICATE) && elementKey.identifier().equals(LootPredicates.TOOL_CAN_SHEAR.identifier())) {
-            MatchTool match = (MatchTool) result;
-            if (match.predicate().isPresent()) {
-                ItemPredicate predicate = match.predicate().get();
-                var items = Stream.concat(
-                        predicate.items().orElse(HolderSet.empty()).stream(),
-                        Stream.of(NetheritePlusItems.NETHERITE_SHEARS.builtInRegistryHolder())
-                ).toList();
-                MatchTool newMatch = new MatchTool(
-                        Optional.of(
-                                new ItemPredicate(
-                                        Optional.of(HolderSet.direct(items)),
-                                        predicate.count(),
-                                        predicate.components()
-                                )
-                        )
-                );
-                return (R) newMatch;
-            }
-        }
+			if (match
+					.predicate()
+					.isPresent()) {
+				ItemPredicate predicate = match
+						.predicate()
+						.get();
+				List<Holder<Item>> items = Stream
+						.concat(
+								predicate
+										.items()
+										.orElse(HolderSet.empty())
+										.stream(),
+								Stream.of(NetheritePlusItems.NETHERITE_SHEARS.builtInRegistryHolder())
+						)
+						.toList();
+				MatchTool newMatch = new MatchTool(
+						Optional.of(
+								new ItemPredicate(
+										Optional.of(HolderSet.direct(items)),
+										predicate.count(),
+										predicate.components()
+								)
+						)
+				);
+				return (R) newMatch;
+			}
+		}
 
-        return result;
-    }
+		return result;
+	}
 }

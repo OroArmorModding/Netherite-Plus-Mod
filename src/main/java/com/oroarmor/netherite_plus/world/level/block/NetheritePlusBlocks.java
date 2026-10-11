@@ -28,9 +28,6 @@ import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 import java.util.function.Function;
 
-import com.oroarmor.netherite_plus.world.level.block.entity.NetheriteBeaconBlockEntity;
-import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
-
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.references.BlockItemId;
@@ -47,63 +44,73 @@ import net.minecraft.world.level.block.entity.BlockEntityTypes;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+
+import com.oroarmor.netherite_plus.world.level.block.entity.NetheriteBeaconBlockEntity;
+
 public class NetheritePlusBlocks {
-    public static final Block NETHERITE_SHULKER_BOX = registerBlock(
-            NetheritePlusBlockItemsIds.NETHERITE_SHULKER_BOX.block(),
-            p -> new ShulkerBoxBlock(null, p),
-            shulkerBoxProperties(MapColor.COLOR_PURPLE)
-    );
-    public static final ColorCollection<Block> DYED_NETHERITE_SHULKER_BOX = ColorCollection.registerBlocks(
-            NetheritePlusBlockItemsIds.DYED_NETHERITE_SHULKER_BOX,
-            NetheritePlusBlocks::registerBlock,
-            ShulkerBoxBlock::new,
-            color -> shulkerBoxProperties(color == DyeColor.PURPLE ? MapColor.TERRACOTTA_PURPLE : color.getMapColor())
-    );
+	public static final Block NETHERITE_SHULKER_BOX = registerBlock(
+			NetheritePlusBlockItemsIds.NETHERITE_SHULKER_BOX.block(),
+			p -> new ShulkerBoxBlock(null, p),
+			shulkerBoxProperties(MapColor.COLOR_PURPLE)
+	);
+	public static final ColorCollection<Block> DYED_NETHERITE_SHULKER_BOX = ColorCollection.registerBlocks(
+			NetheritePlusBlockItemsIds.DYED_NETHERITE_SHULKER_BOX,
+			NetheritePlusBlocks::registerBlock,
+			ShulkerBoxBlock::new,
+			color -> shulkerBoxProperties(color == DyeColor.PURPLE ? MapColor.TERRACOTTA_PURPLE : color.getMapColor())
+	);
 
-    public static final Block FAKE_NETHERITE_BLOCK = registerBlock(
-            NetheritePlusBlockItemsIds.FAKE_NETHERITE_BLOCK,
-            Block::new,
-            BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)
-                    .mapColor(MapColor.COLOR_BLACK)
-                    .sound(SoundType.NETHERITE_BLOCK)
-    );
+	public static final Block FAKE_NETHERITE_BLOCK = registerBlock(
+			NetheritePlusBlockItemsIds.FAKE_NETHERITE_BLOCK,
+			Block::new,
+			BlockBehaviour.Properties
+					.ofFullCopy(Blocks.IRON_BLOCK)
+					.mapColor(MapColor.COLOR_BLACK)
+					.sound(SoundType.NETHERITE_BLOCK)
+	);
 
-    public static final Block NETHERITE_ANVIL = registerBlock(
-            NetheritePlusBlockItemsIds.NETHERITE_ANVIL,
-            AnvilBlock::new,
-            BlockBehaviour.Properties.ofFullCopy(Blocks.ANVIL)
-                    .lightLevel(_ -> 3)
-    );
+	public static final Block NETHERITE_ANVIL = registerBlock(
+			NetheritePlusBlockItemsIds.NETHERITE_ANVIL,
+			AnvilBlock::new,
+			BlockBehaviour.Properties
+					.ofFullCopy(Blocks.ANVIL)
+					.lightLevel(_ -> 3)
+	);
 
-    public static final Block NETHERITE_BEACON = registerBlock(
-            NetheritePlusBlockItemsIds.NETHERITE_BEACON,
-            NetheriteBeaconBlock::new,
-            BlockBehaviour.Properties.ofFullCopy(Blocks.BEACON)
-    );
+	public static final Block NETHERITE_BEACON = registerBlock(
+			NetheritePlusBlockItemsIds.NETHERITE_BEACON,
+			NetheriteBeaconBlock::new,
+			BlockBehaviour.Properties.ofFullCopy(Blocks.BEACON)
+	);
 
-    public static final BlockEntityType<NetheriteBeaconBlockEntity> NETHERITE_BEACON_BLOCK_ENTITY = Registry.register(
-            BuiltInRegistries.BLOCK_ENTITY_TYPE,
-            id("netherite_beacon"),
-            FabricBlockEntityTypeBuilder.create(NetheriteBeaconBlockEntity::new, NETHERITE_BEACON).build()
-    );
+	public static final BlockEntityType<NetheriteBeaconBlockEntity> NETHERITE_BEACON_BLOCK_ENTITY = Registry.register(
+			BuiltInRegistries.BLOCK_ENTITY_TYPE,
+			id("netherite_beacon"),
+			FabricBlockEntityTypeBuilder
+					.create(NetheriteBeaconBlockEntity::new, NETHERITE_BEACON)
+					.build()
+	);
 
-    static {
-        BlockEntityTypes.SHULKER_BOX.addValidBlock(NETHERITE_SHULKER_BOX);
-        DYED_NETHERITE_SHULKER_BOX.forEach(BlockEntityTypes.SHULKER_BOX::addValidBlock);
-    }
+	static {
+		BlockEntityTypes.SHULKER_BOX.addValidBlock(NETHERITE_SHULKER_BOX);
+		DYED_NETHERITE_SHULKER_BOX.forEach(BlockEntityTypes.SHULKER_BOX::addValidBlock);
+	}
 
-    private static Block registerBlock(BlockItemId id, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties properties) {
-        return registerBlock(id.block(), blockFactory, properties);
-    }
+	private static Block registerBlock(BlockItemId id, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties properties) {
+		return registerBlock(id.block(), blockFactory, properties);
+	}
 
-    private static Block registerBlock(ResourceKey<Block> id, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties properties) {
-        Block block = blockFactory.apply(properties.setId(id));
+	private static Block registerBlock(ResourceKey<Block> id, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties properties) {
+		Block block = blockFactory.apply(properties.setId(id));
 
-        return Registry.register(BuiltInRegistries.BLOCK, id, block);
-    }
+		return Registry.register(BuiltInRegistries.BLOCK, id, block);
+	}
 
-    private static BlockBehaviour.Properties shulkerBoxProperties(final MapColor mapColor) {
-        return BlockBehaviour.Properties.ofFullCopy(Blocks.SHULKER_BOX).mapColor(mapColor).explosionResistance(1200.0F);
-    }
-
+	private static BlockBehaviour.Properties shulkerBoxProperties(final MapColor mapColor) {
+		return BlockBehaviour.Properties
+				.ofFullCopy(Blocks.SHULKER_BOX)
+				.mapColor(mapColor)
+				.explosionResistance(1200.0F);
+	}
 }

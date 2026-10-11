@@ -25,5 +25,5 @@
 package com.oroarmor.netherite_plus.world.inventory;
 
 public interface NetheriteAnvilMenu {
-    boolean isNetherite();
+	boolean isNetherite();
 }

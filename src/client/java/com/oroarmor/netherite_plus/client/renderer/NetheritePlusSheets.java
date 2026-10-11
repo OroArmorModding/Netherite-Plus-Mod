@@ -24,7 +24,6 @@
 
 package com.oroarmor.netherite_plus.client.renderer;
 
-
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 import java.util.Arrays;
@@ -40,29 +39,29 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.DyeColor;
 
 public class NetheritePlusSheets {
-    public static final SpriteMapper NETHERITE_SHIELD_MAPPER = new SpriteMapper(Sheets.SHIELD_SHEET, "entity/netherite_shield");
-    public static final SpriteId NETHERITE_SHIELD_BASE = NETHERITE_SHIELD_MAPPER.apply(id("netherite_shield_base"));
-    public static final SpriteId NETHERITE_SHIELD_BASE_NO_PATTERN = NETHERITE_SHIELD_MAPPER.apply(id("netherite_shield_base_nopattern"));
-    public static final SpriteId NETHERITE_SHIELD_PATTERN_BASE = NETHERITE_SHIELD_MAPPER.apply(id("base"));
+	public static final SpriteMapper NETHERITE_SHIELD_MAPPER = new SpriteMapper(Sheets.SHIELD_SHEET, "entity/netherite_shield");
+	public static final SpriteId NETHERITE_SHIELD_BASE = NETHERITE_SHIELD_MAPPER.apply(id("netherite_shield_base"));
+	public static final SpriteId NETHERITE_SHIELD_BASE_NO_PATTERN = NETHERITE_SHIELD_MAPPER.apply(id("netherite_shield_base_nopattern"));
+	public static final SpriteId NETHERITE_SHIELD_PATTERN_BASE = NETHERITE_SHIELD_MAPPER.apply(id("base"));
 
-    public static final SpriteMapper NETHERITE_SHULKER_MAPPER = new SpriteMapper(Sheets.SHULKER_SHEET, "entity/netherite_shulker");
-    public static final SpriteId DEFAULT_NETHERITE_SHULKER_TEXTURE_LOCATION = NETHERITE_SHULKER_MAPPER.apply(id("netherite_shulker"));
-    public static final List<SpriteId> NETHERITE_SHULKER_TEXTURE_LOCATION = Arrays.stream(DyeColor.values())
-            .sorted(Comparator.comparingInt(DyeColor::getId))
-            .map(NetheritePlusSheets::createShulkerSprite)
-            .collect(ImmutableList.toImmutableList());
+	public static final SpriteMapper NETHERITE_SHULKER_MAPPER = new SpriteMapper(Sheets.SHULKER_SHEET, "entity/netherite_shulker");
+	public static final SpriteId DEFAULT_NETHERITE_SHULKER_TEXTURE_LOCATION = NETHERITE_SHULKER_MAPPER.apply(id("netherite_shulker"));
+	public static final List<SpriteId> NETHERITE_SHULKER_TEXTURE_LOCATION = Arrays
+			.stream(DyeColor.values())
+			.sorted(Comparator.comparingInt(DyeColor::getId))
+			.map(NetheritePlusSheets::createShulkerSprite)
+			.collect(ImmutableList.toImmutableList());
 
-    public static final Identifier NETHERITE_TRIDENT = id("textures/entity/netherite_trident/netherite_trident.png");
+	public static final Identifier NETHERITE_TRIDENT = id("textures/entity/netherite_trident/netherite_trident.png");
 
+	public static SpriteId createShulkerSprite(final DyeColor color) {
+		return NETHERITE_SHULKER_MAPPER.apply(colorToShulkerSprite(color));
+	}
 
-    public static SpriteId createShulkerSprite(final DyeColor color) {
-        return NETHERITE_SHULKER_MAPPER.apply(colorToShulkerSprite(color));
-    }
+	public static Identifier colorToShulkerSprite(final DyeColor color) {
+		return id("netherite_shulker_" + color.getName());
+	}
 
-    public static Identifier colorToShulkerSprite(final DyeColor color) {
-        return id("netherite_shulker_" + color.getName());
-    }
-
-    public static void init() {
-    }
+	public static void init() {
+	}
 }

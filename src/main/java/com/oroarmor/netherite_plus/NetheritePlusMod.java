@@ -26,6 +26,18 @@ package com.oroarmor.netherite_plus;
 
 import java.nio.file.Paths;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
+import net.minecraft.resources.Identifier;
+
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerConfigurationConnectionEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+
 import com.oroarmor.netherite_plus.advancements.triggers.NetheritePlusCriteriaTriggers;
 import com.oroarmor.netherite_plus.config.NetheritePlusConfig;
 import com.oroarmor.netherite_plus.network.protocol.configuration.ClientboundLavaVisionUpdatePacket;
@@ -36,68 +48,62 @@ import com.oroarmor.netherite_plus.world.entity.effect.NetheritePlusStatusEffect
 import com.oroarmor.netherite_plus.world.inventory.NetheriteBeaconMenu;
 import com.oroarmor.netherite_plus.world.inventory.NetheritePlusMenuType;
 import com.oroarmor.netherite_plus.world.item.NetheritePlusItems;
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
-import net.fabricmc.fabric.api.networking.v1.ServerConfigurationConnectionEvents;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
-import net.minecraft.resources.Identifier;
 
 public class NetheritePlusMod implements ModInitializer {
-    public static final String MOD_ID = "netherite_plus";
-    public static final NetheritePlusConfig CONFIG = NetheritePlusConfig.createToml(
-            Paths.get("config"),
-            MOD_ID,   // The family id, this should usually just be your mod ID
-            "config",           // The id for this particular config, since your mod might have multiple
-            NetheritePlusConfig.class      // The config class you created earlier
-    );
+	public static final String MOD_ID = "netherite_plus";
+	public static final NetheritePlusConfig CONFIG = NetheritePlusConfig.createToml(
+			Paths.get("config"),
+			MOD_ID,   // The family id, this should usually just be your mod ID
+			"config",           // The id for this particular config, since your mod might have multiple
+			NetheritePlusConfig.class      // The config class you created earlier
+	);
 
-    public static final Logger LOGGER = LogManager.getLogger("Netherite Plus");
+	public static final Logger LOGGER = LogManager.getLogger("Netherite Plus");
 
-    public static Identifier id(String id) {
-        return Identifier.fromNamespaceAndPath(MOD_ID, id);
-    }
+	public static Identifier id(String id) {
+		return Identifier.fromNamespaceAndPath(MOD_ID, id);
+	}
 
-    public void onInitialize() {
-        NetheritePlusItems.init();
-        NetheritePlusMenuType.init();
-        NetheritePlusStatusEffects.init();
-        NetheritePlusCriteriaTriggers.init();
-        NetheritePlusStats.init();
-        NetheritePlusEntityAttachments.init();
+	public void onInitialize() {
+		NetheritePlusItems.init();
+		NetheritePlusMenuType.init();
+		NetheritePlusStatusEffects.init();
+		NetheritePlusCriteriaTriggers.init();
+		NetheritePlusStats.init();
+		NetheritePlusEntityAttachments.init();
 
-        PayloadTypeRegistry.serverboundPlay().register(
-                ServerboundSetNetheriteBeacon.TYPE,
-                ServerboundSetNetheriteBeacon.STREAM_CODEC
-        );
+		PayloadTypeRegistry
+				.serverboundPlay()
+				.register(
+						ServerboundSetNetheriteBeacon.TYPE,
+						ServerboundSetNetheriteBeacon.STREAM_CODEC
+				);
 
-        PayloadTypeRegistry.clientboundConfiguration().register(
-                ClientboundLavaVisionUpdatePacket.TYPE,
-                ClientboundLavaVisionUpdatePacket.STREAM_CODEC
-        );
+		PayloadTypeRegistry
+				.clientboundConfiguration()
+				.register(
+						ClientboundLavaVisionUpdatePacket.TYPE,
+						ClientboundLavaVisionUpdatePacket.STREAM_CODEC
+				);
 
-        ServerConfigurationConnectionEvents.CONFIGURE.register((listener, server) -> {
-            listener.send(new ClientboundCustomPayloadPacket(new ClientboundLavaVisionUpdatePacket(CONFIG.graphics.lavaVisionDistance)));
-        });
+		ServerConfigurationConnectionEvents.CONFIGURE.register((listener, _) -> listener.send(new ClientboundCustomPayloadPacket(new ClientboundLavaVisionUpdatePacket(CONFIG.graphics.lavaVisionDistance))));
 
-        ServerPlayNetworking.registerGlobalReceiver(ServerboundSetNetheriteBeacon.TYPE, (payload, context) -> {
-            context.server().execute(() -> {
-                if (context.player().containerMenu instanceof NetheriteBeaconMenu menu) {
-                    if (!context.player().containerMenu.stillValid(context.player())) {
-                        LOGGER.debug("Player {} interacted with invalid menu {}", context.player(), context.player().containerMenu);
-                        return;
-                    }
+		ServerPlayNetworking.registerGlobalReceiver(ServerboundSetNetheriteBeacon.TYPE, (payload, context) -> context
+				.server()
+				.execute(() -> {
+					if (context.player().containerMenu instanceof NetheriteBeaconMenu menu) {
+						if (!context.player().containerMenu.stillValid(context.player())) {
+							LOGGER.debug("Player {} interacted with invalid menu {}", context.player(), context.player().containerMenu);
+							return;
+						}
 
-                    if (!menu.setEffects(payload.primary(), payload.secondary(), payload.tertiary())) {
-                        context.responseSender().disconnect(Component.translatable("multiplayer.disconnect.generic"));
-                        LOGGER.warn("Player {} tried to set invalid beacon effects", context.player());
-                    }
-                }
-            });
-        });
-    }
+						if (!menu.setEffects(payload.primary(), payload.secondary(), payload.tertiary())) {
+							context
+									.responseSender()
+									.disconnect(Component.translatable("multiplayer.disconnect.generic"));
+							LOGGER.warn("Player {} tried to set invalid beacon effects", context.player());
+						}
+					}
+				}));
+	}
 }

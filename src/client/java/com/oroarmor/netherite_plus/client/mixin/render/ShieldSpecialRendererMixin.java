@@ -25,8 +25,6 @@
 package com.oroarmor.netherite_plus.client.mixin.render;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.oroarmor.netherite_plus.client.renderer.NetheritePlusSheets;
-import com.oroarmor.netherite_plus.client.renderer.special.NetheriteShieldSpecialRenderer;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -34,21 +32,26 @@ import org.spongepowered.asm.mixin.injection.At;
 import net.minecraft.client.renderer.special.ShieldSpecialRenderer;
 import net.minecraft.client.resources.model.sprite.SpriteId;
 
+import com.oroarmor.netherite_plus.client.renderer.NetheritePlusSheets;
+import com.oroarmor.netherite_plus.client.renderer.special.NetheriteShieldSpecialRenderer;
+
 @Mixin(ShieldSpecialRenderer.class)
 public class ShieldSpecialRendererMixin {
-    @ModifyExpressionValue(method = "submit(Lnet/minecraft/core/component/DataComponentMap;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IIZI)V", at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/Sheets;SHIELD_BASE:Lnet/minecraft/client/resources/model/sprite/SpriteId;", opcode = Opcodes.GETSTATIC))
-    SpriteId useNetheriteShieldBaseMapper(SpriteId original) {
-        if ((Object) this instanceof NetheriteShieldSpecialRenderer) {
-            return NetheritePlusSheets.NETHERITE_SHIELD_BASE;
-        }
-        return original;
-    }
+	@ModifyExpressionValue(method = "submit(Lnet/minecraft/core/component/DataComponentMap;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IIZI)V", at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/Sheets;SHIELD_BASE:Lnet/minecraft/client/resources/model/sprite/SpriteId;", opcode = Opcodes.GETSTATIC))
+	SpriteId useNetheriteShieldBaseMapper(SpriteId original) {
+		if ((Object) this instanceof NetheriteShieldSpecialRenderer) {
+			return NetheritePlusSheets.NETHERITE_SHIELD_BASE;
+		}
 
-    @ModifyExpressionValue(method = "submit(Lnet/minecraft/core/component/DataComponentMap;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IIZI)V", at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/Sheets;SHIELD_BASE_NO_PATTERN:Lnet/minecraft/client/resources/model/sprite/SpriteId;", opcode = Opcodes.GETSTATIC))
-    SpriteId useNetheriteShieldBaseNoPatternMapper(SpriteId original) {
-        if ((Object) this instanceof NetheriteShieldSpecialRenderer) {
-            return NetheritePlusSheets.NETHERITE_SHIELD_BASE_NO_PATTERN;
-        }
-        return original;
-    }
+		return original;
+	}
+
+	@ModifyExpressionValue(method = "submit(Lnet/minecraft/core/component/DataComponentMap;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;IIZI)V", at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/Sheets;SHIELD_BASE_NO_PATTERN:Lnet/minecraft/client/resources/model/sprite/SpriteId;", opcode = Opcodes.GETSTATIC))
+	SpriteId useNetheriteShieldBaseNoPatternMapper(SpriteId original) {
+		if ((Object) this instanceof NetheriteShieldSpecialRenderer) {
+			return NetheritePlusSheets.NETHERITE_SHIELD_BASE_NO_PATTERN;
+		}
+
+		return original;
+	}
 }

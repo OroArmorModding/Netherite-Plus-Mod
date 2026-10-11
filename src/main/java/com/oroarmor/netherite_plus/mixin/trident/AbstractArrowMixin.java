@@ -24,7 +24,6 @@
 
 package com.oroarmor.netherite_plus.mixin.trident;
 
-import com.oroarmor.netherite_plus.world.entity.NetheritePlusEntityDataAccessors;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -39,21 +38,23 @@ import net.minecraft.world.entity.projectile.arrow.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+import com.oroarmor.netherite_plus.world.entity.NetheritePlusEntityDataAccessors;
+
 @Mixin(AbstractArrow.class)
 public abstract class AbstractArrowMixin extends Projectile {
-    public AbstractArrowMixin(EntityType<? extends Projectile> type, Level level) {
-        super(type, level);
-    }
+	public AbstractArrowMixin(EntityType<? extends Projectile> type, Level level) {
+		super(type, level);
+	}
 
-    @Shadow
-    protected abstract void setPickupItemStack(ItemStack itemStack);
+	@Shadow
+	protected abstract void setPickupItemStack(ItemStack itemStack);
 
-    @Inject(method = "onSyncedDataUpdated", at = @At("TAIL"))
-    void setTridentStack(EntityDataAccessor<?> accessor, CallbackInfo ci) {
-        if ((Object) this instanceof ThrownTrident) {
-            if (accessor == NetheritePlusEntityDataAccessors.ID_STACK) {
-                this.setPickupItemStack(this.entityData.get(NetheritePlusEntityDataAccessors.ID_STACK));
-            }
-        }
-    }
+	@Inject(method = "onSyncedDataUpdated", at = @At("TAIL"))
+	void setTridentStack(EntityDataAccessor<?> accessor, CallbackInfo ci) {
+		if ((Object) this instanceof ThrownTrident) {
+			if (accessor == NetheritePlusEntityDataAccessors.ID_STACK) {
+				this.setPickupItemStack(this.entityData.get(NetheritePlusEntityDataAccessors.ID_STACK));
+			}
+		}
+	}
 }

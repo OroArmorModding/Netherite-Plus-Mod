@@ -1,41 +1,12 @@
 plugins {
-    alias libs.plugins.fabric.loom
+	alias libs.plugins.fabric.loom
 
-    alias libs.plugins.oro.general.gradle.plugin
-    alias libs.plugins.oro.minecraft.gradle.plugin
+	alias libs.plugins.oro.general.gradle.plugin
+	alias libs.plugins.oro.minecraft.gradle.plugin
+
+	alias libs.plugins.checkstyle
+	alias libs.plugins.spotless
 }
-
-version = project.mod_version
-group = project.maven_group
-
-repositories {
-    maven {
-        name = "OroArmor"
-        url = "https://maven.oroarmor.com"
-    }
-    maven {
-        name = "Jitpack"
-        url = 'https://jitpack.io'
-    }
-    maven {
-        name = "Terraformers"
-        url = "https://maven.terraformersmc.com/releases/"
-    }
-    maven {
-        name = "Modrinth"
-        url = "https://api.modrinth.com/maven"
-    }
-    maven { url 'https://repo.sleeping.town/' }
-}
-
-oroarmor {
-    name = "Netherite-Plus-Mod"
-    githubProjectName = "OroArmorModding/Netherite-Plus-Mod"
-    description = "This mod adds extra netherite features that aren't vanilla.\n\nNOTE: Editing the config requires a game restart."
-
-    println(projectPublishing.changelog.get())
-}
-
 
 import com.oroarmor.orogradleplugin.minecraft.CurseforgePublishTask
 import com.oroarmor.orogradleplugin.minecraft.ModrinthPublishTask
@@ -44,117 +15,173 @@ import com.oroarmor.orogradleplugin.minecraft.dependency.ModDependency.Dependenc
 import com.oroarmor.orogradleplugin.publish.PublishProjectToGithubTask
 import net.fabricmc.loom.task.ValidateMixinNameTask
 
+version = project.mod_version
+group = project.maven_group
+
+repositories {
+	maven {
+		name = "Modrinth"
+		url = "https://api.modrinth.com/maven"
+	}
+	maven {
+		name = "Sleeping Town"
+		url = "https://repo.sleeping.town/"
+	}
+}
+
+oroarmor {
+	name = "Netherite-Plus-Mod"
+	githubProjectName = "OroArmorModding/Netherite-Plus-Mod"
+	description = "This mod adds extra netherite features that aren't vanilla.\n\nNOTE: Editing the config requires a game restart."
+
+	println(projectPublishing.changelog.get())
+}
+
 minecraftPublishing {
-    gameVersions = [libs.versions.minecraft.get()]
-    modrinthId = "MlaM22M4"
-    curseforgeId = "394120"
-    releaseType = ReleaseType.BETA
-    dependencies {
-        "ranged-weapon-api" {
-            version = libs.versions.ranged.weapon.api.get()
-            type = DependencyType.REQUIRED
-        }
-        "fabric-api" {
-            version = libs.versions.fabric.api.get()
-            type = DependencyType.REQUIRED
-        }
-    }
-    loaders = ["Fabric", "Quilt"]
-    modTask = jar
+	gameVersions = [libs.versions.minecraft.get()]
+	modrinthId = "MlaM22M4"
+	curseforgeId = "394120"
+	releaseType = ReleaseType.BETA
+	dependencies {
+		"ranged-weapon-api" {
+			version = libs.versions.ranged.weapon.api.get()
+			type = DependencyType.REQUIRED
+		}
+		"fabric-api" {
+			version = libs.versions.fabric.api.get()
+			type = DependencyType.REQUIRED
+		}
+	}
+	loaders = ["Fabric", "Quilt"]
+	modTask = jar
 }
 
 license {
-    exclude '**/*.accesswidener'
-    exclude '**/.cache/*'
+	exclude "**/*.accesswidener"
+	exclude "**/.cache/*"
+}
+
+checkstyle {
+	configFile = file("checkstyle.xml")
+	toolVersion = libs.versions.checkstyle.get()
+}
+
+spotless {
+	lineEndings = "UNIX"
+
+	java {
+		encoding("UTF-8")
+		endWithNewline()
+		trimTrailingWhitespace()
+
+		removeUnusedImports()
+		shortenFullyQualifiedTypes()
+		leadingSpacesToTabs()
+		importOrder(
+				"\\#com.mojang|\\#net.minecraft|\\#com.oroarmor.netherite_plus",
+				"java|javax",
+				"",
+				"com.mojang.blaze3d|net.minecraft",
+				"net.fabricmc",
+				"com.oroarmor",
+		)
+	}
+
+	json {
+		target "src/*/resources/**/*.json"
+		gson().indentWithSpaces(2).sortByKeys()
+	}
+
+	format "misc", {
+		target "*.gradle", ".gitattributes", ".gitignore"
+
+		trimTrailingWhitespace()
+		leadingSpacesToTabs()
+		endWithNewline()
+	}
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/netherite_plus.accesswidener")
+	accessWidenerPath = file("src/main/resources/netherite_plus.accesswidener")
 
-    splitEnvironmentSourceSets()
-
-    mods {
-        "netherite_plus" {
-            sourceSet sourceSets.main
-            sourceSet sourceSets.client
-        }
-    }
+	splitEnvironmentSourceSets()
 }
 
 fabricApi {
-    configureDataGeneration() {
-        client = true
-        strictValidation = true
-        createRunConfiguration = true
-        createSourceSet = true
-        modId = "netherite_plus-datagen"
-        outputDirectory = file("src/datagen/resources")
-    }
+	configureDataGeneration() {
+		client = true
+		strictValidation = true
+		createRunConfiguration = true
+		createSourceSet = true
+		modId = "netherite_plus-datagen"
+		outputDirectory = file("src/datagen/generated")
+	}
 }
 
 dependencies {
-    minecraft libs.minecraft
-    implementation libs.fabric.loader
+	minecraft libs.minecraft
+	implementation libs.fabric.loader
 
-    implementation libs.fabric.api
+	implementation libs.fabric.api
 
-    implementation libs.kaleido.config
-    include libs.kaleido.config
+	implementation libs.kaleido.config
+	include libs.kaleido.config
 
-    implementation libs.ranged.weapon.api
+	implementation libs.ranged.weapon.api
 }
 
 processResources {
-    inputs.property "version", version
+	def modVersion = project.mod_version
+	inputs.property "version", modVersion
 
-    filesMatching('fabric.mod.json') {
-        expand "version": version
-    }
+	filesMatching("fabric.mod.json") {
+		expand "version": modVersion
+	}
 }
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.encoding = "UTF-8"
-    it.options.release = 25
+	it.options.encoding = "UTF-8"
+	it.options.release = 25
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_25
-    targetCompatibility = JavaVersion.VERSION_25
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
 
-    withSourcesJar()
+	withSourcesJar()
 }
 
 jar {
-    def projectName = project.name
-    inputs.property "projectName", projectName
+	def projectName = project.name
+	inputs.property "projectName", projectName
 
-    from("LICENSE") {
-        rename { "${it}_${project.name}" }
-    }
+	from("LICENSE") {
+		rename { "${it}_${projectName}" }
+	}
 }
 
 publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            oroarmor.generateDefaultPom(it)
-        }
-    }
+	publications {
+		mavenJava(MavenPublication) {
+			from components.java
+			oroarmor.generateDefaultPom(it)
+		}
+	}
 
-    repositories {
-        mavenLocal()
-    }
+	repositories {
+		mavenLocal()
+	}
 }
 
-tasks.register('validateMixinNames', ValidateMixinNameTask) {
-    source(sourceSets.main.output)
-    source(sourceSets.client.output)
+tasks.register("validateMixinNames", ValidateMixinNameTask) {
+	source(sourceSets.main.output)
+	source(sourceSets.client.output)
 }
 
 check.dependsOn "validateMixinNames"
 
 tasks.register("github", PublishProjectToGithubTask) {
-    assets.from(jar, sourcesJar)
+	assets.from(jar, sourcesJar)
 }
 
 tasks.register("curseforge", CurseforgePublishTask)

@@ -24,13 +24,13 @@
 
 package com.oroarmor.netherite_plus.client.gui.screens;
 
+import net.minecraft.client.gui.screens.MenuScreens;
+
 import com.oroarmor.netherite_plus.client.gui.screens.inventory.NetheriteBeaconScreen;
 import com.oroarmor.netherite_plus.world.inventory.NetheritePlusMenuType;
 
-import net.minecraft.client.gui.screens.MenuScreens;
-
 public class NetheritePlusMenuScreens {
-    public static void init() {
-        MenuScreens.register(NetheritePlusMenuType.NETHERITE_BEACON, NetheriteBeaconScreen::new);
-    }
+	public static void init() {
+		MenuScreens.register(NetheritePlusMenuType.NETHERITE_BEACON, NetheriteBeaconScreen::new);
+	}
 }

@@ -32,15 +32,15 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 public record ClientboundLavaVisionUpdatePacket(float value) implements CustomPacketPayload {
-    public static final CustomPacketPayload.Type<ClientboundLavaVisionUpdatePacket> TYPE = new CustomPacketPayload.Type<>(id("lava_vision_update"));
+	public static final CustomPacketPayload.Type<ClientboundLavaVisionUpdatePacket> TYPE = new CustomPacketPayload.Type<>(id("lava_vision_update"));
 
-    public static final StreamCodec<FriendlyByteBuf, ClientboundLavaVisionUpdatePacket> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.FLOAT, ClientboundLavaVisionUpdatePacket::value,
-            ClientboundLavaVisionUpdatePacket::new
-    );
+	public static final StreamCodec<FriendlyByteBuf, ClientboundLavaVisionUpdatePacket> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.FLOAT, ClientboundLavaVisionUpdatePacket::value,
+			ClientboundLavaVisionUpdatePacket::new
+	);
 
-    @Override
-    public Type<? extends CustomPacketPayload> type() {
-        return TYPE;
-    }
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
+	}
 }

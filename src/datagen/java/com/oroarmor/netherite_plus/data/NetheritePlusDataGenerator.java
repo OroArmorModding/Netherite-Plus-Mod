@@ -24,6 +24,10 @@
 
 package com.oroarmor.netherite_plus.data;
 
+import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
+
 import com.oroarmor.netherite_plus.client.data.NetheritePlusAtlasProvider;
 import com.oroarmor.netherite_plus.client.data.models.NetheritePlusEquipmentAssetProvider;
 import com.oroarmor.netherite_plus.client.data.models.NetheritePlusModelProvider;
@@ -33,23 +37,20 @@ import com.oroarmor.netherite_plus.data.loot.NetheritePlusFishingLootTableSubPro
 import com.oroarmor.netherite_plus.data.recipes.NetheritePlusRecipeProvider;
 import com.oroarmor.netherite_plus.data.tags.NetheritePlusBlockTagProvider;
 import com.oroarmor.netherite_plus.data.tags.NetheritePlusItemTagProvider;
-import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 
 public class NetheritePlusDataGenerator implements DataGeneratorEntrypoint {
-    @Override
-    public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
-        var pack = fabricDataGenerator.createPack();
-        pack.addProvider(NetheritePlusAdvancementProvider::new);
-        FabricTagsProvider.BlockTagsProvider blockTagProvider = pack.addProvider(NetheritePlusBlockTagProvider::new);
-        pack.addProvider((output, registriesFuture) -> new NetheritePlusItemTagProvider(output, registriesFuture, blockTagProvider));
-        pack.addProvider(NetheritePlusRecipeProvider::new);
-        pack.addProvider(NetheritePlusBlockLootSubProvider::new);
-        pack.addProvider(NetheritePlusFishingLootTableSubProvider::new);
+	@Override
+	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
+		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
+		pack.addProvider(NetheritePlusAdvancementProvider::new);
+		FabricTagsProvider.BlockTagsProvider blockTagProvider = pack.addProvider(NetheritePlusBlockTagProvider::new);
+		pack.addProvider((output, registriesFuture) -> new NetheritePlusItemTagProvider(output, registriesFuture, blockTagProvider));
+		pack.addProvider(NetheritePlusRecipeProvider::new);
+		pack.addProvider(NetheritePlusBlockLootSubProvider::new);
+		pack.addProvider(NetheritePlusFishingLootTableSubProvider::new);
 
-        pack.addProvider(NetheritePlusModelProvider::new);
-        pack.addProvider(NetheritePlusAtlasProvider::new);
-        pack.addProvider(NetheritePlusEquipmentAssetProvider::new);
-    }
+		pack.addProvider(NetheritePlusModelProvider::new);
+		pack.addProvider(NetheritePlusAtlasProvider::new);
+		pack.addProvider(NetheritePlusEquipmentAssetProvider::new);
+	}
 }

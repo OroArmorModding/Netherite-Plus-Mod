@@ -27,20 +27,22 @@ package com.oroarmor.netherite_plus.world.entity;
 import static com.oroarmor.netherite_plus.NetheritePlusMod.id;
 
 import com.mojang.serialization.Codec;
+
+import net.minecraft.network.codec.ByteBufCodecs;
+
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 
-import net.minecraft.network.codec.ByteBufCodecs;
-
 public class NetheritePlusEntityAttachments {
-    public static final AttachmentType<Boolean> IS_NETHERITE = AttachmentRegistry.create(
-            id("is_netherite"),
-            builder -> builder.initializer(() -> false)
-                    .persistent(Codec.BOOL)
-                    .syncWith(ByteBufCodecs.BOOL, AttachmentSyncPredicate.all())
-    );
+	public static final AttachmentType<Boolean> IS_NETHERITE = AttachmentRegistry.create(
+			id("is_netherite"),
+			builder -> builder
+					.initializer(() -> false)
+					.persistent(Codec.BOOL)
+					.syncWith(ByteBufCodecs.BOOL, AttachmentSyncPredicate.all())
+	);
 
-    public static void init() {
-    }
+	public static void init() {
+	}
 }

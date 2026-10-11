@@ -24,10 +24,6 @@
 
 package com.oroarmor.netherite_plus.client.mixin.render;
 
-import com.oroarmor.netherite_plus.client.NetheritePlusClientMod;
-import com.oroarmor.netherite_plus.world.entity.effect.NetheritePlusStatusEffects;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -41,13 +37,21 @@ import net.minecraft.client.renderer.fog.FogData;
 import net.minecraft.client.renderer.fog.environment.LavaFogEnvironment;
 import net.minecraft.world.entity.LivingEntity;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
+import com.oroarmor.netherite_plus.client.NetheritePlusClientMod;
+import com.oroarmor.netherite_plus.world.entity.effect.NetheritePlusStatusEffects;
+
 @Environment(EnvType.CLIENT)
 @Mixin(LavaFogEnvironment.class)
 public class LavaFogEnvironmentMixin {
-    @Inject(at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/fog/FogData;cloudEnd:F", opcode = Opcodes.PUTFIELD), method = "setupFog")
-    private static void applyFog(FogData fog, Camera camera, ClientLevel level, float renderDistance, DeltaTracker deltaTracker, CallbackInfo ci) {
-        if (camera.entity() instanceof LivingEntity livingEntity && livingEntity.hasEffect(NetheritePlusStatusEffects.LAVA_VISION)) {
-            fog.environmentalEnd = (float) (3.0F + NetheritePlusClientMod.LAVA_VISION_DISTANCE * livingEntity.getEffect(NetheritePlusStatusEffects.LAVA_VISION).getAmplifier());
-        }
-    }
+	@Inject(at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/fog/FogData;cloudEnd:F", opcode = Opcodes.PUTFIELD), method = "setupFog")
+	private static void applyFog(FogData fog, Camera camera, ClientLevel level, float renderDistance, DeltaTracker deltaTracker, CallbackInfo ci) {
+		if (camera.entity() instanceof LivingEntity livingEntity && livingEntity.hasEffect(NetheritePlusStatusEffects.LAVA_VISION)) {
+			fog.environmentalEnd = (float) (3.0F + NetheritePlusClientMod.LAVA_VISION_DISTANCE * livingEntity
+					.getEffect(NetheritePlusStatusEffects.LAVA_VISION)
+					.getAmplifier());
+		}
+	}
 }

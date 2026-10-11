@@ -34,12 +34,12 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 
 public class NetheritePlusMenuType {
-    public static final MenuType<NetheriteBeaconMenu> NETHERITE_BEACON = register(id("netherite_beacon"), NetheriteBeaconMenu::new);
+	public static final MenuType<NetheriteBeaconMenu> NETHERITE_BEACON = register(id("netherite_beacon"), NetheriteBeaconMenu::new);
 
-    public static <T extends AbstractContainerMenu> MenuType<T> register(Identifier id, MenuType.MenuSupplier<T> factory) {
-        return Registry.register(BuiltInRegistries.MENU, id, new MenuType<>(factory, FeatureFlagSet.of()));
-    }
+	public static <T extends AbstractContainerMenu> MenuType<T> register(Identifier id, MenuType.MenuSupplier<T> factory) {
+		return Registry.register(BuiltInRegistries.MENU, id, new MenuType<>(factory, FeatureFlagSet.of()));
+	}
 
-    public static void init() {
-    }
+	public static void init() {
+	}
 }

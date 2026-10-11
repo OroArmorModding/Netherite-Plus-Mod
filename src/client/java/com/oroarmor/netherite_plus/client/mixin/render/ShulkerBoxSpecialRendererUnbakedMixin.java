@@ -26,8 +26,6 @@ package com.oroarmor.netherite_plus.client.mixin.render;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.oroarmor.netherite_plus.NetheritePlusMod;
-import com.oroarmor.netherite_plus.client.renderer.NetheritePlusSheets;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -36,13 +34,19 @@ import net.minecraft.client.renderer.special.ShulkerBoxSpecialRenderer;
 import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.resources.Identifier;
 
+import com.oroarmor.netherite_plus.NetheritePlusMod;
+import com.oroarmor.netherite_plus.client.renderer.NetheritePlusSheets;
+
 @Mixin(ShulkerBoxSpecialRenderer.Unbaked.class)
 public class ShulkerBoxSpecialRendererUnbakedMixin {
-    @WrapOperation(method = "bake(Lnet/minecraft/client/renderer/special/SpecialModelRenderer$BakingContext;)Lnet/minecraft/client/renderer/special/ShulkerBoxSpecialRenderer;", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/SpriteMapper;apply(Lnet/minecraft/resources/Identifier;)Lnet/minecraft/client/resources/model/sprite/SpriteId;"))
-    SpriteId useNetheriteMapper(SpriteMapper instance, Identifier path, Operation<SpriteId> original) {
-        if (path.getNamespace().contains(NetheritePlusMod.MOD_ID)) {
-            return original.call(NetheritePlusSheets.NETHERITE_SHULKER_MAPPER, path);
-        }
-        return original.call(instance, path);
-    }
+	@WrapOperation(method = "bake(Lnet/minecraft/client/renderer/special/SpecialModelRenderer$BakingContext;)Lnet/minecraft/client/renderer/special/ShulkerBoxSpecialRenderer;", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/SpriteMapper;apply(Lnet/minecraft/resources/Identifier;)Lnet/minecraft/client/resources/model/sprite/SpriteId;"))
+	SpriteId useNetheriteMapper(SpriteMapper instance, Identifier path, Operation<SpriteId> original) {
+		if (path
+				.getNamespace()
+				.contains(NetheritePlusMod.MOD_ID)) {
+			return original.call(NetheritePlusSheets.NETHERITE_SHULKER_MAPPER, path);
+		}
+
+		return original.call(instance, path);
+	}
 }

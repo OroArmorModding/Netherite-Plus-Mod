@@ -33,6 +33,6 @@ import net.minecraft.world.item.Item;
 
 @Mixin(targets = "net/minecraft/core/cauldron/CauldronInteraction$Dispatcher")
 public interface CauldronInteractionDispatcherAccessor {
-    @Invoker("put")
-    void invoke$put(final TagKey<Item> tag, final CauldronInteraction interaction);
+	@Invoker("put")
+	void invoke$put(TagKey<Item> tag, CauldronInteraction interaction);
 }

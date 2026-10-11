@@ -29,7 +29,6 @@ import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.oroarmor.netherite_plus.world.inventory.NetheriteAnvilMenu;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -40,21 +39,22 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AnvilMenu;
 
+import com.oroarmor.netherite_plus.world.inventory.NetheriteAnvilMenu;
+
 @Mixin(AnvilScreen.class)
 public abstract class AnvilScreenMixin extends ItemCombinerScreen<AnvilMenu> {
+	public AnvilScreenMixin(AnvilMenu menu, Inventory inventory, Component title, Identifier menuResource) {
+		super(menu, inventory, title, menuResource);
+	}
 
-    public AnvilScreenMixin(AnvilMenu menu, Inventory inventory, Component title, Identifier menuResource) {
-        super(menu, inventory, title, menuResource);
-    }
+	@Definition(id = "cost", local = @Local(type = int.class, name = "cost"))
+	@Expression("cost >= 40")
+	@WrapOperation(method = "extractLabels", at = @At("MIXINEXTRAS:EXPRESSION"))
+	boolean doNotShowTooExpensiveForNetheriteAnvil(int left, int right, Operation<Boolean> original) {
+		if (((NetheriteAnvilMenu) this.menu).isNetherite()) {
+			return false;
+		}
 
-    @Definition(id = "cost", local = @Local(type = int.class, name = "cost"))
-    @Expression("cost >= 40")
-    @WrapOperation(method = "extractLabels", at = @At("MIXINEXTRAS:EXPRESSION"))
-    boolean doNotShowTooExpensiveForNetheriteAnvil(int left, int right, Operation<Boolean> original) {
-        if (((NetheriteAnvilMenu) this.menu).isNetherite()) {
-            return false;
-        }
-
-        return original.call(left, right);
-    }
+		return original.call(left, right);
+	}
 }

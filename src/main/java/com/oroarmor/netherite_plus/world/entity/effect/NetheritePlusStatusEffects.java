@@ -33,13 +33,12 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 
 public class NetheritePlusStatusEffects {
-    public static final Holder<MobEffect> LAVA_VISION = register("lava_vision", new MobEffect(MobEffectCategory.BENEFICIAL, 16744207));
+	public static final Holder<MobEffect> LAVA_VISION = register("lava_vision", new MobEffect(MobEffectCategory.BENEFICIAL, 16744207));
 
-    private static Holder<MobEffect> register(String name, MobEffect entry) {
-        return Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, id(name), entry);
-    }
+	private static Holder<MobEffect> register(String name, MobEffect entry) {
+		return Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, id(name), entry);
+	}
 
-    public static void init() {
-    }
-
+	public static void init() {
+	}
 }

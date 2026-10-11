@@ -26,60 +26,97 @@ package com.oroarmor.netherite_plus.data.tags;
 
 import java.util.concurrent.CompletableFuture;
 
-import com.oroarmor.netherite_plus.tags.NetheritePlusBlockTags;
-import com.oroarmor.netherite_plus.tags.NetheritePlusItemTags;
-import com.oroarmor.netherite_plus.world.item.NetheritePlusItemIds;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.tags.ItemTags;
+
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 
-import net.minecraft.core.HolderLookup;
-import net.minecraft.tags.ItemTags;
+import com.oroarmor.netherite_plus.tags.NetheritePlusBlockTags;
+import com.oroarmor.netherite_plus.tags.NetheritePlusItemTags;
+import com.oroarmor.netherite_plus.world.item.NetheritePlusItemIds;
 
 public class NetheritePlusItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
+	public NetheritePlusItemTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookupFuture, BlockTagsProvider blockTagsProvider) {
+		super(output, registryLookupFuture, blockTagsProvider);
+	}
 
-    public NetheritePlusItemTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookupFuture, BlockTagsProvider blockTagsProvider) {
-        super(output, registryLookupFuture, blockTagsProvider);
-    }
+	@Override
+	protected void addTags(HolderLookup.Provider registries) {
+		this.copy(NetheritePlusBlockTags.NETHERITE_SHULKER_BOXES, NetheritePlusItemTags.NETHERITE_SHULKER_BOXES);
+		this.copy(NetheritePlusBlockTags.DYED_NETHERITE_SHULKER_BOXES, NetheritePlusItemTags.DYED_NETHERITE_SHULKER_BOXES);
+		this
+				.tag(ConventionalItemTags.SHULKER_BOXES)
+				.addTag(NetheritePlusItemTags.NETHERITE_SHULKER_BOXES);
 
-    @Override
-    protected void addTags(HolderLookup.Provider registries) {
-        this.copy(NetheritePlusBlockTags.NETHERITE_SHULKER_BOXES, NetheritePlusItemTags.NETHERITE_SHULKER_BOXES);
-        this.copy(NetheritePlusBlockTags.DYED_NETHERITE_SHULKER_BOXES, NetheritePlusItemTags.DYED_NETHERITE_SHULKER_BOXES);
-        this.tag(ConventionalItemTags.SHULKER_BOXES).addTag(NetheritePlusItemTags.NETHERITE_SHULKER_BOXES);
+		this
+				.tag(ItemTags.BOW_ENCHANTABLE)
+				.add(NetheritePlusItemIds.NETHERITE_BOW);
+		this
+				.tag(ItemTags.SKELETON_PREFERRED_WEAPONS)
+				.add(NetheritePlusItemIds.NETHERITE_BOW);
+		this
+				.tag(ConventionalItemTags.BOW_TOOLS)
+				.add(NetheritePlusItemIds.NETHERITE_BOW);
 
-        this.tag(ItemTags.BOW_ENCHANTABLE).add(NetheritePlusItemIds.NETHERITE_BOW);
-        this.tag(ItemTags.SKELETON_PREFERRED_WEAPONS).add(NetheritePlusItemIds.NETHERITE_BOW);
-        this.tag(ConventionalItemTags.BOW_TOOLS).add(NetheritePlusItemIds.NETHERITE_BOW);
+		this
+				.tag(ItemTags.CROSSBOW_ENCHANTABLE)
+				.add(NetheritePlusItemIds.NETHERITE_CROSSBOW);
+		this
+				.tag(ItemTags.PIGLIN_PREFERRED_WEAPONS)
+				.add(NetheritePlusItemIds.NETHERITE_CROSSBOW);
+		this
+				.tag(ItemTags.PILLAGER_PREFERRED_WEAPONS)
+				.add(NetheritePlusItemIds.NETHERITE_CROSSBOW);
+		this
+				.tag(ConventionalItemTags.CROSSBOW_TOOLS)
+				.add(NetheritePlusItemIds.NETHERITE_CROSSBOW);
 
-        this.tag(ItemTags.CROSSBOW_ENCHANTABLE).add(NetheritePlusItemIds.NETHERITE_CROSSBOW);
-        this.tag(ItemTags.PIGLIN_PREFERRED_WEAPONS).add(NetheritePlusItemIds.NETHERITE_CROSSBOW);
-        this.tag(ItemTags.PILLAGER_PREFERRED_WEAPONS).add(NetheritePlusItemIds.NETHERITE_CROSSBOW);
-        this.tag(ConventionalItemTags.CROSSBOW_TOOLS).add(NetheritePlusItemIds.NETHERITE_CROSSBOW);
+		this
+				.tag(ItemTags.WITHER_SKELETON_DISLIKED_WEAPONS)
+				.add(NetheritePlusItemIds.NETHERITE_BOW)
+				.add(NetheritePlusItemIds.NETHERITE_CROSSBOW);
 
-        this.tag(ItemTags.WITHER_SKELETON_DISLIKED_WEAPONS)
-                .add(NetheritePlusItemIds.NETHERITE_BOW)
-                .add(NetheritePlusItemIds.NETHERITE_CROSSBOW);
+		this
+				.tag(ItemTags.FISHING_ENCHANTABLE)
+				.add(NetheritePlusItemIds.NETHERITE_FISHING_ROD);
+		this
+				.tag(ConventionalItemTags.FISHING_ROD_TOOLS)
+				.add(NetheritePlusItemIds.NETHERITE_FISHING_ROD);
 
-        this.tag(ItemTags.FISHING_ENCHANTABLE).add(NetheritePlusItemIds.NETHERITE_FISHING_ROD);
-        this.tag(ConventionalItemTags.FISHING_ROD_TOOLS).add(NetheritePlusItemIds.NETHERITE_FISHING_ROD);
+		this
+				.tag(ItemTags.MINING_ENCHANTABLE)
+				.add(NetheritePlusItemIds.NETHERITE_SHEARS);
+		this
+				.tag(ConventionalItemTags.SHEAR_TOOLS)
+				.add(NetheritePlusItemIds.NETHERITE_SHEARS);
 
-        this.tag(ItemTags.MINING_ENCHANTABLE).add(NetheritePlusItemIds.NETHERITE_SHEARS);
-        this.tag(ConventionalItemTags.SHEAR_TOOLS).add(NetheritePlusItemIds.NETHERITE_SHEARS);
+		this
+				.tag(ConventionalItemTags.SHIELD_TOOLS)
+				.add(NetheritePlusItemIds.NETHERITE_SHIELD);
 
-        this.tag(ConventionalItemTags.SHIELD_TOOLS).add(NetheritePlusItemIds.NETHERITE_SHIELD);
+		this
+				.tag(ItemTags.TRIDENT_ENCHANTABLE)
+				.add(NetheritePlusItemIds.NETHERITE_TRIDENT);
+		this
+				.tag(ItemTags.DROWNED_PREFERRED_WEAPONS)
+				.add(NetheritePlusItemIds.NETHERITE_TRIDENT);
+		this
+				.tag(ItemTags.BREAKS_DECORATED_POTS)
+				.add(NetheritePlusItemIds.NETHERITE_TRIDENT);
 
-        this.tag(ItemTags.TRIDENT_ENCHANTABLE).add(NetheritePlusItemIds.NETHERITE_TRIDENT);
-        this.tag(ItemTags.DROWNED_PREFERRED_WEAPONS).add(NetheritePlusItemIds.NETHERITE_TRIDENT);
-        this.tag(ItemTags.BREAKS_DECORATED_POTS).add(NetheritePlusItemIds.NETHERITE_TRIDENT);
+		this
+				.tag(ItemTags.DURABILITY_ENCHANTABLE)
+				.add(NetheritePlusItemIds.NETHERITE_BOW)
+				.add(NetheritePlusItemIds.NETHERITE_CROSSBOW)
+				.add(NetheritePlusItemIds.NETHERITE_FISHING_ROD)
+				.add(NetheritePlusItemIds.NETHERITE_SHEARS)
+				.add(NetheritePlusItemIds.NETHERITE_TRIDENT)
+				.add(NetheritePlusItemIds.NETHERITE_SHIELD);
 
-        this.tag(ItemTags.DURABILITY_ENCHANTABLE).add(NetheritePlusItemIds.NETHERITE_BOW)
-                .add(NetheritePlusItemIds.NETHERITE_CROSSBOW)
-                .add(NetheritePlusItemIds.NETHERITE_FISHING_ROD)
-                .add(NetheritePlusItemIds.NETHERITE_SHEARS)
-                .add(NetheritePlusItemIds.NETHERITE_TRIDENT)
-                .add(NetheritePlusItemIds.NETHERITE_SHIELD);
-
-        this.tag(ItemTags.CHEST_ARMOR_ENCHANTABLE).add(NetheritePlusItemIds.NETHERITE_ELYTRA);
-    }
+		this
+				.tag(ItemTags.CHEST_ARMOR_ENCHANTABLE)
+				.add(NetheritePlusItemIds.NETHERITE_ELYTRA);
+	}
 }

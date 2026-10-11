@@ -25,8 +25,6 @@
 package com.oroarmor.netherite_plus.client.mixin.render.trident;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.oroarmor.netherite_plus.client.renderer.NetheritePlusSheets;
-import com.oroarmor.netherite_plus.client.renderer.special.NetheriteTridentSpecialRenderer;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -34,14 +32,17 @@ import org.spongepowered.asm.mixin.injection.At;
 import net.minecraft.client.renderer.special.TridentSpecialRenderer;
 import net.minecraft.resources.Identifier;
 
+import com.oroarmor.netherite_plus.client.renderer.NetheritePlusSheets;
+import com.oroarmor.netherite_plus.client.renderer.special.NetheriteTridentSpecialRenderer;
+
 @Mixin(TridentSpecialRenderer.class)
 public class TridentSpecialRendererMixin {
-    @ModifyExpressionValue(method = "submit", at = @At(value = "FIELD", target = "Lnet/minecraft/client/model/object/projectile/TridentModel;TEXTURE:Lnet/minecraft/resources/Identifier;", opcode = Opcodes.GETSTATIC))
-    Identifier useNetheriteTridentTexture(Identifier original) {
-        if ((Object) this instanceof NetheriteTridentSpecialRenderer) {
-            return NetheritePlusSheets.NETHERITE_TRIDENT;
-        }
+	@ModifyExpressionValue(method = "submit", at = @At(value = "FIELD", target = "Lnet/minecraft/client/model/object/projectile/TridentModel;TEXTURE:Lnet/minecraft/resources/Identifier;", opcode = Opcodes.GETSTATIC))
+	Identifier useNetheriteTridentTexture(Identifier original) {
+		if ((Object) this instanceof NetheriteTridentSpecialRenderer) {
+			return NetheritePlusSheets.NETHERITE_TRIDENT;
+		}
 
-        return original;
-    }
+		return original;
+	}
 }

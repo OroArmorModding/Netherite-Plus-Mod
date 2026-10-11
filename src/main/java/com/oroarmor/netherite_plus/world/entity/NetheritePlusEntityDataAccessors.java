@@ -31,8 +31,8 @@ import net.minecraft.world.entity.projectile.arrow.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 
 public class NetheritePlusEntityDataAccessors {
-    public static final EntityDataAccessor<ItemStack> ID_STACK = SynchedEntityData.defineId(ThrownTrident.class, EntityDataSerializers.ITEM_STACK);
+	public static final EntityDataAccessor<ItemStack> ID_STACK = SynchedEntityData.defineId(ThrownTrident.class, EntityDataSerializers.ITEM_STACK);
 
-    public static void init() {
-    }
+	public static void init() {
+	}
 }

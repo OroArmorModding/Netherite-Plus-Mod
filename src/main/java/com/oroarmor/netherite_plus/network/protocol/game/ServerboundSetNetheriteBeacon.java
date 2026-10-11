@@ -36,17 +36,17 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.effect.MobEffect;
 
 public record ServerboundSetNetheriteBeacon(Optional<Holder<MobEffect>> primary, Optional<Holder<MobEffect>> secondary, Optional<Holder<MobEffect>> tertiary) implements CustomPacketPayload {
-    public static final CustomPacketPayload.Type<ServerboundSetNetheriteBeacon> TYPE = new CustomPacketPayload.Type<>(id("set_netherite_beacon"));
+	public static final CustomPacketPayload.Type<ServerboundSetNetheriteBeacon> TYPE = new CustomPacketPayload.Type<>(id("set_netherite_beacon"));
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, ServerboundSetNetheriteBeacon> STREAM_CODEC = StreamCodec.composite(
-            MobEffect.STREAM_CODEC.apply(ByteBufCodecs::optional), ServerboundSetNetheriteBeacon::primary,
-            MobEffect.STREAM_CODEC.apply(ByteBufCodecs::optional), ServerboundSetNetheriteBeacon::secondary,
-            MobEffect.STREAM_CODEC.apply(ByteBufCodecs::optional), ServerboundSetNetheriteBeacon::tertiary,
-            ServerboundSetNetheriteBeacon::new
-    );
+	public static final StreamCodec<RegistryFriendlyByteBuf, ServerboundSetNetheriteBeacon> STREAM_CODEC = StreamCodec.composite(
+			MobEffect.STREAM_CODEC.apply(ByteBufCodecs::optional), ServerboundSetNetheriteBeacon::primary,
+			MobEffect.STREAM_CODEC.apply(ByteBufCodecs::optional), ServerboundSetNetheriteBeacon::secondary,
+			MobEffect.STREAM_CODEC.apply(ByteBufCodecs::optional), ServerboundSetNetheriteBeacon::tertiary,
+			ServerboundSetNetheriteBeacon::new
+	);
 
-    @Override
-    public Type<? extends CustomPacketPayload> type() {
-        return TYPE;
-    }
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
+	}
 }

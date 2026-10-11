@@ -39,30 +39,35 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
 public class RiptideNetheriteTridentTrigger extends SimpleCriterionTrigger<RiptideNetheriteTridentTrigger.TriggerInstance> {
-    public static final Identifier ID = id("riptide_netherite_trident");
+	public static final Identifier ID = id("riptide_netherite_trident");
 
-    public void trigger(ServerPlayer player) {
-        this.trigger(player, TriggerInstance::matches);
-    }
+	public void trigger(ServerPlayer player) {
+		this.trigger(player, TriggerInstance::matches);
+	}
 
-    @Override
-    public Codec<TriggerInstance> codec() {
-        return TriggerInstance.CODEC;
-    }
+	@Override
+	public Codec<TriggerInstance> codec() {
+		return TriggerInstance.CODEC;
+	}
 
-    public record TriggerInstance(Optional<Holder<LootItemCondition>> player) implements SimpleCriterionTrigger.SimpleInstance {
-        public static final Codec<RiptideNetheriteTridentTrigger.TriggerInstance> CODEC = RecordCodecBuilder.create(
-                (instance) -> instance.group(
-                        LootItemCondition.CODEC.optionalFieldOf("player").forGetter(RiptideNetheriteTridentTrigger.TriggerInstance::player)
-                ).apply(instance, RiptideNetheriteTridentTrigger.TriggerInstance::new)
-        );
+	public record TriggerInstance(
+			Optional<Holder<LootItemCondition>> player) implements SimpleCriterionTrigger.SimpleInstance {
+		public static final Codec<RiptideNetheriteTridentTrigger.TriggerInstance> CODEC = RecordCodecBuilder.create(
+				(instance) -> instance
+						.group(
+								LootItemCondition.CODEC
+										.optionalFieldOf("player")
+										.forGetter(RiptideNetheriteTridentTrigger.TriggerInstance::player)
+						)
+						.apply(instance, RiptideNetheriteTridentTrigger.TriggerInstance::new)
+		);
 
-        public static Criterion<RiptideNetheriteTridentTrigger.TriggerInstance> usedRiptide() {
-            return NetheritePlusCriteriaTriggers.RIPTIDE_NETHERITE_TRIDENT.createCriterion(new RiptideNetheriteTridentTrigger.TriggerInstance(Optional.empty()));
-        }
+		public static Criterion<RiptideNetheriteTridentTrigger.TriggerInstance> usedRiptide() {
+			return NetheritePlusCriteriaTriggers.RIPTIDE_NETHERITE_TRIDENT.createCriterion(new RiptideNetheriteTridentTrigger.TriggerInstance(Optional.empty()));
+		}
 
-        public boolean matches() {
-            return true;
-        }
-    }
+		public boolean matches() {
+			return true;
+		}
+	}
 }

@@ -31,17 +31,17 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 
 public class NetheritePlusItemIds {
-    public static final ResourceKey<Item> NETHERITE_ELYTRA = ResourceKey.create(Registries.ITEM, id("netherite_elytra"));
+	public static final ResourceKey<Item> NETHERITE_ELYTRA = ResourceKey.create(Registries.ITEM, id("netherite_elytra"));
 
-    public static final ResourceKey<Item> NETHERITE_FISHING_ROD = ResourceKey.create(Registries.ITEM, id("netherite_fishing_rod"));
+	public static final ResourceKey<Item> NETHERITE_FISHING_ROD = ResourceKey.create(Registries.ITEM, id("netherite_fishing_rod"));
 
-    public static final ResourceKey<Item> NETHERITE_SHIELD = ResourceKey.create(Registries.ITEM, id("netherite_shield"));
+	public static final ResourceKey<Item> NETHERITE_SHIELD = ResourceKey.create(Registries.ITEM, id("netherite_shield"));
 
-    public static final ResourceKey<Item> NETHERITE_BOW = ResourceKey.create(Registries.ITEM, id("netherite_bow"));
+	public static final ResourceKey<Item> NETHERITE_BOW = ResourceKey.create(Registries.ITEM, id("netherite_bow"));
 
-    public static final ResourceKey<Item> NETHERITE_CROSSBOW = ResourceKey.create(Registries.ITEM, id("netherite_crossbow"));
+	public static final ResourceKey<Item> NETHERITE_CROSSBOW = ResourceKey.create(Registries.ITEM, id("netherite_crossbow"));
 
-    public static final ResourceKey<Item> NETHERITE_TRIDENT = ResourceKey.create(Registries.ITEM, id("netherite_trident"));
+	public static final ResourceKey<Item> NETHERITE_TRIDENT = ResourceKey.create(Registries.ITEM, id("netherite_trident"));
 
-    public static final ResourceKey<Item> NETHERITE_SHEARS = ResourceKey.create(Registries.ITEM, id("netherite_shears"));
+	public static final ResourceKey<Item> NETHERITE_SHEARS = ResourceKey.create(Registries.ITEM, id("netherite_shears"));
 }
