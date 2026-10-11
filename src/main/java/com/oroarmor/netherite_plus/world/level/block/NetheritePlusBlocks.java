@@ -72,6 +72,7 @@ public class NetheritePlusBlocks {
             NetheritePlusBlockItemsIds.NETHERITE_ANVIL,
             AnvilBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.ANVIL)
+                    .lightLevel(_ -> 3)
     );
 
     public static final Block NETHERITE_BEACON = registerBlock(

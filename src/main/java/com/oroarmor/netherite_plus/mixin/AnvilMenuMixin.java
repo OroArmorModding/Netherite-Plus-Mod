@@ -24,8 +24,14 @@
 
 package com.oroarmor.netherite_plus.mixin;
 
+import com.llamalad7.mixinextras.expression.Definition;
+import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import com.oroarmor.netherite_plus.NetheritePlusMod;
+import com.oroarmor.netherite_plus.world.inventory.NetheriteAnvilMenu;
 import com.oroarmor.netherite_plus.world.level.block.NetheritePlusBlocks;
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -41,9 +47,10 @@ import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.ItemCombinerMenu;
 import net.minecraft.world.inventory.ItemCombinerMenuSlotDefinition;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ItemStack;
 
 @Mixin(AnvilMenu.class)
-public abstract class AnvilMenuMixin extends ItemCombinerMenu {
+public abstract class AnvilMenuMixin extends ItemCombinerMenu implements NetheriteAnvilMenu {
     @SuppressWarnings("NotNullFieldNotInitialized")
     @Unique
     // Hack to not flash the non-discounted price on the client.
@@ -60,19 +67,64 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
         this.isNetherite = DataSlot.standalone();
         this.addDataSlot(isNetherite);
 
-        access.execute((level, blockPos) -> {
+        checkIsNetheriteAnvil();
+    }
+
+    @Inject(method = "createResult", at = @At("HEAD"))
+    public void checkIsNetheriteAnvil(CallbackInfo ci) {
+        checkIsNetheriteAnvil();
+    }
+
+    @Unique
+    private void checkIsNetheriteAnvil() {
+        this.access.execute((level, blockPos) -> {
             if (!level.isClientSide()) this.isNetherite.set(level.getBlockState(blockPos).is(NetheritePlusBlocks.NETHERITE_ANVIL) ? 1 : 0);
         });
     }
 
+    @Definition(id = "getMaxDamage", method = "Lnet/minecraft/world/item/ItemStack;getMaxDamage()I")
+    @Definition(id = "result", local = @Local(type = ItemStack.class, name = "result"))
+    @Expression("result.getMaxDamage() / 4")
+    @ModifyExpressionValue(method = "createResult", at = @At("MIXINEXTRAS:EXPRESSION"))
+    int doubleRepairItemEfficiency(int original) {
+        if (this.isNetherite.get() == 1) {
+            return original * 2;
+        }
+        return original;
+    }
+
+    @Definition(id = "getMaxDamage", method = "Lnet/minecraft/world/item/ItemStack;getMaxDamage()I")
+    @Definition(id = "result", local = @Local(type = ItemStack.class, name = "result"))
+    @Expression("result.getMaxDamage() * 12 / 100")
+    @ModifyExpressionValue(method = "createResult", at = @At("MIXINEXTRAS:EXPRESSION"))
+    int doubleMatchingItemEfficiency(int original) {
+        if (this.isNetherite.get() == 1) {
+            return original * 2;
+        }
+        return original;
+    }
+
     @ModifyExpressionValue(method = "createResult", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;clamp(JJJ)J"))
     long discountPrice(long finalPrice) {
-        access.execute((level, blockPos) -> {
-            if (!level.isClientSide()) this.isNetherite.set(level.getBlockState(blockPos).is(NetheritePlusBlocks.NETHERITE_ANVIL) ? 1 : 0);
-        });
         if (this.isNetherite.get() == 1) {
             finalPrice = (int) (finalPrice * (1d - NetheritePlusMod.CONFIG.anvil.xpReduction));
         }
         return finalPrice;
+    }
+
+    @Definition(id = "cost", field = "Lnet/minecraft/world/inventory/AnvilMenu;cost:Lnet/minecraft/world/inventory/DataSlot;")
+    @Definition(id = "get", method = "Lnet/minecraft/world/inventory/DataSlot;get()I")
+    @Expression("this.cost.get() >= 40")
+    @WrapOperation(method = "createResult", at = @At(value = "MIXINEXTRAS:EXPRESSION", ordinal = 1))
+    boolean a(int left, int right, Operation<Boolean> original) {
+        if (this.isNetherite.get() == 1) {
+            return false;
+        }
+        return original.call(left, right);
+    }
+
+    @Override
+    public boolean isNetherite() {
+        return this.isNetherite.get() == 1;
     }
 }

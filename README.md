@@ -11,9 +11,15 @@ Discord: https://discord.gg/dGCvj56
   - Protects your items from burning in lava
 
 - Netherite Anvils
-  - Never Break
-  - Same recipe as anvil, but with Netherite Blocks and Ingots instead of Iron
+  - Never break
+  - Similar recipe as anvil using Netherite, but also includes two Nether Stars
+  - Level cap for combining items is removed
   - Reduces XP cost for upgrading/repairing items, default of 50%
+  - Deals twice as much damage when falling as an anvil, up to 80 hit points
+  - Durability from repairing items is twice as effective, only requiring 2 repair items
+  - Bonus durability from combining items is doubled
+  - Emits a light level of 3 because of the Nether Stars
+  - Enhanced model to show the value of the anvil
 
 - Netherite Beacons
   - Gives Fire Resistance to all players within range

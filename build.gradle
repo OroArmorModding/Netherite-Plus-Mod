@@ -36,7 +36,14 @@ oroarmor {
     println(projectPublishing.changelog.get())
 }
 
+
+import com.oroarmor.orogradleplugin.minecraft.CurseforgePublishTask
+import com.oroarmor.orogradleplugin.minecraft.ModrinthPublishTask
+import com.oroarmor.orogradleplugin.minecraft.ReleaseType
 import com.oroarmor.orogradleplugin.minecraft.dependency.ModDependency.DependencyType
+import com.oroarmor.orogradleplugin.publish.PublishProjectToGithubTask
+import net.fabricmc.loom.task.ValidateMixinNameTask
+
 minecraftPublishing {
     gameVersions = [libs.versions.minecraft.get()]
     modrinthId = "MlaM22M4"
@@ -52,7 +59,7 @@ minecraftPublishing {
             type = DependencyType.REQUIRED
         }
     }
-    loaders = ["Fabric"]
+    loaders = ["Fabric", "Quilt"]
     modTask = jar
 }
 
@@ -65,6 +72,13 @@ loom {
     accessWidenerPath = file("src/main/resources/netherite_plus.accesswidener")
 
     splitEnvironmentSourceSets()
+
+    mods {
+        "netherite_plus" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
 }
 
 fabricApi {
@@ -73,7 +87,7 @@ fabricApi {
         strictValidation = true
         createRunConfiguration = true
         createSourceSet = true
-        modId = "netherite_plus"
+        modId = "netherite_plus-datagen"
         outputDirectory = file("src/datagen/resources")
     }
 }
@@ -132,7 +146,6 @@ publishing {
     }
 }
 
-import net.fabricmc.loom.task.ValidateMixinNameTask
 tasks.register('validateMixinNames', ValidateMixinNameTask) {
     source(sourceSets.main.output)
     source(sourceSets.client.output)
@@ -140,11 +153,9 @@ tasks.register('validateMixinNames', ValidateMixinNameTask) {
 
 check.dependsOn "validateMixinNames"
 
-import com.oroarmor.orogradleplugin.publish.PublishProjectToGithubTask
 tasks.register("github", PublishProjectToGithubTask) {
     assets.from(jar, sourcesJar)
 }
 
-import com.oroarmor.orogradleplugin.minecraft.*
 tasks.register("curseforge", CurseforgePublishTask)
 tasks.register("modrinth", ModrinthPublishTask)

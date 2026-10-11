@@ -2,11 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "#": "minecraft:netherite_block",
-    "I": "minecraft:netherite_ingot"
+    "I": "minecraft:netherite_ingot",
+    "S": "minecraft:nether_star"
   },
   "pattern": [
     "###",
-    " I ",
+    "SIS",
     "III"
   ],
   "result": {

@@ -4,6 +4,7 @@
   "package": "com.oroarmor.netherite_plus.client.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "gui.screens.inventory.AnvilScreenMixin"
   ],
   "client": [
     "render.LavaFogEnvironmentMixin",

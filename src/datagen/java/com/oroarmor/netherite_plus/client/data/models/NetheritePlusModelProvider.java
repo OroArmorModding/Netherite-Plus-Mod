@@ -71,7 +71,7 @@ public class NetheritePlusModelProvider extends FabricModelProvider {
     public static final TextureSlot GLASS = TextureSlot.create("glass");
     public static final TextureSlot OBSIDIAN = TextureSlot.create("obsidian");
     public static final TextureSlot BEACON = TextureSlot.create("beacon");
-    public static final TextureSlot BODY = TextureSlot.create("body");
+
     public static final ModelTemplate BEACON_TEMPLATE = new ModelTemplate(
             Optional.of(ModelLocationUtils.getModelLocation(Blocks.BEACON)),
             Optional.empty(),
@@ -92,19 +92,6 @@ public class NetheritePlusModelProvider extends FabricModelProvider {
                     .put(OBSIDIAN, getBlockTexture(Blocks.NETHERITE_BLOCK))
                     .put(BEACON, getBlockTexture(block, "_powered")),
             BEACON_TEMPLATE);
-    public static final ModelTemplate ANVIL_TEMPLATE = new ModelTemplate(
-            Optional.of(Identifier.withDefaultNamespace("block/template_anvil")),
-            Optional.empty(),
-            TextureSlot.TOP,
-            BODY,
-            TextureSlot.PARTICLE
-    );
-    public static final TexturedModel.Provider ANVIL_PROVIDER = createDefault(block -> new TextureMapping()
-                    .put(TextureSlot.TOP, getBlockTexture(block, "_top"))
-                    .put(BODY, getBlockTexture(block))
-                    .put(TextureSlot.PARTICLE, getBlockTexture(block)),
-            ANVIL_TEMPLATE
-    );
 
     public NetheritePlusModelProvider(FabricPackOutput output) {
         super(output);
@@ -128,7 +115,7 @@ public class NetheritePlusModelProvider extends FabricModelProvider {
     }
 
     public final void createAnvil(Block block, BlockModelGenerators blockModelGenerators) {
-        MultiVariant anvilModel = plainVariant(ANVIL_PROVIDER.create(block, blockModelGenerators.modelOutput));
+        MultiVariant anvilModel = plainVariant(id("block/netherite_anvil"));
         blockModelGenerators.blockStateOutput.accept(createSimpleBlock(block, anvilModel).with(ROTATION_HORIZONTAL_FACING_ALT));
     }
 

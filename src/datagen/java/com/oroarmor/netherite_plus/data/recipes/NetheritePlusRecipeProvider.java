@@ -67,10 +67,11 @@ public class NetheritePlusRecipeProvider extends FabricRecipeProvider {
 
                 this.shaped(RecipeCategory.DECORATIONS, NetheritePlusItems.NETHERITE_ANVIL)
                         .pattern("###")
-                        .pattern(" I ")
+                        .pattern("SIS")
                         .pattern("III")
                         .define('#', Items.NETHERITE_BLOCK)
                         .define('I', Items.NETHERITE_INGOT)
+                        .define('S', Items.NETHER_STAR)
                         .unlockedBy("has_netherite_ingot", this.has(Items.NETHERITE_INGOT))
                         .save(this.output);
 
