@@ -40,6 +40,9 @@
     }
   ],
   "name": "Netherite Plus Mod",
+  "recommends": {
+    "quilt_loader": "*"
+  },
   "schemaVersion": 1,
   "version": "${version}"
 }

@@ -41,7 +41,7 @@ minecraftPublishing {
 	gameVersions = [libs.versions.minecraft.get()]
 	modrinthId = "MlaM22M4"
 	curseforgeId = "394120"
-	releaseType = ReleaseType.BETA
+	releaseType = ReleaseType.RELEASE
 	dependencies {
 		"ranged-weapon-api" {
 			version = libs.versions.ranged.weapon.api.get()

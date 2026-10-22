@@ -8,7 +8,7 @@ kaleido_config = "0.3.3+1.3.2"
 ranged_weapon_api = "4.0.0+26.3-fabric"
 
 fabric_loom = "1.18.2"
-oro_gradle_plugin = "1.4.1"
+oro_gradle_plugin = "1.4.2"
 checkstyle = "13.5.0"
 spotless = "8.10.4"
 

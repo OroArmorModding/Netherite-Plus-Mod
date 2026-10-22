@@ -1,8 +1,14 @@
-Version 3.0.0-beta.1
+Version 3.0.0
+
 - Update to Minecraft 26.3
 - Move back to Fabric
 - Modernize Project
 - Fix a lot of small issues with the mod
+- Improved Anvil
+  - No level cap
+  - New model
+  - Better bonus repair durability
+- Improved Issues Templates
 ----
 Version 2.2.0
 

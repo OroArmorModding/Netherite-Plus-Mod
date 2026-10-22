@@ -1,0 +1,65 @@
+name: Bug Report
+description: Report a crash or bug with Netherite Plus
+title: Bug/Issue - [Insert Short Description Here]
+type: Bug
+labels:
+  - bug
+body:
+  - type: dropdown
+    id: version
+    attributes:
+      label: What version of Netherite Plus?
+      description: If your version is not listed, it is no longer supported.
+      options:
+        - 3.x
+      default: 0
+      multiple: true
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: What mod platform are you on?
+      description: If your mod platform is not listed, it is no longer supported.
+      options:
+        - Fabric
+        - Quilt
+      default: 0
+    validations:
+      required: true
+  - type: textarea
+    id: bug_description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: To Reproduce
+      description: Steps to reproduce the crash/bug
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: false
+  - type: upload
+    id: screenshot
+    attributes:
+      label: "Screenshots"
+      description: If applicable, add screenshots to help explain your problem.
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: "Logs"
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: bash
+    validations:
+      required: false

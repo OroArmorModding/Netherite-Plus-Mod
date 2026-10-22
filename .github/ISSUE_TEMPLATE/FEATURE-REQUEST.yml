@@ -1,0 +1,27 @@
+name: Feature request
+description: Suggest an idea for Netherite Plus
+title: Feature - [Insert Short Description Here]
+labels:
+  - enhancement
+type: Feature
+body:
+  - type: textarea
+    id: feature
+    attributes:
+      label: Describe the feature you'd like
+      description: A clear and concise description of what you want to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: vanilla_feel
+    attributes:
+      label: Describe how this feature adheres to the vanilla feel
+    validations:
+      required: true
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional context
+      description: Examples of other mods having similar features.
+    validations:
+      required: false

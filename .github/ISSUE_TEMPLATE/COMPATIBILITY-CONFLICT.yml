@@ -1,0 +1,57 @@
+name: Compatibility conflict
+description: Add compatibility with another mod
+title: Add compatibility for [Insert Mod Here]
+labels:
+  - Compatibility
+body:
+  - type: dropdown
+    id: version
+    attributes:
+      label: What version of Netherite Plus?
+      description: If your version is not listed, it is no longer supported.
+      options:
+        - 3.x
+      default: 0
+      multiple: true
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: What mod platform are you on?
+      description: If your mod platform is not listed, it is no longer supported.
+      options:
+        - Fabric
+        - Quilt
+      default: 0
+    validations:
+      required: true
+  - type: textarea
+    id: mod
+    attributes:
+      label: What is the mod?
+      description: Name the mod you want Netherite Plus to be compatible with.
+    validations:
+      required: true
+  - type: textarea
+    id: conflict
+    attributes:
+      label: What feature(s) are in conflict?
+      description: Describe the feature or compatibility issue.
+    validations:
+      required: true
+  - type: upload
+    id: screenshot
+    attributes:
+      label: "Screenshots"
+      description: If applicable, add screenshots to showcase the conflict.
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: "Logs"
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: bash
+    validations:
+      required: false
