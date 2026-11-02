@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "netherite_plus:block/fake_netherite_block"
+  }
+}

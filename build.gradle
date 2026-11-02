@@ -89,7 +89,7 @@ spotless {
 
 	json {
 		target "src/*/resources/**/*.json"
-		gson().indentWithSpaces(2).sortByKeys()
+		gson().indentWithSpaces(2)
 	}
 
 	format "misc", {
@@ -105,6 +105,13 @@ loom {
 	accessWidenerPath = file("src/main/resources/netherite_plus.accesswidener")
 
 	splitEnvironmentSourceSets()
+
+	mods {
+		"netherite_plus" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
 }
 
 fabricApi {

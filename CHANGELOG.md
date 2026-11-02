@@ -1,3 +1,8 @@
+Version 3.0.1
+
+- Fixed an issue with missing item models
+- Fixed client resources not appearing in IDE
+----
 Version 3.0.0
 
 - Update to Minecraft 26.3

@@ -24,10 +24,13 @@
 
 package com.oroarmor.netherite_plus.data;
 
+import org.jspecify.annotations.Nullable;
+
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 
+import com.oroarmor.netherite_plus.NetheritePlusMod;
 import com.oroarmor.netherite_plus.client.data.NetheritePlusAtlasProvider;
 import com.oroarmor.netherite_plus.client.data.models.NetheritePlusEquipmentAssetProvider;
 import com.oroarmor.netherite_plus.client.data.models.NetheritePlusModelProvider;
@@ -52,5 +55,10 @@ public class NetheritePlusDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(NetheritePlusModelProvider::new);
 		pack.addProvider(NetheritePlusAtlasProvider::new);
 		pack.addProvider(NetheritePlusEquipmentAssetProvider::new);
+	}
+
+	@Override
+	public @Nullable String getEffectiveModId() {
+		return NetheritePlusMod.MOD_ID;
 	}
 }
