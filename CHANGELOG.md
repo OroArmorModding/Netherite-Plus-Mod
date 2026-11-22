@@ -1,3 +1,7 @@
+Version 3.0.2
+
+- Fixed an issue not being able to add Unbreaking or Mending to Netherite Elytra
+----
 Version 3.0.1
 
 - Fixed an issue with missing item models

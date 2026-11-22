@@ -110,6 +110,7 @@ public class NetheritePlusItemTagProvider extends FabricTagsProvider.ItemTagsPro
 				.tag(ItemTags.DURABILITY_ENCHANTABLE)
 				.add(NetheritePlusItemIds.NETHERITE_BOW)
 				.add(NetheritePlusItemIds.NETHERITE_CROSSBOW)
+				.add(NetheritePlusItemIds.NETHERITE_ELYTRA)
 				.add(NetheritePlusItemIds.NETHERITE_FISHING_ROD)
 				.add(NetheritePlusItemIds.NETHERITE_SHEARS)
 				.add(NetheritePlusItemIds.NETHERITE_TRIDENT)
